@@ -16,9 +16,9 @@
   <header class="top">
     <a class="logo" href="../index.html" aria-label="Flow-Audit, inicio">
       <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="14" fill="var(--brand)"/>
-        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" stroke-linecap="round" opacity=".35"/>
-        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5" stroke-linecap="round"/>
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
       </svg>
       flow-audit
     </a>
@@ -102,7 +102,7 @@
 
           <!-- 1. CAT -->
           <g class="node hot">
-            <rect class="box" x="110" y="23" width="150" height="58" rx="8"/>
+            <rect class="box" x="110" y="23" width="150" height="58" rx="2"/>
             <text class="t" x="122" y="45">Oferta validada</text>
             <text class="p" x="122" y="61">sin capacity_profile</text>
             <text class="s" x="248" y="40" text-anchor="end">R02</text>
@@ -110,7 +110,7 @@
 
           <!-- 2. BPM manual -->
           <g class="node hot">
-            <rect class="box" x="290" y="199" width="150" height="58" rx="8"/>
+            <rect class="box" x="290" y="199" width="150" height="58" rx="2"/>
             <text class="t" x="302" y="221">Chequeo manual</text>
             <text class="p" x="302" y="237">2 h de trabajo manual</text>
             <text class="s" x="428" y="216" text-anchor="end">R02</text>
@@ -118,14 +118,14 @@
 
           <!-- 3. OMS -->
           <g class="node">
-            <rect class="box" x="460" y="111" width="150" height="58" rx="8"/>
+            <rect class="box" x="460" y="111" width="150" height="58" rx="2"/>
             <text class="t" x="472" y="133">Descomposición</text>
             <text class="p" x="472" y="149">SO + WO en minutos</text>
           </g>
 
           <!-- 4. BPM install + timer -->
           <g class="node hot">
-            <rect class="box" x="630" y="199" width="150" height="58" rx="8"/>
+            <rect class="box" x="630" y="199" width="150" height="58" rx="2"/>
             <text class="t" x="642" y="221">Instalación</text>
             <text class="p" x="642" y="237">6 h · timer 48 h</text>
             <text class="s" x="768" y="216" text-anchor="end">R03</text>
@@ -133,7 +133,7 @@
 
           <!-- 5. PROV fail -->
           <g class="node hot">
-            <rect class="box" x="790" y="287" width="150" height="58" rx="8"/>
+            <rect class="box" x="790" y="287" width="150" height="58" rx="2"/>
             <text class="t" x="802" y="309">Activación</text>
             <text class="p" x="802" y="325">falla HUB_TIMEOUT</text>
             <text class="s" x="928" y="304" text-anchor="end">R01</text>
@@ -141,7 +141,7 @@
 
           <!-- 6. OMS retry -->
           <g class="node hot">
-            <rect class="box" x="960" y="111" width="150" height="58" rx="8"/>
+            <rect class="box" x="960" y="111" width="150" height="58" rx="2"/>
             <text class="t" x="972" y="133">Reintento</text>
             <text class="p" x="972" y="149">crea una 2ª SO</text>
             <text class="s" x="1098" y="128" text-anchor="end">R04</text>
@@ -149,7 +149,7 @@
 
           <!-- 7. PROV success -->
           <g class="node done">
-            <rect class="box" x="960" y="287" width="150" height="58" rx="8"/>
+            <rect class="box" x="960" y="287" width="150" height="58" rx="2"/>
             <text class="t" x="972" y="309">Activo</text>
             <text class="p" x="972" y="325">60 h después</text>
           </g>
@@ -182,13 +182,13 @@
             </marker>
           </defs>
 
-          <g class="node"><rect class="box" x="20" y="50" width="140" height="52" rx="8"/><text class="t" x="32" y="81">Pedido</text></g>
-          <g class="node"><rect class="box" x="180" y="50" width="140" height="52" rx="8"/><text class="t" x="192" y="81">Validado</text></g>
-          <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="8"/><text class="t" x="352" y="81">Descompuesto</text></g>
-          <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="8"/><text class="t" x="512" y="81">Agendado</text></g>
-          <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="8"/><text class="t" x="672" y="81">Instalado</text></g>
-          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="8"/><text class="t" x="832" y="81">Aprovisionando</text></g>
-          <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="8"/><text class="t" x="992" y="81">Activo</text></g>
+          <g class="node"><rect class="box" x="20" y="50" width="140" height="52" rx="2"/><text class="t" x="32" y="81">Pedido</text></g>
+          <g class="node"><rect class="box" x="180" y="50" width="140" height="52" rx="2"/><text class="t" x="192" y="81">Validado</text></g>
+          <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="2"/><text class="t" x="352" y="81">Descompuesto</text></g>
+          <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="2"/><text class="t" x="512" y="81">Agendado</text></g>
+          <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="2"/><text class="t" x="672" y="81">Instalado</text></g>
+          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Aprovisionando</text></g>
+          <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="2"/><text class="t" x="992" y="81">Activo</text></g>
 
           <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
           <path class="edge" d="M320 76 H340" marker-end="url(#sa)"/>
@@ -198,30 +198,30 @@
           <path class="edge" d="M960 76 H980" marker-end="url(#sa)"/>
 
           <g class="node hot">
-            <rect class="box" x="340" y="160" width="170" height="46" rx="8"/>
+            <rect class="box" x="340" y="160" width="170" height="46" rx="2"/>
             <text class="t" x="352" y="181">2ª orden de servicio</text>
             <text class="s" x="498" y="186" text-anchor="end">R04</text>
           </g>
           <path class="edge hot" d="M410 102 V160" marker-end="url(#sr)"/>
 
           <g class="node hot">
-            <rect class="box" x="620" y="160" width="180" height="46" rx="8"/>
+            <rect class="box" x="620" y="160" width="180" height="46" rx="2"/>
             <text class="t" x="632" y="181">Falla sin reintento</text>
             <text class="s" x="788" y="186" text-anchor="end">R01</text>
           </g>
           <path class="edge hot" d="M890 102 V136 H710 V160" marker-end="url(#sr)"/>
 
           <g class="node hot">
-            <rect class="box" x="940" y="160" width="180" height="46" rx="8"/>
+            <rect class="box" x="940" y="160" width="180" height="46" rx="2"/>
             <text class="t" x="952" y="181">Timer sin compensar</text>
             <text class="s" x="1108" y="186" text-anchor="end">R03</text>
           </g>
           <path class="edge hot" d="M900 102 V130 H1030 V160" marker-end="url(#sr)"/>
 
-          <g class="node"><rect class="box" x="620" y="244" width="180" height="46" rx="8"/><text class="t" x="632" y="265">Cola manual</text><text class="p" x="632" y="281">alguien lo rescata</text></g>
+          <g class="node"><rect class="box" x="620" y="244" width="180" height="46" rx="2"/><text class="t" x="632" y="265">Cola manual</text><text class="p" x="632" y="281">alguien lo rescata</text></g>
           <path class="edge" d="M710 206 V244" marker-end="url(#sa)"/>
 
-          <g class="node hot"><rect class="box" x="940" y="244" width="180" height="46" rx="8"/><text class="t" x="952" y="265">Atascado</text><text class="p" x="952" y="281">sin evento posterior</text></g>
+          <g class="node hot"><rect class="box" x="940" y="244" width="180" height="46" rx="2"/><text class="t" x="952" y="265">Atascado</text><text class="p" x="952" y="281">sin evento posterior</text></g>
           <path class="edge hot" d="M1030 206 V244" marker-end="url(#sr)"/>
 
           <text class="elabel" x="20" y="310">Sin identificador común, unir los cuatro registros exige una ventana de tiempo (R05).</text>

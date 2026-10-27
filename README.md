@@ -48,3 +48,17 @@ push a `main` que lo toque. URL: https://rdorta27.github.io/flow-audit-site/
 
 Por ahora solo español. La convención de la familia es una copia por idioma en carpetas
 (`es/`, `en/`) sin generador; el espejo en inglés queda para la fase 6.
+
+## Estilo y fuentes
+
+Estilo Kanagawa: Wave (oscuro) por defecto y Lotus (claro) si el sistema lo pide; `data-theme="light"`
+o `"dark"` en `<html>` lo fuerza. Esquinas de 2 px, márgenes amplios y ritmo vertical generoso.
+
+| Uso | Fuente | Licencia |
+|---|---|---|
+| Títulos | P052 (clon libre de Palatino), en `site/fonts/p052/` | AGPL-3.0 con excepción para incrustar la fuente en documentos |
+| Texto, etiquetas, cifras y gráficos | Source Sans 3, en `site/fonts/source-sans-3/` | OFL 1.1 |
+| `code` y `pre` | La monoespaciada del sistema | — |
+
+Cada carpeta lleva su licencia y su `SOURCE.md`. El informe real será un solo archivo sin fuentes externas
+(`core/AGENTS.md`): cuando exista el renderizador, tendrá que incrustar estas fuentes en el propio HTML.
