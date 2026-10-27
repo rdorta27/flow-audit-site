@@ -3,113 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Flow-Audit · auditoría de flujo BSS</title>
-<meta name="description" content="Flow-Audit reconstruye el recorrido de cada pedido por catálogo, OMS, BPM y aprovisionamiento, y convierte cada corte en horas y dólares con la traza que lo demuestra.">
+<title>Flow-Audit</title>
+<meta name="description" content="Flow-Audit · BSS flow audit · auditoria de fluxo BSS">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<link rel="alternate" hreflang="es" href="es/index.html">
+<link rel="alternate" hreflang="en" href="en/index.html">
+<link rel="alternate" hreflang="pt" href="pt/index.html">
+<link rel="alternate" hreflang="x-default" href="es/index.html">
+<noscript><meta http-equiv="refresh" content="0; url=es/index.html"></noscript>
+<script>
+(function () {
+  try {
+    var l = (navigator.language || "es").slice(0, 2);
+    location.replace((l === "en" || l === "pt" ? l : "es") + "/index.html");
+  } catch (e) {}
+})();
+</script>
 </head>
 <body>
-<a class="skip" href="#main">Saltar al contenido</a>
 <div class="wrap">
-  <header class="top">
-    <a class="logo" href="index.html" aria-label="Flow-Audit, inicio">
-      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
-        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
-        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
-      </svg>
-      flow-audit
-    </a>
-    <nav aria-label="Principal">
-      <a href="index.html" aria-current="page">Inicio</a>
-      <a href="demo/index.html">Informe demo</a>
-      <a href="#que">Qué se audita</a>
-      <a href="#estado">Estado</a>
-    </nav>
-  </header>
-
   <main id="main">
     <section>
-      <span class="eyebrow">Auditoría BSS · order-to-activate</span>
-      <h1>El pedido recorre cuatro sistemas.<br><em>Nadie ve el recorrido completo.</em></h1>
-      <p class="lead">Flow-Audit reconstruye el viaje de cada pedido por el catálogo, el order management, el BPM y el aprovisionamiento. Cada corte queda en horas y dólares, con la traza que lo demuestra.</p>
+      <h1>Flow-Audit</h1>
       <div class="row">
-        <a class="btn" href="demo/index.html">Ver el informe demo</a>
-        <a class="btn alt" href="#que">Qué se audita</a>
-      </div>
-      <div class="status-strip">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>En construcción · fase 3 de 6.</strong> El sitio es una vista previa del informe, con datos sintéticos. El motor que lo genera llega en las fases 4 a 6.</span>
-      </div>
-    </section>
-
-    <section id="que">
-      <h2>Qué se audita</h2>
-      <p class="note">Cuatro sistemas, un solo pedido. Los demás se nombran como contexto y quedan fuera del alcance.</p>
-      <div class="grid">
-        <div class="card">
-          <span class="k">01 · Catálogo</span>
-          <h3>La oferta y su spec</h3>
-          <p>Si la oferta es vendible y si el catálogo técnico tiene todos los atributos que el aprovisionamiento necesita.</p>
-        </div>
-        <div class="card">
-          <span class="k">02 · OMS</span>
-          <h3>La descomposición</h3>
-          <p>Cómo la orden comercial se vuelve órdenes de servicio y de trabajo, con sus dependencias, reintentos y <em>fallout</em>.</p>
-        </div>
-        <div class="card">
-          <span class="k">03 · BPM</span>
-          <h3>La orquestación</h3>
-          <p>Dónde espera el proceso, qué timer vence sin compensación y qué tarea termina haciendo una persona a mano.</p>
-        </div>
-        <div class="card">
-          <span class="k">04 · Provisión</span>
-          <h3>La activación</h3>
-          <p>Cuántos intentos hacen falta, cuáles fallan, cómo vuelve el error y cuánto tarda la confirmación.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Qué entrega</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Un informe autocontenido</h3>
-          <p>Un solo HTML, sin assets externos: resumen, mapa del flujo, máquina de estados, línea de tiempo y hallazgos.</p>
-        </div>
-        <div class="card">
-          <h3>Hallazgos con evidencia</h3>
-          <p>Un <code>findings.json</code> por hallazgo, con la orden y los eventos que lo dispararon, y la fórmula de impacto usada.</p>
-        </div>
-        <div class="card">
-          <h3>Un dataset reproducible</h3>
-          <p>La evidencia normalizada y la configuración quedan versionadas: repetir la auditoría es volver a correr, no rehacer.</p>
-        </div>
-        <div class="card">
-          <h3>Una lectura para el cliente</h3>
-          <p>El mapa completo, el costo mensual y las tres cosas que conviene arreglar primero.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="estado">
-      <h2>Dónde está</h2>
-      <p class="note">El demo es visual antes que analítico: primero se diseña el informe, después el motor que lo llena.</p>
-      <div class="grid">
-        <div class="card"><span class="k">Hecho</span><p><strong>Fases 0–2.</strong> Producto y arquitectura, esqueleto hexagonal y dataset de 5.000 pedidos con números dorados.</p></div>
-        <div class="card"><span class="k">Ahora</span><p><strong>Fase 3.</strong> El sitio y esta vista previa del informe, armados contra un mock con la forma de la salida real.</p></div>
-        <div class="card"><span class="k">Después</span><p><strong>Fases 4–6.</strong> Ingesta, reconstrucción, reglas, impacto y el informe generado que reemplaza al mock.</p></div>
+        <a class="btn" href="es/index.html">Español</a>
+        <a class="btn alt" href="en/index.html">English</a>
+        <a class="btn alt" href="pt/index.html">Português</a>
       </div>
     </section>
   </main>
-
-  <footer>
-    <span>Flow-Audit · 2026</span>
-    <a href="demo/index.html">Informe demo</a>
-    <a href="#que">Qué se audita</a>
-    <span>Ortelis Satellite es un operador ficticio. Ningún dato real.</span>
-  </footer>
 </div>
 </body>
 </html>

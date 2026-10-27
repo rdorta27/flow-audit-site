@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow-Audit · BSS flow audit</title>
+<meta name="description" content="Flow-Audit rebuilds the path of each order through the catalog, OMS, BPM and provisioning. It prices each loss in hours and dollars and attaches the trace.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../report.css">
+<link rel="alternate" hreflang="es" href="../es/index.html">
+<link rel="alternate" hreflang="en" href="../en/index.html">
+<link rel="alternate" hreflang="pt" href="../pt/index.html">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="index.html" aria-label="Flow-Audit, home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow-audit
+    </a>
+    <nav aria-label="Main">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="index.html#como">Architecture</a>
+      <a href="demo/index.html">Demo report</a>
+      <a href="index.html#que">What it audits</a>
+      <a href="index.html#estado">Status</a>
+      <span class="lang" role="group" aria-label="Language"><a href="../es/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../en/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../pt/index.html" hreflang="pt" lang="pt" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <span class="eyebrow">BSS audit · order to activation</span>
+      <h1>An order crosses four systems.<br><em>Nobody sees the full path.</em></h1>
+      <p class="lead">Flow-Audit rebuilds the path of each order. It measures each loss in hours and dollars. It attaches the trace that proves it.</p>
+      <div class="row">
+        <a class="btn" href="demo/index.html">View the demo report</a>
+        <a class="btn alt" href="#como">See the architecture</a>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="v">69 h</span><span class="k">end to end</span><span class="s">what one order takes when it should take under one</span></div>
+        <div class="kpi"><span class="v">60 h</span><span class="k">with no owner</span><span class="s">nobody works that time: it is a gap between systems</span></div>
+        <div class="kpi"><span class="v">USD 57,319</span><span class="k">per month</span><span class="s">cost of five failures across 5,000 orders (synthetic data)</span></div>
+      </div>
+      <div class="status-strip">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span><strong>Under construction · phase 3 of 6.</strong> The site shows a preview of the report with synthetic data. The engine arrives in phases 4 to 6.</span>
+      </div>
+    </section>
+
+    <section id="como">
+      <h2>Architecture</h2>
+      <div class="concept">
+        <div class="block">
+          <h3>Core concept</h3>
+          <p>Flow-Audit is an audit tool. It reads the records of four systems and rebuilds the path of each order. For each loss it calculates the hours, the dollars and the evidence.</p>
+        </div>
+        <div class="block">
+          <h3>Physical analogy</h3>
+          <p>Picture a parcel that crosses four warehouses. Each warehouse writes down only its own arrivals and departures.</p>
+          <p>Nobody knows where the parcel sat for three days. Flow-Audit puts the four notebooks together. It marks the warehouse where the parcel waited and adds up the cost of that wait.</p>
+        </div>
+        <div class="block">
+          <h3>Technical mechanics</h3>
+          <ul>
+            <li><strong>Ingestion.</strong> Reads the exports of the catalog, OMS, BPM and provisioning.</li>
+            <li><strong>Reconstruction.</strong> Joins the events of one order with a time window, because the systems share no identifier.</li>
+            <li><strong>Rules.</strong> Five rules detect failures without retry, manual waits, expired timers, duplicates and a missing identifier.</li>
+            <li><strong>Impact.</strong> Multiplies the affected orders by the minutes of work and by the loaded hourly cost.</li>
+            <li><strong>Severity.</strong> Derives the severity from the hours per month. Nobody assigns it by hand.</li>
+            <li><strong>Report.</strong> Generates one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="que">
+      <h2>What it audits</h2>
+      <p class="note">Four systems, one order. Other systems appear as context and stay out of scope.</p>
+      <div class="grid">
+        <div class="card"><span class="k">01 · Catalog</span><h3>The offer and its spec</h3><p>Checks that the offer can be sold. Checks that the technical spec has the attributes provisioning needs.</p></div>
+        <div class="card"><span class="k">02 · OMS</span><h3>The decomposition</h3><p>Follows how the commercial order splits into service orders (SO) and work orders (WO). Counts dependencies, retries and <em>fallout</em>, the orders that leave the automatic flow.</p></div>
+        <div class="card"><span class="k">03 · BPM</span><h3>The orchestration</h3><p>Detects where the process waits, which timer expires without compensation and which task ends by hand.</p></div>
+        <div class="card"><span class="k">04 · Provisioning</span><h3>The activation</h3><p>Counts the activation attempts, records which ones fail and measures how long the confirmation takes.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What it delivers</h2>
+      <div class="grid">
+        <div class="card"><h3>A self-contained report</h3><p>One HTML file with no external assets. It holds the summary, flow map, state machine, timeline and findings.</p></div>
+        <div class="card"><h3>Findings with evidence</h3><p>Each finding stores in <code>findings.json</code> the order, the events that triggered it and the impact formula.</p></div>
+        <div class="card"><h3>A reproducible dataset</h3><p>The normalized evidence and the configuration stay versioned. Repeating the audit means running it again.</p></div>
+        <div class="card"><h3>A reading for the client</h3><p>Shows the full map, the monthly cost and the three priority fixes.</p></div>
+      </div>
+    </section>
+
+    <section id="estado">
+      <h2>Where it stands</h2>
+      <p class="note">The demo puts visuals first. The report is designed first. The engine that fills it comes after.</p>
+      <div class="grid">
+        <div class="card"><span class="k">Done</span><p><strong>Phases 0–2.</strong> Product, hexagonal architecture and a dataset of 5,000 orders with reference values.</p></div>
+        <div class="card"><span class="k">Now</span><p><strong>Phase 3.</strong> This site and the report preview, built on a mock with the shape of the real output.</p></div>
+        <div class="card"><span class="k">Next</span><p><strong>Phases 4–6.</strong> Ingestion, reconstruction, rules, impact and the generated report, which replaces the mock.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow-Audit · 2026</span>
+    <a href="index.html">Home</a>
+    <a href="demo/index.html">Demo report</a>
+    <a href="index.html#que">What it audits</a>
+    <span>Ortelis Satellite is a fictional operator. No data is real.</span>
+  </footer>
+</div>
+</body>
+</html>

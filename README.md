@@ -10,16 +10,16 @@ cd site
 python3 -m http.server 8000
 ```
 
-Abrir http://localhost:8000. También funciona abriendo `site/index.html` directo, salvo
-`report.json`, que el demo enlaza y necesita el servidor.
+Abrir http://localhost:8000. `site/index.html` elige el idioma según el navegador.
 
 ## Estructura
 
 | Ruta | Qué es |
 |---|---|
-| `site/index.html` | Landing: qué audita, qué entrega y en qué fase está |
-| `site/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
-| `site/demo/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`) |
+| `site/index.html` | Selector de idioma: redirige a `es/`, `en/` o `pt/` |
+| `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué fase está |
+| `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
+| `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
 | `site/report.css` | Estilos del informe y de los SVG |
 | `site/favicon.svg` | Marca |
@@ -27,7 +27,7 @@ Abrir http://localhost:8000. También funciona abriendo `site/index.html` direct
 
 ## El mock
 
-`site/demo/data/report.json` es el contrato: `generatedAt`, `runHash`, `config`,
+`site/data/report.json` es el contrato: `generatedAt`, `runHash`, `config`,
 `findings[]` y `journeys[]`, con los mismos campos que el puerto `ReportRenderer`. Los
 números salen del dataset sintético de la fase 2 y de sus tasas de impacto.
 
@@ -46,8 +46,15 @@ push a `main` que lo toque. URL: https://rdorta27.github.io/flow-audit-site/
 
 ## Idiomas
 
-Por ahora solo español. La convención de la familia es una copia por idioma en carpetas
-(`es/`, `en/`) sin generador; el espejo en inglés queda para la fase 6.
+Español, inglés y portugués: una copia por idioma en `es/`, `en/` y `pt/`, sin generador. Las tres
+copias tienen la misma estructura y los mismos enlaces relativos; el selector de la cabecera apunta a la misma
+página en cada idioma. Al editar un texto, cambia las tres. `report.json` sigue en español.
+
+## Redacción
+
+Los textos siguen ASD-STE100 e ISO 24495-1: voz activa, una idea por frase, máximo 20 palabras, un término por
+concepto (pedido, sistema, hallazgo, reintento). La landing explica el producto en tres bloques: concepto core,
+analogía física y mecánica técnica.
 
 ## Estilo y fuentes
 

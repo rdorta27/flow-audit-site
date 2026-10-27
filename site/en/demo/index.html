@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo report · Flow-Audit</title>
+<meta name="description" content="Preview of the audit report on Ortelis Satellite: map, state machine, timeline and five findings with their cost.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../report.css">
+<link rel="alternate" hreflang="es" href="../../es/demo/index.html">
+<link rel="alternate" hreflang="en" href="../../en/demo/index.html">
+<link rel="alternate" hreflang="pt" href="../../pt/demo/index.html">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow-Audit, home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow-audit
+    </a>
+    <nav aria-label="Main">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#como">Architecture</a>
+      <a href="index.html" aria-current="page">Demo report</a>
+      <a href="../index.html#que">What it audits</a>
+      <a href="../index.html#estado">Status</a>
+      <span class="lang" role="group" aria-label="Language"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/demo/index.html" hreflang="pt" lang="pt" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="report-head">
+      <span class="badge">Preview · synthetic data</span>
+      <h1>Audit report<br>Ortelis Satellite</h1>
+      <p class="lead">Ortelis sells residential satellite internet. This report analyzes one month of orders across four systems. It finds five losses of time and money.</p>
+      <p class="meta">September 2026 · 5,000 orders · CAT + OMS + BPM + PROV · USD · run demo-20260901</p>
+    </section>
+
+    <section aria-label="Indicators">
+      <div class="kpis">
+        <div class="kpi">
+          <span class="k">Findings</span>
+          <span class="v">5</span>
+          <span class="s">4 critical · 1 medium</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Manual work</span>
+          <span class="v">1,268 h</span>
+          <span class="s">per month, in the four systems only</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Cost</span>
+          <span class="v">USD 57,319</span>
+          <span class="s">per month, at USD 45 per loaded hour</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Stuck orders</span>
+          <span class="v">50</span>
+          <span class="s">1% of the month, no later event</span>
+        </div>
+      </div>
+      <p class="note">The revenue at risk from stuck orders adds up to USD 3,250 per month (50 × ARPU 65). The cost of R03 already includes it.</p>
+    </section>
+
+    <section>
+      <h2>Executive summary</h2>
+      <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a gap between systems that no process owns.</p>
+      <div class="callout">
+        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 18,750/month). Retry provisioning before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,104/month). The three actions cover <strong>80%</strong> of the cost.
+      </div>
+    </section>
+
+    <section>
+      <h2>Flow map</h2>
+      <p class="lead">Each step happens in a different system. Dashed boxes mark where the order loses time or duplicates.</p>
+      <div class="legend" aria-label="Legend">
+        <span><i class="sw-work"></i>normal step</span>
+        <span><i class="sw-wait"></i>manual wait</span>
+        <span><i class="sw-gap"></i>gap with no event</span>
+      </div>
+      <div class="scroller" tabindex="0" aria-label="Flow map across the four systems, scrolls on narrow screens">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
+          <title id="flt">Flow of one order across the catalog, OMS, BPM and provisioning</title>
+          <desc id="fld">The catalog validates the order. The BPM opens a manual capacity check. The OMS decomposes the order. The BPM installs. Activation fails in provisioning. The retry creates a second service order and then activates. Findings R01, R02, R03 and R04 are marked.</desc>
+          <defs>
+            <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+
+          <rect class="lane-bg" x="0" y="8" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="96" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="184" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
+
+          <text class="lane" x="14" y="56">CATALOG</text>
+          <text class="lane" x="14" y="144">OMS</text>
+          <text class="lane" x="14" y="232">BPM</text>
+          <text class="lane" x="14" y="320">PROVISIONING</text>
+
+          <g class="node hot">
+            <rect class="box" x="110" y="23" width="150" height="58" rx="2"/>
+            <text class="t" x="122" y="45">Offer validated</text>
+            <text class="p" x="122" y="61">no capacity_profile</text>
+            <text class="s" x="248" y="40" text-anchor="end">R02</text>
+          </g>
+
+          <g class="node hot">
+            <rect class="box" x="290" y="199" width="150" height="58" rx="2"/>
+            <text class="t" x="302" y="221">Manual check</text>
+            <text class="p" x="302" y="237">2 h of manual work</text>
+            <text class="s" x="428" y="216" text-anchor="end">R02</text>
+          </g>
+
+          <g class="node">
+            <rect class="box" x="460" y="111" width="150" height="58" rx="2"/>
+            <text class="t" x="472" y="133">Decomposition</text>
+            <text class="p" x="472" y="149">SO + WO in minutes</text>
+          </g>
+
+          <g class="node hot">
+            <rect class="box" x="630" y="199" width="150" height="58" rx="2"/>
+            <text class="t" x="642" y="221">Installation</text>
+            <text class="p" x="642" y="237">6 h · 48 h timer</text>
+            <text class="s" x="768" y="216" text-anchor="end">R03</text>
+          </g>
+
+          <g class="node hot">
+            <rect class="box" x="790" y="287" width="150" height="58" rx="2"/>
+            <text class="t" x="802" y="309">Activation</text>
+            <text class="p" x="802" y="325">fails HUB_TIMEOUT</text>
+            <text class="s" x="928" y="304" text-anchor="end">R01</text>
+          </g>
+
+          <g class="node hot">
+            <rect class="box" x="960" y="111" width="150" height="58" rx="2"/>
+            <text class="t" x="972" y="133">Retry</text>
+            <text class="p" x="972" y="149">creates a 2nd SO</text>
+            <text class="s" x="1098" y="128" text-anchor="end">R04</text>
+          </g>
+
+          <g class="node done">
+            <rect class="box" x="960" y="287" width="150" height="58" rx="2"/>
+            <text class="t" x="972" y="309">Active</text>
+            <text class="p" x="972" y="325">60 h later</text>
+          </g>
+
+          <path class="edge hot" d="M260 52 H275 V228 H290" marker-end="url(#fa)"/>
+          <path class="edge" d="M440 228 H450 V140 H460" marker-end="url(#fa)"/>
+          <path class="edge" d="M610 140 H620 V228 H630" marker-end="url(#fa)"/>
+          <path class="edge" d="M780 228 H785 V316 H790" marker-end="url(#fa)"/>
+          <path class="edge hot" d="M940 316 H950 V140 H960" marker-end="url(#fa)"/>
+          <path class="edge" d="M1035 169 V287" marker-end="url(#fa)"/>
+          <text class="elabel" x="948" y="252" text-anchor="end">60 h</text>
+        </svg>
+      </div>
+      <p class="note">Source: <code>data/demo/</code> (phase 2 dataset). Arrows cross from one system to another. No common identifier joins them (R05). SO = service order. WO = work order.</p>
+    </section>
+
+    <section>
+      <h2>State machine</h2>
+      <p class="lead">The states of the order and three dead ends the audit found.</p>
+      <div class="scroller" tabindex="0" aria-label="State machine of the order, scrolls on narrow screens">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 320" role="img" aria-labelledby="smt smd">
+          <title id="smt">States of the order and their dead ends</title>
+          <desc id="smd">Normal path: order, validated, decomposed, scheduled, installed, provisioning, active. From decomposed, a retry creates a second service order. From provisioning, a failure without retry drops into a manual queue. A 48-hour timer without compensation leaves the order stuck.</desc>
+          <defs>
+            <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
+            </marker>
+            <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--crit)"/>
+            </marker>
+          </defs>
+
+          <g class="node"><rect class="box" x="20" y="50" width="140" height="52" rx="2"/><text class="t" x="32" y="81">Order</text></g>
+          <g class="node"><rect class="box" x="180" y="50" width="140" height="52" rx="2"/><text class="t" x="192" y="81">Validated</text></g>
+          <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="2"/><text class="t" x="352" y="81">Decomposed</text></g>
+          <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="2"/><text class="t" x="512" y="81">Scheduled</text></g>
+          <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="2"/><text class="t" x="672" y="81">Installed</text></g>
+          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Provisioning</text></g>
+          <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="2"/><text class="t" x="992" y="81">Active</text></g>
+
+          <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
+          <path class="edge" d="M320 76 H340" marker-end="url(#sa)"/>
+          <path class="edge" d="M480 76 H500" marker-end="url(#sa)"/>
+          <path class="edge" d="M640 76 H660" marker-end="url(#sa)"/>
+          <path class="edge" d="M800 76 H820" marker-end="url(#sa)"/>
+          <path class="edge" d="M960 76 H980" marker-end="url(#sa)"/>
+
+          <g class="node hot">
+            <rect class="box" x="340" y="160" width="170" height="46" rx="2"/>
+            <text class="t" x="352" y="181">2nd service order</text>
+            <text class="s" x="498" y="186" text-anchor="end">R04</text>
+          </g>
+          <path class="edge hot" d="M410 102 V160" marker-end="url(#sr)"/>
+
+          <g class="node hot">
+            <rect class="box" x="620" y="160" width="180" height="46" rx="2"/>
+            <text class="t" x="632" y="181">Failure, no retry</text>
+            <text class="s" x="788" y="186" text-anchor="end">R01</text>
+          </g>
+          <path class="edge hot" d="M890 102 V136 H710 V160" marker-end="url(#sr)"/>
+
+          <g class="node hot">
+            <rect class="box" x="940" y="160" width="180" height="46" rx="2"/>
+            <text class="t" x="952" y="181">Uncompensated timer</text>
+            <text class="s" x="1108" y="186" text-anchor="end">R03</text>
+          </g>
+          <path class="edge hot" d="M900 102 V130 H1030 V160" marker-end="url(#sr)"/>
+
+          <g class="node"><rect class="box" x="620" y="244" width="180" height="46" rx="2"/><text class="t" x="632" y="265">Manual queue</text><text class="p" x="632" y="281">someone rescues it</text></g>
+          <path class="edge" d="M710 206 V244" marker-end="url(#sa)"/>
+
+          <g class="node hot"><rect class="box" x="940" y="244" width="180" height="46" rx="2"/><text class="t" x="952" y="265">Stuck</text><text class="p" x="952" y="281">no later event</text></g>
+          <path class="edge hot" d="M1030 206 V244" marker-end="url(#sr)"/>
+
+          <text class="elabel" x="20" y="310">With no common identifier, joining the four records requires a time window (R05).</text>
+        </svg>
+      </div>
+      <p class="note">A manual retry takes the order out of the queue. The timer does not. The 50 stuck orders stay in <code>PROVISIONING</code> at month end.</p>
+    </section>
+
+    <section>
+      <h2>Where the days go</h2>
+      <p class="lead">A real order from the dataset, <code>ORD-1005</code>: 69 hours end to end. Nobody works 60 of them.</p>
+      <div class="legend" aria-label="Timeline legend">
+        <span><i class="sw-work"></i>work by a system</span>
+        <span><i class="sw-wait"></i>manual wait</span>
+        <span><i class="sw-gap"></i>gap with no event</span>
+      </div>
+      <div class="scroller" tabindex="0" aria-label="Timeline of order ORD-1005, scrolls on narrow screens">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
+          <title id="tlt">Timeline of ORD-1005</title>
+          <desc id="tld">Two hours of manual check. Six of installation. One provisioning failure. Sixty hours with no event. A retry creates a second service order and activates the order.</desc>
+
+          <text class="lane" x="14" y="104">WORK</text>
+          <text class="lane" x="14" y="148">WAIT</text>
+          <text class="lane" x="14" y="192">NO EVENT</text>
+
+          <line class="axis" x1="140" y1="52" x2="1100" y2="52"/>
+          <line class="axis" x1="140" y1="52" x2="140" y2="46"/>
+          <line class="axis" x1="1100" y1="52" x2="1100" y2="46"/>
+          <text class="tick" x="620" y="40" text-anchor="middle">69 h end to end</text>
+
+          <rect class="bar wait" x="140.7" y="130" width="26.4" height="22"/>
+          <text class="p" x="176" y="146">manual check · 2 h (R02)</text>
+
+          <rect class="bar work" x="167.8" y="86" width="3" height="22"/>
+          <rect class="bar work" x="180.8" y="86" width="83.4" height="22"/>
+          <text class="p" x="272" y="102">installation · 6 h</text>
+
+          <circle class="dot fail" cx="264.5" cy="97" r="5"/>
+          <text class="p" x="274" y="124">HUB_TIMEOUT failure</text>
+
+          <rect class="bar gap" x="264.7" y="174" width="834.6" height="22"/>
+          <text class="p" x="300" y="190">no event · 60 h (R01)</text>
+
+          <circle class="dot ok" cx="1099.3" cy="97" r="5"/>
+          <text class="p" x="1088" y="76" text-anchor="end">retry + 2nd SO (R04)</text>
+
+          <g class="tick" text-anchor="middle">
+            <text x="140" y="232">0 h</text>
+            <text x="307" y="232">12 h</text>
+            <text x="474" y="232">24 h</text>
+            <text x="641" y="232">36 h</text>
+            <text x="808" y="232">48 h</text>
+            <text x="975" y="232">60 h</text>
+            <text x="1100" y="232">69 h</text>
+          </g>
+          <line class="axis" x1="140" y1="214" x2="1100" y2="214"/>
+        </svg>
+      </div>
+      <p class="note">The gap starts when the first attempt fails. It ends when someone retries by hand 60 hours later. In that interval there is no event: no declared wait and no scheduled retry.</p>
+    </section>
+
+    <section>
+      <h2>Findings</h2>
+      <p class="lead">Five rules fired on the same month of orders. The severity comes from the impact. Nobody assigns it by hand.</p>
+
+      <div class="heat-wrap">
+        <div class="heat" role="img" aria-label="Heat map: four critical findings with high impact and one medium finding with low impact">
+          <div class="h">Severity</div>
+          <div class="h">Low impact · &lt; 50 h/month</div>
+          <div class="h">Medium · 50–200 h/month</div>
+          <div class="h">High · &gt; 200 h/month</div>
+
+          <div class="row-h">Critical</div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+          <div class="cell l3"><span class="chip crit">R01</span><span class="chip crit">R02</span><span class="chip crit">R03</span><span class="chip crit">R05</span></div>
+
+          <div class="row-h">High</div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+
+          <div class="row-h">Medium</div>
+          <div class="cell l1"><span class="chip med">R04</span></div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Monthly impact calculated with the dataset rates: 5,000 orders, USD 45 per loaded hour.</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Finding</th>
+              <th scope="col">Severity</th>
+              <th scope="col" class="num">Orders</th>
+              <th scope="col" class="num">h/month</th>
+              <th scope="col" class="num">USD/month</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">R01</th>
+              <td>Provisioning fallout with no retry</td>
+              <td><span class="tag crit">Critical</span></td>
+              <td class="num">400 · 8%</td>
+              <td class="num">283</td>
+              <td class="num">12,750</td>
+              <td>Retry automatically with backoff before the manual queue.</td>
+            </tr>
+            <tr>
+              <th scope="row">R02</th>
+              <td>Manual capacity check for a missing attribute</td>
+              <td><span class="tag crit">Critical</span></td>
+              <td class="num">5,000 · 100%</td>
+              <td class="num">417</td>
+              <td class="num">18,750</td>
+              <td>Add <code>capacity_profile</code> to the spec. Automate the beam assignment.</td>
+            </tr>
+            <tr>
+              <th scope="row">R03</th>
+              <td>The BPM timer expires without compensation</td>
+              <td><span class="tag crit">Critical</span></td>
+              <td class="num">150 · 3%</td>
+              <td class="num">313</td>
+              <td class="num">14,104</td>
+              <td>Close or requeue the order at 48 h. 50 orders ended up stuck.</td>
+            </tr>
+            <tr>
+              <th scope="row">R04</th>
+              <td>The OMS retry duplicates the service order</td>
+              <td><span class="tag med">Medium</span></td>
+              <td class="num">20 · 0.4%</td>
+              <td class="num">30</td>
+              <td class="num">1,590</td>
+              <td>Retry idempotently, using the order key.</td>
+            </tr>
+            <tr>
+              <th scope="row">R05</th>
+              <td>No end-to-end correlation identifier</td>
+              <td><span class="tag crit">Critical</span></td>
+              <td class="num">300 · 6%</td>
+              <td class="num">225</td>
+              <td class="num">10,125</td>
+              <td>Use one common id in the four systems, from the order to the attempt.</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="3">Total</th>
+              <td class="num">5,000</td>
+              <td class="num">1,268</td>
+              <td class="num">57,319</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="note">R03 includes USD 3,250 of revenue at risk. The evidence for each finding is in <a href="../../data/report.json">data/report.json</a> (mock text in Spanish).</p>
+    </section>
+
+    <section>
+      <h2>How it was read</h2>
+      <div class="method">
+        <div><strong>Order tracing</strong>Rebuilds each order system by system: where it waited, who touched it and how many times it was retried.</div>
+        <div><strong>Edge-case tests</strong>Tests an address outside coverage, missing equipment, mid-process cancellation and an OMS retry.</div>
+        <div><strong>Interviews by role</strong>Interviews product, OMS operations, the BPM owner, provisioning and the help desk.</div>
+        <div><strong>Order data</strong>Measures aging, fallout, reopenings and orders with no later event.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>About this preview</h2>
+      <div class="callout">
+        This report is a <strong>mock</strong>. It uses the synthetic dataset from phase 2. It has the exact shape of the engine output (<code>findings.json</code> + <code>journeys</code>). The phase 6 renderer will replace it with no redesign.
+      </div>
+      <p class="note">Ortelis Satellite is a fictional operator. The orders, systems and people are invented. No data belongs to a real customer.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow-Audit · 2026</span>
+    <a href="../index.html">Home</a>
+    <a href="index.html">Demo report</a>
+    <a href="../index.html#que">What it audits</a>
+    <a href="../../data/report.json">report.json</a>
+    <span>Under construction · phase 3 of 6</span>
+  </footer>
+</div>
+</body>
+</html>

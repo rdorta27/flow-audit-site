@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow-Audit · auditoría de flujo BSS</title>
+<meta name="description" content="Flow-Audit reconstruye el recorrido de cada pedido por catálogo, OMS, BPM y aprovisionamiento. Calcula cada pérdida en horas y dólares y adjunta la traza.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../report.css">
+<link rel="alternate" hreflang="es" href="../es/index.html">
+<link rel="alternate" hreflang="en" href="../en/index.html">
+<link rel="alternate" hreflang="pt" href="../pt/index.html">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="index.html" aria-label="Flow-Audit, inicio">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow-audit
+    </a>
+    <nav aria-label="Principal">
+      <a href="index.html" aria-current="page">Inicio</a>
+      <a href="index.html#como">Arquitectura</a>
+      <a href="demo/index.html">Informe demo</a>
+      <a href="index.html#que">Qué se audita</a>
+      <a href="index.html#estado">Estado</a>
+      <span class="lang" role="group" aria-label="Idioma"><a href="../es/index.html" hreflang="es" lang="es" title="Español" aria-current="true">ES</a><a href="../en/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../pt/index.html" hreflang="pt" lang="pt" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <span class="eyebrow">Auditoría BSS · del pedido a la activación</span>
+      <h1>El pedido cruza cuatro sistemas.<br><em>Nadie ve el recorrido completo.</em></h1>
+      <p class="lead">Flow-Audit reconstruye el recorrido de cada pedido. Mide cada pérdida en horas y dólares. Adjunta la traza que la demuestra.</p>
+      <div class="row">
+        <a class="btn" href="demo/index.html">Ver el informe demo</a>
+        <a class="btn alt" href="#como">Ver la arquitectura</a>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="v">69 h</span><span class="k">de punta a punta</span><span class="s">lo que tarda un pedido que debería tardar menos de una</span></div>
+        <div class="kpi"><span class="v">60 h</span><span class="k">sin dueño</span><span class="s">nadie trabaja ese tiempo: es un hueco entre sistemas</span></div>
+        <div class="kpi"><span class="v">USD 57.319</span><span class="k">por mes</span><span class="s">costo de cinco fallas en 5.000 pedidos (datos sintéticos)</span></div>
+      </div>
+      <div class="status-strip">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span><strong>En construcción · fase 3 de 6.</strong> El sitio muestra una vista previa del informe con datos sintéticos. El motor llega en las fases 4 a 6.</span>
+      </div>
+    </section>
+
+    <section id="como">
+      <h2>Arquitectura</h2>
+      <div class="concept">
+        <div class="block">
+          <h3>Concepto core</h3>
+          <p>Flow-Audit es una herramienta de auditoría. Lee los registros de cuatro sistemas y reconstruye el recorrido de cada pedido. Para cada pérdida calcula las horas, los dólares y la evidencia.</p>
+        </div>
+        <div class="block">
+          <h3>Analogía física</h3>
+          <p>Imagina un paquete que cruza cuatro almacenes. Cada almacén anota solo sus propias entradas y salidas.</p>
+          <p>Nadie sabe dónde el paquete estuvo parado tres días. Flow-Audit junta las cuatro libretas. Marca el almacén donde el paquete esperó y suma el costo de esa espera.</p>
+        </div>
+        <div class="block">
+          <h3>Mecánica técnica</h3>
+          <ul>
+            <li><strong>Ingesta.</strong> Lee los exportes de catálogo, OMS, BPM y aprovisionamiento.</li>
+            <li><strong>Reconstrucción.</strong> Une los eventos de un pedido con una ventana de tiempo, porque los sistemas no comparten identificador.</li>
+            <li><strong>Reglas.</strong> Cinco reglas detectan fallas sin reintento, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
+            <li><strong>Impacto.</strong> Multiplica los pedidos afectados por los minutos de trabajo y por el costo de la hora cargada.</li>
+            <li><strong>Severidad.</strong> Deriva la severidad de las horas por mes. Nadie la asigna a mano.</li>
+            <li><strong>Informe.</strong> Genera un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="que">
+      <h2>Qué se audita</h2>
+      <p class="note">Cuatro sistemas, un pedido. Los demás sistemas se nombran como contexto y quedan fuera del alcance.</p>
+      <div class="grid">
+        <div class="card"><span class="k">01 · Catálogo</span><h3>La oferta y su spec</h3><p>Comprueba que la oferta se pueda vender. Comprueba que el spec técnico tenga los atributos que el aprovisionamiento necesita.</p></div>
+        <div class="card"><span class="k">02 · OMS</span><h3>La descomposición</h3><p>Sigue cómo la orden comercial se divide en órdenes de servicio (SO) y de trabajo (WO). Cuenta dependencias, reintentos y <em>fallout</em>, los pedidos que salen del flujo automático.</p></div>
+        <div class="card"><span class="k">03 · BPM</span><h3>La orquestación</h3><p>Detecta dónde espera el proceso, qué timer vence sin compensación y qué tarea termina a mano.</p></div>
+        <div class="card"><span class="k">04 · Provisión</span><h3>La activación</h3><p>Cuenta los intentos de activación, registra cuáles fallan y mide cuánto tarda la confirmación.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Qué entrega</h2>
+      <div class="grid">
+        <div class="card"><h3>Un informe autocontenido</h3><p>Un solo HTML sin assets externos. Incluye resumen, mapa del flujo, máquina de estados, línea de tiempo y hallazgos.</p></div>
+        <div class="card"><h3>Hallazgos con evidencia</h3><p>Cada hallazgo guarda en <code>findings.json</code> el pedido, los eventos que lo dispararon y la fórmula de impacto.</p></div>
+        <div class="card"><h3>Un dataset reproducible</h3><p>La evidencia normalizada y la configuración quedan versionadas. Repetir la auditoría significa ejecutarla de nuevo.</p></div>
+        <div class="card"><h3>Una lectura para el cliente</h3><p>Muestra el mapa completo, el costo mensual y las tres correcciones prioritarias.</p></div>
+      </div>
+    </section>
+
+    <section id="estado">
+      <h2>Dónde está</h2>
+      <p class="note">El demo prioriza lo visual. Primero se diseña el informe. Después se construye el motor que lo llena.</p>
+      <div class="grid">
+        <div class="card"><span class="k">Hecho</span><p><strong>Fases 0–2.</strong> Producto, arquitectura hexagonal y un dataset de 5.000 pedidos con valores de referencia.</p></div>
+        <div class="card"><span class="k">Ahora</span><p><strong>Fase 3.</strong> Este sitio y la vista previa del informe, construidos sobre un mock con la forma de la salida real.</p></div>
+        <div class="card"><span class="k">Después</span><p><strong>Fases 4–6.</strong> Ingesta, reconstrucción, reglas, impacto y el informe generado, que reemplaza al mock.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow-Audit · 2026</span>
+    <a href="index.html">Inicio</a>
+    <a href="demo/index.html">Informe demo</a>
+    <a href="index.html#que">Qué se audita</a>
+    <span>Ortelis Satellite es un operador ficticio. Ningún dato es real.</span>
+  </footer>
+</div>
+</body>
+</html>
