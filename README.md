@@ -1,7 +1,7 @@
 # flow-audit site
 
-Sitio estático de Flow-Audit: una landing y una vista previa del informe de auditoría.
-Sin build, sin dependencias y sin JavaScript. Todo lo publicable vive en `site/`.
+Sitio estático de Flow Audit: una landing y una vista previa del informe de auditoría.
+Sin build ni dependencias. Todo lo publicable vive en `site/`.
 
 ## Verlo
 
@@ -10,13 +10,15 @@ cd site
 python3 -m http.server 8000
 ```
 
-Abrir http://localhost:8000. `site/index.html` elige el idioma según el navegador.
+Abrir http://localhost:8000. `site/lang.js` decide el idioma antes del primer pintado y redirige
+con los enlaces del selector. La elección manual se conserva y manda sobre el navegador.
 
 ## Estructura
 
 | Ruta | Qué es |
 |---|---|
-| `site/index.html` | Selector de idioma: redirige a `es/`, `en/` o `pt/` |
+| `site/index.html` | Portada de entrada: selector de idioma; `lang.js` la envía a la landing |
+| `site/lang.js` | Decide el idioma, guarda la elección y redirige usando los enlaces del selector |
 | `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué fase está |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
@@ -49,6 +51,27 @@ push a `main` que lo toque. URL: https://rdorta27.github.io/flow-audit-site/
 Español, inglés y portugués: una copia por idioma en `es/`, `en/` y `pt/`, sin generador. Las tres
 copias tienen la misma estructura y los mismos enlaces relativos; el selector de la cabecera apunta a la misma
 página en cada idioma. Al editar un texto, cambia las tres. `report.json` sigue en español.
+
+El idioma se decide en `site/lang.js`, que se carga en las seis páginas de idioma y en la portada de
+entrada. La prioridad, de mayor a menor, es esta:
+
+1. **Elección guardada.** Al pulsar ES, EN o PT, el idioma se guarda en `localStorage` bajo
+   `flow-audit-lang`. Si existe, manda siempre.
+2. **Idioma del navegador.** Solo se usa si no hay elección guardada y la página es inglesa (la
+   portada de entrada lo es). Toma el primer idioma de `navigator.languages` que sea `en`, `es` o `pt`;
+   `pt` va a `pt-BR`. Si ninguno coincide, inglés.
+3. **Página donde se aterriza.** Sin elección guardada, `/es/` y `/pt/` se quedan en su idioma.
+
+El script compara el idioma deseado con el de `<html lang>`. Si difieren, oculta la página un instante.
+Cuando el HTML está listo, busca `a[hreflang=...]` en el selector y salta a esa URL con el mismo
+`?query` y el mismo `#ancla`; si no encuentra el enlace, muestra la página. Los enlaces del selector
+definen el destino, así que no hay tabla de rutas: funciona igual en la landing y en el demo. Las
+etiquetas `<link rel="alternate" hreflang>` del `<head>` no intervienen; son para los buscadores.
+La portada lleva `data-lang-entry`; por eso siempre salta a una landing, incluso si el navegador ya es inglés.
+
+Sin JavaScript, o con `localStorage` bloqueado, los botones del selector siguen funcionando. Solo se
+pierde la detección y la memoria. `pt-PT` va a la versión brasileña, la única que existe. La memoria es
+por navegador y por dispositivo, no por cuenta.
 
 ## Redacción
 

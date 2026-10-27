@@ -101,7 +101,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -291,3 +291,48 @@ nav .lang a[aria-current="true"] { color: var(--ink); box-shadow: inset 0 -3px 0
 .concept .block p + p { margin-top: 8px; }
 .concept ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 .concept li strong { color: var(--ink); }
+
+/* Móvil: márgenes cortos, cabecera en dos filas y controles a todo el ancho. */
+@media (max-width: 640px) {
+  .wrap { padding: 0 18px; }
+
+  header.top { padding: 14px 0; gap: 4px 12px; }
+  .logo { font-size: 20px; }
+
+  nav {
+    margin-left: 0;
+    width: 100%;
+    gap: 2px 16px;
+    font-size: 14px;
+  }
+  nav a { padding: 8px 0; }
+  nav .lang {
+    margin-left: auto;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  main { gap: 20px; padding: 26px 0 36px; }
+  section { gap: 16px; padding: 16px 0 22px; }
+
+  h1 { font-size: clamp(30px, 9vw, 40px); }
+  .lead { font-size: 18px; }
+
+  .card, .concept .block { padding: 16px; }
+
+  .status-strip { align-items: flex-start; }
+  .status-dot { margin-top: 7px; }
+
+  .scroller {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  footer { padding-bottom: 32px; }
+}
+
+@media (max-width: 420px) {
+  .wrap { padding: 0 14px; }
+  .grid { grid-template-columns: 1fr; }
+  .row .btn { flex: 1 1 100%; justify-content: center; }
+}

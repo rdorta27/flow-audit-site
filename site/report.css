@@ -121,6 +121,17 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 @media (max-width: 720px) {
   .heat { grid-template-columns: 84px repeat(3, minmax(110px, 1fr)); font-size: 12px; }
   .heat .h, .heat .row-h { font-size: 11px; }
+
+  .report-head { gap: 8px; }
+  .kpi { padding: 14px; }
+  .kpi .v { font-size: 28px; }
+
+  th, td { padding: 9px 10px; }
+  caption { padding: 10px 12px 0; }
+
+  .scroller,
+  .table-wrap,
+  .heat-wrap { -webkit-overflow-scrolling: touch; }
 }
 
 @media print {
