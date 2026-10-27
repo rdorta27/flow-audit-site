@@ -4,14 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demo report · Flow-Audit</title>
-<meta name="description" content="Preview of the audit report on Ortelis Satellite: map, state machine, timeline and five findings with their cost.">
+<meta name="description" content="Example report with synthetic data from a fictional operator. No engine generated it.">
 <meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Demo report · Flow-Audit">
+<meta property="og:description" content="Example report with synthetic data from a fictional operator. No engine generated it.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
 <link rel="stylesheet" href="../../report.css">
 <link rel="alternate" hreflang="es" href="../../es/demo/index.html">
 <link rel="alternate" hreflang="en" href="../../en/demo/index.html">
-<link rel="alternate" hreflang="pt" href="../../pt/demo/index.html">
+<link rel="alternate" hreflang="pt-BR" href="../../pt/demo/index.html">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -29,18 +35,21 @@
       <a href="../index.html">Home</a>
       <a href="../index.html#como">Architecture</a>
       <a href="index.html" aria-current="page">Demo report</a>
-      <a href="../index.html#que">What it audits</a>
+      <a href="../index.html#que">What it will audit</a>
       <a href="../index.html#estado">Status</a>
-      <span class="lang" role="group" aria-label="Language"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/demo/index.html" hreflang="pt" lang="pt" title="Português">PT</a></span>
+      <span class="lang" role="group" aria-label="Language"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/demo/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
   </header>
 
   <main id="main">
     <section class="report-head">
-      <span class="badge">Preview · synthetic data</span>
+      <span class="badge">Mock · synthetic data</span>
       <h1>Audit report<br>Ortelis Satellite</h1>
-      <p class="lead">Ortelis sells residential satellite internet. This report analyzes one month of orders across four systems. It finds five losses of time and money.</p>
+      <p class="lead">Ortelis is a fictional residential satellite internet operator. The report shows the look of a real audit, with five invented losses.</p>
       <p class="meta">September 2026 · 5,000 orders · CAT + OMS + BPM + PROV · USD · run demo-20260901</p>
+      <div class="callout">
+        This report is a <strong>mock</strong>. No engine generated it. The orders and numbers come from the invented dataset of phase 2. It has the shape of the planned output (<code>findings.json</code> + <code>journeys</code>).
+      </div>
     </section>
 
     <section aria-label="Indicators">
@@ -230,7 +239,7 @@
 
     <section>
       <h2>Where the days go</h2>
-      <p class="lead">A real order from the dataset, <code>ORD-1005</code>: 69 hours end to end. Nobody works 60 of them.</p>
+      <p class="lead">An order from the synthetic dataset, <code>ORD-1005</code>: 69 hours end to end. Nobody works 60 of them.</p>
       <div class="legend" aria-label="Timeline legend">
         <span><i class="sw-work"></i>work by a system</span>
         <span><i class="sw-wait"></i>manual wait</span>
@@ -283,7 +292,7 @@
 
     <section>
       <h2>Findings</h2>
-      <p class="lead">Five rules fired on the same month of orders. The severity comes from the impact. Nobody assigns it by hand.</p>
+      <p class="lead">The example shows five findings over the same month of orders. The severity will be derived from the impact.</p>
 
       <div class="heat-wrap">
         <div class="heat" role="img" aria-label="Heat map: four critical findings with high impact and one medium finding with low impact">
@@ -383,31 +392,14 @@
       </div>
       <p class="note">R03 includes USD 3,250 of revenue at risk. The evidence for each finding is in <a href="../../data/report.json">data/report.json</a> (mock text in Spanish).</p>
     </section>
-
-    <section>
-      <h2>How it was read</h2>
-      <div class="method">
-        <div><strong>Order tracing</strong>Rebuilds each order system by system: where it waited, who touched it and how many times it was retried.</div>
-        <div><strong>Edge-case tests</strong>Tests an address outside coverage, missing equipment, mid-process cancellation and an OMS retry.</div>
-        <div><strong>Interviews by role</strong>Interviews product, OMS operations, the BPM owner, provisioning and the help desk.</div>
-        <div><strong>Order data</strong>Measures aging, fallout, reopenings and orders with no later event.</div>
-      </div>
-    </section>
-
-    <section>
-      <h2>About this preview</h2>
-      <div class="callout">
-        This report is a <strong>mock</strong>. It uses the synthetic dataset from phase 2. It has the exact shape of the engine output (<code>findings.json</code> + <code>journeys</code>). The phase 6 renderer will replace it with no redesign.
-      </div>
-      <p class="note">Ortelis Satellite is a fictional operator. The orders, systems and people are invented. No data belongs to a real customer.</p>
-    </section>
   </main>
 
   <footer>
     <span>Flow-Audit · 2026</span>
     <a href="../index.html">Home</a>
     <a href="index.html">Demo report</a>
-    <a href="../index.html#que">What it audits</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <a href="../index.html#que">What it will audit</a>
     <a href="../../data/report.json">report.json</a>
     <span>Under construction · phase 3 of 6</span>
   </footer>

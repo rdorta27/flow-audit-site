@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1f1f28"/>
+  <g transform="translate(90 120) scale(2.2)">
+    <rect width="64" height="64" rx="2" fill="#7e9cd8"/>
+    <path d="M18 44V22M32 44V22M46 44V22" stroke="#1f1f28" stroke-width="5" opacity=".35"/>
+    <path d="M18 44V30M32 44V22M46 44V36" stroke="#1f1f28" stroke-width="5"/>
+  </g>
+  <text x="260" y="215" font-family="Palatino, Georgia, serif" font-size="96" font-weight="700" fill="#dcd7ba">flow-audit</text>
+  <text x="90" y="400" font-family="Helvetica, Arial, sans-serif" font-size="44" fill="#dcd7ba">BSS order-to-activate audit</text>
+  <text x="90" y="460" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#a6a69c">catalog · OMS · BPM · provisioning</text>
+  <rect x="90" y="520" width="330" height="48" rx="2" fill="#e6c384"/>
+  <text x="110" y="554" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1f1f28">UNDER CONSTRUCTION</text>
+</svg>
