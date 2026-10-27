@@ -51,13 +51,13 @@ Por ahora solo español. La convención de la familia es una copia por idioma en
 
 ## Estilo y fuentes
 
-Estilo Kanagawa: Wave (oscuro) por defecto y Lotus (claro) si el sistema lo pide; `data-theme="light"`
-o `"dark"` en `<html>` lo fuerza. Esquinas de 2 px, márgenes amplios y ritmo vertical generoso.
+Estilo Kanagawa: Wave en sistemas oscuros y Lotus en los claros; `data-theme="light"` o `"dark"`
+en `<html>` lo fuerza. Esquinas de 2 px, márgenes amplios y ritmo vertical generoso.
 
 | Uso | Fuente | Licencia |
 |---|---|---|
-| Títulos | P052 (clon libre de Palatino), en `site/fonts/p052/` | AGPL-3.0 con excepción para incrustar la fuente en documentos |
-| Texto, etiquetas, cifras y gráficos | Source Sans 3, en `site/fonts/source-sans-3/` | OFL 1.1 |
+| Títulos y cifras de los KPI | P052 (clon libre de Palatino), en `site/fonts/p052/` | AGPL-3.0 con excepción para incrustar la fuente en documentos |
+| Texto, etiquetas y gráficos | Source Sans 3, en `site/fonts/source-sans-3/` | OFL 1.1 |
 | `code` y `pre` | La monoespaciada del sistema | — |
 
 Cada carpeta lleva su licencia y su `SOURCE.md`. El informe real será un solo archivo sin fuentes externas

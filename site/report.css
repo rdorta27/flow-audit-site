@@ -124,7 +124,29 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 }
 
 @media print {
+  :root,
+  :root[data-theme],
+  :root[data-theme="light"],
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --bg: #ffffff;
+    --card: #ffffff;
+    --ink: #14181d;
+    --muted: #333a41;
+    --line: #b9b9b9;
+    --brand: #1f4fd8;
+    --brand-ink: #1739a8;
+    --on-brand: #ffffff;
+    --tint: #ededed;
+    --accent: #8a3d00;
+    --crit: #9b1c1c;
+    --crit-bg: #f7e7e5;
+    --high: #7a3d00;
+    --high-bg: #f7ecd9;
+    --med: #2f5d3a;
+    --med-bg: #e7efea;
+  }
+  body { background: #ffffff; color: var(--ink); }
   .scroller { overflow: visible; }
   svg.arch { min-width: 0; }
-  body { background: #fff; color: #000; }
 }

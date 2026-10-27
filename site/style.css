@@ -1,6 +1,7 @@
-/* Estilo Kanagawa: Wave (oscuro, por defecto) y Lotus (claro, según el sistema o data-theme="light").
-   Paleta de rebelot/kanagawa.nvim (MIT). Títulos en P052 (clon libre de Palatino, AGPL con excepción
-   de fuentes), texto en Source Sans 3 (OFL). Las fuentes viven en fonts/ con su licencia. */
+/* Estilo Kanagawa: Wave (oscuro) y Lotus (claro) según el sistema; data-theme="light"
+   o "dark" lo fuerza. Paleta de rebelot/kanagawa.nvim (MIT). Títulos en P052 (clon libre
+   de Palatino, AGPL con excepción de fuentes), texto en Source Sans 3 (OFL). Las fuentes
+   viven en fonts/ con su licencia. */
 @font-face {
   font-family: "P052";
   font-style: normal;
@@ -58,6 +59,7 @@
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
+    color-scheme: light;
     --bg: #f2ecbc;
     --card: #f9f5d7;
     --ink: #545464;
