@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe demo · Flow-Audit</title>
+<meta name="description" content="Vista previa del informe de auditoría de flujo sobre Ortelis Satellite: mapa, máquina de estados, línea de tiempo y cinco hallazgos cuantificados.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../report.css">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow-Audit, inicio">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="14" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      flow-audit
+    </a>
+    <nav aria-label="Principal">
+      <a href="../index.html">Inicio</a>
+      <a href="index.html" aria-current="page">Informe demo</a>
+      <a href="../index.html#que">Qué se audita</a>
+      <a href="../index.html#estado">Estado</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="report-head">
+      <span class="badge">Vista previa · datos sintéticos</span>
+      <h1>Informe de auditoría<br>Ortelis Satellite</h1>
+      <p class="lead">Internet satelital residencial. Un mes de pedidos, cuatro sistemas y cinco formas de perder días y dinero.</p>
+      <p class="meta">Septiembre 2026 · 5.000 pedidos · CAT + OMS + BPM + PROV · USD · run demo-20260901</p>
+    </section>
+
+    <section aria-label="Indicadores">
+      <div class="kpis">
+        <div class="kpi">
+          <span class="k">Hallazgos</span>
+          <span class="v">5</span>
+          <span class="s">4 críticos · 1 medio</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Trabajo manual</span>
+          <span class="v">1.268 h</span>
+          <span class="s">por mes, solo en los cuatro sistemas</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Costo</span>
+          <span class="v">USD 57.319</span>
+          <span class="s">por mes, a USD 45 la hora cargada</span>
+        </div>
+        <div class="kpi">
+          <span class="k">Pedidos atascados</span>
+          <span class="v">50</span>
+          <span class="s">1% del mes, sin evento posterior</span>
+        </div>
+      </div>
+      <p class="note">Ingreso en riesgo por los pedidos atascados: USD 3.250/mes (50 × ARPU 65). Se reporta aparte y nunca se suma al costo.</p>
+    </section>
+
+    <section>
+      <h2>Resumen ejecutivo</h2>
+      <p class="lead">El pedido tarda 69 horas donde debería tardar menos de una. Sesenta de esas horas no las trabaja nadie: son un hueco entre sistemas que ningún proceso reclama.</p>
+      <div class="callout">
+        <strong>Lo primero:</strong> agregar <code>capacity_profile</code> al catálogo técnico (USD 18.750/mes), reintentar el aprovisionamiento antes de la cola manual (USD 12.750/mes) y compensar el timer de 48 horas (USD 14.104/mes). Juntos explican el <strong>79%</strong> del costo del flujo.
+      </div>
+    </section>
+
+    <section>
+      <h2>Mapa del flujo</h2>
+      <p class="lead">Cada paso vive en un sistema distinto. Las cajas punteadas son los puntos donde el pedido pierde tiempo o se duplica.</p>
+      <div class="legend" aria-label="Leyenda">
+        <span><i class="sw-work"></i>paso normal</span>
+        <span><i class="sw-wait"></i>espera manual</span>
+        <span><i class="sw-gap"></i>hueco sin evento</span>
+      </div>
+      <div class="scroller" tabindex="0" aria-label="Mapa del flujo entre los cuatro sistemas, se desplaza en pantallas angostas">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
+          <title id="flt">Flujo de un pedido entre catálogo, OMS, BPM y aprovisionamiento</title>
+          <desc id="fld">El pedido se valida en el catálogo, pasa a un chequeo manual de capacidad en el BPM, se descompone en el OMS, se instala, falla la activación en aprovisionamiento, el reintento crea una segunda orden de servicio y recién entonces activa. Se marcan los hallazgos R01, R02, R03 y R04.</desc>
+          <defs>
+            <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+
+          <rect class="lane-bg" x="0" y="8" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="96" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="184" width="1140" height="88"/>
+          <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
+
+          <text class="lane" x="14" y="56">CATÁLOGO</text>
+          <text class="lane" x="14" y="144">OMS</text>
+          <text class="lane" x="14" y="232">BPM</text>
+          <text class="lane" x="14" y="320">PROVISIÓN</text>
+
+          <!-- 1. CAT -->
+          <g class="node hot">
+            <rect class="box" x="110" y="23" width="150" height="58" rx="8"/>
+            <text class="t" x="122" y="45">Oferta validada</text>
+            <text class="p" x="122" y="61">sin capacity_profile</text>
+            <text class="s" x="248" y="40" text-anchor="end">R02</text>
+          </g>
+
+          <!-- 2. BPM manual -->
+          <g class="node hot">
+            <rect class="box" x="290" y="199" width="150" height="58" rx="8"/>
+            <text class="t" x="302" y="221">Chequeo manual</text>
+            <text class="p" x="302" y="237">2 h de trabajo manual</text>
+            <text class="s" x="428" y="216" text-anchor="end">R02</text>
+          </g>
+
+          <!-- 3. OMS -->
+          <g class="node">
+            <rect class="box" x="460" y="111" width="150" height="58" rx="8"/>
+            <text class="t" x="472" y="133">Descomposición</text>
+            <text class="p" x="472" y="149">SO + WO en minutos</text>
+          </g>
+
+          <!-- 4. BPM install + timer -->
+          <g class="node hot">
+            <rect class="box" x="630" y="199" width="150" height="58" rx="8"/>
+            <text class="t" x="642" y="221">Instalación</text>
+            <text class="p" x="642" y="237">6 h · timer 48 h</text>
+            <text class="s" x="768" y="216" text-anchor="end">R03</text>
+          </g>
+
+          <!-- 5. PROV fail -->
+          <g class="node hot">
+            <rect class="box" x="790" y="287" width="150" height="58" rx="8"/>
+            <text class="t" x="802" y="309">Activación</text>
+            <text class="p" x="802" y="325">falla HUB_TIMEOUT</text>
+            <text class="s" x="928" y="304" text-anchor="end">R01</text>
+          </g>
+
+          <!-- 6. OMS retry -->
+          <g class="node hot">
+            <rect class="box" x="960" y="111" width="150" height="58" rx="8"/>
+            <text class="t" x="972" y="133">Reintento</text>
+            <text class="p" x="972" y="149">crea una 2ª SO</text>
+            <text class="s" x="1098" y="128" text-anchor="end">R04</text>
+          </g>
+
+          <!-- 7. PROV success -->
+          <g class="node done">
+            <rect class="box" x="960" y="287" width="150" height="58" rx="8"/>
+            <text class="t" x="972" y="309">Activo</text>
+            <text class="p" x="972" y="325">60 h después</text>
+          </g>
+
+          <path class="edge hot" d="M260 52 H275 V228 H290" marker-end="url(#fa)"/>
+          <path class="edge" d="M440 228 H450 V140 H460" marker-end="url(#fa)"/>
+          <path class="edge" d="M610 140 H620 V228 H630" marker-end="url(#fa)"/>
+          <path class="edge" d="M780 228 H785 V316 H790" marker-end="url(#fa)"/>
+          <path class="edge hot" d="M940 316 H950 V140 H960" marker-end="url(#fa)"/>
+          <path class="edge" d="M1035 169 V287" marker-end="url(#fa)"/>
+          <text class="elabel" x="948" y="252" text-anchor="end">60 h</text>
+        </svg>
+      </div>
+      <p class="note">Fuente: <code>data/demo/</code> (dataset de la fase 2). Las flechas cruzan de un sistema a otro; ninguna los une por un identificador común (R05).</p>
+    </section>
+
+    <section>
+      <h2>Máquina de estados</h2>
+      <p class="lead">Los estados del pedido y los tres callejones sin salida que encontró la auditoría.</p>
+      <div class="scroller" tabindex="0" aria-label="Máquina de estados del pedido, se desplaza en pantallas angostas">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 320" role="img" aria-labelledby="smt smd">
+          <title id="smt">Estados del pedido y sus callejones sin salida</title>
+          <desc id="smd">Camino normal: pedido, validado, descompuesto, agendado, instalado, aprovisionando, activo. Desde descompuesto, un reintento crea una segunda orden de servicio. Desde aprovisionando, una falla sin reintento cae en una cola manual, y un timer de 48 horas sin compensación deja el pedido atascado.</desc>
+          <defs>
+            <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
+            </marker>
+            <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 10 5 0 10z" fill="var(--crit)"/>
+            </marker>
+          </defs>
+
+          <g class="node"><rect class="box" x="20" y="50" width="140" height="52" rx="8"/><text class="t" x="32" y="81">Pedido</text></g>
+          <g class="node"><rect class="box" x="180" y="50" width="140" height="52" rx="8"/><text class="t" x="192" y="81">Validado</text></g>
+          <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="8"/><text class="t" x="352" y="81">Descompuesto</text></g>
+          <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="8"/><text class="t" x="512" y="81">Agendado</text></g>
+          <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="8"/><text class="t" x="672" y="81">Instalado</text></g>
+          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="8"/><text class="t" x="832" y="81">Aprovisionando</text></g>
+          <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="8"/><text class="t" x="992" y="81">Activo</text></g>
+
+          <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
+          <path class="edge" d="M320 76 H340" marker-end="url(#sa)"/>
+          <path class="edge" d="M480 76 H500" marker-end="url(#sa)"/>
+          <path class="edge" d="M640 76 H660" marker-end="url(#sa)"/>
+          <path class="edge" d="M800 76 H820" marker-end="url(#sa)"/>
+          <path class="edge" d="M960 76 H980" marker-end="url(#sa)"/>
+
+          <g class="node hot">
+            <rect class="box" x="340" y="160" width="170" height="46" rx="8"/>
+            <text class="t" x="352" y="181">2ª orden de servicio</text>
+            <text class="s" x="498" y="186" text-anchor="end">R04</text>
+          </g>
+          <path class="edge hot" d="M410 102 V160" marker-end="url(#sr)"/>
+
+          <g class="node hot">
+            <rect class="box" x="620" y="160" width="180" height="46" rx="8"/>
+            <text class="t" x="632" y="181">Falla sin reintento</text>
+            <text class="s" x="788" y="186" text-anchor="end">R01</text>
+          </g>
+          <path class="edge hot" d="M890 102 V136 H710 V160" marker-end="url(#sr)"/>
+
+          <g class="node hot">
+            <rect class="box" x="940" y="160" width="180" height="46" rx="8"/>
+            <text class="t" x="952" y="181">Timer sin compensar</text>
+            <text class="s" x="1108" y="186" text-anchor="end">R03</text>
+          </g>
+          <path class="edge hot" d="M900 102 V130 H1030 V160" marker-end="url(#sr)"/>
+
+          <g class="node"><rect class="box" x="620" y="244" width="180" height="46" rx="8"/><text class="t" x="632" y="265">Cola manual</text><text class="p" x="632" y="281">alguien lo rescata</text></g>
+          <path class="edge" d="M710 206 V244" marker-end="url(#sa)"/>
+
+          <g class="node hot"><rect class="box" x="940" y="244" width="180" height="46" rx="8"/><text class="t" x="952" y="265">Atascado</text><text class="p" x="952" y="281">sin evento posterior</text></g>
+          <path class="edge hot" d="M1030 206 V244" marker-end="url(#sr)"/>
+
+          <text class="elabel" x="20" y="310">Sin identificador común, unir los cuatro registros exige una ventana de tiempo (R05).</text>
+        </svg>
+      </div>
+      <p class="note">Un reintento manual saca al pedido de la cola; el timer, no. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
+    </section>
+
+    <section>
+      <h2>Dónde se van los días</h2>
+      <p class="lead">Una orden real del dataset, <code>ORD-1005</code>: 69 horas de punta a punta, de las cuales 60 no las trabaja nadie.</p>
+      <div class="legend" aria-label="Leyenda de la línea de tiempo">
+        <span><i class="sw-work"></i>trabajo de un sistema</span>
+        <span><i class="sw-wait"></i>espera manual</span>
+        <span><i class="sw-gap"></i>hueco sin evento</span>
+      </div>
+      <div class="scroller" tabindex="0" aria-label="Línea de tiempo de la orden ORD-1005, se desplaza en pantallas angostas">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
+          <title id="tlt">Línea de tiempo de ORD-1005</title>
+          <desc id="tld">Dos horas de chequeo manual, seis de instalación, una falla de aprovisionamiento, sesenta horas sin ningún evento y un reintento que crea una segunda orden de servicio antes de activar.</desc>
+
+          <text class="lane" x="14" y="104">TRABAJO</text>
+          <text class="lane" x="14" y="148">ESPERA</text>
+          <text class="lane" x="14" y="192">SIN EVENTO</text>
+
+          <line class="axis" x1="140" y1="52" x2="1100" y2="52"/>
+          <line class="axis" x1="140" y1="52" x2="140" y2="46"/>
+          <line class="axis" x1="1100" y1="52" x2="1100" y2="46"/>
+          <text class="tick" x="620" y="40" text-anchor="middle">69 h de punta a punta</text>
+
+          <rect class="bar wait" x="140.7" y="130" width="26.4" height="22"/>
+          <text class="p" x="176" y="146">chequeo manual · 2 h (R02)</text>
+
+          <rect class="bar work" x="167.8" y="86" width="3" height="22"/>
+          <rect class="bar work" x="180.8" y="86" width="83.4" height="22"/>
+          <text class="p" x="272" y="102">instalación · 6 h</text>
+
+          <circle class="dot fail" cx="264.5" cy="97" r="5"/>
+          <text class="p" x="274" y="124">falla HUB_TIMEOUT</text>
+
+          <rect class="bar gap" x="264.7" y="174" width="834.6" height="22"/>
+          <text class="p" x="300" y="190">sin evento · 60 h (R01)</text>
+
+          <circle class="dot ok" cx="1099.3" cy="97" r="5"/>
+          <text class="p" x="1088" y="76" text-anchor="end">reintento + 2ª SO (R04)</text>
+
+          <g class="tick" text-anchor="middle">
+            <text x="140" y="232">0 h</text>
+            <text x="307" y="232">12 h</text>
+            <text x="474" y="232">24 h</text>
+            <text x="641" y="232">36 h</text>
+            <text x="808" y="232">48 h</text>
+            <text x="975" y="232">60 h</text>
+            <text x="1100" y="232">69 h</text>
+          </g>
+          <line class="axis" x1="140" y1="214" x2="1100" y2="214"/>
+        </svg>
+      </div>
+      <p class="note">El hueco empieza cuando falla el primer intento y termina cuando alguien reintenta a mano 60 horas después. En el medio no hay ningún evento: ni una espera declarada ni un reintento programado.</p>
+    </section>
+
+    <section>
+      <h2>Hallazgos</h2>
+      <p class="lead">Cinco reglas disparadas sobre el mismo mes de pedidos. La severidad se deriva del impacto, no se declara a mano.</p>
+
+      <div class="heat-wrap">
+        <div class="heat" role="img" aria-label="Mapa de calor: cuatro hallazgos críticos con impacto alto y uno medio con impacto bajo">
+          <div class="h">Severidad</div>
+          <div class="h">Impacto bajo · &lt; 50 h/mes</div>
+          <div class="h">Medio · 50–200 h/mes</div>
+          <div class="h">Alto · &gt; 200 h/mes</div>
+
+          <div class="row-h">Crítica</div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+          <div class="cell l3"><span class="chip crit">R01</span><span class="chip crit">R02</span><span class="chip crit">R03</span><span class="chip crit">R05</span></div>
+
+          <div class="row-h">Alta</div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+
+          <div class="row-h">Media</div>
+          <div class="cell l1"><span class="chip med">R04</span></div>
+          <div class="cell l1"></div>
+          <div class="cell l1"></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Impacto mensual calculado con las tasas del dataset: 5.000 pedidos, USD 45 por hora cargada.</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Hallazgo</th>
+              <th scope="col">Severidad</th>
+              <th scope="col" class="num">Pedidos</th>
+              <th scope="col" class="num">h/mes</th>
+              <th scope="col" class="num">USD/mes</th>
+              <th scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">R01</th>
+              <td>Fallout de aprovisionamiento sin reintento</td>
+              <td><span class="tag crit">Crítica</span></td>
+              <td class="num">400 · 8%</td>
+              <td class="num">283</td>
+              <td class="num">12.750</td>
+              <td>Reintento automático con backoff antes de la cola manual.</td>
+            </tr>
+            <tr>
+              <th scope="row">R02</th>
+              <td>Chequeo manual de capacidad por atributo faltante</td>
+              <td><span class="tag crit">Crítica</span></td>
+              <td class="num">5.000 · 100%</td>
+              <td class="num">417</td>
+              <td class="num">18.750</td>
+              <td>Agregar <code>capacity_profile</code> al spec y automatizar la asignación de haz.</td>
+            </tr>
+            <tr>
+              <th scope="row">R03</th>
+              <td>Timer de BPM vence sin compensación</td>
+              <td><span class="tag crit">Crítica</span></td>
+              <td class="num">150 · 3%</td>
+              <td class="num">313</td>
+              <td class="num">14.104</td>
+              <td>Cerrar o reencolar el pedido a las 48 h; 50 quedaron atascados.</td>
+            </tr>
+            <tr>
+              <th scope="row">R04</th>
+              <td>Reintento del OMS duplica la orden de servicio</td>
+              <td><span class="tag med">Media</span></td>
+              <td class="num">20 · 0,4%</td>
+              <td class="num">30</td>
+              <td class="num">1.590</td>
+              <td>Reintento idempotente por clave de orden.</td>
+            </tr>
+            <tr>
+              <th scope="row">R05</th>
+              <td>Sin identificador de correlación end-to-end</td>
+              <td><span class="tag crit">Crítica</span></td>
+              <td class="num">300 · 6%</td>
+              <td class="num">225</td>
+              <td class="num">10.125</td>
+              <td>Un id común en los cuatro sistemas, desde la orden hasta el intento.</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row" colspan="3">Total</th>
+              <td class="num">5.000</td>
+              <td class="num">1.268</td>
+              <td class="num">57.319</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p class="note">R03 incluye USD 3.250 de ingreso en riesgo, reportado aparte. La evidencia de cada hallazgo está en <a href="data/report.json">data/report.json</a>.</p>
+    </section>
+
+    <section>
+      <h2>Cómo se leyó</h2>
+      <div class="method">
+        <div><strong>Trazado de órdenes</strong>Cada pedido se reconstruye sistema por sistema: dónde esperó, quién lo tocó, cuántas veces se reintentó.</div>
+        <div><strong>Pruebas de caso borde</strong>Dirección fuera de cobertura, equipo faltante, cancelación a mitad de vuelo y reintento del OMS.</div>
+        <div><strong>Entrevistas por rol</strong>Producto, operación del OMS, dueño del BPM, provisión y mesa de ayuda.</div>
+        <div><strong>Datos de órdenes</strong>Envejecimiento, fallout, reaperturas y pedidos sin evento posterior.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Sobre esta vista previa</h2>
+      <div class="callout">
+        Este informe es un <strong>mock</strong>: usa el dataset sintético de la fase 2 y tiene la forma exacta de la salida del motor (<code>findings.json</code> + <code>journeys</code>). El renderer que lo genera llega en la fase 6; reemplazará este HTML sin rediseñar nada.
+      </div>
+      <p class="note">Ortelis Satellite es un operador ficticio. Los pedidos, sistemas y personas son inventados; ningún dato pertenece a un cliente real.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow-Audit · 2026</span>
+    <a href="../index.html">Inicio</a>
+    <a href="../index.html#que">Qué se audita</a>
+    <a href="data/report.json">report.json</a>
+    <span>En construcción · fase 3 de 6</span>
+  </footer>
+</div>
+</body>
+</html>

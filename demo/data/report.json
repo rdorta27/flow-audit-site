@@ -1,0 +1,176 @@
+{
+  "generatedAt": "2026-10-01T00:00:00.000Z",
+  "runHash": "demo-20260901",
+  "config": {
+    "currency": "USD",
+    "ordersPerMonth": 5000,
+    "loadedHourUsd": 45,
+    "rates": {
+      "manualMinutes": 5,
+      "dailyFollowupMinutes": 15,
+      "cleanupMinutes": 90,
+      "investigationMinutes": 45,
+      "duplicateActivationCostUsd": 12,
+      "arpuUsd": 65
+    },
+    "thresholds": {
+      "retryWindowHours": 24,
+      "stuckAfterHours": 72,
+      "duplicateWindowMinutes": 10
+    }
+  },
+  "findings": [
+    {
+      "id": "R01",
+      "title": "Fallout de aprovisionamiento sin reintento",
+      "severity": "critical",
+      "affectedOrders": 400,
+      "shareOfOrders": 0.08,
+      "evidence": [
+        {
+          "orderRef": "ORD-1005",
+          "eventIds": [],
+          "note": "ACT-70005 termina en failed (HUB_TIMEOUT); el siguiente intento llega 60 h después."
+        },
+        {
+          "orderRef": "ORD-1100",
+          "eventIds": [],
+          "note": "Sin intento posterior dentro de la ventana de 24 h."
+        }
+      ],
+      "impact": { "hoursMonth": 283.3, "usdMonth": 12750, "revenueAtRiskUsd": 0 },
+      "recommendation": "Reintentar automáticamente con backoff antes de enviar el pedido a la cola manual."
+    },
+    {
+      "id": "R02",
+      "title": "Chequeo manual de capacidad por atributo faltante",
+      "severity": "critical",
+      "affectedOrders": 5000,
+      "shareOfOrders": 1,
+      "evidence": [
+        {
+          "orderRef": "ORD-1005",
+          "eventIds": [],
+          "note": "SPEC-SKYHOME-200 no define capacity_profile; el proceso abre una tarea manual de 5 minutos."
+        }
+      ],
+      "impact": { "hoursMonth": 416.7, "usdMonth": 18750, "revenueAtRiskUsd": 0 },
+      "recommendation": "Agregar capacity_profile al spec y automatizar la asignación de haz en el aprovisionamiento."
+    },
+    {
+      "id": "R03",
+      "title": "Timer de BPM vence sin compensación",
+      "severity": "critical",
+      "affectedOrders": 150,
+      "shareOfOrders": 0.03,
+      "evidence": [
+        {
+          "orderRef": "ORD-1400",
+          "eventIds": [],
+          "note": "activation_timer expira a las 48 h; no hay compensación ni evento posterior."
+        }
+      ],
+      "impact": { "hoursMonth": 313.4, "usdMonth": 14104, "revenueAtRiskUsd": 3250 },
+      "recommendation": "Compensar el timer: cerrar o reencolar el pedido a las 48 h en lugar de dejarlo abierto."
+    },
+    {
+      "id": "R04",
+      "title": "Reintento del OMS duplica la orden de servicio",
+      "severity": "medium",
+      "affectedOrders": 20,
+      "shareOfOrders": 0.004,
+      "evidence": [
+        {
+          "orderRef": "ORD-1005",
+          "eventIds": [],
+          "note": "SO-20005 y SO-30005, mismo pedido y mismo spec, creadas por el reintento."
+        }
+      ],
+      "impact": { "hoursMonth": 30, "usdMonth": 1590, "revenueAtRiskUsd": 0 },
+      "recommendation": "Hacer el reintento idempotente por clave de orden y spec."
+    },
+    {
+      "id": "R05",
+      "title": "Sin identificador de correlación end-to-end",
+      "severity": "critical",
+      "affectedOrders": 300,
+      "shareOfOrders": 0.06,
+      "evidence": [
+        {
+          "orderRef": "ORD-1550",
+          "eventIds": [],
+          "note": "El intento ACT-70550 no lleva so_ref; solo se une por serial SN-900550."
+        }
+      ],
+      "impact": { "hoursMonth": 225, "usdMonth": 10125, "revenueAtRiskUsd": 0 },
+      "recommendation": "Propagar un id de correlación común desde la orden hasta el intento de aprovisionamiento."
+    }
+  ],
+  "journeys": [
+    {
+      "orderRef": "ORD-1005",
+      "segments": [
+        {
+          "system": "CAT",
+          "from": "2026-09-01T00:44:06.000Z",
+          "to": "2026-09-01T00:47:06.000Z",
+          "kind": "work",
+          "state": "VALIDATED"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T00:47:06.000Z",
+          "to": "2026-09-01T02:41:06.000Z",
+          "kind": "wait",
+          "state": "MANUAL_CAPACITY_CHECK",
+          "actor": "human"
+        },
+        {
+          "system": "OMS",
+          "from": "2026-09-01T02:44:06.000Z",
+          "to": "2026-09-01T02:44:36.000Z",
+          "kind": "work",
+          "state": "DECOMPOSED"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T03:39:54.000Z",
+          "to": "2026-09-01T09:39:54.000Z",
+          "kind": "work",
+          "state": "INSTALLED",
+          "actor": "partner"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T09:41:06.000Z",
+          "to": "2026-09-01T09:41:36.000Z",
+          "kind": "work",
+          "state": "HUB_TIMEOUT"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T09:41:36.000Z",
+          "to": "2026-09-03T21:41:06.000Z",
+          "kind": "gap",
+          "state": "NO_EVENT"
+        },
+        {
+          "system": "OMS",
+          "from": "2026-09-03T21:41:06.000Z",
+          "to": "2026-09-03T21:41:16.000Z",
+          "kind": "work",
+          "state": "RETRY_CREATED_DUPLICATE"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-03T21:41:06.000Z",
+          "to": "2026-09-03T21:41:46.000Z",
+          "kind": "work",
+          "state": "ACTIVE"
+        }
+      ],
+      "findings": ["R01", "R02", "R04"],
+      "correlation": { "strong": true, "gaps": [] }
+    }
+  ]
+}
