@@ -100,3 +100,15 @@ en `<html>` lo fuerza. Esquinas de 2 px, márgenes amplios y ritmo vertical gene
 
 Cada carpeta lleva su licencia y su `SOURCE.md`. El informe real será un solo archivo sin fuentes externas
 (`core/AGENTS.md`): cuando exista el renderizador, tendrá que incrustar estas fuentes en el propio HTML.
+
+## Licencia
+
+El código del sitio es MIT: ver [`LICENSE`](LICENSE). La marca y el logo no entran en la
+cesión ([`TRADEMARKS.md`](TRADEMARKS.md)).
+
+Lo que el motor lee no es MIT y no se distribuye aquí: los sistemas de prueba se leen por
+HTTP y conservan su licencia. [`THIRD-PARTY.md`](THIRD-PARTY.md) separa lo que viaja con
+este repositorio (las dos fuentes) de lo que solo se usa para probar.
+
+La página de arquitectura de cada idioma lleva un bloque con estos componentes. Si añades
+un sistema, una fuente o un aviso, cámbialo en los tres idiomas.
