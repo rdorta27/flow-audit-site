@@ -8,6 +8,6 @@
   <text x="260" y="215" font-family="Palatino, Georgia, serif" font-size="96" font-weight="700" fill="#dcd7ba">flow audit</text>
   <text x="90" y="400" font-family="Helvetica, Arial, sans-serif" font-size="44" fill="#dcd7ba">BSS order-to-activate audit</text>
   <text x="90" y="460" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#a6a69c">catalog · OMS · BPM · provisioning</text>
-  <rect x="90" y="520" width="330" height="48" rx="2" fill="#e6c384"/>
+  <rect x="90" y="520" width="356" height="48" rx="2" fill="#e6c384"/>
   <text x="110" y="554" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#1f1f28">UNDER CONSTRUCTION</text>
 </svg>
