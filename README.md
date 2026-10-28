@@ -19,8 +19,8 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 |---|---|
 | `site/index.html` | Portada de entrada: selector de idioma; `lang.js` la envía a la landing |
 | `site/lang.js` | Decide el idioma, guarda la elección y redirige usando los enlaces del selector |
-| `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué fase está |
-| `site/{es,en,pt}/architecture/index.html` | Arquitectura prevista: las cinco etapas, la mecánica técnica y la fórmula de impacto |
+| `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué milestone está |
+| `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
@@ -32,7 +32,7 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 
 `site/data/report.json` es el contrato: `generatedAt`, `runHash`, `config`,
 `findings[]` y `journeys[]`, con los mismos campos que el puerto `ReportRenderer`. Los
-números salen del dataset sintético de la fase 2 y de sus tasas de impacto.
+números salen del dataset sintético y de sus tasas de impacto.
 
 El HTML repite esos números a mano. Cuando exista el renderer (M4-03) reemplaza la página
 por el informe generado; el diseño no cambia.
@@ -112,3 +112,11 @@ este repositorio (las dos fuentes) de lo que solo se usa para probar.
 
 La página de arquitectura de cada idioma lleva un bloque con estos componentes. Si añades
 un sistema, una fuente o un aviso, cámbialo en los tres idiomas.
+
+## Componentes
+
+La sección «Componentes» de las tres páginas de arquitectura describe `core/src/`: las seis
+capas (`domain/`, `ports/`, `adapters/`, `app/`, `cli/`, `dataset/`) y qué existe hoy en
+cada una. Si cambia el árbol de `core/src/`, cambian las tres páginas y este README. Las
+cifras de «Qué se ejecuta hoy» salen de `deno task check`, `deno task test`, `deno task
+audit` y `deno task dataset`; no se copian del README de `core` sin comprobarlas.

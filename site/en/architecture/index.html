@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Planned architecture · Flow Audit</title>
-<meta name="description" content="The planned design of Flow Audit: five stages, the rules and the impact formula. The engine does not exist yet.">
+<title>Architecture · Flow Audit</title>
+<meta name="description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/architecture/">
-<meta property="og:title" content="Planned architecture · Flow Audit">
-<meta property="og:description" content="The planned design of Flow Audit: five stages, the rules and the impact formula. The engine does not exist yet.">
+<meta property="og:title" content="Architecture · Flow Audit">
+<meta property="og:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Planned architecture · Flow Audit">
-<meta name="twitter:description" content="The planned design of Flow Audit: five stages, the rules and the impact formula. The engine does not exist yet.">
+<meta name="twitter:title" content="Architecture · Flow Audit">
+<meta name="twitter:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -55,8 +55,18 @@
   </header>
 
   <main id="main">
-    <section id="main-arch">
-      <h1>Planned architecture</h1>
+    <section>
+      <span class="eyebrow">Design and components</span>
+      <h1>Architecture</h1>
+      <p class="lead">Flow Audit is a local-first command line tool: evidence goes in, a report comes out. The skeleton, the canonical model and the synthetic dataset exist today. The five stages that turn evidence into findings are still design.</p>
+      <div class="status-strip">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span><strong>Under construction · version 0.1.0.</strong> The components below are real files in the repository; the stages that analyse them are not written yet.</span>
+      </div>
+    </section>
+
+    <section id="pipeline">
+      <h2>Pipeline</h2>
       <div class="scroller" tabindex="0" aria-label="The five stages of the engine">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 110" role="img" aria-labelledby="plt">
           <title id="plt">The five stages: ingestion, reconstruction, detection, quantification and report</title>
@@ -65,14 +75,76 @@
           <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstruction</text><text class="p" x="259" y="68">events → journeys</text></g>
           <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detection</text><text class="p" x="489" y="68">journeys → findings</text></g>
           <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Quantification</text><text class="p" x="719" y="68">findings → h and USD</text></g>
-          <g class="node done"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Report</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
+          <g class="node"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Report</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
           <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
           <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
           <path class="edge" d="M665 55 H705" marker-end="url(#pa)"/>
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">The five stages are design. They arrive in milestones M1 to M5.</p>
+      <p class="note">The five stages are design. They arrive in milestones M1 to M5, and none of them runs today. The demo report is a hand-built preview, not a generated one.</p>
+    </section>
+
+    <section id="components">
+      <h2>Components</h2>
+      <p class="note">Hexagonal layout (ADR 0002). The domain imports nothing outside <code>src/domain/</code>, and a test fails the build if that changes. An arrow means “depends on”.</p>
+      <div class="scroller" tabindex="0" aria-label="The six components of the engine and their dependencies">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 300" role="img" aria-labelledby="clt">
+          <title id="clt">Components: cli calls app, app and adapters depend on ports, ports depend on domain, and dataset feeds adapters</title>
+          <defs><marker id="pc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--muted)"/></marker></defs>
+          <g class="node"><rect class="box" x="60" y="10" width="200" height="56" rx="2"/><text class="t" x="74" y="34">cli/</text><text class="p" x="74" y="52">audit · dataset</text></g>
+          <g class="node"><rect class="box" x="60" y="120" width="200" height="56" rx="2"/><text class="t" x="74" y="144">app/</text><text class="p" x="74" y="162">runAudit()</text></g>
+          <g class="node"><rect class="box" x="470" y="120" width="200" height="56" rx="2"/><text class="t" x="484" y="144">ports/</text><text class="p" x="484" y="162">4 interfaces</text></g>
+          <g class="node"><rect class="box" x="470" y="230" width="200" height="56" rx="2"/><text class="t" x="484" y="254">domain/</text><text class="p" x="484" y="272">model · rules</text></g>
+          <g class="node"><rect class="box" x="880" y="10" width="200" height="56" rx="2"/><text class="t" x="894" y="34">dataset/</text><text class="p" x="894" y="52">5,000 orders</text></g>
+          <g class="node"><rect class="box" x="880" y="120" width="200" height="56" rx="2"/><text class="t" x="894" y="144">adapters/</text><text class="p" x="894" y="162">clock · export</text></g>
+          <path class="edge" d="M160 66 V120" marker-end="url(#pc)"/>
+          <path class="edge" d="M260 148 H470" marker-end="url(#pc)"/>
+          <path class="edge" d="M880 148 H670" marker-end="url(#pc)"/>
+          <path class="edge" d="M980 66 V120" marker-end="url(#pc)"/>
+          <path class="edge" d="M570 176 V230" marker-end="url(#pc)"/>
+        </svg>
+      </div>
+      <div class="concept">
+        <div class="block">
+          <h3><code>domain/</code></h3>
+          <p>The canonical model: events, catalog, orders, journeys, findings and impact. It has no I/O, no clock and no files. Reconstruction and the five rules will live here. Today: the types.</p>
+        </div>
+        <div class="block">
+          <h3><code>ports/</code></h3>
+          <p>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>. Today: all four are declared; the adapters that implement two of them do not exist yet.</p>
+        </div>
+        <div class="block">
+          <h3><code>adapters/</code></h3>
+          <p>The outside world. A clock and the export serializers for the four systems. The ingest readers (M1) and the HTML renderer (M4) will join them. Today: <code>clock/</code> and <code>export/</code>; <code>ingest/</code> and <code>report/</code> are empty.</p>
+        </div>
+        <div class="block">
+          <h3><code>app/</code></h3>
+          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and it owns no format. Today: a walking skeleton that returns no findings.</p>
+        </div>
+        <div class="block">
+          <h3><code>cli/</code></h3>
+          <p>Argument parsing, help and exit codes. Two commands: <code>audit</code> and <code>dataset</code>. Today: both run; <code>audit</code> exits with code 2 because no evidence source exists.</p>
+        </div>
+        <div class="block">
+          <h3><code>dataset/</code></h3>
+          <p>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the impact rates. Today: it runs and the exports are byte-stable.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="today">
+      <h2>What runs today</h2>
+      <div class="grid">
+        <div class="card"><span class="k">Check</span><p><code>deno task check</code> type-checks the CLI, the generator, the clock adapter and the tests. It passes.</p></div>
+        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes 34 tests in five suites: dataset, serializers, architecture boundary, license boundary and the walking skeleton.</p></div>
+        <div class="card"><span class="k">Audit</span><p><code>deno task audit</code> prints the walking-skeleton message and exits with code 2. There is no evidence source yet.</p></div>
+        <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenerates the 5,000 orders from a fixed seed. Two runs produce byte-identical exports.</p></div>
+      </div>
+    </section>
+
+    <section id="design">
+      <h2>Design</h2>
       <div class="concept">
         <div class="block">
           <h3>Core concept</h3>
@@ -102,8 +174,13 @@
             <li><strong>Example with the synthetic dataset (R02).</strong> 5,000 orders × 5 min ÷ 60 = 417 h. 417 h × USD 45 = USD 18,750.</li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <section id="license">
+      <h2>License and third-party components</h2>
+      <div class="concept">
         <div class="block">
-          <h3>License and third-party components</h3>
           <ul>
             <li><strong>Engine.</strong> MIT. The code, the canonical model and the rules can be read, used and changed.</li>
             <li><strong>Site.</strong> MIT for the code. The two fonts keep their own licenses: P052 under AGPL-3.0 with an embedding exception, Source Sans 3 under OFL-1.1.</li>
