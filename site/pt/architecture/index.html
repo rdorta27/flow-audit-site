@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arquitetura planejada · Flow Audit</title>
+<meta name="description" content="O desenho planejado do Flow Audit: cinco etapas, as regras e a fórmula de impacto. O motor ainda não existe.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flow Audit">
+<meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/pt/architecture/">
+<meta property="og:title" content="Arquitetura planejada · Flow Audit">
+<meta property="og:description" content="O desenho planejado do Flow Audit: cinco etapas, as regras e a fórmula de impacto. O motor ainda não existe.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Arquitetura planejada · Flow Audit">
+<meta name="twitter:description" content="O desenho planejado do Flow Audit: cinco etapas, as regras e a fórmula de impacto. O motor ainda não existe.">
+<meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/pt/architecture/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../report.css">
+<script src="../../lang.js"></script>
+<link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/architecture/">
+<link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/architecture/">
+<link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/architecture/">
+<link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/architecture/">
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow Audit, início">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow audit
+    </a>
+    <nav aria-label="Principal">
+      <a href="../index.html">Início</a>
+      <a href="index.html" aria-current="page">Arquitetura</a>
+      <a href="../demo/index.html">Relatório demo</a>
+      <a href="../index.html#que">O que auditará</a>
+      <a href="../index.html#estado">Status</a>
+      <span class="lang" role="group" aria-label="Idioma"><a href="../../es/architecture/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/architecture/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/architecture/index.html" hreflang="pt-BR" lang="pt-BR" title="Português" aria-current="true">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="main-arch">
+      <h1>Arquitetura planejada</h1>
+      <div class="scroller" tabindex="0" aria-label="As cinco etapas do motor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 110" role="img" aria-labelledby="plt">
+          <title id="plt">As cinco etapas: ingestão, reconstrução, detecção, quantificação e relatório</title>
+          <defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--muted)"/></marker></defs>
+          <g class="node"><rect class="box" x="15" y="25" width="190" height="60" rx="2"/><text class="t" x="29" y="50">1 · Ingestão</text><text class="p" x="29" y="68">exportações → eventos</text></g>
+          <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstrução</text><text class="p" x="259" y="68">eventos → jornadas</text></g>
+          <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detecção</text><text class="p" x="489" y="68">jornadas → achados</text></g>
+          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Quantificação</text><text class="p" x="719" y="68">achados → h e USD</text></g>
+          <g class="node done"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Relatório</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
+          <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
+          <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
+          <path class="edge" d="M665 55 H705" marker-end="url(#pa)"/>
+          <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
+        </svg>
+      </div>
+      <p class="note">As cinco etapas são desenho. Chegam nos milestones M1 a M5.</p>
+      <div class="concept">
+        <div class="block">
+          <h3>Conceito central</h3>
+          <p>O Flow Audit será uma ferramenta de auditoria. Lerá os registros de quatro sistemas e reconstruirá o caminho de cada pedido. Para cada perda calculará as horas, os dólares e a evidência.</p>
+        </div>
+        <div class="block">
+          <h3>Analogia física</h3>
+          <p>Imagine um pacote que cruza quatro armazéns. Cada armazém anota apenas as suas próprias entradas e saídas.</p>
+          <p>Ninguém sabe onde o pacote ficou parado três dias. O Flow Audit juntará os quatro cadernos. Marcará o armazém onde o pacote esperou e somará o custo dessa espera.</p>
+        </div>
+        <div class="block">
+          <h3>Mecânica técnica</h3>
+          <ul>
+            <li><strong>Ingestão.</strong> Lerá as exportações de catálogo, OMS, BPM e provisionamento.</li>
+            <li><strong>Reconstrução.</strong> Unirá os eventos de um pedido por uma janela de tempo, porque os sistemas não compartilham identificador.</li>
+            <li><strong>Regras.</strong> Cinco regras detectarão falhas sem nova tentativa, esperas manuais, timers vencidos, duplicidades e falta de identificador.</li>
+            <li><strong>Impacto.</strong> Multiplicará os pedidos afetados pelos minutos de trabalho e pelo custo da hora carregada.</li>
+            <li><strong>Severidade.</strong> Derivará a severidade das horas por mês. Ninguém a atribuirá à mão.</li>
+            <li><strong>Relatório.</strong> Gerará um HTML autocontido e um <code>findings.json</code> com a evidência de cada achado.</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Fórmula de impacto planejada</h3>
+          <ul>
+            <li><strong>Horas por mês</strong> = pedidos afetados × minutos de trabalho por pedido ÷ 60</li>
+            <li><strong>USD por mês</strong> = horas por mês × USD 45 por hora carregada</li>
+            <li><strong>Exemplo com o dataset sintético (R02).</strong> 5.000 pedidos × 5 min ÷ 60 = 417 h. 417 h × USD 45 = USD 18.750.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow Audit · 2026</span>
+    <a href="../index.html">Início</a>
+    <a href="../demo/index.html">Relatório demo</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <a href="../index.html#que">O que auditará</a>
+    <span>Em construção · versão 0.1.0</span>
+  </footer>
+</div>
+</body>
+</html>

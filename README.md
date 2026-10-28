@@ -20,6 +20,7 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/index.html` | Portada de entrada: selector de idioma; `lang.js` la envía a la landing |
 | `site/lang.js` | Decide el idioma, guarda la elección y redirige usando los enlaces del selector |
 | `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué fase está |
+| `site/{es,en,pt}/architecture/index.html` | Arquitectura prevista: las cinco etapas, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
@@ -33,13 +34,20 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 `findings[]` y `journeys[]`, con los mismos campos que el puerto `ReportRenderer`. Los
 números salen del dataset sintético de la fase 2 y de sus tasas de impacto.
 
-El HTML repite esos números a mano. Cuando exista el renderer (fase 6) reemplaza la página
+El HTML repite esos números a mano. Cuando exista el renderer (M4-03) reemplaza la página
 por el informe generado; el diseño no cambia.
 
 ## Estado
 
-**Fase 3 de 6, completa.** El sitio está en construcción: el demo es un mock y no hay motor
-detrás. Faltan ingesta (4), reglas e impacto (5) y el informe generado (6).
+**Versión 0.1.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
+El plan del motor está en `../specs/flow-audit_BACKLOG.md` (milestones M0–M5). El sitio se
+reemplaza por el informe generado en M5-04.
+
+## Versiones
+
+`core` fija los números (semver). Este repo lleva un tag solo cuando publica esa misma versión
+de `core`, con el mismo número. Los arreglos que solo tocan el sitio no llevan tag: Pages
+publica en cada push. Los dos repos empiezan alineados en `0.1.0`.
 
 ## Publicación
 
@@ -48,7 +56,7 @@ push a `main` que lo toque. URL: https://rdorta27.github.io/flow-audit-site/
 
 ## Idiomas
 
-Español, inglés y portugués: una copia por idioma en `es/`, `en/` y `pt/`, sin generador. Las tres
+Español, inglés y portugués. El motor y su informe salen solo en inglés en esta versión; su versión multiidioma es L-01 del backlog. En el sitio: una copia por idioma en `es/`, `en/` y `pt/`, sin generador. Las tres
 copias tienen la misma estructura y los mismos enlaces relativos; el selector de la cabecera apunta a la misma
 página en cada idioma. Al editar un texto, cambia las tres. `report.json` sigue en español.
 

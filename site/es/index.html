@@ -46,7 +46,7 @@
     </a>
     <nav aria-label="Principal">
       <a href="index.html" aria-current="page">Inicio</a>
-      <a href="index.html#como">Arquitectura</a>
+      <a href="architecture/index.html">Arquitectura</a>
       <a href="demo/index.html">Informe demo</a>
       <a href="index.html#que">Qué auditará</a>
       <a href="index.html#estado">Estado</a>
@@ -57,17 +57,17 @@
   <main id="main">
     <section>
       <span class="eyebrow">Auditoría BSS · del pedido a la activación</span>
-      <span class="badge">En construcción · fase 3 de 6</span>
+      <span class="badge">En construcción · versión 0.1.0</span>
       <h1>El pedido cruza cuatro sistemas.<br><em>Nadie ve el recorrido completo.</em></h1>
       <p class="lead">Flow Audit reconstruirá el recorrido de un pedido por cuatro sistemas. Calculará el costo de cada falla. Hoy existen el diseño y un informe de ejemplo, no el motor.</p>
       <p class="note">Pensado para operadores de telecomunicaciones con el BSS repartido en varios sistemas.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">Ver el informe demo</a>
-        <a class="btn alt" href="#como">Ver el diseño previsto</a>
+        <a class="btn alt" href="architecture/index.html">Ver el diseño previsto</a>
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>En construcción · fase 3 de 6.</strong> Existen el diseño, un dataset sintético y un informe de ejemplo. El motor no existe todavía.</span>
+        <span><strong>En construcción · versión 0.1.0.</strong> Existen el diseño, un dataset sintético y un informe de ejemplo. El motor no existe todavía.</span>
       </div>
     </section>
 
@@ -75,62 +75,13 @@
       <h2>Dónde está</h2>
       <p class="note">Primero se diseña el informe. Después se construye el motor que lo llena.</p>
       <div class="grid">
-        <div class="card"><span class="k">Hecho</span><p><strong>Fases 0–2.</strong> Producto, arquitectura, esqueleto del código y un dataset sintético de 5.000 pedidos con valores de referencia.</p></div>
-        <div class="card"><span class="k">Ahora</span><p><strong>Fase 3.</strong> Este sitio y un informe de ejemplo. El informe es una maqueta con la forma de la salida prevista.</p></div>
-        <div class="card"><span class="k">Después</span><p><strong>Fases 4–6.</strong> Ingesta, reconstrucción, reglas, impacto y el informe generado, que reemplazará la maqueta.</p></div>
+        <div class="card"><span class="k">Hecho</span><p><strong>Versión 0.1.0.</strong> Producto, arquitectura, esqueleto del código, un dataset sintético de 5.000 pedidos con valores de referencia, este sitio y un informe de ejemplo.</p></div>
+        <div class="card"><span class="k">Ahora</span><p><strong>Milestone M0.</strong> Probamos un primer sistema real: bss-oss-rust, en local con Docker. Revisamos el acceso, los contratos de la API y la licencia.</p></div>
+        <div class="card"><span class="k">Después</span><p><strong>Milestones M1–M5.</strong> Un adaptador de solo lectura, la correlación, la primera regla (R04), un informe JSON y el informe generado, que reemplazará la maqueta.</p></div>
       </div>
       <div class="callout"><strong>Lo que no existe todavía.</strong> No lee datos reales. No detecta hallazgos. No genera informes. Los números del informe de ejemplo salen de un dataset inventado.</div>
     </section>
 
-    <section id="como">
-      <h2>Arquitectura prevista</h2>
-      <div class="scroller" tabindex="0" aria-label="Las cinco etapas del motor">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 110" role="img" aria-labelledby="plt">
-          <title id="plt">Las cinco etapas: ingesta, reconstrucción, detección, cuantificación e informe</title>
-          <defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--muted)"/></marker></defs>
-          <g class="node"><rect class="box" x="15" y="25" width="190" height="60" rx="2"/><text class="t" x="29" y="50">1 · Ingesta</text><text class="p" x="29" y="68">exportes → eventos</text></g>
-          <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstrucción</text><text class="p" x="259" y="68">eventos → recorridos</text></g>
-          <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detección</text><text class="p" x="489" y="68">recorridos → hallazgos</text></g>
-          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Cuantificación</text><text class="p" x="719" y="68">hallazgos → h y USD</text></g>
-          <g class="node done"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Informe</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
-          <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
-          <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
-          <path class="edge" d="M665 55 H705" marker-end="url(#pa)"/>
-          <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
-        </svg>
-      </div>
-      <p class="note">Las cinco etapas son diseño. Las etapas 1 a 4 llegan en las fases 4 y 5. La etapa 5 llega en la fase 6.</p>
-      <div class="concept">
-        <div class="block">
-          <h3>Concepto core</h3>
-          <p>Flow Audit será una herramienta de auditoría. Leerá los registros de cuatro sistemas y reconstruirá el recorrido de cada pedido. Para cada pérdida calculará las horas, los dólares y la evidencia.</p>
-        </div>
-        <div class="block">
-          <h3>Analogía física</h3>
-          <p>Imagina un paquete que cruza cuatro almacenes. Cada almacén anota solo sus propias entradas y salidas.</p>
-          <p>Nadie sabe dónde el paquete estuvo parado tres días. Flow Audit juntará las cuatro libretas. Marcará el almacén donde el paquete esperó y sumará el costo de esa espera.</p>
-        </div>
-        <div class="block">
-          <h3>Mecánica técnica</h3>
-          <ul>
-            <li><strong>Ingesta.</strong> Leerá los exportes de catálogo, OMS, BPM y aprovisionamiento.</li>
-            <li><strong>Reconstrucción.</strong> Unirá los eventos de un pedido con una ventana de tiempo, porque los sistemas no comparten identificador.</li>
-            <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin reintento, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
-            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo y por el costo de la hora cargada.</li>
-            <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
-            <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3>Fórmula de impacto prevista</h3>
-          <ul>
-            <li><strong>Horas por mes</strong> = pedidos afectados × minutos de trabajo por pedido ÷ 60</li>
-            <li><strong>USD por mes</strong> = horas por mes × USD 45 por hora cargada</li>
-            <li><strong>Ejemplo con el dataset sintético (R02).</strong> 5.000 pedidos × 5 min ÷ 60 = 417 h. 417 h × USD 45 = USD 18.750.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
     <section id="que">
       <h2>Qué auditará</h2>
@@ -158,7 +109,7 @@
       <div class="grid">
         <div class="card"><h3>¿Dónde se ejecutará?</h3><p>El diseño prevé una herramienta de línea de comandos en el equipo del auditor. No usará servidor ni base de datos.</p></div>
         <div class="card"><h3>¿Saldrán datos del cliente?</h3><p>No. El diseño prevé que la evidencia entre y una carpeta con el informe salga. Nada irá a un servicio externo.</p></div>
-        <div class="card"><h3>¿Ya se puede usar?</h3><p>No. Hoy existe el diseño del informe y un dataset sintético. El motor llega en las fases 4 a 6.</p></div>
+        <div class="card"><h3>¿Ya se puede usar?</h3><p>No. Hoy existe el diseño del informe y un dataset sintético. El motor llega en los milestones M1 a M5.</p></div>
       </div>
     </section>
 

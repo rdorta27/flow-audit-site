@@ -46,7 +46,7 @@
     </a>
     <nav aria-label="Main">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="index.html#como">Architecture</a>
+      <a href="architecture/index.html">Architecture</a>
       <a href="demo/index.html">Demo report</a>
       <a href="index.html#que">What it will audit</a>
       <a href="index.html#estado">Status</a>
@@ -57,17 +57,17 @@
   <main id="main">
     <section>
       <span class="eyebrow">BSS audit · order to activation</span>
-      <span class="badge">Under construction · phase 3 of 6</span>
+      <span class="badge">Under construction · version 0.1.0</span>
       <h1>An order crosses four systems.<br><em>Nobody sees the full path.</em></h1>
       <p class="lead">Flow Audit will rebuild the path of an order through four systems. It will calculate the cost of each failure. Today the design and an example report exist, not the engine.</p>
       <p class="note">Designed for telecom operators with a BSS split across several systems.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">View the demo report</a>
-        <a class="btn alt" href="#como">See the planned design</a>
+        <a class="btn alt" href="architecture/index.html">See the planned design</a>
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Under construction · phase 3 of 6.</strong> The design, a synthetic dataset and an example report exist. The engine does not exist yet.</span>
+        <span><strong>Under construction · version 0.1.0.</strong> The design, a synthetic dataset and an example report exist. The engine does not exist yet.</span>
       </div>
     </section>
 
@@ -75,62 +75,13 @@
       <h2>Where it stands</h2>
       <p class="note">The report is designed first. The engine that fills it comes after.</p>
       <div class="grid">
-        <div class="card"><span class="k">Done</span><p><strong>Phases 0–2.</strong> Product, architecture, a code skeleton and a synthetic dataset of 5,000 orders with reference values.</p></div>
-        <div class="card"><span class="k">Now</span><p><strong>Phase 3.</strong> This site and an example report. The report is a mock with the shape of the planned output.</p></div>
-        <div class="card"><span class="k">Next</span><p><strong>Phases 4–6.</strong> Ingestion, reconstruction, rules, impact and the generated report, which will replace the mock.</p></div>
+        <div class="card"><span class="k">Done</span><p><strong>Version 0.1.0.</strong> Product, architecture, a code skeleton, a synthetic dataset of 5,000 orders with reference values, this site and an example report.</p></div>
+        <div class="card"><span class="k">Now</span><p><strong>Milestone M0.</strong> We test a first real system: bss-oss-rust, run locally with Docker. We check access, API contracts and license.</p></div>
+        <div class="card"><span class="k">Next</span><p><strong>Milestones M1–M5.</strong> A read-only adapter, correlation, the first rule (R04), a JSON report and the generated report, which will replace the mock.</p></div>
       </div>
       <div class="callout"><strong>What does not exist yet.</strong> It does not read real data. It does not detect findings. It does not generate reports. The numbers in the example report come from an invented dataset.</div>
     </section>
 
-    <section id="como">
-      <h2>Planned architecture</h2>
-      <div class="scroller" tabindex="0" aria-label="The five stages of the engine">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 110" role="img" aria-labelledby="plt">
-          <title id="plt">The five stages: ingestion, reconstruction, detection, quantification and report</title>
-          <defs><marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="var(--muted)"/></marker></defs>
-          <g class="node"><rect class="box" x="15" y="25" width="190" height="60" rx="2"/><text class="t" x="29" y="50">1 · Ingestion</text><text class="p" x="29" y="68">exports → events</text></g>
-          <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstruction</text><text class="p" x="259" y="68">events → journeys</text></g>
-          <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detection</text><text class="p" x="489" y="68">journeys → findings</text></g>
-          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Quantification</text><text class="p" x="719" y="68">findings → h and USD</text></g>
-          <g class="node done"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Report</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
-          <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
-          <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
-          <path class="edge" d="M665 55 H705" marker-end="url(#pa)"/>
-          <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
-        </svg>
-      </div>
-      <p class="note">The five stages are design. Stages 1 to 4 arrive in phases 4 and 5. Stage 5 arrives in phase 6.</p>
-      <div class="concept">
-        <div class="block">
-          <h3>Core concept</h3>
-          <p>Flow Audit will be an audit tool. It will read the records of four systems and rebuild the path of each order. For each loss it will calculate the hours, the dollars and the evidence.</p>
-        </div>
-        <div class="block">
-          <h3>Physical analogy</h3>
-          <p>Picture a parcel that crosses four warehouses. Each warehouse writes down only its own arrivals and departures.</p>
-          <p>Nobody knows where the parcel sat for three days. Flow Audit will put the four notebooks together. It will mark the warehouse where the parcel waited and add up the cost of that wait.</p>
-        </div>
-        <div class="block">
-          <h3>Technical mechanics</h3>
-          <ul>
-            <li><strong>Ingestion.</strong> Will read the exports of the catalog, OMS, BPM and provisioning.</li>
-            <li><strong>Reconstruction.</strong> Will join the events of one order with a time window, because the systems share no identifier.</li>
-            <li><strong>Rules.</strong> Five rules will detect failures without retry, manual waits, expired timers, duplicates and a missing identifier.</li>
-            <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work and by the loaded hourly cost.</li>
-            <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
-            <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3>Planned impact formula</h3>
-          <ul>
-            <li><strong>Hours per month</strong> = affected orders × minutes of work per order ÷ 60</li>
-            <li><strong>USD per month</strong> = hours per month × USD 45 per loaded hour</li>
-            <li><strong>Example with the synthetic dataset (R02).</strong> 5,000 orders × 5 min ÷ 60 = 417 h. 417 h × USD 45 = USD 18,750.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
     <section id="que">
       <h2>What it will audit</h2>
@@ -158,7 +109,7 @@
       <div class="grid">
         <div class="card"><h3>Where will it run?</h3><p>The design plans a command-line tool on the auditor's machine. It will use no server and no database.</p></div>
         <div class="card"><h3>Will client data leave the machine?</h3><p>No. The design plans for the evidence to go in and a folder with the report to come out. Nothing will go to an external service.</p></div>
-        <div class="card"><h3>Can I use it now?</h3><p>No. Today there is the report design and a synthetic dataset. The engine arrives in phases 4 to 6.</p></div>
+        <div class="card"><h3>Can I use it now?</h3><p>No. Today there is the report design and a synthetic dataset. The engine arrives in milestones M1 to M5.</p></div>
       </div>
     </section>
 
