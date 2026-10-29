@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · auditoria de fluxo BSS</title>
-<meta name="description" content="O Flow Audit é um projeto em construção: uma ferramenta planejada para reconstruir o caminho de um pedido por catálogo, OMS, BPM e provisionamento. Hoje existem o esqueleto e um relatório de exemplo.">
+<meta name="description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/pt/">
 <meta property="og:title" content="Flow Audit · auditoria de fluxo BSS">
-<meta property="og:description" content="O Flow Audit é um projeto em construção: uma ferramenta planejada para reconstruir o caminho de um pedido por catálogo, OMS, BPM e provisionamento. Hoje existem o esqueleto e um relatório de exemplo.">
+<meta property="og:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · auditoria de fluxo BSS">
-<meta name="twitter:description" content="O Flow Audit é um projeto em construção: uma ferramenta planejada para reconstruir o caminho de um pedido por catálogo, OMS, BPM e provisionamento. Hoje existem o esqueleto e um relatório de exemplo.">
+<meta name="twitter:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -48,7 +48,7 @@
       <a href="index.html" aria-current="page">Início</a>
       <a href="architecture/index.html">Arquitetura</a>
       <a href="demo/index.html">Relatório demo</a>
-      <a href="index.html#que">O que auditará</a>
+      <a href="index.html#que">O que vai verificar</a>
       <a href="index.html#estado">Status</a>
       <span class="lang" role="group" aria-label="Idioma"><a href="../es/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../en/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../pt/index.html" hreflang="pt-BR" lang="pt-BR" title="Português" aria-current="true">PT</a></span>
     </nav>
@@ -56,69 +56,87 @@
 
   <main id="main">
     <section>
-      <span class="eyebrow">Auditoria BSS · do pedido à ativação</span>
+      <span class="eyebrow">Auditoria de pedidos de telecomunicações</span>
       <span class="badge">Em construção · versão 0.2.0</span>
-      <h1>O pedido cruza quatro sistemas.<br><em>Ninguém vê o caminho completo.</em></h1>
-      <p class="lead">O Flow Audit reconstruirá o caminho de um pedido por quatro sistemas. Calculará o custo de cada falha. Hoje existem o esqueleto e um relatório de exemplo, não a análise.</p>
-      <p class="note">Pensado para operadoras de telecomunicações com o BSS dividido em vários sistemas.</p>
+      <h1>Onde os pedidos travam?<br><em>O Flow Audit vai descobrir.</em></h1>
+      <p class="lead">O Flow Audit é uma ferramenta para verificar como um pedido avança desde a compra do cliente até o serviço funcionar. Vai mostrar onde cada pedido para e quanto custa cada falha.</p>
+      <p class="note">É para operadoras de telecomunicações e para quem audita seus sistemas de venda e ativação.</p>
       <div class="row">
-        <a class="btn" href="demo/index.html">Ver o relatório demo</a>
-        <a class="btn alt" href="architecture/index.html">Ver o desenho planejado</a>
+        <a class="btn" href="demo/index.html">Ver o relatório de exemplo</a>
+        <a class="btn alt" href="architecture/index.html">Ver como vai funcionar</a>
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Em construção · versão 0.2.0.</strong> Existem o dataset, o stub TMF simulado e um relatório de exemplo. A análise ainda não existe.</span>
+        <span><strong>Ainda não analisa dados.</strong> Hoje existem dados de teste, um servidor de teste e um relatório de exemplo.</span>
       </div>
     </section>
 
-    <section id="estado">
-      <h2>Em que ponto está</h2>
-      <p class="note">Primeiro se projeta o relatório. Depois se constrói o motor que o preenche.</p>
+    <section id="problema">
+      <h2>Que problema resolve?</h2>
+      <p class="note">Um pedido passa por quatro sistemas. Cada sistema vê só a sua parte.</p>
       <div class="grid">
-        <div class="card"><span class="k">Feito</span><p><strong>Versão 0.2.0.</strong> Produto, arquitetura e um dataset com valores de referência. Validamos as fontes: testamos o bss-oss-rust localmente e construímos o stub TMF, marcado como simulado.</p></div>
-        <div class="card"><span class="k">Agora</span><p><strong>Milestone M1.</strong> Um adaptador somente leitura sobre o stub TMF. Lerá pedidos, ordens de serviço e ativações.</p></div>
-        <div class="card"><span class="k">Depois</span><p><strong>Milestones M1–M5.</strong> Um adaptador somente leitura, a correlação, a primeira regra (R04), um relatório JSON e o relatório gerado, que substituirá o mock.</p></div>
+        <div class="card"><h3>Ninguém vê o caminho completo</h3><p>O sistema de vendas diz que o pedido está certo. O de ativação diz que nada chegou. Ninguém sabe onde ele se perdeu.</p></div>
+        <div class="card"><h3>As falhas custam dinheiro</h3><p>Um pedido duplicado é cobrado duas vezes. Uma ativação sem pedido gasta recursos. Um pedido parado atrasa a cobrança.</p></div>
+        <div class="card"><h3>O Flow Audit junta as peças</h3><p>Vai ler os quatro sistemas, juntar os dados de cada pedido e mostrar onde o caminho se rompe.</p></div>
       </div>
-      <div class="callout"><strong>O que ainda não existe.</strong> Não lê dados reais. Não detecta achados. Não gera relatórios. Os números do relatório de exemplo vêm de um dataset inventado.</div>
     </section>
-
 
     <section id="que">
-      <h2>O que auditará</h2>
-      <p class="note">Quatro sistemas, um pedido. Os demais sistemas aparecem como contexto e ficam fora do escopo.</p>
+      <h2>O que vai verificar?</h2>
+      <p class="note">Estes são os quatro sistemas por onde passa um pedido, em ordem.</p>
       <div class="grid">
-        <div class="card"><span class="k">01 · Catálogo</span><h3>A oferta e sua spec</h3><p>Verificará se a oferta pode ser vendida. Verificará se a spec técnica tem os atributos de que o provisionamento precisa.</p></div>
-        <div class="card"><span class="k">02 · OMS</span><h3>A decomposição</h3><p>Acompanhará como o pedido comercial se divide em ordens de serviço (SO) e de trabalho (WO). Contará dependências, novas tentativas e <em>fallout</em>, os pedidos que saem do fluxo automático.</p></div>
-        <div class="card"><span class="k">03 · BPM</span><h3>A orquestração</h3><p>Detectará onde o processo espera, qual timer vence sem compensação e qual tarefa termina à mão.</p></div>
-        <div class="card"><span class="k">04 · Provisionamento</span><h3>A ativação</h3><p>Contará as tentativas de ativação, registrará quais falham e medirá quanto tempo a confirmação leva.</p></div>
+        <div class="card"><span class="k">1 · Catálogo</span><h3>O que se vende</h3><p>Vai verificar se cada oferta tem os dados técnicos necessários para ativá-la.</p></div>
+        <div class="card"><span class="k">2 · Gestão de pedidos</span><h3>Como o pedido se divide</h3><p>Vai seguir como um pedido se divide em tarefas técnicas. Vai contar as novas tentativas e os pedidos que precisam de trabalho manual.</p></div>
+        <div class="card"><span class="k">3 · Orquestração</span><h3>Quem faz cada passo</h3><p>Vai encontrar onde o processo espera e quais tarefas terminam à mão.</p></div>
+        <div class="card"><span class="k">4 · Ativação</span><h3>Quando o serviço funciona</h3><p>Vai contar as tentativas de ativação, quais falham e quanto demora a confirmação.</p></div>
       </div>
     </section>
 
     <section>
-      <h2>O que entregará</h2>
+      <h2>O que você vai receber?</h2>
       <div class="grid">
-        <div class="card"><h3>Um relatório autocontido</h3><p>Um único HTML sem assets externos. Incluirá resumo, mapa do fluxo, máquina de estados, linha do tempo e achados.</p></div>
-        <div class="card"><h3>Achados com evidência</h3><p>Cada achado guardará em <code>findings.json</code> o pedido, os eventos que o dispararam e a fórmula de impacto.</p></div>
-        <div class="card"><h3>Um dataset reproduzível</h3><p>A evidência normalizada e a configuração ficarão versionadas. Repetir a auditoria significará executá-la de novo.</p></div>
-        <div class="card"><h3>Uma leitura para o cliente</h3><p>Mostrará o mapa completo, o custo mensal e as três correções prioritárias.</p></div>
+        <div class="card"><h3>Um relatório em um só arquivo</h3><p>Uma página que abre em qualquer navegador, sem internet. Traz um resumo, o caminho do pedido e os problemas encontrados.</p></div>
+        <div class="card"><h3>Provas de cada problema</h3><p>Cada problema indica o pedido, os dados que o comprovam e como o custo foi calculado.</p></div>
+        <div class="card"><h3>Resultados repetíveis</h3><p>Com os mesmos dados, a auditoria sempre dá o mesmo resultado.</p></div>
       </div>
+    </section>
+
+    <section id="estado">
+      <h2>Em que ponto está?</h2>
+      <p class="note">Primeiro desenhamos o relatório. Agora construímos o motor que vai preenchê-lo.</p>
+      <div class="grid">
+        <div class="card"><span class="k">Feito · versão 0.2.0</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que entrega esses pedidos como um sistema real faria. Um relatório de exemplo.</p></div>
+        <div class="card"><span class="k">Agora</span><p>Um leitor que pega os pedidos do servidor de teste sem alterá-los.</p></div>
+        <div class="card"><span class="k">Depois</span><p>Juntar os dados de cada pedido, encontrar pedidos duplicados e gerar o relatório real.</p></div>
+      </div>
+      <div class="callout"><strong>O que ainda não faz.</strong> Não lê dados de clientes. Não encontra problemas. Não gera relatórios. Os números do exemplo vêm de dados inventados.</div>
     </section>
 
     <section id="faq">
       <h2>Perguntas frequentes</h2>
       <div class="grid">
-        <div class="card"><h3>Onde será executado?</h3><p>O desenho prevê uma ferramenta de linha de comando na máquina do auditor. Não usará servidor nem banco de dados.</p></div>
-        <div class="card"><h3>Os dados do cliente sairão da máquina?</h3><p>Não. O desenho prevê que a evidência entre e uma pasta com o relatório saia. Nada irá a um serviço externo.</p></div>
-        <div class="card"><h3>Já posso usar?</h3><p>Não. Hoje existem o esqueleto e um dataset sintético. A análise chega nos milestones M1 a M5.</p></div>
+        <div class="card"><h3>Já posso usar?</h3><p>Não. Está em construção. A análise chega nas próximas versões.</p></div>
+        <div class="card"><h3>Onde vai rodar?</h3><p>No computador de quem audita, pela linha de comando. Não vai precisar de servidor nem de banco de dados.</p></div>
+        <div class="card"><h3>Os dados do cliente vão sair?</h3><p>Não. Os dados entram, sai uma pasta com o relatório. Nada é enviado a serviços externos.</p></div>
+        <div class="card"><h3>Vai alterar os sistemas?</h3><p>Não. Só lê. Nunca cria, altera nem apaga pedidos.</p></div>
+      </div>
+    </section>
+
+    <section id="glosario">
+      <h2>Glossário</h2>
+      <div class="grid">
+        <div class="card"><h3>BSS e OSS</h3><p>Os sistemas de uma operadora. O BSS cuida de vendas e cobrança. O OSS cuida da rede e da ativação.</p></div>
+        <div class="card"><h3>TM Forum (TMF)</h3><p>Associação do setor que publica formatos comuns para esses sistemas trocarem dados.</p></div>
+        <div class="card"><h3>Servidor de teste</h3><p>Um programa nosso que imita um sistema real com dados inventados. Sempre avisa que os dados são simulados.</p></div>
       </div>
     </section>
 
     <section id="seguir">
       <h2>Acompanhe o projeto</h2>
-      <p class="lead">O código e o andamento estão no GitHub. Abra uma issue para comentar o desenho.</p>
+      <p class="lead">O código e o andamento estão no GitHub. Abra uma issue para comentar o design.</p>
       <div class="row">
         <a class="btn" href="https://github.com/rdorta27/flow-audit-site">Ver no GitHub</a>
-        <a class="btn alt" href="https://github.com/rdorta27/flow-audit-site/issues/new">Comentar o desenho</a>
+        <a class="btn alt" href="https://github.com/rdorta27/flow-audit-site/issues/new">Comentar o design</a>
       </div>
     </section>
   </main>
@@ -128,7 +146,7 @@
     <a href="index.html">Início</a>
     <a href="demo/index.html">Relatório demo</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="index.html#que">O que auditará</a>
+    <a href="index.html#que">O que vai verificar</a>
     <span>A Ortelis Satellite é uma operadora fictícia. Nenhum dado é real.</span>
     <span>TM Forum e TMF são marcas do TM Forum.</span>
   </footer>

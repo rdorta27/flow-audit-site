@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · BSS flow audit</title>
-<meta name="description" content="Flow Audit is a project under construction: a planned tool to rebuild the path of an order through the catalog, OMS, BPM and provisioning. Today the skeleton and an example report exist.">
+<meta name="description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/">
 <meta property="og:title" content="Flow Audit · BSS flow audit">
-<meta property="og:description" content="Flow Audit is a project under construction: a planned tool to rebuild the path of an order through the catalog, OMS, BPM and provisioning. Today the skeleton and an example report exist.">
+<meta property="og:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · BSS flow audit">
-<meta name="twitter:description" content="Flow Audit is a project under construction: a planned tool to rebuild the path of an order through the catalog, OMS, BPM and provisioning. Today the skeleton and an example report exist.">
+<meta name="twitter:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -48,7 +48,7 @@
       <a href="index.html" aria-current="page">Home</a>
       <a href="architecture/index.html">Architecture</a>
       <a href="demo/index.html">Demo report</a>
-      <a href="index.html#que">What it will audit</a>
+      <a href="index.html#que">What it will check</a>
       <a href="index.html#estado">Status</a>
       <span class="lang" role="group" aria-label="Language"><a href="../es/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../en/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../pt/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
@@ -56,60 +56,78 @@
 
   <main id="main">
     <section>
-      <span class="eyebrow">BSS audit · order to activation</span>
+      <span class="eyebrow">Telecom order audit</span>
       <span class="badge">Under construction · version 0.2.0</span>
-      <h1>An order crosses four systems.<br><em>Nobody sees the full path.</em></h1>
-      <p class="lead">Flow Audit will rebuild the path of an order through four systems. It will calculate the cost of each failure. Today the skeleton and an example report exist, not the analysis.</p>
-      <p class="note">Designed for telecom operators with a BSS split across several systems.</p>
+      <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
+      <p class="lead">Flow Audit is a tool that checks how an order moves from the moment a customer buys to the moment the service works. It will show where each order stops and what each failure costs.</p>
+      <p class="note">It is for telecom operators and for the people who audit their sales and activation systems.</p>
       <div class="row">
-        <a class="btn" href="demo/index.html">View the demo report</a>
-        <a class="btn alt" href="architecture/index.html">See the planned design</a>
+        <a class="btn" href="demo/index.html">See the example report</a>
+        <a class="btn alt" href="architecture/index.html">See how it will work</a>
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Under construction · version 0.2.0.</strong> The dataset, the simulated TMF stub and an example report exist. The analysis does not.</span>
+        <span><strong>It does not analyse data yet.</strong> Today there is test data, a test server and an example report.</span>
       </div>
     </section>
 
-    <section id="estado">
-      <h2>Where it stands</h2>
-      <p class="note">The report is designed first. The engine that fills it comes after.</p>
+    <section id="problema">
+      <h2>What problem does it solve?</h2>
+      <p class="note">An order passes through four systems. Each system sees only its own part.</p>
       <div class="grid">
-        <div class="card"><span class="k">Done</span><p><strong>Version 0.2.0.</strong> Product, architecture and a dataset with reference values. We validated the sources: bss-oss-rust tested locally, and our TMF stub serving the dataset, marked as simulated.</p></div>
-        <div class="card"><span class="k">Now</span><p><strong>Milestone M1.</strong> A read-only adapter over the TMF stub. It will read product orders, service orders and activations.</p></div>
-        <div class="card"><span class="k">Next</span><p><strong>Milestones M1–M5.</strong> A read-only adapter, correlation, the first rule (R04), a JSON report and the generated report, which will replace the mock.</p></div>
+        <div class="card"><h3>Nobody sees the whole path</h3><p>The sales system says the order is fine. The activation system says it never arrived. Nobody knows where it got lost.</p></div>
+        <div class="card"><h3>Failures cost money</h3><p>A duplicate order gets billed twice. An activation without an order wastes resources. A waiting order delays billing.</p></div>
+        <div class="card"><h3>Flow Audit joins the pieces</h3><p>It will read the four systems, join the data for each order and show where the path breaks.</p></div>
       </div>
-      <div class="callout"><strong>What does not exist yet.</strong> It does not read real data. It does not detect findings. It does not generate reports. The numbers in the example report come from an invented dataset.</div>
     </section>
-
 
     <section id="que">
-      <h2>What it will audit</h2>
-      <p class="note">Four systems, one order. Other systems appear as context and stay out of scope.</p>
+      <h2>What will it check?</h2>
+      <p class="note">These are the four systems an order goes through, in order.</p>
       <div class="grid">
-        <div class="card"><span class="k">01 · Catalog</span><h3>The offer and its spec</h3><p>Will check that the offer can be sold. Will check that the technical spec has the attributes provisioning needs.</p></div>
-        <div class="card"><span class="k">02 · OMS</span><h3>The decomposition</h3><p>Will follow how the commercial order splits into service orders (SO) and work orders (WO). Will count dependencies, retries and <em>fallout</em>, the orders that leave the automatic flow.</p></div>
-        <div class="card"><span class="k">03 · BPM</span><h3>The orchestration</h3><p>Will detect where the process waits, which timer expires without compensation and which task ends by hand.</p></div>
-        <div class="card"><span class="k">04 · Provisioning</span><h3>The activation</h3><p>Will count the activation attempts, record which ones fail and measure how long the confirmation takes.</p></div>
+        <div class="card"><span class="k">1 · Catalog</span><h3>What is sold</h3><p>It will check that each offer has the technical data needed to activate it.</p></div>
+        <div class="card"><span class="k">2 · Order management</span><h3>How the order is split</h3><p>It will follow how an order splits into technical tasks. It will count retries and orders that need manual work.</p></div>
+        <div class="card"><span class="k">3 · Orchestration</span><h3>Who does each step</h3><p>It will find where the process waits and which tasks end up done by hand.</p></div>
+        <div class="card"><span class="k">4 · Activation</span><h3>When the service works</h3><p>It will count activation attempts, which ones fail and how long confirmation takes.</p></div>
       </div>
     </section>
 
     <section>
-      <h2>What it will deliver</h2>
+      <h2>What will you get?</h2>
       <div class="grid">
-        <div class="card"><h3>A self-contained report</h3><p>One HTML file with no external assets. It will hold the summary, flow map, state machine, timeline and findings.</p></div>
-        <div class="card"><h3>Findings with evidence</h3><p>Each finding will store in <code>findings.json</code> the order, the events that triggered it and the impact formula.</p></div>
-        <div class="card"><h3>A reproducible dataset</h3><p>The normalized evidence and the configuration will stay versioned. Repeating the audit will mean running it again.</p></div>
-        <div class="card"><h3>A reading for the client</h3><p>Will show the full map, the monthly cost and the three priority fixes.</p></div>
+        <div class="card"><h3>A report in one file</h3><p>A page that opens in any browser, offline. It has a summary, the order path and the problems found.</p></div>
+        <div class="card"><h3>Proof for each problem</h3><p>Each problem names the order, the data that proves it and how its cost was calculated.</p></div>
+        <div class="card"><h3>Repeatable results</h3><p>With the same data, the audit always gives the same result.</p></div>
       </div>
     </section>
 
-    <section id="faq">
-      <h2>Frequently asked questions</h2>
+    <section id="estado">
+      <h2>Where is it now?</h2>
+      <p class="note">First we designed the report. Now we are building the engine that will fill it.</p>
       <div class="grid">
-        <div class="card"><h3>Where will it run?</h3><p>The design plans a command-line tool on the auditor's machine. It will use no server and no database.</p></div>
-        <div class="card"><h3>Will client data leave the machine?</h3><p>No. The design plans for the evidence to go in and a folder with the report to come out. Nothing will go to an external service.</p></div>
-        <div class="card"><h3>Can I use it now?</h3><p>No. Today the skeleton and a synthetic dataset exist. The analysis arrives in milestones M1 to M5.</p></div>
+        <div class="card"><span class="k">Done · version 0.2.0</span><p>A made-up operator with 5,000 test orders. A server that delivers those orders the way a real system would. An example report.</p></div>
+        <div class="card"><span class="k">Now</span><p>A reader that takes orders from the test server without changing them.</p></div>
+        <div class="card"><span class="k">Next</span><p>Join the data for each order, find duplicate orders and generate the real report.</p></div>
+      </div>
+      <div class="callout"><strong>What it does not do yet.</strong> It does not read customer data. It does not find problems. It does not generate reports. The example figures come from made-up data.</div>
+    </section>
+
+    <section id="faq">
+      <h2>Questions</h2>
+      <div class="grid">
+        <div class="card"><h3>Can I use it now?</h3><p>No. It is under construction. The analysis will come in the next versions.</p></div>
+        <div class="card"><h3>Where will it run?</h3><p>On the auditor's computer, from the command line. It will not need a server or a database.</p></div>
+        <div class="card"><h3>Will customer data leave?</h3><p>No. Data goes in, a folder with the report comes out. Nothing is sent to outside services.</p></div>
+        <div class="card"><h3>Will it change the systems?</h3><p>No. It only reads. It never creates, changes or deletes orders.</p></div>
+      </div>
+    </section>
+
+    <section id="glosario">
+      <h2>Glossary</h2>
+      <div class="grid">
+        <div class="card"><h3>BSS and OSS</h3><p>An operator's systems. BSS handles sales and billing. OSS handles the network and activation.</p></div>
+        <div class="card"><h3>TM Forum (TMF)</h3><p>An industry association that publishes common formats so these systems can exchange data.</p></div>
+        <div class="card"><h3>Test server</h3><p>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</p></div>
       </div>
     </section>
 
@@ -117,7 +135,7 @@
       <h2>Follow the project</h2>
       <p class="lead">The code and the progress are on GitHub. Open an issue to comment on the design.</p>
       <div class="row">
-        <a class="btn" href="https://github.com/rdorta27/flow-audit-site">View on GitHub</a>
+        <a class="btn" href="https://github.com/rdorta27/flow-audit-site">See on GitHub</a>
         <a class="btn alt" href="https://github.com/rdorta27/flow-audit-site/issues/new">Comment on the design</a>
       </div>
     </section>
@@ -128,7 +146,7 @@
     <a href="index.html">Home</a>
     <a href="demo/index.html">Demo report</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="index.html#que">What it will audit</a>
+    <a href="index.html#que">What it will check</a>
     <span>Ortelis Satellite is a fictional operator. No data is real.</span>
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>
