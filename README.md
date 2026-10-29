@@ -39,12 +39,12 @@ por el informe generado; el diseño no cambia.
 
 ## Estado
 
-**Versión 0.1.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
-El plan del motor está en `../specs/flow-audit_BACKLOG.md` (milestones M0–M5). El sitio se
-reemplaza por el informe generado en M5-04. Las tarjetas «Ahora» de las tres landings
-resumen M0: bss-oss-rust se probó en local y su contrato no basta; la fuente de la demo
-será un servicio TMF propio sobre el dataset sintético, marcado como simulado. Contrástalas
-con el backlog antes de cambiarlas.
+**Versión 0.2.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
+El plan del motor está en `../specs/flow-audit_BACKLOG.md` (milestones M1–M5). El sitio se
+reemplaza por el informe generado en M5-04. Las tarjetas «Hecho» y «Ahora» de las tres
+landings resumen el cierre de M0: fuentes validadas (bss-oss-rust probado en local) y un
+stub TMF simulado sobre el dataset; M1 escribe el adaptador de solo lectura sobre el stub.
+Contrástalas con el backlog antes de cambiarlas.
 
 ## Versiones
 

@@ -57,7 +57,7 @@
   <main id="main">
     <section>
       <span class="eyebrow">BSS audit · order to activation</span>
-      <span class="badge">Under construction · version 0.1.0</span>
+      <span class="badge">Under construction · version 0.2.0</span>
       <h1>An order crosses four systems.<br><em>Nobody sees the full path.</em></h1>
       <p class="lead">Flow Audit will rebuild the path of an order through four systems. It will calculate the cost of each failure. Today the skeleton and an example report exist, not the analysis.</p>
       <p class="note">Designed for telecom operators with a BSS split across several systems.</p>
@@ -67,7 +67,7 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Under construction · version 0.1.0.</strong> The skeleton, a synthetic dataset and an example report exist. The analysis does not.</span>
+        <span><strong>Under construction · version 0.2.0.</strong> The dataset, the simulated TMF stub and an example report exist. The analysis does not.</span>
       </div>
     </section>
 
@@ -75,8 +75,8 @@
       <h2>Where it stands</h2>
       <p class="note">The report is designed first. The engine that fills it comes after.</p>
       <div class="grid">
-        <div class="card"><span class="k">Done</span><p><strong>Version 0.1.0.</strong> Product, architecture, a code skeleton, a synthetic dataset of 5,000 orders with reference values, this site and an example report.</p></div>
-        <div class="card"><span class="k">Now</span><p><strong>Milestone M0.</strong> A real TMF system, bss-oss-rust, was tested locally. Its contract is too thin to rebuild an order. The demo source will be our own TMF service over the synthetic dataset, marked as simulated.</p></div>
+        <div class="card"><span class="k">Done</span><p><strong>Version 0.2.0.</strong> Product, architecture and a dataset with reference values. We validated the sources: bss-oss-rust tested locally, and our TMF stub serving the dataset, marked as simulated.</p></div>
+        <div class="card"><span class="k">Now</span><p><strong>Milestone M1.</strong> A read-only adapter over the TMF stub. It will read product orders, service orders and activations.</p></div>
         <div class="card"><span class="k">Next</span><p><strong>Milestones M1–M5.</strong> A read-only adapter, correlation, the first rule (R04), a JSON report and the generated report, which will replace the mock.</p></div>
       </div>
       <div class="callout"><strong>What does not exist yet.</strong> It does not read real data. It does not detect findings. It does not generate reports. The numbers in the example report come from an invented dataset.</div>

@@ -57,7 +57,7 @@
   <main id="main">
     <section>
       <span class="eyebrow">Auditoría BSS · del pedido a la activación</span>
-      <span class="badge">En construcción · versión 0.1.0</span>
+      <span class="badge">En construcción · versión 0.2.0</span>
       <h1>El pedido cruza cuatro sistemas.<br><em>Nadie ve el recorrido completo.</em></h1>
       <p class="lead">Flow Audit reconstruirá el recorrido de un pedido por cuatro sistemas. Calculará el costo de cada falla. Hoy existen el esqueleto y un informe de ejemplo, no el análisis.</p>
       <p class="note">Pensado para operadores de telecomunicaciones con el BSS repartido en varios sistemas.</p>
@@ -67,7 +67,7 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>En construcción · versión 0.1.0.</strong> Existen el esqueleto, un dataset sintético y un informe de ejemplo. El análisis no existe todavía.</span>
+        <span><strong>En construcción · versión 0.2.0.</strong> Existen el dataset, el stub TMF simulado y un informe de ejemplo. El análisis no existe todavía.</span>
       </div>
     </section>
 
@@ -75,8 +75,8 @@
       <h2>Dónde está</h2>
       <p class="note">Primero se diseña el informe. Después se construye el motor que lo llena.</p>
       <div class="grid">
-        <div class="card"><span class="k">Hecho</span><p><strong>Versión 0.1.0.</strong> Producto, arquitectura, esqueleto del código, un dataset sintético de 5.000 pedidos con valores de referencia, este sitio y un informe de ejemplo.</p></div>
-        <div class="card"><span class="k">Ahora</span><p><strong>Milestone M0.</strong> Probamos en local un sistema TMF real, bss-oss-rust. Su contrato no basta para reconstruir un pedido. La fuente de la demo será un servicio TMF propio sobre el dataset sintético, marcado como simulado.</p></div>
+        <div class="card"><span class="k">Hecho</span><p><strong>Versión 0.2.0.</strong> Producto, arquitectura y un dataset con valores de referencia. Validamos las fuentes: probamos bss-oss-rust en local y construimos el stub TMF, marcado como simulado.</p></div>
+        <div class="card"><span class="k">Ahora</span><p><strong>Milestone M1.</strong> Un adaptador de solo lectura sobre el stub TMF. Leerá pedidos, órdenes de servicio y activaciones.</p></div>
         <div class="card"><span class="k">Después</span><p><strong>Milestones M1–M5.</strong> Un adaptador de solo lectura, la correlación, la primera regla (R04), un informe JSON y el informe generado, que reemplazará la maqueta.</p></div>
       </div>
       <div class="callout"><strong>Lo que no existe todavía.</strong> No lee datos reales. No detecta hallazgos. No genera informes. Los números del informe de ejemplo salen de un dataset inventado.</div>
