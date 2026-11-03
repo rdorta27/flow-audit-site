@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent / "site"
 SEP = {"es": ".", "en": ",", "pt": "."}
 # Figures that used to be wrong and must not come back.
-STALE = ["11250", "41700", "14104", "57319", "1268", "18750", "57482"]
+STALE = ["11250", "41700", "14104", "57319", "1268", "18750", "57482", "54358"]
 
 
 # Old names that must not return in visible text (lane titles, table cells,
@@ -33,9 +33,9 @@ def fmt(n, sep):
 def main():
     data = json.loads((ROOT / "data" / "report.json").read_text())
     findings = data["findings"]
-    # Target design: all five rules (R05 counted apart by the engine, D-11).
-    total = sum(f["cost"]["amount_month"] for f in findings)
-    hours = sum(f["cost"]["hours_month"] for f in findings)
+    # Target design: R01 to R04; R05 is shown apart (D-11).
+    total = sum(f["cost"]["amount_month"] for f in findings if f.get("in_total", True))  # D-11
+    hours = sum(f["cost"]["hours_month"] for f in findings if f.get("in_total", True))
     risk = sum(f["cost"]["revenue_at_risk"]["amount"] for f in findings)
     errors = []
     if data.get("schema_version") != "findings/1":

@@ -76,12 +76,12 @@
         </div>
         <div class="kpi">
           <span class="k">Manual work</span>
-          <span class="v">1,203 h</span>
+          <span class="v">978 h</span>
           <span class="s">per month, in the four systems only</span>
         </div>
         <div class="kpi">
           <span class="k">Cost</span>
-          <span class="v">USD 54,358</span>
+          <span class="v">USD 44,233</span>
           <span class="s">per month, at USD 45 per <a class="gl" href="../index.html#g-hora-cargada">loaded hour</a></span>
         </div>
         <div class="kpi">
@@ -97,7 +97,7 @@
       <h2>Executive summary</h2>
       <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a <a class="gl" href="../index.html#g-hueco">gap</a> between systems that no process owns.</p>
       <div class="callout">
-        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 15,626/month). <a class="gl" href="../index.html#g-reintento">Retry</a> the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>78%</strong> of the cost.
+        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 15,626/month). <a class="gl" href="../index.html#g-reintento">Retry</a> the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>96%</strong> of the cost.
       </div>
     </section>
 
@@ -358,7 +358,7 @@
             <div><dt>Cost</dt><dd><strong>15,626</strong> USD per month</dd></div>
             <div><dt>Hours</dt><dd>347.3 h/month</dd></div>
           </dl>
-          <p class="fnote">Synthetic case, 100% of the demo orders, until dataset v2 makes it mixed.</p>
+          <p class="fnote">Synthetic case: 83% of the demo orders; those sold on the offer's second version do not have the problem.</p>
           <p class="fl">Formula</p><pre class="fformula"><code>hours = affected × rates.manual_minutes / 60; amount = hours × loaded_hour_usd</code></pre>
           <p class="fl">Inputs (config.json)</p><ul class="finputs"><li><code>rates.manual_minutes</code> = 5</li><li><code>loaded_hour_usd</code> = 45</li></ul>
           <p class="fl">Action</p><p>Add <code>capacity_profile</code> to the spec. Automate the beam assignment.</p>
@@ -407,7 +407,7 @@
         </article>
       </div>
       <div class="ftotals" role="group" aria-label="Totals">
-        <div class="callout"><strong>Target design (R01 to R05)</strong><br>1,203 h and USD 54,358 per month, plus USD 3,250 of revenue at risk. The engine counts R05 (USD 10,125) apart, as a traceability risk, until real measurements exist.</div>
+        <div class="callout"><strong>Target design (R01 to R04)</strong><br>978 h and USD 44,233 per month, plus USD 3,250 of revenue at risk. R05 (225 h, USD 10,125) is counted apart, as a traceability risk, until real measurements exist.</div>
         <div class="callout"><strong>What the engine produces today</strong><br>R04 only: 30 h and USD 1,590, one-off. It does not produce the report or the other four rules yet.</div>
       </div>
       <p class="note">Each card is dimmed or not according to the release chosen in the page selector; the formula uses the keys of <code>config.json</code>.</p>

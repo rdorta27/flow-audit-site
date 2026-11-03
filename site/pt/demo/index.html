@@ -76,12 +76,12 @@
         </div>
         <div class="kpi">
           <span class="k">Trabalho manual</span>
-          <span class="v">1.203 h</span>
+          <span class="v">978 h</span>
           <span class="s">por mês, somente nos quatro sistemas</span>
         </div>
         <div class="kpi">
           <span class="k">Custo</span>
-          <span class="v">USD 54.358</span>
+          <span class="v">USD 44.233</span>
           <span class="s">por mês, a USD 45 por <a class="gl" href="../index.html#g-hora-cargada">hora carregada</a></span>
         </div>
         <div class="kpi">
@@ -97,7 +97,7 @@
       <h2>Resumo executivo</h2>
       <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um <a class="gl" href="../index.html#g-hueco">vazio</a> entre sistemas que nenhum processo reivindica.</p>
       <div class="callout">
-        <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 15.626/mês). Tentar de novo o ativação antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>78%</strong> do custo.
+        <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 15.626/mês). Tentar de novo a ativação antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>96%</strong> do custo.
       </div>
     </section>
 
@@ -358,7 +358,7 @@
             <div><dt>Custo</dt><dd><strong>15.626</strong> USD por mês</dd></div>
             <div><dt>Horas</dt><dd>347,3 h/mês</dd></div>
           </dl>
-          <p class="fnote">Caso sintético, 100% dos pedidos do demo, até o dataset v2 deixá-lo misto.</p>
+          <p class="fnote">Caso sintético: 83% dos pedidos do demo; os vendidos com a segunda versão da oferta não têm o problema.</p>
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = affected × rates.manual_minutes / 60; amount = hours × loaded_hour_usd</code></pre>
           <p class="fl">Dados de entrada (config.json)</p><ul class="finputs"><li><code>rates.manual_minutes</code> = 5</li><li><code>loaded_hour_usd</code> = 45</li></ul>
           <p class="fl">Ação</p><p>Adicionar <code>capacity_profile</code> à spec. Automatizar a atribuição de feixe.</p>
@@ -407,7 +407,7 @@
         </article>
       </div>
       <div class="ftotals" role="group" aria-label="Totais">
-        <div class="callout"><strong>Desenho alvo (R01 a R05)</strong><br>1.203 h e USD 54.358 por mês, mais USD 3.250 de receita em risco. O motor conta R05 (USD 10.125) à parte, como risco de rastreabilidade, até haver medições reais.</div>
+        <div class="callout"><strong>Desenho alvo (R01 a R04)</strong><br>978 h e USD 44.233 por mês, mais USD 3.250 de receita em risco. R05 (225 h, USD 10.125) vai à parte, como risco de rastreabilidade, até haver medições reais.</div>
         <div class="callout"><strong>O que o motor produz hoje</strong><br>Só R04: 30 h e USD 1.590, uma única vez. Ainda não gera o relatório nem as outras quatro regras.</div>
       </div>
       <p class="note">Cada cartão fica esmaecido ou não conforme a versão escolhida no seletor da página; a fórmula usa as chaves de <code>config.json</code>.</p>
