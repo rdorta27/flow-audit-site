@@ -40,7 +40,7 @@ por el informe generado; el diseño no cambia.
 ## Estado
 
 **Versión 0.2.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
-El plan del motor está en `../specs/flow-audit_BACKLOG.md` (milestones M1–M5). El sitio se
+El plan del motor está en `../specs/backlog.md` (milestones M1–M5). El sitio se
 reemplaza por el informe generado en M5-04. Las tarjetas «Hecho» y «Ahora» de las tres
 landings resumen el cierre de M0: fuentes validadas (bss-oss-rust probado en local) y un
 stub TMF simulado sobre el dataset; M1 escribe el adaptador de solo lectura sobre el stub.
