@@ -47,10 +47,10 @@
     </a>
     <nav aria-label="Principal">
       <a href="../index.html">Início</a>
+      <a href="../systems/index.html">Sistemas</a>
+      <a href="../demo/index.html" aria-current="page">Relatório demo</a>
       <a href="../architecture/index.html">Arquitetura</a>
-      <a href="index.html" aria-current="page">Relatório demo</a>
-      <a href="../index.html#que">O que vai verificar</a>
-      <a href="../index.html#estado">Status</a>
+      <a href="../status/index.html">Status</a>
       <span class="lang" role="group" aria-label="Idioma"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/demo/index.html" hreflang="pt-BR" lang="pt-BR" title="Português" aria-current="true">PT</a></span>
     </nav>
   </header>
@@ -68,7 +68,7 @@
     <section aria-label="Indicadores">
       <div class="kpis">
         <div class="kpi">
-          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Achados</a></span>
+          <span class="k"><a class="gl" href="../help/index.html#g-hallazgo">Achados</a></span>
           <span class="v">5</span>
           <span class="s">4 críticos · 1 médio</span>
         </div>
@@ -80,7 +80,7 @@
         <div class="kpi">
           <span class="k">Custo</span>
           <span class="v">USD 44.233</span>
-          <span class="s">por mês, a USD 45 por <a class="gl" href="../index.html#g-hora-cargada">hora carregada</a></span>
+          <span class="s">por mês, a USD 45 por <a class="gl" href="../help/index.html#g-hora-cargada">hora carregada</a></span>
         </div>
         <div class="kpi">
           <span class="k">Pedidos travados</span>
@@ -88,12 +88,12 @@
           <span class="s">1% do mês, sem evento posterior</span>
         </div>
       </div>
-      <p class="note">A <a class="gl" href="../index.html#g-ingreso-riesgo">receita em risco</a> dos pedidos travados soma USD 3.250 por mês (50 × ARPU 65). O custo de R03 já a inclui.</p>
+      <p class="note">A <a class="gl" href="../help/index.html#g-ingreso-riesgo">receita em risco</a> dos pedidos travados soma USD 3.250 por mês (50 × ARPU 65). O custo de R03 já a inclui.</p>
     </section>
 
     <section>
       <h2>Resumo executivo</h2>
-      <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um <a class="gl" href="../index.html#g-hueco">vazio</a> entre sistemas que nenhum processo reivindica.</p>
+      <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um <a class="gl" href="../help/index.html#g-hueco">vazio</a> entre sistemas que nenhum processo reivindica.</p>
       <div class="callout">
         <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 15.626/mês). Tentar de novo a ativação antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>96%</strong> do custo.
       </div>
@@ -247,7 +247,7 @@
           <text class="elabel" x="20" y="310">Sem identificador comum, unir os quatro registros exige uma janela de tempo (R05).</text>
         </svg>
       </div>
-      <p class="note">Uma <a class="gl" href="../index.html#g-reintento">nova tentativa</a> manual tira o pedido da fila. O timer não tira. Os 50 pedidos travados continuam em <code>PROVISIONING</code> no fim do mês.</p>
+      <p class="note">Uma <a class="gl" href="../help/index.html#g-reintento">nova tentativa</a> manual tira o pedido da fila. O timer não tira. Os 50 pedidos travados continuam em <code>PROVISIONING</code> no fim do mês.</p>
     </section>
 
     <section>
@@ -409,7 +409,7 @@
         <div class="callout"><strong>O que o motor produz hoje</strong><br>Só R04: 30 h e USD 1.590, uma única vez. Ainda não gera o relatório nem as outras quatro regras.</div>
       </div>
       <p class="note">Cada cartão fica esmaecido ou não conforme a versão escolhida no seletor da página; a fórmula usa as chaves de <code>config.json</code>.</p>
-      <p class="note">A <a class="gl" href="../index.html#g-evidencia">evidência</a> de cada achado está em <a href="../../data/report.json">data/report.json</a>, no esquema <code>findings/1</code> (em inglês).</p>
+      <p class="note">A <a class="gl" href="../help/index.html#g-evidencia">evidência</a> de cada achado está em <a href="../../data/report.json">data/report.json</a>, no esquema <code>findings/1</code> (em inglês).</p>
       
     </section>
   </main>
@@ -417,10 +417,10 @@
   <footer>
     <span>Flow Audit · 2026</span>
     <a href="../index.html">Início</a>
-    <a href="index.html">Relatório demo</a>
+    <a href="../systems/index.html">Sistemas</a>
+    <a href="../demo/index.html">Relatório demo</a>
+    <a href="../help/index.html">Ajuda</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="../index.html#que">O que vai verificar</a>
-    <a href="../../data/report.json">report.json</a>
     <span>Em construção · versão 0.3.5</span>
     <span>TM Forum e TMF são marcas do TM Forum.</span>
   </footer>

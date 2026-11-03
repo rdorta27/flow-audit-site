@@ -27,13 +27,14 @@
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../report.css">
 <link rel="stylesheet" href="../journey.css">
+<script src="../legacy.js"></script>
 <script src="../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/">
 <link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/">
 <link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/">
 <link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/">
 </head>
-<body>
+<body class="landing">
 <a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
   <header class="top">
@@ -47,10 +48,10 @@
     </a>
     <nav aria-label="Main">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="architecture/index.html">Architecture</a>
+      <a href="systems/index.html">Systems</a>
       <a href="demo/index.html">Demo report</a>
-      <a href="index.html#que">What it will check</a>
-      <a href="index.html#estado">Status</a>
+      <a href="architecture/index.html">Architecture</a>
+      <a href="status/index.html">Status</a>
       <span class="lang" role="group" aria-label="Language"><a href="../es/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../en/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../pt/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
   </header>
@@ -59,9 +60,8 @@
     <section>
       <span class="badge">Under construction · version 0.3.5</span> <span data-status="report-cover">Arrives in 0.4.0</span>
       <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
-      <p class="howto">What you can do here: follow an order from start to finish, see where it broke and what it cost, and open a sample report.</p>
+      <p class="howto hero-howto">What you can do here: follow an order from start to finish, see where it broke and what it cost, and open a sample report.</p>
       <p class="lead">Flow Audit is a tool that checks how an order moves from the moment a customer buys to the moment the service works. It will show where each order stops and what each failure costs.</p>
-      <p class="note">It is for telecom operators and for the people who audit their sales and activation systems.</p>
       <p class="note"><strong>Open-source technical demo (MIT), under construction. There is no commercial offer.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Read the license</a>.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">See the example report</a>
@@ -69,17 +69,8 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>It already detects one problem, on test data.</strong> It reads orders, <a class="gl" href="#g-orden-servicio">service orders</a> and activations, joins them and finds the 20 duplicate orders (R04) with their cost. It does not produce the report or read client data yet.</span>
+        <span><strong>It already detects one problem, on test data.</strong> It reads orders, <a class="gl" href="help/index.html#g-orden-servicio">service orders</a> and activations, joins them and finds the 20 duplicate orders (R04) with their cost. It does not produce the report or read client data yet.</span>
       </div>
-    </section>
-
-    <section id="guia" aria-label="What you can do on this site">
-      <nav class="guide" aria-label="What you can do on this site">
-        <a href="#historia"><b>Understand how an order travels</b><span>Watch the order jump from system to system, step by step.</span></a>
-        <a href="#que"><b>See the systems and what to export</b><span>See the five systems an order passes through and what data to ask the client for from each.</span></a>
-        <a href="demo/index.html"><b>See a finished audit</b><span>Read the problems found, with their cost and the calculation that explains it.</span></a>
-      </nav>
-      <div class="release-bar"><span class="lbl">Show the site at</span><div data-status-switch></div></div>
     </section>
 
     <section id="historia" aria-labelledby="h-historia">
@@ -100,9 +91,9 @@
           <li><strong>0 h · Sales channel.</strong> Ana orders “SkyHome 200”, satellite internet, on the operator's website. <span data-status="step-1-order"></span></li>
           <li><strong>+1 min · Product catalog.</strong> The catalog confirms the offer exists. But its technical sheet lacks one piece of data: the satellite's capacity profile. <span data-status="step-2-catalog"></span></li>
           <li><strong>+3 min · Process orchestrator.</strong> Because the data is missing, the orchestrator opens a task for a person. An analyst checks the capacity by hand: 2 hours. Problem: A field is missing in the catalog and someone fills it in by hand <span class="tag">R02</span>. <span data-status="step-3-manual-task"></span></li>
-          <li><strong>+2 h · Order manager.</strong> The order manager splits the order into technical work: a service order to activate the line and a <a class="gl" href="#g-orden-trabajo">work order</a> to install the dish. <em>The service order is born here.</em> <span data-status="step-4-service-order"></span></li>
+          <li><strong>+2 h · Order manager.</strong> The order manager splits the order into technical work: a service order to activate the line and a <a class="gl" href="help/index.html#g-orden-trabajo">work order</a> to install the dish. <em>The service order is born here.</em> <span data-status="step-4-service-order"></span></li>
           <li><strong>+3 h · Process orchestrator.</strong> A technician installs the dish at Ana's home. The installation ends well. <span data-status="step-5-installation"></span></li>
-          <li><strong>+9 h · Activation system.</strong> The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt. Problem: Activation fails and nobody <a class="gl" href="#g-reintento">retries</a> it <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
+          <li><strong>+9 h · Activation system.</strong> The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt. Problem: Activation fails and nobody <a class="gl" href="help/index.html#g-reintento">retries</a> it <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
           <li><strong>+69 h · Order manager.</strong> 60 hours later, Ana calls. Someone retries by hand, but the order manager creates a new service order for the same line instead of repeating the first one. <em>A second service order is born.</em> Problem: A retry creates a second service order <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
           <li><strong>+69 h · Activation system.</strong> The second attempt works. Ana has internet 69 hours after ordering it. <span data-status="step-8-closure"></span></li>
         </ol>
@@ -113,6 +104,7 @@
     <section id="diferencia" aria-labelledby="h-dif">
       <span class="eyebrow">The difference</span>
       <h2 id="h-dif">The same order, told two ways</h2>
+      <p class="note" id="problema">An order passes through five systems. Each system sees only its part.</p>
       <div class="diff">
         <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The cost is an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
         <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each cost shows its calculation and the example rates it uses, which can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
@@ -142,7 +134,7 @@
           <tbody>
             <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>5 min per order + 15 min per waiting day, USD 45/h</td><td>≈ USD 12,750</td><td class="fstatus"><span data-status="finding-r01">Arrives in 0.5.0</span></td></tr>
             <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on 8 orders out of 10.</td><td>5 min per order, USD 45/h</td><td>≈ USD 15,626</td><td class="fstatus"><span data-status="finding-r02">Arrives in 0.5.0</span></td></tr>
-            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>5 min + 15 min per day, USD 45/h; ARPU USD 65</td><td>≈ USD 14,267, plus USD 3,250 of <a class="gl" href="#g-ingreso-riesgo">revenue at risk</a></td><td class="fstatus"><span data-status="finding-r03">Arrives in 0.5.0</span></td></tr>
+            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>5 min + 15 min per day, USD 45/h; ARPU USD 65</td><td>≈ USD 14,267, plus USD 3,250 of <a class="gl" href="help/index.html#g-ingreso-riesgo">revenue at risk</a></td><td class="fstatus"><span data-status="finding-r03">Arrives in 0.5.0</span></td></tr>
             <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>45 min per incident, USD 45/h</td><td>≈ USD 10,125</td><td class="fstatus"><span data-status="finding-r05">Arrives in 0.5.0</span></td></tr>
           </tbody>
         </table>
@@ -150,196 +142,35 @@
       <div class="callout"><strong>In total:</strong> about USD 44,233 a month in operating cost (R01 to R04), plus USD 3,250 of revenue at risk. R05 (USD 10,125) is shown apart, as a traceability risk. Of that total, only R04 is measured today; the rest is projection. All the rates are in <code>config.json</code> and are examples.</div>
     </section>
 
-    <section id="problema">
-      <h2>What problem does it solve?</h2>
-      <p class="note">An order passes through five systems. Each system sees only its own part.</p>
-      <div class="grid">
-        <div class="card"><h3>Nobody sees the whole path</h3><p>The sales system says the order is fine. The activation system says it never arrived. Nobody knows where it got lost.</p></div>
-        <div class="card"><h3>Failures cost money</h3><p>A duplicate order gets billed twice. An activation without an order wastes resources. A waiting order delays billing.</p></div>
-        <div class="card"><h3>Flow Audit joins the pieces</h3><p>It will read the five systems, join the data for each order and show where the path breaks.</p></div>
-      </div>
-    </section>
-
-    <section id="que" class="sysview" aria-labelledby="h-que">
-      <span class="eyebrow">2 · The systems</span>
-      <h2 id="h-que">Five systems, four joins: this is where orders break</h2>
-      <p class="note">Each system sees only its own part. The problems live in the joins, where nobody owns the handover.</p>
-      <p class="howto">What you can do: pick a system in the chain to see what it does, what it records and what to ask the client to export. Below, the table is the list of what to ask for.</p>
-      <div class="chain" id="chain" role="group" aria-label="Chain of the five systems and the joins between them" tabindex="-1">
-        <button type="button" class="sys" data-sys="sale" aria-controls="sd-sale" aria-pressed="false"><small aria-hidden="true">&nbsp;</small><b>Sales channel</b><span class="hint">store or web</span><span data-status="system-sale"></span></button>
-        <div class="seam" style="--a:var(--s-sale);--b:var(--s-cat)"><span>the order names its offer</span><div class="arrow" aria-hidden="true"></div><div class="tags"></div></div>
-        <button type="button" class="sys" data-sys="cat" aria-controls="sd-cat" aria-pressed="false"><small>CAT</small><b>Product catalog</b><span class="hint">what is sold</span><span data-status="system-catalog"></span></button>
-        <div class="seam" style="--a:var(--s-cat);--b:var(--s-oms)"><span>the offer points to its technical sheet</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span></div></div>
-        <button type="button" class="sys" data-sys="oms" aria-controls="sd-oms" aria-pressed="true"><small>OMS</small><b>Order manager</b><span class="hint">splits the work</span><span data-status="system-oms"></span></button>
-        <div class="seam" style="--a:var(--s-oms);--b:var(--s-bpm)"><span>the process carries the order number</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span><span class="rtag">R03</span></div></div>
-        <button type="button" class="sys" data-sys="bpm" aria-controls="sd-bpm" aria-pressed="false"><small>BPM</small><b>Process orchestrator</b><span class="hint">coordinates the tasks</span><span data-status="system-bpm"></span></button>
-        <div class="seam" style="--a:var(--s-bpm);--b:var(--s-prov)"><span>each attempt with its service order · <span data-fig="R05">300</span> without a link</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R01</span><span class="rtag">R04</span><span class="rtag">R05</span></div></div>
-        <button type="button" class="sys" data-sys="prov" aria-controls="sd-prov" aria-pressed="false"><small>PROV</small><b>Activation system</b><span class="hint">turns the service on</span><span data-status="system-prov"></span></button>
-      </div>
-      <article class="sysdetail" id="sd-sale" data-sys="sale" aria-label="Selected system: Sales channel">
-        <h3><span class="dot" aria-hidden="true"></span>Sales channel <span data-status="system-sale"></span></h3>
-        <p class="unread">Not read in this version yet.</p>
-        <div class="kv"><span>What it does</span><p>Where the customer places the order: store, web or call center.</p></div>
-        <div class="kv"><span>What question it answers</span><p>What was ordered and when?</p></div>
-        <div class="kv"><span>What it records</span><p>Not read separately: it arrives inside the order.</p></div>
-        <div class="kv"><span>What to ask the client for</span><p>Nothing separate.</p></div>
-        <div class="kv"><span>Where Flow Audit reads it from</span><p>Inside the order</p></div>
-      </article>
-      <article class="sysdetail" id="sd-cat" data-sys="cat" aria-label="Selected system: Product catalog">
-        <h3><span class="dot" aria-hidden="true"></span>Product catalog <span class="tag">CAT</span> <span data-status="system-catalog"></span></h3>
-        <p class="unread">Not read in this version yet.</p>
-        <div class="kv"><span>What it does</span><p>The list of what is sold and, for each offer, the technical sheet with the data needed to activate it.</p></div>
-        <div class="kv"><span>What question it answers</span><p>Does every offer have all its technical data?</p></div>
-        <div class="kv"><span>What it records</span><p>Offers, versions and technical sheets with their attributes.</p></div>
-        <div class="kv"><span>What to ask the client for</span><p>Catalog export (JSON).</p></div>
-        <div class="kv"><span>Where Flow Audit reads it from</span><p>Client file</p></div>
-      </article>
-      <article class="sysdetail" id="sd-oms" data-sys="oms" aria-label="Selected system: Order manager">
-        <h3><span class="dot" aria-hidden="true"></span>Order manager <span class="tag">OMS</span> <span data-status="system-oms"></span></h3>
-        <p class="unread">Not read in this version yet.</p>
-        <div class="kv"><span>What it does</span><p>Receives the order and splits it into service orders and work orders.</p></div>
-        <div class="kv"><span>What question it answers</span><p>How is each order split, retried and closed?</p></div>
-        <div class="kv"><span>What it records</span><p>Orders, lines and service orders, each one pointing to its line.</p></div>
-        <div class="kv"><span>What to ask the client for</span><p>Orders and service orders (CSV) or TMF622/641 API.</p></div>
-        <div class="kv"><span>Where Flow Audit reads it from</span><p>Test server today; client file in the "Client-ready" stage</p></div>
-      </article>
-      <article class="sysdetail" id="sd-bpm" data-sys="bpm" aria-label="Selected system: Process orchestrator">
-        <h3><span class="dot" aria-hidden="true"></span>Process orchestrator <span class="tag">BPM</span> <span data-status="system-bpm"></span></h3>
-        <p class="unread">Not read in this version yet.</p>
-        <div class="kv"><span>What it does</span><p>Coordinates the tasks in order and assigns some to people.</p></div>
-        <div class="kv"><span>What question it answers</span><p>Where does the process wait and what is done by hand?</p></div>
-        <div class="kv"><span>What it records</span><p>Processes, tasks, who did them and when; timers.</p></div>
-        <div class="kv"><span>What to ask the client for</span><p>Process history (JSONL).</p></div>
-        <div class="kv"><span>Where Flow Audit reads it from</span><p>Client file</p></div>
-      </article>
-      <article class="sysdetail" id="sd-prov" data-sys="prov" aria-label="Selected system: Activation system">
-        <h3><span class="dot" aria-hidden="true"></span>Activation system <span class="tag">PROV</span> <span data-status="system-prov"></span></h3>
-        <p class="unread">Not read in this version yet.</p>
-        <div class="kv"><span>What it does</span><p>Turns the service on in the network. It can fail and retry.</p></div>
-        <div class="kv"><span>What question it answers</span><p>How many attempts, which fail and how long do they take?</p></div>
-        <div class="kv"><span>What it records</span><p>Each attempt with its service order, result and error.</p></div>
-        <div class="kv"><span>What to ask the client for</span><p>Activation attempts (JSONL) or TMF640 API.</p></div>
-        <div class="kv"><span>Where Flow Audit reads it from</span><p>Test server today; client file in the "Client-ready" stage</p></div>
-      </article>
-      <h3 class="mh">Problems by system: the list of what to ask the client for</h3>
-      <div class="table-wrap">
-        <table class="matrix">
-          <caption>Which systems each problem touches. Each dot is a system whose data you need to ask for.</caption>
-          <thead><tr><th scope="col">Problem</th><th scope="col" data-sys="cat">Product catalog</th><th scope="col" data-sys="oms">Order manager</th><th scope="col" data-sys="bpm">Process orchestrator</th><th scope="col" data-sys="prov">Activation system</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Activation fails and nobody retries it <span class="rtag">R01</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
-            <tr><th scope="row">A catalog field is missing and someone fills it in by hand <span class="rtag">R02</span></th><td class="c" data-sys="cat"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="prov"></td></tr>
-            <tr><th scope="row">A timer expires and nobody acts <span class="rtag">R03</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="prov"></td></tr>
-            <tr><th scope="row">A retry creates a second service order <span class="rtag">R04</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
-            <tr><th scope="row">The systems do not share an order number <span class="rtag">R05</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section id="requisitos">
-      <h2>What it would take to audit a real operator</h2>
-      <p class="note">These are design requirements, not an offer. Today the engine reads only the invented test data.</p>
-      <div class="table-wrap">
-        <table class="ftable">
-          <caption>What it would take to audit a real operator</caption>
-          <thead><tr><th scope="col">System</th><th scope="col">What to export</th><th scope="col">Fields that are read</th><th scope="col">Format</th><th scope="col">Period</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Product catalog</th><td>The technical spec of each offer</td><td class="mono">spec_id, name, service_type and, per attribute: name, type, required, used_by</td><td>JSON</td><td>Current state</td></tr>
-            <tr><th scope="row">Order manager</th><td>Orders with their service and work orders</td><td class="mono">order_ref, submitted_at, order_state, offer_id, offer_version, so_ref, spec_id, so_state, so_created_at, terminal_serial, wo_ref, wo_kind, wo_state, wo_created_at, replaces_order_ref</td><td>CSV</td><td>One month of orders</td></tr>
-            <tr><th scope="row">Process orchestrator</th><td>Process and task history (not only the current state)</td><td class="mono">process_id, so_ref, business_key, state, started_at, ended_at and, per task: sequence, kind, name, actor, started_at, ended_at, timer_expired</td><td>JSONL</td><td>The month, plus what follows for open orders</td></tr>
-            <tr><th scope="row">Activation system</th><td>Every activation attempt</td><td class="mono">attempt_id, so_ref, serial, state, error_code, started_at, ended_at</td><td>JSONL</td><td>The same period</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="grid" style="margin-top:16px">
-        <div class="card"><h3>Rates</h3><p>Whoever audits supplies their own rates in <code>config.json</code> (loaded hour, minutes per task, ARPU). Without them, the costs are the example ones.</p></div>
-        <div class="card"><h3>Where it runs</h3><p>On the auditor's computer, from the command line. Nothing leaves that machine: data goes in and a folder with the report comes out.</p></div>
-        <div class="card"><h3>Retention</h3><p>The design keeps no copies: the engine holds no data between runs and writes only the output folder. Whoever audits decides how long to keep the exports and that folder.</p></div>
-      </div>
-    </section>
-
-    <section>
-      <h2>What will it produce?</h2>
-      <div class="grid">
-        <div class="card"><h3>A report in one file</h3><p>A page that opens in any browser, offline. It has a summary, the order path and the problems found.</p></div>
-        <div class="card"><h3>Proof for each problem</h3><p>Each problem names the order, the data that proves it and how its cost was calculated.</p></div>
-        <div class="card"><h3>Repeatable results</h3><p>With the same data, the audit always gives the same result.</p></div>
-      </div>
-    </section>
-
-    <section id="estado">
-      <h2>What is being built?</h2>
-      <p class="note">Two stages. The second does not start until the first works.</p>
-      <div class="grid">
-        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the <a class="gl" href="#g-servidor-prueba">test server</a>, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up (90 minutes per duplicate, an example rate) plus USD 240 of duplicate activations, which the engine does measure because activations are linked to their service order.</p></div>
-        <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is the requirement for auditing real data.</p></div>
-        <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
-      </div>
-      <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Done · version 0.3.5</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Three readers (orders, service orders and activations): they already read all 5,000 orders, 5,020 service orders and 5,400 activation attempts, every record carries its origin and they are joined, saying how sure each link is; rule R04 already finds the 20 duplicate orders and values them at USD 1,590.</p></div>
-        <div class="card"><span class="k">Now</span><p>Fix the format of the <a class="gl" href="#g-hallazgo">findings</a> (findings.json) so the report can read it.</p></div>
-        <div class="card"><span class="k">Next</span><p>Show each problem's cost with its formula and produce the real report.</p></div>
-      </div>
-      <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It only detects R04. It does not generate reports yet. The example figures come from made-up data.</div>
-    </section>
-
-    <section id="faq">
-      <h2>Questions</h2>
-      <div class="grid">
-        <div class="card"><h3>Can I use it now?</h3><p>No. It is under construction. The analysis will come in the next versions.</p></div>
-        <div class="card"><h3>Where will it run?</h3><p>On the auditor's computer, from the command line. It will not need a server or a database.</p></div>
-        <div class="card"><h3>Will customer data leave?</h3><p>No. Data goes in, a folder with the report comes out. Nothing is sent to outside services.</p></div>
-        <div class="card"><h3>Will it change the systems?</h3><p>No. It only reads. It never creates, changes or deletes orders.</p></div>
-        <div class="card"><h3>What license does it have?</h3><p>Open source, MIT license. It is a technical demo under construction. There is no commercial offer.</p></div>
-      </div>
-    </section>
-
-    <section id="glosario">
-      <h2>Glossary</h2>
-      <p class="note">The words this page uses, in order of appearance.</p>
-      <dl class="gloss">
-        <div><dt>Order</dt><dd>What a customer buys, for example “SkyHome 200”. The sales channel receives it.</dd></div>
-        <div><dt id="g-linea">Order line</dt><dd>Each product inside an order. An order can have several lines.</dd></div>
-        <div><dt id="g-orden-servicio">Service order</dt><dd>The technical instruction the order manager creates to activate a line. There should be one per line.</dd></div>
-        <div><dt id="g-orden-trabajo">Work order</dt><dd>The task for a person or crew, for example installing the dish.</dd></div>
-        <div><dt id="g-intento">Activation attempt</dt><dd>Each time the activation system tries to switch the service on. It can work or fail.</dd></div>
-        <div><dt id="g-reintento">Retry</dt><dd>Trying again an activation that failed. It should reuse the original service order, not create another.</dd></div>
-        <div><dt id="g-enlace">Link (explicit, inferred, missing)</dt><dd>How a record is joined to its order. Explicit: it carries the number. Inferred: deduced from other data, with less certainty. Missing: it could not be joined and stays in view.</dd></div>
-        <div><dt id="g-evidencia">Evidence</dt><dd>The specific records that prove a problem.</dd></div>
-        <div><dt id="g-historial">Snapshot vs history</dt><dd>A snapshot is the current state of a record; history is everything that changed and when. Measuring waits needs the history.</dd></div>
-        <div><dt id="g-hueco">Gap</dt><dd>Time in which an order has no event at all: nobody does anything.</dd></div>
-        <div><dt id="g-hallazgo">Finding</dt><dd>A problem the audit found, with its evidence and its cost.</dd></div>
-        <div><dt id="g-hora-cargada">Loaded hour</dt><dd>One hour of work at its rate (for example USD 45), used to price manual work.</dd></div>
-        <div><dt id="g-ingreso-riesgo">Revenue at risk</dt><dd>Money not yet collected or that could be lost because the service is not activated.</dd></div>
-        <div><dt id="g-bss-oss">BSS and OSS</dt><dd>An operator&#x27;s systems. BSS handles sales and billing. OSS handles the network and activation.</dd></div>
-        <div><dt id="g-tmf">TM Forum (TMF)</dt><dd>An industry association that publishes common formats so these systems can exchange data.</dd></div>
-        <div><dt id="g-servidor-prueba">Test server</dt><dd>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</dd></div>
-      </dl>
-    </section>
-
-    <section id="seguir">
-      <h2>Follow the project</h2>
-      <p class="lead">The code and the progress are on GitHub. Open an issue to comment on the design.</p>
-      <div class="row">
+    <section id="guia" aria-labelledby="h-guia">
+      <h2 id="h-guia">Keep exploring</h2>
+      <nav class="guide five" aria-label="Keep exploring">
+        <a href="systems/index.html"><b>Systems</b><span>The five systems an order passes through, what data to ask for from each, and what the audit will deliver.</span></a>
+        <a href="demo/index.html"><b>Demo report</b><span>Read the problems found, with their cost and the calculation that explains it.</span></a>
+        <a href="architecture/index.html"><b>Architecture</b><span>How it will work inside: the pipeline, the components and the cost formula.</span></a>
+        <a href="status/index.html"><b>Status</b><span>What is being built, and what is real, simulated or missing.</span></a>
+        <a href="help/index.html"><b>Help</b><span>Frequently asked questions and glossary.</span></a>
+      </nav>
+      <div class="row go">
         <a class="btn" href="https://github.com/rdorta27/flow-audit-site">See on GitHub</a>
         <a class="btn alt" href="https://github.com/rdorta27/flow-audit-site/issues/new">Comment on the design</a>
       </div>
+      <div class="release-bar"><span class="lbl">Show the site at</span><div data-status-switch></div></div>
     </section>
   </main>
 
   <footer>
     <span>Flow Audit · 2026</span>
     <a href="index.html">Home</a>
+    <a href="systems/index.html">Systems</a>
     <a href="demo/index.html">Demo report</a>
+    <a href="help/index.html">Help</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="index.html#que">What it will check</a>
     <span>Ortelis Satellite is a fictional operator. No data is real.</span>
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>
 </div>
 <script src="../journey.js" defer></script>
-<script src="../systems.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estado · Flow Audit</title>
+<meta name="description" content="Qué funciona hoy, qué es simulado y qué falta en Flow Audit.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flow Audit">
+<meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/es/status/">
+<meta property="og:title" content="Estado · Flow Audit">
+<meta property="og:description" content="Qué funciona hoy, qué es simulado y qué falta en Flow Audit.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Flow Audit: auditoría del flujo pedido-activación en catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación. En construcción.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Estado · Flow Audit">
+<meta name="twitter:description" content="Qué funciona hoy, qué es simulado y qué falta en Flow Audit.">
+<meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/es/status/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
+<link rel="stylesheet" href="../../report.css">
+<script src="../../lang.js"></script>
+<link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/status/">
+<link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/status/">
+<link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/status/">
+<link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/status/">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow Audit, inicio">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow audit
+    </a>
+    <nav aria-label="Principal">
+      <a href="../index.html">Inicio</a>
+      <a href="../systems/index.html">Sistemas</a>
+      <a href="../demo/index.html">Informe demo</a>
+      <a href="../architecture/index.html">Arquitectura</a>
+      <a href="../status/index.html" aria-current="page">Estado</a>
+      <span class="lang" role="group" aria-label="Idioma"><a href="../../es/status/index.html" hreflang="es" lang="es" title="Español" aria-current="true">ES</a><a href="../../en/status/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/status/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <h1>Estado del proyecto</h1>
+      <p class="lead">Qué se está construyendo, y qué es real, simulado o falta hoy.</p>
+    </section>
+
+    <section id="estado">
+      <h2>¿Qué se está construyendo?</h2>
+      <p class="note">Dos etapas. La segunda no empieza hasta que la primera funciona.</p>
+      <div class="grid">
+        <div class="card"><span class="k">Etapa 1 · Primer informe real</span><p>Leer pedidos, <a class="gl" href="../help/index.html#g-orden-servicio">órdenes de servicio</a> y activaciones del servidor de prueba, detectar el problema R04 (pedidos duplicados) y generar un informe con su costo y la fórmula. El costo de R04 es USD 1.590: USD 1.350 de limpieza manual (90 minutos por duplicado, tarifa de ejemplo) más USD 240 de activaciones duplicadas, que el motor sí mide porque las activaciones se enlazan con su orden.</p></div>
+        <div class="card"><span class="k">Etapa 2 · Listo para un cliente</span><p>Leer los archivos que exporta un cliente real (CSV o JSON), con una configuración que traduce sus columnas, y detectar también R01, R02 y R05. Es el requisito para auditar datos reales.</p></div>
+        <div class="card"><span class="k">Más adelante</span><p>R03 y el sistema de orquestación, informe en PDF, una interfaz web y los idiomas del motor.</p></div>
+      </div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><span class="k">Hecho · versión 0.3.5</span><p>Un operador inventado con 5.000 pedidos de prueba. Un servidor que los entrega como lo haría un sistema real. Un informe de ejemplo. Tres lectores (pedidos, órdenes de servicio y activaciones): ya leen los 5.000 pedidos, las 5.020 órdenes y los 5.400 intentos de activación, cada dato lleva su origen y se unen entre sí diciendo qué tan seguro es cada <a class="gl" href="../help/index.html#g-enlace">enlace</a>; la regla R04 ya encuentra los 20 pedidos duplicados y los valora en USD 1.590.</p></div>
+        <div class="card"><span class="k">Ahora</span><p>Fijar el formato de los <a class="gl" href="../help/index.html#g-hallazgo">hallazgos</a> (findings.json) para que el informe lo lea.</p></div>
+        <div class="card"><span class="k">Siguiente</span><p>Mostrar el costo de cada problema con su fórmula y generar el informe real.</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>Lo que todavía no hace.</strong> No lee datos de clientes. Solo detecta R04. No genera informes todavía. Las cifras del ejemplo salen de datos inventados.</div>
+    </section>
+
+    <section id="real">
+      <h2>Real, simulado y falta</h2>
+      <p class="note">Qué parte funciona de verdad y qué se imita con datos de prueba.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>Real, simulado y falta</caption>
+          <thead><tr><th scope="col">Parte</th><th scope="col">Estado</th><th scope="col">Qué significa</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Motor: leer, unir, R04, la historia, el total neto, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Funciona hoy: <code>deno task audit --source stub --out out</code></td></tr>
+            <tr><th scope="row">Fuente de evidencia</th><td>Simulado</td><td>Un servidor con forma TMF sobre datos sintéticos (<code>deno task stub</code>); cada respuesta se marca como simulada</td></tr>
+            <tr><th scope="row">Datos</th><td>Simulado</td><td>5.000 pedidos inventados de un operador ficticio, con defectos puestos a propósito (<code>data/demo/</code>)</td></tr>
+            <tr><th scope="row">Tarifas (minutos, USD 45/h, ARPU)</th><td>Ejemplo</td><td>Salen de <code>data/demo/config.json</code>; no están medidas en ningún operador</td></tr>
+            <tr><th scope="row">R01, R02, R03, R05</th><td>Falta</td><td>Especificadas en <code>docs/architecture/rules.md</code>; llegan en 0.5.0 (listo para un cliente)</td></tr>
+            <tr><th scope="row">Leer los archivos de exportación de un cliente</th><td>Falta</td><td>Llega en 0.5.0</td></tr>
+            <tr><th scope="row">Catálogo y pasos del proceso de la historia</th><td>Falta</td><td>La fuente simulada no los trae; se muestran como «no observado»</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">Lo que el motor encuentra hoy: R04, 20 pedidos duplicados (21 órdenes de servicio de más), 30 h y USD 1.590 al mes. Las cifras de los cinco problemas del sitio son el diseño objetivo, calculado desde las reglas, no salida del motor.</div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow Audit · 2026</span>
+    <a href="../index.html">Inicio</a>
+    <a href="../systems/index.html">Sistemas</a>
+    <a href="../demo/index.html">Informe demo</a>
+    <a href="../help/index.html">Ayuda</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <span>En construcción · versión 0.3.5</span>
+  </footer>
+</div>
+<script src="../../status.js" defer></script>
+</body>
+</html>

@@ -47,10 +47,10 @@
     </a>
     <nav aria-label="Principal">
       <a href="../index.html">Inicio</a>
+      <a href="../systems/index.html">Sistemas</a>
+      <a href="../demo/index.html" aria-current="page">Informe demo</a>
       <a href="../architecture/index.html">Arquitectura</a>
-      <a href="index.html" aria-current="page">Informe demo</a>
-      <a href="../index.html#que">Qué revisará</a>
-      <a href="../index.html#estado">Estado</a>
+      <a href="../status/index.html">Estado</a>
       <span class="lang" role="group" aria-label="Idioma"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español" aria-current="true">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/demo/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
   </header>
@@ -68,7 +68,7 @@
     <section aria-label="Indicadores">
       <div class="kpis">
         <div class="kpi">
-          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Hallazgos</a></span>
+          <span class="k"><a class="gl" href="../help/index.html#g-hallazgo">Hallazgos</a></span>
           <span class="v">5</span>
           <span class="s">4 críticos · 1 medio</span>
         </div>
@@ -80,7 +80,7 @@
         <div class="kpi">
           <span class="k">Costo</span>
           <span class="v">USD 44.233</span>
-          <span class="s">por mes, a USD 45 la <a class="gl" href="../index.html#g-hora-cargada">hora cargada</a></span>
+          <span class="s">por mes, a USD 45 la <a class="gl" href="../help/index.html#g-hora-cargada">hora cargada</a></span>
         </div>
         <div class="kpi">
           <span class="k">Pedidos atascados</span>
@@ -88,12 +88,12 @@
           <span class="s">1% del mes, sin evento posterior</span>
         </div>
       </div>
-      <p class="note">El <a class="gl" href="../index.html#g-ingreso-riesgo">ingreso en riesgo</a> por los pedidos atascados suma USD 3.250 al mes (50 × ARPU 65). El costo de R03 ya lo incluye.</p>
+      <p class="note">El <a class="gl" href="../help/index.html#g-ingreso-riesgo">ingreso en riesgo</a> por los pedidos atascados suma USD 3.250 al mes (50 × ARPU 65). El costo de R03 ya lo incluye.</p>
     </section>
 
     <section>
       <h2>Resumen ejecutivo</h2>
-      <p class="lead">Un pedido tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
+      <p class="lead">Un pedido tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../help/index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
       <div class="callout">
         <strong>Prioridad:</strong> agregar <code>capacity_profile</code> al catálogo técnico (USD 15.626/mes). Reintentar la activación antes de la cola manual (USD 12.750/mes). Compensar el timer de 48 horas (USD 14.267/mes). Las tres acciones cubren el <strong>96 %</strong> del costo.
       </div>
@@ -247,7 +247,7 @@
           <text class="elabel" x="20" y="310">Sin identificador común, unir los cuatro registros exige una ventana de tiempo (R05).</text>
         </svg>
       </div>
-      <p class="note">Un <a class="gl" href="../index.html#g-reintento">reintento</a> manual saca al pedido de la cola. El timer no lo saca. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
+      <p class="note">Un <a class="gl" href="../help/index.html#g-reintento">reintento</a> manual saca al pedido de la cola. El timer no lo saca. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
     </section>
 
     <section>
@@ -409,7 +409,7 @@
         <div class="callout"><strong>Lo que el motor produce hoy</strong><br>Solo R04: 30 h y USD 1.590, una sola vez. No genera todavía el informe ni las otras cuatro reglas.</div>
       </div>
       <p class="note">Cada tarjeta se atenúa o no según la versión elegida en el selector de la página; la fórmula usa las claves de <code>config.json</code>.</p>
-      <p class="note">La <a class="gl" href="../index.html#g-evidencia">evidencia</a> de cada hallazgo está en <a href="../../data/report.json">data/report.json</a>, con el esquema <code>findings/1</code> (en inglés).</p>
+      <p class="note">La <a class="gl" href="../help/index.html#g-evidencia">evidencia</a> de cada hallazgo está en <a href="../../data/report.json">data/report.json</a>, con el esquema <code>findings/1</code> (en inglés).</p>
       
     </section>
   </main>
@@ -417,10 +417,10 @@
   <footer>
     <span>Flow Audit · 2026</span>
     <a href="../index.html">Inicio</a>
-    <a href="index.html">Informe demo</a>
+    <a href="../systems/index.html">Sistemas</a>
+    <a href="../demo/index.html">Informe demo</a>
+    <a href="../help/index.html">Ayuda</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="../index.html#que">Qué revisará</a>
-    <a href="../../data/report.json">report.json</a>
     <span>En construcción · versión 0.3.5</span>
     <span>TM Forum y TMF son marcas de TM Forum.</span>
   </footer>

@@ -29,7 +29,7 @@
 #j-flow .token { stroke: var(--bg); stroke-width: 3; }
 
 .j-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: var(--card); padding-block: 6px; border-bottom: 1px solid var(--line); }
-@media (min-width: 900px) { .j-controls { position: sticky; top: 0; z-index: 4; } }
+@media (min-width: 900px) { .j-controls { position: sticky; top: calc(var(--hdr-h) - 1px); z-index: 4; } }
 .j-btn { font: inherit; font-size: var(--fs-m); color: var(--ink); background: var(--tint); border: 1px solid var(--line); border-radius: var(--r-ctl); padding: 7px 14px; cursor: pointer; min-width: 44px; }
 .j-btn.primary { background: var(--brand); color: var(--on-brand); border-color: var(--brand); }
 .j-btn:disabled { opacity: .45; cursor: default; }
@@ -102,3 +102,15 @@
 /* the hero is a flex column: keep badges at their own width */
 .st-badge { align-self: flex-start; width: fit-content; }
 .status-strip > span:not(.status-dot) { flex: 1 1 0; min-width: 0; }
+
+/* Landing (S-17): short link cards in one row, tighter vertical rhythm. */
+@media (min-width: 900px) { .guide.five { grid-template-columns: repeat(5, 1fr); } }
+.guide.five a { padding: 10px 12px; }
+.guide.five b { font-size: var(--fs-l); }
+.guide.five span { font-size: var(--fs-s); }
+body.landing main { gap: 0; }
+body.landing .go { margin-top: 4px; }
+body.landing section { padding: 6px 0 8px; gap: 12px; }
+body.landing main { padding-top: 20px; }
+body.landing #hallazgos > .note, body.landing #hallazgos .mh + .note { display: none; }
+body.landing .hero-howto { display: none; }

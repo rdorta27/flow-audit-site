@@ -75,4 +75,13 @@
     }
     if (hide) hide.remove();
   });
+
+  /* Keep --hdr-h equal to the sticky header's real height (anchors, sticky controls). */
+  function header() {
+    var el = document.querySelector("header.top");
+    if (el) root.style.setProperty("--hdr-h", el.offsetHeight + "px");
+  }
+  document.addEventListener("DOMContentLoaded", header);
+  window.addEventListener("resize", header);
+  window.addEventListener("load", header);
 })();

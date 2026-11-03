@@ -81,18 +81,28 @@ def main():
                 if old in flat:
                     errors.append(f"{lang}/{page}: stale figure {old}")
     for lang in SEP:
-        for rel in ("demo/index.html", "index.html"):
+        for rel in ("demo/index.html", "index.html", "systems/index.html", "status/index.html", "help/index.html"):
             low = (ROOT / lang / rel).read_text().lower()
             for ph in STALE_PHRASES:
                 if ph in low:
                     errors.append(f"{lang}/{rel}: stale phrase {ph!r}")
             text = visible((ROOT / lang / rel).read_text())
-            if rel == "index.html":
-                # landing may show the codes as tags next to the plain name
+            if rel != "demo/index.html":
+                # landing and the pages around it may show the codes as tags next to the plain name
                 text = re.sub(r"\b(OMS|BPM)\b", "", text)
             for pat in OLD_NAMES:
                 if re.search(pat, text, re.I if "provisi" in pat else 0):
                     errors.append(f"{lang}/{rel}: old name /{pat}/ in visible text")
+    for lang in SEP:
+        for d in ("systems", "status", "help"):
+            page = ROOT / lang / d / "index.html"
+            if not page.exists():
+                errors.append(f"{lang}/{d}/index.html missing")
+                continue
+            flat = page.read_text().replace(",", "").replace(".", "")
+            for old in STALE:
+                if old in flat:
+                    errors.append(f"{lang}/{d}: stale figure {old}")
     status = json.loads((ROOT / "data" / "status.json").read_text())
     comps = status["components"]
     used = set()

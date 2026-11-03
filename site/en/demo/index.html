@@ -47,10 +47,10 @@
     </a>
     <nav aria-label="Main">
       <a href="../index.html">Home</a>
+      <a href="../systems/index.html">Systems</a>
+      <a href="../demo/index.html" aria-current="page">Demo report</a>
       <a href="../architecture/index.html">Architecture</a>
-      <a href="index.html" aria-current="page">Demo report</a>
-      <a href="../index.html#que">What it will check</a>
-      <a href="../index.html#estado">Status</a>
+      <a href="../status/index.html">Status</a>
       <span class="lang" role="group" aria-label="Language"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/demo/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
   </header>
@@ -68,7 +68,7 @@
     <section aria-label="Indicators">
       <div class="kpis">
         <div class="kpi">
-          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Findings</a></span>
+          <span class="k"><a class="gl" href="../help/index.html#g-hallazgo">Findings</a></span>
           <span class="v">5</span>
           <span class="s">4 critical · 1 medium</span>
         </div>
@@ -80,7 +80,7 @@
         <div class="kpi">
           <span class="k">Cost</span>
           <span class="v">USD 44,233</span>
-          <span class="s">per month, at USD 45 per <a class="gl" href="../index.html#g-hora-cargada">loaded hour</a></span>
+          <span class="s">per month, at USD 45 per <a class="gl" href="../help/index.html#g-hora-cargada">loaded hour</a></span>
         </div>
         <div class="kpi">
           <span class="k">Stuck orders</span>
@@ -88,14 +88,14 @@
           <span class="s">1% of the month, no later event</span>
         </div>
       </div>
-      <p class="note">The <a class="gl" href="../index.html#g-ingreso-riesgo">revenue at risk</a> from stuck orders adds up to USD 3,250 per month (50 × ARPU 65). The cost of R03 already includes it.</p>
+      <p class="note">The <a class="gl" href="../help/index.html#g-ingreso-riesgo">revenue at risk</a> from stuck orders adds up to USD 3,250 per month (50 × ARPU 65). The cost of R03 already includes it.</p>
     </section>
 
     <section>
       <h2>Executive summary</h2>
-      <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a <a class="gl" href="../index.html#g-hueco">gap</a> between systems that no process owns.</p>
+      <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a <a class="gl" href="../help/index.html#g-hueco">gap</a> between systems that no process owns.</p>
       <div class="callout">
-        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 15,626/month). <a class="gl" href="../index.html#g-reintento">Retry</a> the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>96%</strong> of the cost.
+        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 15,626/month). <a class="gl" href="../help/index.html#g-reintento">Retry</a> the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>96%</strong> of the cost.
       </div>
     </section>
 
@@ -183,7 +183,7 @@
           <text class="elabel" x="948" y="252" text-anchor="end">60 h</text>
         </svg>
       </div>
-      <p class="note">Source: <code>data/demo/</code> (synthetic dataset). Arrows cross from one system to another. No common identifier joins them (R05). SO = <a class="gl" href="../index.html#g-orden-servicio">service order</a>. WO = work order.</p>
+      <p class="note">Source: <code>data/demo/</code> (synthetic dataset). Arrows cross from one system to another. No common identifier joins them (R05). SO = <a class="gl" href="../help/index.html#g-orden-servicio">service order</a>. WO = work order.</p>
     </section>
 
     <section>
@@ -409,7 +409,7 @@
         <div class="callout"><strong>What the engine produces today</strong><br>R04 only: 30 h and USD 1,590, one-off. It does not produce the report or the other four rules yet.</div>
       </div>
       <p class="note">Each card is dimmed or not according to the release chosen in the page selector; the formula uses the keys of <code>config.json</code>.</p>
-      <p class="note">The <a class="gl" href="../index.html#g-evidencia">evidence</a> for each finding is in <a href="../../data/report.json">data/report.json</a>, in the <code>findings/1</code> schema.</p>
+      <p class="note">The <a class="gl" href="../help/index.html#g-evidencia">evidence</a> for each finding is in <a href="../../data/report.json">data/report.json</a>, in the <code>findings/1</code> schema.</p>
       
     </section>
   </main>
@@ -417,10 +417,10 @@
   <footer>
     <span>Flow Audit · 2026</span>
     <a href="../index.html">Home</a>
-    <a href="index.html">Demo report</a>
+    <a href="../systems/index.html">Systems</a>
+    <a href="../demo/index.html">Demo report</a>
+    <a href="../help/index.html">Help</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="../index.html#que">What it will check</a>
-    <a href="../../data/report.json">report.json</a>
     <span>Under construction · version 0.3.5</span>
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>

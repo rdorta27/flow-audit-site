@@ -47,10 +47,10 @@
     </a>
     <nav aria-label="Main">
       <a href="../index.html">Home</a>
-      <a href="index.html" aria-current="page">Architecture</a>
+      <a href="../systems/index.html">Systems</a>
       <a href="../demo/index.html">Demo report</a>
-      <a href="../index.html#que">What it will check</a>
-      <a href="../index.html#estado">Status</a>
+      <a href="../architecture/index.html" aria-current="page">Architecture</a>
+      <a href="../status/index.html">Status</a>
       <span class="lang" role="group" aria-label="Language"><a href="../../es/architecture/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/architecture/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/architecture/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
     </nav>
   </header>
@@ -60,7 +60,7 @@
       <span class="eyebrow">Design and components</span>
       <h1>Architecture</h1>
       <p class="howto">What you can do here: see the parts of Flow Audit, what it reads from each system, and what already exists and what is still design.</p>
-      <p class="lead">Flow Audit is a local-first command line tool: <a class="gl" href="../index.html#g-evidencia">evidence</a> goes in, a report comes out. Today it already reads data, joins it and detects one problem (R04); the report and the other four rules are still design.</p>
+      <p class="lead">Flow Audit is a local-first command line tool: <a class="gl" href="../help/index.html#g-evidencia">evidence</a> goes in, a report comes out. Today it already reads data, joins it and detects one problem (R04); the report and the other four rules are still design.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
         <span><strong>Under construction · version 0.3.5.</strong> The components below are real files in the repository. Stages that do not exist yet say so.</span>
@@ -84,7 +84,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Working today: ingestion (orders, <a class="gl" href="../index.html#g-orden-servicio">service orders</a> and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its cost. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
+      <p class="note">Working today: ingestion (orders, <a class="gl" href="../help/index.html#g-orden-servicio">service orders</a> and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its cost. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
     </section>
 
     <section id="components">
@@ -110,7 +110,7 @@
       <div class="concept">
         <div class="block">
           <h3><code>domain/</code></h3>
-          <p>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, <a class="gl" href="../index.html#g-hueco">gap</a>) and rule R04. No I/O, no clock, no files. Today: all of that exists; the other four rules do not.</p>
+          <p>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, <a class="gl" href="../help/index.html#g-hueco">gap</a>) and rule R04. No I/O, no clock, no files. Today: all of that exists; the other four rules do not.</p>
         </div>
         <div class="block">
           <h3><code>ports/</code></h3>
@@ -122,7 +122,7 @@
         </div>
         <div class="block">
           <h3><code>app/</code></h3>
-          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format. Today: a skeleton that counts records and returns no <a class="gl" href="../index.html#g-hallazgo">findings</a>; rule R04 runs separately, in <code>explain</code>.</p>
+          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format. Today: a skeleton that counts records and returns no <a class="gl" href="../help/index.html#g-hallazgo">findings</a>; rule R04 runs separately, in <code>explain</code>.</p>
         </div>
         <div class="block">
           <h3><code>cli/</code></h3>
@@ -139,7 +139,7 @@
       <h2>What runs today</h2>
       <div class="grid">
         <div class="card"><span class="k">Check</span><p><code>deno task check</code> type-checks the CLI, the generator, the clock adapter and the tests. It passes.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes: dataset, serializers, the architecture and license boundaries, the skeleton, the <a class="gl" href="../index.html#g-servidor-prueba">test server</a>, the three readers, the join and rule R04.</p></div>
+        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes: dataset, serializers, the architecture and license boundaries, the skeleton, the <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, the three readers, the join and rule R04.</p></div>
         <div class="card"><span class="k">Audit</span><p><code>deno task audit</code> does not run anything yet: it exits with code 2. What does run today: <code>read</code> (counts and joins records) and <code>explain</code> (one duplicated order, step by step).</p></div>
         <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenerates the 5,000 orders from a fixed seed. Two runs produce byte-identical exports.</p></div>
       </div>
@@ -162,7 +162,7 @@
           <ul>
             <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
             <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
-            <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
+            <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
             <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work and by the loaded hourly cost.</li>
             <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
             <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
@@ -172,7 +172,7 @@
           <h3>Planned impact formula</h3>
           <ul>
             <li><strong>Hours per month</strong> = affected orders × minutes of work per order ÷ 60</li>
-            <li><strong>USD per month</strong> = hours per month × USD 45 per <a class="gl" href="../index.html#g-hora-cargada">loaded hour</a></li>
+            <li><strong>USD per month</strong> = hours per month × USD 45 per <a class="gl" href="../help/index.html#g-hora-cargada">loaded hour</a></li>
             <li><strong>Example with the synthetic dataset (R02).</strong> 4,167 orders × 5 min ÷ 60 = 347 h. 347.25 h × USD 45 = USD 15,626.</li>
           </ul>
         </div>
@@ -189,7 +189,7 @@
             <li><strong>Demo source.</strong> A TMF service of our own, MIT, over the synthetic dataset. It is marked as simulated.</li>
             <li><strong>Systems under test.</strong> bss-oss-rust is read over HTTP only, on a local machine. It is not distributed here, is not part of the public demo and keeps its own license.</li>
             <li><strong>Boundary.</strong> No third-party code is copied or vendored, and no capture from another system is committed. Only synthetic data enters the repository.</li>
-            <li><strong>Trademarks.</strong> <a class="gl" href="../index.html#g-tmf">TM Forum</a> and TMF belong to TM Forum. Flow Audit is independent and is not certified or endorsed by TM Forum.</li>
+            <li><strong>Trademarks.</strong> <a class="gl" href="../help/index.html#g-tmf">TM Forum</a> and TMF belong to TM Forum. Flow Audit is independent and is not certified or endorsed by TM Forum.</li>
           </ul>
         </div>
       </div>
@@ -199,10 +199,10 @@
   <footer>
     <span>Flow Audit · 2026</span>
     <a href="../index.html">Home</a>
+    <a href="../systems/index.html">Systems</a>
     <a href="../demo/index.html">Demo report</a>
+    <a href="../help/index.html">Help</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
-    <a href="https://github.com/rdorta27/flow-audit-site/blob/main/THIRD-PARTY.md">License</a>
-    <a href="../index.html#que">What it will check</a>
     <span>Under construction · version 0.3.5</span>
   </footer>
 </div>

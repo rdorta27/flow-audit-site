@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ayuda · Flow Audit</title>
+<meta name="description" content="Preguntas frecuentes y glosario de Flow Audit.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flow Audit">
+<meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/es/help/">
+<meta property="og:title" content="Ayuda · Flow Audit">
+<meta property="og:description" content="Preguntas frecuentes y glosario de Flow Audit.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Flow Audit: auditoría del flujo pedido-activación en catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación. En construcción.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ayuda · Flow Audit">
+<meta name="twitter:description" content="Preguntas frecuentes y glosario de Flow Audit.">
+<meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/es/help/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
+<link rel="stylesheet" href="../../report.css">
+<script src="../../lang.js"></script>
+<link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/help/">
+<link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/help/">
+<link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/help/">
+<link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/help/">
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow Audit, inicio">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow audit
+    </a>
+    <nav aria-label="Principal">
+      <a href="../index.html">Inicio</a>
+      <a href="../systems/index.html">Sistemas</a>
+      <a href="../demo/index.html">Informe demo</a>
+      <a href="../architecture/index.html">Arquitectura</a>
+      <a href="../status/index.html">Estado</a>
+      <span class="lang" role="group" aria-label="Idioma"><a href="../../es/help/index.html" hreflang="es" lang="es" title="Español" aria-current="true">ES</a><a href="../../en/help/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/help/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <h1>Ayuda</h1>
+      <p class="lead">Preguntas frecuentes y glosario de las palabras que usa el sitio.</p>
+    </section>
+
+    <section id="faq">
+      <h2>Preguntas frecuentes</h2>
+      <div class="grid">
+        <div class="card"><h3>¿Ya se puede usar?</h3><p>No. Está en construcción. El análisis llegará en las próximas versiones.</p></div>
+        <div class="card"><h3>¿Dónde se ejecutará?</h3><p>En el equipo de quien audita, desde la línea de comandos. No necesitará servidor ni base de datos.</p></div>
+        <div class="card"><h3>¿Saldrán datos del cliente?</h3><p>No. Los datos entran, sale una carpeta con el informe. Nada se envía a servicios externos.</p></div>
+        <div class="card"><h3>¿Modificará los sistemas?</h3><p>No. Solo leerá. Nunca creará, cambiará ni borrará pedidos.</p></div>
+        <div class="card"><h3>¿Qué licencia tiene?</h3><p>Código abierto, licencia MIT. Es un demo técnico en construcción. No hay oferta comercial.</p></div>
+      </div>
+    </section>
+
+    <section id="glosario">
+      <h2>Glosario</h2>
+      <p class="note">Las palabras que usa esta página, en orden de aparición.</p>
+      <dl class="gloss">
+        <div><dt>Pedido</dt><dd>Lo que un cliente compra, por ejemplo «SkyHome 200». Lo recibe el canal de venta.</dd></div>
+        <div><dt id="g-linea">Línea del pedido</dt><dd>Cada producto dentro de un pedido. Un pedido puede tener varias líneas.</dd></div>
+        <div><dt id="g-orden-servicio">Orden de servicio</dt><dd>La instrucción técnica que el gestor de pedidos crea para activar una línea. Debe haber una por línea.</dd></div>
+        <div><dt id="g-orden-trabajo">Orden de trabajo</dt><dd>La tarea para una persona o cuadrilla, por ejemplo instalar la antena.</dd></div>
+        <div><dt id="g-intento">Intento de activación</dt><dd>Cada vez que el sistema de activación intenta encender el servicio. Puede funcionar o fallar.</dd></div>
+        <div><dt id="g-reintento">Reintento</dt><dd>Volver a intentar una activación que falló. Debería reutilizar la orden original, no crear otra.</dd></div>
+        <div><dt id="g-enlace">Enlace (explícito, inferido, faltante)</dt><dd>Cómo se une un registro a su pedido. Explícito: lleva el número. Inferido: se deduce por otros datos, con menos certeza. Faltante: no se pudo unir y queda a la vista.</dd></div>
+        <div><dt id="g-evidencia">Evidencia</dt><dd>Los registros concretos que prueban un problema.</dd></div>
+        <div><dt id="g-historial">Foto o historial</dt><dd>La foto es el estado actual de un registro; el historial es todo lo que cambió y cuándo. Medir esperas necesita el historial.</dd></div>
+        <div><dt id="g-hueco">Hueco</dt><dd>Tiempo en que un pedido no tiene ningún evento: nadie hace nada.</dd></div>
+        <div><dt id="g-hallazgo">Hallazgo</dt><dd>Un problema que la auditoría encontró, con su evidencia y su costo.</dd></div>
+        <div><dt id="g-hora-cargada">Hora cargada</dt><dd>Una hora de trabajo con su tarifa (por ejemplo USD 45), que se usa para valorar el trabajo manual.</dd></div>
+        <div><dt id="g-ingreso-riesgo">Ingreso en riesgo</dt><dd>Dinero que aún no se cobra o podría perderse porque el servicio no se activa.</dd></div>
+        <div><dt id="g-bss-oss">BSS y OSS</dt><dd>Los sistemas de un operador. BSS gestiona ventas y cobros. OSS gestiona la red y la activación.</dd></div>
+        <div><dt id="g-tmf">TM Forum (TMF)</dt><dd>Asociación del sector que publica formatos comunes para que estos sistemas intercambien datos.</dd></div>
+        <div><dt id="g-servidor-prueba">Servidor de prueba</dt><dd>Un programa nuestro que imita un sistema real con datos inventados. Siempre avisa de que los datos son simulados.</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow Audit · 2026</span>
+    <a href="../index.html">Inicio</a>
+    <a href="../systems/index.html">Sistemas</a>
+    <a href="../demo/index.html">Informe demo</a>
+    <a href="../help/index.html">Ayuda</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <span>En construcción · versión 0.3.5</span>
+  </footer>
+</div>
+<script src="../../status.js" defer></script>
+</body>
+</html>

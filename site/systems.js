@@ -30,7 +30,7 @@
   }
   document.addEventListener("flowstatus", marks);
   marks();
-  fetch("../data/report.json").then(function (r) { return r.json(); }).then(function (data) {
+  fetch("../../data/report.json").then(function (r) { return r.json(); }).then(function (data) {
     (data.findings || []).forEach(function (f) {
       Array.prototype.forEach.call(document.querySelectorAll('[data-fig="' + f.id + '"]'), function (n) { n.textContent = f.affectedOrders; });
     });

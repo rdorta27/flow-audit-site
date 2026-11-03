@@ -20,6 +20,8 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/index.html` | Portada de entrada: selector de idioma; `lang.js` la envía a la landing |
 | `site/lang.js` | Decide el idioma, guarda la elección y redirige usando los enlaces del selector |
 | `site/{es,en,pt}/index.html` | Landing: cómo funciona, qué audita, qué entrega y en qué milestone está |
+| `site/{es,en,pt}/{systems,status,help}/index.html` | Sistemas (vista completa y qué pedir al cliente), Estado (qué se construye; real / simulado / falta) y Ayuda (preguntas frecuentes y glosario `#g-…`) |
+| `site/legacy.js` | Redirige los anclajes viejos de la landing (`#que`, `#estado`, `#faq`, `#glosario`, `#g-…`) a su página nueva |
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
