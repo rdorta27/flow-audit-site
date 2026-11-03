@@ -95,12 +95,14 @@
       defs.appendChild(m);
     });
     svg.appendChild(defs);
+    var labels = [];
     for (var i = 1; i <= step; i++) {
       var p = hopPath(i), s = STEPS[i], c = s.gap ? "var(--crit)" : col(s.sys);
       svg.appendChild(el("path", { "class": "hop", d: p.d, style: "stroke:" + c + (s.gap ? ";stroke-dasharray:7 6" : ""),
         "marker-end": "url(#j-ar-" + s.sys + ")", opacity: i === step ? 1 : 0.55, id: i === step ? "j-cur-hop" : null }));
-      svg.appendChild(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my, "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
+      if (s.gap || i === step) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 10 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
     }
+    labels.forEach(function (t) { svg.appendChild(t); });
     SYS.forEach(function (s) {
       var x = cx(s.id), active = STEPS[step].sys === s.id;
       var g = el("g", { "class": "node" });
@@ -123,10 +125,10 @@
     STEPS.forEach(function (s, i) {
       if (i > step) return;
       var n = count[s.sys] = (count[s.sys] || 0) + 1;
-      var x = cx(s.sys) - 74, y = TY + (n - 1) * (TH + 8);
+      var x = cx(s.sys) - 88, y = TY + (n - 1) * (TH + 8);
       var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + (i === step ? " fresh" : "") });
-      g.appendChild(el("rect", { x: x, y: y, width: 148, height: TH, rx: 5, style: s.bad ? null : "stroke:" + col(s.sys) }));
-      g.appendChild(el("text", { x: x + 8, y: y + 17 }, s.ticket));
+      g.appendChild(el("rect", { x: x, y: y, width: 176, height: TH, rx: 5, style: s.bad ? null : "stroke:" + col(s.sys) }));
+      g.appendChild(el("text", { x: x + 8, y: y + 17, textLength: s.ticket.length > 22 ? 160 : null, lengthAdjust: "spacingAndGlyphs" }, s.ticket));
       svg.appendChild(g);
       var lx = cx(s.sys) + (n === 1 ? -30 : 30);
       layer.appendChild(el("line", { "class": "read" + (works(s.status) ? "" : " later"), x1: lx, y1: y + TH, x2: lx, y2: FAY }));

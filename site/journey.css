@@ -10,7 +10,7 @@
 #j-flow .node-name { font-family: var(--serif); font-size: 15px; }
 #j-flow .node-hint { font-size: 12px; fill: var(--muted); }
 #j-flow .hop { fill: none; stroke-width: 2.5; stroke-linecap: round; }
-#j-flow .hop-label { font-size: 12px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+#j-flow .hop-label { font-size: 12px; paint-order: stroke; stroke: var(--card); stroke-width: 5px; stroke-linejoin: round; fill: var(--muted); font-variant-numeric: tabular-nums; }
 #j-flow .hop-label.bad { fill: var(--crit); font-weight: 700; }
 #j-flow .ticket rect { fill: var(--card); stroke-width: 1.5; }
 #j-flow .ticket text { font-family: var(--mono); font-size: 11.5px; }
