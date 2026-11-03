@@ -15,6 +15,12 @@ SEP = {"es": ".", "en": ",", "pt": "."}
 STALE = ["11250", "41700", "14104", "57319", "1268", "18750", "57482", "54358"]
 
 
+# Sales or readiness wording that must not come back (D-17, D-18, D-19).
+STALE_PHRASES = ["precio fijo", "fixed price", "fixed-price", "preço fixo", "¿se vende?", "is it for sale",
+                 "está à venda", "licenciar", "license the tool", "tarifas del propio cliente",
+                 "client's own rates", "client&#x27;s own rates", "tarifas do próprio cliente"]
+
+
 # Old names that must not return in visible text (lane titles, table cells,
 # alt text). Codes such as OMS/BPM stay allowed only as small tags on the landing.
 OLD_NAMES = [r"\bOMS\b", r"\bBPM\b", r"provisioning", r"\bprovisi[oó]n\b"]
@@ -76,6 +82,10 @@ def main():
                     errors.append(f"{lang}/{page}: stale figure {old}")
     for lang in SEP:
         for rel in ("demo/index.html", "index.html"):
+            low = (ROOT / lang / rel).read_text().lower()
+            for ph in STALE_PHRASES:
+                if ph in low:
+                    errors.append(f"{lang}/{rel}: stale phrase {ph!r}")
             text = visible((ROOT / lang / rel).read_text())
             if rel == "index.html":
                 # landing may show the codes as tags next to the plain name

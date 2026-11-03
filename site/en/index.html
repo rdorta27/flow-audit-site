@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · BSS flow audit</title>
-<meta name="description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
+<meta name="description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what each failure costs. It is under construction.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/">
 <meta property="og:title" content="Flow Audit · BSS flow audit">
-<meta property="og:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
+<meta property="og:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what each failure costs. It is under construction.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · BSS flow audit">
-<meta name="twitter:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what that costs. It is under construction.">
+<meta name="twitter:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and what each failure costs. It is under construction.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -62,6 +62,7 @@
       <p class="howto">What you can do here: follow an order from start to finish, see where it broke and what it cost, and open a sample report.</p>
       <p class="lead">Flow Audit is a tool that checks how an order moves from the moment a customer buys to the moment the service works. It will show where each order stops and what each failure costs.</p>
       <p class="note">It is for telecom operators and for the people who audit their sales and activation systems.</p>
+      <p class="note"><strong>Open-source technical demo (MIT), under construction. There is no commercial offer.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Read the license</a>.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">See the example report</a>
         <a class="btn alt" href="architecture/index.html">See how it will work</a>
@@ -114,27 +115,39 @@
       <h2 id="h-dif">The same order, told two ways</h2>
       <div class="diff">
         <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The cost is an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
-        <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each cost shows its calculation, with the client&#x27;s own rates.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
+        <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each cost shows its calculation and the example rates it uses, which can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
       </div>
     </section>
 
     <section id="hallazgos">
       <h2>The five problems it looks for</h2>
       <p class="note">Each problem has a code, R01 to R05. Figures are monthly, for an operator with 5,000 orders, using made-up data.</p>
+      <h3 class="mh">Measured today by the engine</h3>
+      <p class="note">The engine reads the test data and finds these orders. The cost uses example rates.</p>
       <div class="table-wrap">
-        <table>
-          <caption>The five problems in the example and their estimated monthly cost.</caption>
-          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Cost per month</th></tr></thead>
+        <table class="ftable">
+          <caption>The problem measured today and its monthly cost.</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Example rates</th><th scope="col">Cost per month</th><th scope="col">Status</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>≈ USD 12,750</td></tr>
-            <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on 8 orders out of 10.</td><td>≈ USD 15,626</td></tr>
-            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>≈ USD 14,267, plus USD 3,250 of <a class="gl" href="#g-ingreso-riesgo">revenue at risk</a></td></tr>
-            <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td>≈ USD 1,590</td></tr>
-            <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>≈ USD 10,125</td></tr>
+            <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td>90 min of clean-up per duplicate, USD 45/h; USD 12 per duplicate activation</td><td>≈ USD 1,590</td><td class="fstatus"><span data-status="finding-r04">Measured today</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>In total:</strong> about USD 44,233 a month in operating cost (R01 to R04), plus USD 3,250 of revenue at risk. R05 (USD 10,125) is shown apart, as a traceability risk. These are illustrative figures worked out from made-up data.</div>
+      <h3 class="mh">Projected with example rates</h3>
+      <p class="note">No engine detects these four yet. The cost is a calculation with the example figures in the &ldquo;Rates&rdquo; column; with other rates the cost changes.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>Projected problems and their estimated monthly cost.</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Example rates</th><th scope="col">Cost per month</th><th scope="col">Status</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>5 min per order + 15 min per waiting day, USD 45/h</td><td>≈ USD 12,750</td><td class="fstatus"><span data-status="finding-r01">Arrives in 0.5.0</span></td></tr>
+            <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on 8 orders out of 10.</td><td>5 min per order, USD 45/h</td><td>≈ USD 15,626</td><td class="fstatus"><span data-status="finding-r02">Arrives in 0.5.0</span></td></tr>
+            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>5 min + 15 min per day, USD 45/h; ARPU USD 65</td><td>≈ USD 14,267, plus USD 3,250 of <a class="gl" href="#g-ingreso-riesgo">revenue at risk</a></td><td class="fstatus"><span data-status="finding-r03">Arrives in 0.5.0</span></td></tr>
+            <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>45 min per incident, USD 45/h</td><td>≈ USD 10,125</td><td class="fstatus"><span data-status="finding-r05">Arrives in 0.5.0</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>In total:</strong> about USD 44,233 a month in operating cost (R01 to R04), plus USD 3,250 of revenue at risk. R05 (USD 10,125) is shown apart, as a traceability risk. Of that total, only R04 is measured today; the rest is projection. All the rates are in <code>config.json</code> and are examples.</div>
     </section>
 
     <section id="problema">
@@ -224,8 +237,30 @@
       </div>
     </section>
 
+    <section id="requisitos">
+      <h2>What it would take to audit a real operator</h2>
+      <p class="note">These are design requirements, not an offer. Today the engine reads only the invented test data.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>What it would take to audit a real operator</caption>
+          <thead><tr><th scope="col">System</th><th scope="col">What to export</th><th scope="col">Fields that are read</th><th scope="col">Format</th><th scope="col">Period</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Product catalog</th><td>The technical spec of each offer</td><td class="mono">spec_id, name, service_type and, per attribute: name, type, required, used_by</td><td>JSON</td><td>Current state</td></tr>
+            <tr><th scope="row">Order manager</th><td>Orders with their service and work orders</td><td class="mono">order_ref, submitted_at, order_state, offer_id, offer_version, so_ref, spec_id, so_state, so_created_at, terminal_serial, wo_ref, wo_kind, wo_state, wo_created_at, replaces_order_ref</td><td>CSV</td><td>One month of orders</td></tr>
+            <tr><th scope="row">Process orchestrator</th><td>Process and task history (not only the current state)</td><td class="mono">process_id, so_ref, business_key, state, started_at, ended_at and, per task: sequence, kind, name, actor, started_at, ended_at, timer_expired</td><td>JSONL</td><td>The month, plus what follows for open orders</td></tr>
+            <tr><th scope="row">Activation system</th><td>Every activation attempt</td><td class="mono">attempt_id, so_ref, serial, state, error_code, started_at, ended_at</td><td>JSONL</td><td>The same period</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><h3>Rates</h3><p>Whoever audits supplies their own rates in <code>config.json</code> (loaded hour, minutes per task, ARPU). Without them, the costs are the example ones.</p></div>
+        <div class="card"><h3>Where it runs</h3><p>On the auditor's computer, from the command line. Nothing leaves that machine: data goes in and a folder with the report comes out.</p></div>
+        <div class="card"><h3>Retention</h3><p>The design keeps no copies: the engine holds no data between runs and writes only the output folder. Whoever audits decides how long to keep the exports and that folder.</p></div>
+      </div>
+    </section>
+
     <section>
-      <h2>What will you get?</h2>
+      <h2>What will it produce?</h2>
       <div class="grid">
         <div class="card"><h3>A report in one file</h3><p>A page that opens in any browser, offline. It has a summary, the order path and the problems found.</p></div>
         <div class="card"><h3>Proof for each problem</h3><p>Each problem names the order, the data that proves it and how its cost was calculated.</p></div>
@@ -237,8 +272,8 @@
       <h2>What is being built?</h2>
       <p class="note">Two stages. The second does not start until the first works.</p>
       <div class="grid">
-        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the <a class="gl" href="#g-servidor-prueba">test server</a>, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up plus USD 240 of duplicate activations, already measured because activations are linked to their service order.</p></div>
-        <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is what makes a first real audit possible.</p></div>
+        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the <a class="gl" href="#g-servidor-prueba">test server</a>, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up (90 minutes per duplicate, an example rate) plus USD 240 of duplicate activations, which the engine does measure because activations are linked to their service order.</p></div>
+        <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is the requirement for auditing real data.</p></div>
         <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
@@ -256,7 +291,7 @@
         <div class="card"><h3>Where will it run?</h3><p>On the auditor's computer, from the command line. It will not need a server or a database.</p></div>
         <div class="card"><h3>Will customer data leave?</h3><p>No. Data goes in, a folder with the report comes out. Nothing is sent to outside services.</p></div>
         <div class="card"><h3>Will it change the systems?</h3><p>No. It only reads. It never creates, changes or deletes orders.</p></div>
-        <div class="card"><h3>Is it for sale?</h3><p>Not yet. It is a test project. The idea is to offer fixed-price audits on a client's data and, later, to license the tool to consultancies.</p></div>
+        <div class="card"><h3>What license does it have?</h3><p>Open source, MIT license. It is a technical demo under construction. There is no commercial offer.</p></div>
       </div>
     </section>
 

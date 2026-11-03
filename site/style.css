@@ -406,3 +406,9 @@ nav .lang a[aria-current="true"] { color: var(--ink); box-shadow: inset 0 -3px 0
 
 /* Glossary term links: quiet dotted underline so they do not read as navigation. */
 a.gl { text-decoration: underline dotted; text-underline-offset: 3px; }
+
+/* S-15: findings and requirements tables */
+h3.mh { margin: 8px 0 0; }
+.ftable td.mono { font-size: .85em; overflow-wrap: anywhere; min-width: 16em; }
+.ftable td, .ftable th { vertical-align: top; }
+.ftable td.fstatus { white-space: nowrap; }

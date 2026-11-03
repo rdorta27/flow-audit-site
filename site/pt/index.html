@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · auditoria de fluxo BSS</title>
-<meta name="description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
+<meta name="description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto custa cada falha. Está em construção.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/pt/">
 <meta property="og:title" content="Flow Audit · auditoria de fluxo BSS">
-<meta property="og:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
+<meta property="og:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto custa cada falha. Está em construção.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · auditoria de fluxo BSS">
-<meta name="twitter:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto isso custa. Está em construção.">
+<meta name="twitter:description" content="O Flow Audit verifica como um pedido de telecomunicações avança da venda até a ativação. Encontra onde ele trava e quanto custa cada falha. Está em construção.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -62,6 +62,7 @@
       <p class="howto">O que você pode fazer aqui: acompanhar um pedido do começo ao fim, ver onde ele quebrou e quanto custou, e abrir um relatório de exemplo.</p>
       <p class="lead">O Flow Audit é uma ferramenta para verificar como um pedido avança desde a compra do cliente até o serviço funcionar. Vai mostrar onde cada pedido para e quanto custa cada falha.</p>
       <p class="note">É para operadoras de telecomunicações e para quem audita seus sistemas de venda e ativação.</p>
+      <p class="note"><strong>Demo técnica de código aberto (MIT), em construção. Não há oferta comercial.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Ver a licença</a>.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">Ver o relatório de exemplo</a>
         <a class="btn alt" href="architecture/index.html">Ver como vai funcionar</a>
@@ -114,27 +115,39 @@
       <h2 id="h-dif">O mesmo pedido, contado de duas maneiras</h2>
       <div class="diff">
         <div class="without"><h3>Sem o Flow Audit</h3><ul><li>Cinco equipes, cinco telas. Cada uma vê que a sua parte deu certo.</li><li>As 60 horas sem atividade não aparecem em nenhum sistema.</li><li>A auditoria é feita com entrevistas e planilhas. O custo é uma opinião.</li><li>Duas auditorias da mesma operadora chegam a conclusões diferentes.</li></ul></div>
-        <div class="with"><h3>Com o Flow Audit</h3><ul><li>Um percurso por pedido, montado com o que cada sistema já anota.</li><li>Cada problema aponta o pedido e os registros que o comprovam.</li><li>Cada custo mostra a sua conta, com as tarifas do próprio cliente.</li><li>Com os mesmos dados, o resultado é sempre o mesmo. Não mexe em nenhum sistema.</li></ul></div>
+        <div class="with"><h3>Com o Flow Audit</h3><ul><li>Um percurso por pedido, montado com o que cada sistema já anota.</li><li>Cada problema aponta o pedido e os registros que o comprovam.</li><li>Cada custo mostra a sua conta e as tarifas de exemplo que usa, que se mudam em config.json.</li><li>Com os mesmos dados, o resultado é sempre o mesmo. Não mexe em nenhum sistema.</li></ul></div>
       </div>
     </section>
 
     <section id="hallazgos">
       <h2>Os cinco problemas que procura</h2>
       <p class="note">Cada problema tem um código, de R01 a R05. Os valores são mensais, para uma operadora com 5.000 pedidos, com dados inventados.</p>
+      <h3 class="mh">Medido hoje pelo motor</h3>
+      <p class="note">O motor lê os dados de teste e encontra estes pedidos. O custo usa tarifas de exemplo.</p>
       <div class="table-wrap">
-        <table>
-          <caption>Os cinco problemas do exemplo e o custo estimado por mês.</caption>
-          <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Custo por mês</th></tr></thead>
+        <table class="ftable">
+          <caption>O problema medido hoje e o seu custo por mês.</caption>
+          <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Tarifas de exemplo</th><th scope="col">Custo por mês</th><th scope="col">Estado</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R01</th><td>A ativação falha e ninguém tenta de novo. O pedido espera cerca de 2,5 dias.</td><td>≈ USD 12.750</td></tr>
-            <tr><th scope="row">R02</th><td>Falta um dado no catálogo e alguém o completa manualmente em 8 de cada 10 pedidos.</td><td>≈ USD 15.626</td></tr>
-            <tr><th scope="row">R03</th><td>Um temporizador vence e o processo não faz nada: o pedido fica sem ativar.</td><td>≈ USD 14.267, mais USD 3.250 de <a class="gl" href="#g-ingreso-riesgo">receita em risco</a></td></tr>
-            <tr><th scope="row">R04</th><td>Uma nova tentativa cria uma segunda ordem de serviço para o mesmo pedido.</td><td>≈ USD 1.590</td></tr>
-            <tr><th scope="row">R05</th><td>Os sistemas não compartilham um número de pedido. Investigar um incidente leva cerca de 45 minutos.</td><td>≈ USD 10.125</td></tr>
+            <tr><th scope="row">R04</th><td>Uma nova tentativa cria uma segunda ordem de serviço para o mesmo pedido.</td><td>90 min de limpeza por duplicado, USD 45/h; USD 12 por ativação duplicada</td><td>≈ USD 1.590</td><td class="fstatus"><span data-status="finding-r04">Medido hoje</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>No total:</strong> cerca de USD 44.233 por mês de custo operacional (R01 a R04), mais USD 3.250 de receita em risco. R05 (USD 10.125) aparece à parte, como risco de rastreabilidade. São valores ilustrativos calculados com dados inventados.</div>
+      <h3 class="mh">Projetado com tarifas de exemplo</h3>
+      <p class="note">Nenhum motor detecta ainda estes quatro. O custo é uma conta com os valores de exemplo da coluna «Tarifas»; com outras tarifas o custo muda.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>Problemas projetados e o seu custo estimado por mês.</caption>
+          <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Tarifas de exemplo</th><th scope="col">Custo por mês</th><th scope="col">Estado</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">R01</th><td>A ativação falha e ninguém tenta de novo. O pedido espera cerca de 2,5 dias.</td><td>5 min por pedido + 15 min por dia de espera, USD 45/h</td><td>≈ USD 12.750</td><td class="fstatus"><span data-status="finding-r01">Chega na 0.5.0</span></td></tr>
+            <tr><th scope="row">R02</th><td>Falta um dado no catálogo e alguém o completa manualmente em 8 de cada 10 pedidos.</td><td>5 min por pedido, USD 45/h</td><td>≈ USD 15.626</td><td class="fstatus"><span data-status="finding-r02">Chega na 0.5.0</span></td></tr>
+            <tr><th scope="row">R03</th><td>Um temporizador vence e o processo não faz nada: o pedido fica sem ativar.</td><td>5 min + 15 min por dia, USD 45/h; ARPU USD 65</td><td>≈ USD 14.267, mais USD 3.250 de <a class="gl" href="#g-ingreso-riesgo">receita em risco</a></td><td class="fstatus"><span data-status="finding-r03">Chega na 0.5.0</span></td></tr>
+            <tr><th scope="row">R05</th><td>Os sistemas não compartilham um número de pedido. Investigar um incidente leva cerca de 45 minutos.</td><td>45 min por incidente, USD 45/h</td><td>≈ USD 10.125</td><td class="fstatus"><span data-status="finding-r05">Chega na 0.5.0</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>No total:</strong> cerca de USD 44.233 por mês de custo operacional (R01 a R04), mais USD 3.250 de receita em risco. R05 (USD 10.125) aparece à parte, como risco de rastreabilidade. Desse total, hoje só R04 é medido; o resto é projeção. Todas as tarifas estão em <code>config.json</code> e são de exemplo.</div>
     </section>
 
     <section id="problema">
@@ -224,8 +237,30 @@
       </div>
     </section>
 
+    <section id="requisitos">
+      <h2>O que seria preciso para auditar uma operadora real</h2>
+      <p class="note">São requisitos do desenho, não uma oferta. Hoje o motor só lê os dados inventados de teste.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>O que seria preciso para auditar uma operadora real</caption>
+          <thead><tr><th scope="col">Sistema</th><th scope="col">O que exportar</th><th scope="col">Campos que são lidos</th><th scope="col">Formato</th><th scope="col">Período</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Catálogo de produtos</th><td>A ficha técnica de cada oferta</td><td class="mono">spec_id, name, service_type e, por atributo: name, type, required, used_by</td><td>JSON</td><td>Estado atual</td></tr>
+            <tr><th scope="row">Gestor de pedidos</th><td>Pedidos com suas ordens de serviço e de trabalho</td><td class="mono">order_ref, submitted_at, order_state, offer_id, offer_version, so_ref, spec_id, so_state, so_created_at, terminal_serial, wo_ref, wo_kind, wo_state, wo_created_at, replaces_order_ref</td><td>CSV</td><td>Um mês de pedidos</td></tr>
+            <tr><th scope="row">Orquestrador de processos</th><td>Histórico de processos e tarefas (não só o estado atual)</td><td class="mono">process_id, so_ref, business_key, state, started_at, ended_at e, por tarefa: sequence, kind, name, actor, started_at, ended_at, timer_expired</td><td>JSONL</td><td>O mês, mais o que vem depois dos pedidos abertos</td></tr>
+            <tr><th scope="row">Sistema de ativação</th><td>Cada tentativa de ativação</td><td class="mono">attempt_id, so_ref, serial, state, error_code, started_at, ended_at</td><td>JSONL</td><td>O mesmo período</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><h3>Tarifas</h3><p>Quem audita informa as próprias tarifas em <code>config.json</code> (hora carregada, minutos por tarefa, ARPU). Sem elas, os custos são os de exemplo.</p></div>
+        <div class="card"><h3>Onde roda</h3><p>No computador de quem audita, pela linha de comando. Nada sai dessa máquina: os dados entram e sai uma pasta com o relatório.</p></div>
+        <div class="card"><h3>Retenção</h3><p>O desenho não guarda cópias: o motor não conserva dados entre execuções e só escreve a pasta de saída. Quem audita decide por quanto tempo guardar os exports e essa pasta.</p></div>
+      </div>
+    </section>
+
     <section>
-      <h2>O que você vai receber?</h2>
+      <h2>O que vai produzir?</h2>
       <div class="grid">
         <div class="card"><h3>Um relatório em um só arquivo</h3><p>Uma página que abre em qualquer navegador, sem internet. Traz um resumo, o caminho do pedido e os problemas encontrados.</p></div>
         <div class="card"><h3>Provas de cada problema</h3><p>Cada problema indica o pedido, os dados que o comprovam e como o custo foi calculado.</p></div>
@@ -237,8 +272,8 @@
       <h2>O que está sendo construído?</h2>
       <p class="note">Duas etapas. A segunda só começa quando a primeira funcionar.</p>
       <div class="grid">
-        <div class="card"><span class="k">Etapa 1 · Primeiro relatório real</span><p>Ler pedidos, <a class="gl" href="#g-orden-servicio">ordens de serviço</a> e ativações do servidor de teste, detectar o problema R04 (pedidos duplicados) e gerar um relatório com o custo e a fórmula. O custo de R04 é USD 1.590: USD 1.350 de limpeza manual mais USD 240 de ativações duplicadas, já medidas porque as ativações são ligadas à sua ordem.</p></div>
-        <div class="card"><span class="k">Etapa 2 · Pronto para um cliente</span><p>Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas, e detectar também R01, R02 e R05. É o que permite fazer uma primeira auditoria de verdade.</p></div>
+        <div class="card"><span class="k">Etapa 1 · Primeiro relatório real</span><p>Ler pedidos, <a class="gl" href="#g-orden-servicio">ordens de serviço</a> e ativações do servidor de teste, detectar o problema R04 (pedidos duplicados) e gerar um relatório com o custo e a fórmula. O custo de R04 é USD 1.590: USD 1.350 de limpeza manual (90 minutos por duplicado, tarifa de exemplo) mais USD 240 de ativações duplicadas, que o motor mede de fato porque as ativações são ligadas à sua ordem.</p></div>
+        <div class="card"><span class="k">Etapa 2 · Pronto para um cliente</span><p>Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas, e detectar também R01, R02 e R05. É o requisito para auditar dados reais.</p></div>
         <div class="card"><span class="k">Mais adiante</span><p>R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
@@ -256,7 +291,7 @@
         <div class="card"><h3>Onde vai rodar?</h3><p>No computador de quem audita, pela linha de comando. Não vai precisar de servidor nem de banco de dados.</p></div>
         <div class="card"><h3>Os dados do cliente vão sair?</h3><p>Não. Os dados entram, sai uma pasta com o relatório. Nada é enviado a serviços externos.</p></div>
         <div class="card"><h3>Vai alterar os sistemas?</h3><p>Não. Só lê. Nunca cria, altera nem apaga pedidos.</p></div>
-        <div class="card"><h3>Está à venda?</h3><p>Ainda não. É um projeto de teste. A ideia é oferecer auditorias de preço fixo sobre os dados de um cliente e, mais adiante, licenciar a ferramenta a consultorias.</p></div>
+        <div class="card"><h3>Que licença tem?</h3><p>Código aberto, licença MIT. É uma demo técnica em construção. Não há oferta comercial.</p></div>
       </div>
     </section>
 

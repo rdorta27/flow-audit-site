@@ -29,7 +29,7 @@
           var c = data.components && data.components[el.getAttribute("data-status")];
           if (!c) return;
           var works = mode === "plan" || le(c.since, data.current);
-          var quiet = /^(system|step|finding)-/.test(el.getAttribute("data-status"));
+          var quiet = /^(system|step|finding)-/.test(el.getAttribute("data-status")) && !(el.closest && el.closest(".fstatus"));
           if (quiet) {
             // Lists stay quiet: no badge per item, the item is dimmed instead (one switch explains it).
             el.textContent = ""; el.hidden = true;
