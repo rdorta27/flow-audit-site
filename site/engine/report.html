@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Flow Audit report 063730bdf0bf5bcf</title>
+<title>Flow Audit report 568f8c71e31d871e</title>
 <style>
 :root{--bg:#1f1f28;--card:#2a2a37;--tint:#252535;--ink:#dcd7ba;--muted:#a6a69c;--line:#363646;
 --crit:#f08a94;--fa:#e6c384;--s-cat:#98bb6c;--s-oms:#7e9cd8;--s-bpm:#957fb8;--s-prov:#ffa066;
@@ -51,31 +51,30 @@ a{color:inherit}
 <p class="brand">Flow Audit</p>
 <h1>Order-to-activate audit</h1>
 <p class="labels"><span class="label">Synthetic data</span><span class="label">Simulated integration</span><span class="label">Estimated impact</span></p>
-<p class="muted">Generated 2026-11-03T22:07:54.640Z · run 063730bdf0bf5bcf · engine 0.4.0 · schema findings/1</p>
+<p class="muted">Generated 2026-11-03T22:18:17.153Z · run 568f8c71e31d871e · engine 0.4.0 · schema findings/1</p>
 </header>
 <section aria-labelledby="kpi"><h2 id="kpi">At a glance</h2>
 <ul class="kpis">
-<li class="card"><span class="big">USD 1,590</span><small>estimated cost, each order counted once</small></li>
-<li class="card"><span class="big">30 h</span><small>of manual work</small></li>
+<li class="card"><span class="big">30 h</span><small>of manual work, each order counted once</small></li>
 <li class="card"><span class="big">1</span><small>finding</small></li>
 <li class="card"><span class="big">3</span><small>sources read</small></li>
 </ul>
-<table><thead><tr><th>Per rule</th><th class="n">Hours</th><th class="n">Cost</th></tr></thead><tbody><tr><td>R04 · Duplicate service order</td><td class="n">30 h</td><td class="n">USD 1,590</td></tr>
-<tr><td>Sum of the rules (gross)</td><td class="n">30 h</td><td class="n">USD 1,590</td></tr>
-<tr><th>Net total, each order counted once</th><th class="n">30 h</th><th class="n">USD 1,590</th></tr></tbody></table>
+<table><thead><tr><th>Per rule</th><th class="n">Hours</th></tr></thead><tbody><tr><td>R04 · Duplicate service order</td><td class="n">30 h</td></tr>
+<tr><td>Sum of the rules (gross)</td><td class="n">30 h</td></tr>
+<tr><th>Net total, each order counted once</th><th class="n">30 h</th></tr></tbody></table>
 <p class="note">No order is charged by more than one rule, so the net total equals the sum.</p>
 </section>
-<section aria-labelledby="sum"><h2 id="sum">Executive summary</h2><p>Flow Audit read 5,000 orders from 3 sources and checked them against 1 rule. The estimated cost is <strong>USD 1,590</strong> (30 h). It is an estimate built from the rates in this report, not a measured loss.</p>
-<h3>Fix first</h3><ol><li><a href="#R04">Duplicate service order</a>: USD 1,590 (30 h)</li></ol></section>
+<section aria-labelledby="sum"><h2 id="sum">Executive summary</h2><p>Flow Audit read 5,000 orders from 3 sources and checked them against 1 rule. The estimated cost is <strong>30 h</strong> of manual work. It is an estimate built from the rates in this report, not a measured loss.</p>
+<h3>Fix first</h3><ol><li><a href="#R04">Duplicate service order</a>: 30 h</li></ol></section>
 <section aria-labelledby="find"><h2 id="find">Findings</h2><article class="card finding" id="R04" data-rule="R04@2">
 <header><h3>R04 · Duplicate service order</h3>
 <p class="chips"><span class="chip s-oms" title="OMS">Order manager</span> <span class="sev sev-medium">medium</span></p></header>
 <p>A second service order exists for the same order line. When activation failed, a retry created a new order instead of reusing the first.</p>
-<p class="cost"><span class="big">USD 1,590</span> · 30 h · one off</p>
-<p class="formula"><code>hours = groups × cleanup_minutes / 60; amount = hours × loaded_hour_usd + groups_that_reached_activation × duplicate_activation_cost_usd</code></p>
-<table><thead><tr><th>Term</th><th class="n">Amount</th><th>Basis</th></tr></thead><tbody><tr><td>Clean-up of duplicate service orders</td><td class="n">USD 1,350</td><td>rate assumption, observed 20</td></tr><tr><td>Duplicate activations</td><td class="n">USD 240</td><td>rate assumption, observed 20</td></tr></tbody></table>
+<p class="cost"><span class="big">30 h</span> · one off</p>
+<p class="formula"><code>hours = groups × cleanup_minutes / 60</code></p>
+<table><thead><tr><th>Term</th><th class="n">Hours</th><th>Basis</th></tr></thead><tbody><tr><td>Clean-up of duplicate service orders</td><td class="n">30 h</td><td>rate assumption, observed 20</td></tr></tbody></table>
 
-<details open><summary>Inputs (rates you can change)</summary><ul><li><code>rates.cleanup_minutes</code> = 90</li><li><code>loaded_hour_usd</code> = 45</li><li><code>rates.duplicate_activation_cost_usd</code> = 12</li></ul></details>
+<details open><summary>Inputs (rates you can change)</summary><ul><li><code>rates.cleanup_minutes</code> = 90</li></ul></details>
 <p>20 orders affected (0.4%) · evidence strong · confirmed · inferred links 0%</p>
 <p class="note">groups 20 · extra service orders 21 · retry new order 20 · parallel duplicate 0 · needs review 0 · reached activation 20 · activation attempts 21</p>
 <details><summary>Evidence: 20 of 20 orders shown</summary><ul><li><code>ORD-1000</code> 2 service orders over item ORD-1000-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1001</code> 2 service orders over item ORD-1001-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1002</code> 2 service orders over item ORD-1002-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1003</code> 2 service orders over item ORD-1003-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1004</code> 2 service orders over item ORD-1004-1 (1 extra, retry_new_order); a duplicate reached activation</li></ul></details>
@@ -116,7 +115,7 @@ a{color:inherit}
 <section aria-labelledby="src"><h2 id="src">Sources and provenance</h2><table><thead><tr><th>System</th><th>Reader</th><th>Kind</th><th class="n">Rows</th><th>Endpoint</th><th>SHA-256</th></tr></thead><tbody><tr><td><span class="chip s-oms" title="OMS">Order manager</span></td><td>TMF622 productOrder (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,000 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder</code></td><td><code>17e7c79902b9</code></td></tr><tr><td><span class="chip s-oms" title="OMS">Order manager</span></td><td>TMF641 serviceOrder (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,021 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</code></td><td><code>ce74b8da8276</code></td></tr><tr><td><span class="chip s-prov" title="PROV">Activation system</span></td><td>TMF640 serviceActivation (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,390 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</code></td><td><code>5123dd743f25</code></td></tr></tbody></table></section>
 </main>
 <footer>
-<p>Run <code>063730bdf0bf5bcf</code> · inputs <code>0e18a362633b18939e17e37ea020931e12b6190d2ada80a94e26088b4cc0628d</code> · config <code>d3cdb513cc14f476244c57b733437bda558df9629118e9c5ee5e795d12c46001</code> · rules <code>34fd9a2e5aa6ac89cf0773a0c0aab37ad09cfcbf6dad55b5b9484ca6364d1c74</code></p>
+<p>Run <code>568f8c71e31d871e</code> · inputs <code>0e18a362633b18939e17e37ea020931e12b6190d2ada80a94e26088b4cc0628d</code> · config <code>858fb229a437daae1edc9b2612d4a96cf29c6ab6ac7b9d9b02cb87eb04295bc8</code> · rules <code>34fd9a2e5aa6ac89cf0773a0c0aab37ad09cfcbf6dad55b5b9484ca6364d1c74</code></p>
 <p>Flow Audit 0.4.0. Synthetic data. Impact is an estimate from configurable rates.</p>
 </footer>
 </body>
