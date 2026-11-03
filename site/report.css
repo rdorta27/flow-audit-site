@@ -197,3 +197,5 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 @media (max-width: 600px) { .sysview .sysdetail { grid-template-columns: 1fr; } }
 .sysview .matrix th[scope="row"] { min-width: 190px; }
 .sysview .matrix th[data-sys] { min-width: 110px; }
+.sysview, .sysview > * { min-width: 0; max-width: 100%; }
+.sysview .table-wrap, .sysview .chain { position: relative; }
