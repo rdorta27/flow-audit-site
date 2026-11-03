@@ -26,6 +26,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../report.css">
+<link rel="stylesheet" href="../flow.css">
 <script src="../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/">
 <link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/">
@@ -67,8 +68,24 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>It does not analyse data yet.</strong> Today there is test data, a test server, readers for orders, service orders and activations, and an example report.</span>
+        <span><strong>It already detects one problem, on test data.</strong> It reads orders, service orders and activations, joins them and finds the 20 duplicate orders (R04) with their cost. It does not produce the report or read client data yet.</span>
       </div>
+    </section>
+
+    <section id="flujo">
+      <h2>How it works, step by step</h2>
+      <p class="note">This is what the engine does today on the test data. Click a step, or let it run on its own. The order below is real within the made-up dataset (ORD-1000).</p>
+      <div class="flowdemo" id="flowdemo" data-on="1">
+        <div class="stages">
+          <div class="src"><span class="n" style="font:700 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)">What it reads</span><ul><li>TMF622 <small>Product orders</small></li><li>TMF641 <small>Service orders</small></li><li>TMF640 <small>Activations</small></li></ul><p style="margin:8px 0 0;font-size:12px">read-only (GET). Catalog and orchestration arrive with the client's files (stage 2).</p></div>
+          <button type="button" class="stage" aria-pressed="false"><span class="n">1 · Read</span><span>Three read-only calls fetch the records, each one keeping its origin.</span><code>5,000 orders<br>5,020 service orders<br>5,400 activations</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">2 · Join</span><span>Each record is linked to its order and says how sure the link is.</span><code>5,100 explicit links<br>300 unlinked, in plain sight</code></button><button type="button" class="stage bad" aria-pressed="false"><span class="n">3 · Detect</span><span>Simple rules: each finding points at the records that prove it.</span><code>R04 → 20 orders with<br>a duplicate service order</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">4 · Cost</span><span>Hours and dollars a month, with the formula in view.</span><code>30 h · USD 1,590</code></button>
+        </div>
+        <p class="cap" aria-live="polite"></p>
+        <div class="lanes"></div>
+        <div class="controls"><button type="button" data-play></button></div>
+        <div class="callout cost"><strong>The R04 sum.</strong> 20 orders × 90 min = 30 h; 30 h × USD 45 = USD 1,350 of clean-up; plus 20 duplicate activations × USD 12 = USD 240. Total USD 1,590. The data is made up.</div>
+      </div>
+      <script type="application/json" id="flow-text">{"aria": "Journey of order ORD-1000 through the systems, time running left to right", "lanes": ["Order", "Service order", "Activation"], "wait": "65 h until the second attempt", "play": "▶ Play", "pause": "⏸ Pause", "caps": ["<b>Read.</b> Flow Audit fetches the data with GET and writes nothing. Order ORD-1000 arrives with two service orders.", "<b>Join.</b> Each service order and activation is linked to its order by the id it carries. Records that cannot be linked are not dropped: they are marked.", "<b>Detect.</b> SO-20000 failed and, 65 hours later, SO-30000 appeared on the <i>same order line</i>. A retry should have reused the first order, not created another. That is R04.", "<b>Cost.</b> Cleaning up the extra orders takes 90 min per order; each duplicate activation costs USD 12. Over the 20 orders: 30 h and USD 1,590 a month."]}</script>
     </section>
 
     <section id="ejemplo">
@@ -147,16 +164,16 @@
       <h2>What is being built?</h2>
       <p class="note">Two stages. The second does not start until the first works.</p>
       <div class="grid">
-        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders and service orders from the test server, detect problem R04 (duplicate orders) and produce a report with its cost and formula. In this stage the cost of R04 is USD 1,350, the manual clean-up. The USD 12 per duplicate activation will be measured later.</p></div>
+        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the test server, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up plus USD 240 of duplicate activations, already measured because activations are linked to their service order.</p></div>
         <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is what makes a first real audit possible.</p></div>
         <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Done · version 0.2.0</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Three readers (orders, service orders and activations): they already read all 5,000 orders, 5,020 service orders and 5,400 activation attempts, every record carries its origin and they are joined, saying how sure each link is.</p></div>
-        <div class="card"><span class="k">Now</span><p>Find the 20 duplicate orders in the example (problem R04).</p></div>
-        <div class="card"><span class="k">Next</span><p>Work out the cost of that problem with its formula and produce the report.</p></div>
+        <div class="card"><span class="k">Done · version 0.2.0</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Three readers (orders, service orders and activations): they already read all 5,000 orders, 5,020 service orders and 5,400 activation attempts, every record carries its origin and they are joined, saying how sure each link is; rule R04 already finds the 20 duplicate orders and values them at USD 1,590.</p></div>
+        <div class="card"><span class="k">Now</span><p>Fix the format of the findings (findings.json) so the report can read it.</p></div>
+        <div class="card"><span class="k">Next</span><p>Show each problem's cost with its formula and produce the real report.</p></div>
       </div>
-      <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It does not find problems. It does not generate reports. The example figures come from made-up data.</div>
+      <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It only detects R04. It does not generate reports yet. The example figures come from made-up data.</div>
     </section>
 
     <section id="faq">
@@ -199,5 +216,6 @@
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>
 </div>
+<script src="../flow.js" defer></script>
 </body>
 </html>

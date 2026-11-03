@@ -26,6 +26,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../report.css">
+<link rel="stylesheet" href="../flow.css">
 <script src="../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/">
 <link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/">
@@ -67,8 +68,24 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Todavía no analiza datos.</strong> Hoy existen datos de prueba, un servidor de prueba, lectores de pedidos, órdenes y activaciones, y un informe de ejemplo.</span>
+        <span><strong>Ya detecta un problema, sobre datos de prueba.</strong> Lee pedidos, órdenes y activaciones, los une y encuentra los 20 pedidos duplicados (R04) con su costo. Todavía no genera el informe ni lee datos de clientes.</span>
       </div>
+    </section>
+
+    <section id="flujo">
+      <h2>Cómo funciona, paso a paso</h2>
+      <p class="note">Esto es lo que hace el motor hoy sobre los datos de prueba. Pulsa un paso, o deja que avance solo. El pedido de abajo es real dentro del dataset inventado (ORD-1000).</p>
+      <div class="flowdemo" id="flowdemo" data-on="1">
+        <div class="stages">
+          <div class="src"><span class="n" style="font:700 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)">Lo que lee</span><ul><li>TMF622 <small>Pedidos</small></li><li>TMF641 <small>Órdenes de servicio</small></li><li>TMF640 <small>Activaciones</small></li></ul><p style="margin:8px 0 0;font-size:12px">solo lectura (GET). Catálogo y orquestación llegan con los archivos del cliente (etapa 2).</p></div>
+          <button type="button" class="stage" aria-pressed="false"><span class="n">1 · Leer</span><span>Tres llamadas de solo lectura traen los registros, cada uno con su origen.</span><code>5.000 pedidos<br>5.020 órdenes<br>5.400 activaciones</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">2 · Unir</span><span>Cada registro se enlaza con su pedido y dice qué tan seguro es el enlace.</span><code>5.100 enlaces explícitos<br>300 sin enlace, a la vista</code></button><button type="button" class="stage bad" aria-pressed="false"><span class="n">3 · Detectar</span><span>Reglas simples: cada hallazgo apunta a los registros que lo prueban.</span><code>R04 → 20 pedidos con<br>una orden duplicada</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">4 · Costo</span><span>Horas y dólares al mes, con la fórmula a la vista.</span><code>30 h · USD 1.590</code></button>
+        </div>
+        <p class="cap" aria-live="polite"></p>
+        <div class="lanes"></div>
+        <div class="controls"><button type="button" data-play></button></div>
+        <div class="callout cost"><strong>La cuenta de R04.</strong> 20 pedidos × 90 min = 30 h; 30 h × USD 45 = USD 1.350 de limpieza; más 20 activaciones duplicadas × USD 12 = USD 240. Total USD 1.590. Los datos son inventados.</div>
+      </div>
+      <script type="application/json" id="flow-text">{"aria": "Recorrido del pedido ORD-1000 por los sistemas, con el tiempo de izquierda a derecha", "lanes": ["Pedido", "Orden de servicio", "Activación"], "wait": "65 h hasta el segundo intento", "play": "▶ Reproducir", "pause": "⏸ Pausa", "caps": ["<b>Se lee.</b> Flow Audit pide los datos por GET, sin escribir nada. El pedido ORD-1000 llega con dos órdenes de servicio.", "<b>Se une.</b> Cada orden y cada activación se enlaza con su pedido por el id que lleva. Los que no se pueden enlazar no se descartan: quedan marcados.", "<b>Se detecta.</b> SO-20000 falló y, 65 horas después, apareció SO-30000 sobre la <i>misma línea del pedido</i>. Un reintento debió reutilizar la primera orden, no crear otra. Es R04.", "<b>Se calcula.</b> Limpiar las órdenes sobrantes son 90 min por pedido; cada activación duplicada cuesta USD 12. En los 20 pedidos: 30 h y USD 1.590 al mes."]}</script>
     </section>
 
     <section id="ejemplo">
@@ -147,16 +164,16 @@
       <h2>¿Qué se está construyendo?</h2>
       <p class="note">Dos etapas. La segunda no empieza hasta que la primera funciona.</p>
       <div class="grid">
-        <div class="card"><span class="k">Etapa 1 · Primer informe real</span><p>Leer pedidos y órdenes de servicio del servidor de prueba, detectar el problema R04 (pedidos duplicados) y generar un informe con su costo y la fórmula. En esta etapa el costo de R04 será de USD 1.350, la limpieza manual. Los USD 12 por activación duplicada se medirán más adelante.</p></div>
+        <div class="card"><span class="k">Etapa 1 · Primer informe real</span><p>Leer pedidos, órdenes de servicio y activaciones del servidor de prueba, detectar el problema R04 (pedidos duplicados) y generar un informe con su costo y la fórmula. El costo de R04 es USD 1.590: USD 1.350 de limpieza manual más USD 240 de activaciones duplicadas, ya medidas porque las activaciones se enlazan con su orden.</p></div>
         <div class="card"><span class="k">Etapa 2 · Listo para un cliente</span><p>Leer los archivos que exporta un cliente real (CSV o JSON), con una configuración que traduce sus columnas, y detectar también R01, R02 y R05. Es lo que permite hacer una primera auditoría de verdad.</p></div>
         <div class="card"><span class="k">Más adelante</span><p>R03 y el sistema de orquestación, informe en PDF, una interfaz web y los idiomas del motor.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Hecho · versión 0.2.0</span><p>Un operador inventado con 5.000 pedidos de prueba. Un servidor que los entrega como lo haría un sistema real. Un informe de ejemplo. Tres lectores (pedidos, órdenes de servicio y activaciones): ya leen los 5.000 pedidos, las 5.020 órdenes y los 5.400 intentos de activación, cada dato lleva su origen y se unen entre sí diciendo qué tan seguro es cada enlace.</p></div>
-        <div class="card"><span class="k">Ahora</span><p>Detectar los 20 pedidos duplicados del ejemplo (problema R04).</p></div>
-        <div class="card"><span class="k">Siguiente</span><p>Calcular el costo de ese problema con su fórmula y generar el informe.</p></div>
+        <div class="card"><span class="k">Hecho · versión 0.2.0</span><p>Un operador inventado con 5.000 pedidos de prueba. Un servidor que los entrega como lo haría un sistema real. Un informe de ejemplo. Tres lectores (pedidos, órdenes de servicio y activaciones): ya leen los 5.000 pedidos, las 5.020 órdenes y los 5.400 intentos de activación, cada dato lleva su origen y se unen entre sí diciendo qué tan seguro es cada enlace; la regla R04 ya encuentra los 20 pedidos duplicados y los valora en USD 1.590.</p></div>
+        <div class="card"><span class="k">Ahora</span><p>Fijar el formato de los hallazgos (findings.json) para que el informe lo lea.</p></div>
+        <div class="card"><span class="k">Siguiente</span><p>Mostrar el costo de cada problema con su fórmula y generar el informe real.</p></div>
       </div>
-      <div class="callout" style="margin-top:16px"><strong>Lo que todavía no hace.</strong> No lee datos de clientes. No detecta problemas. No genera informes. Las cifras del ejemplo salen de datos inventados.</div>
+      <div class="callout" style="margin-top:16px"><strong>Lo que todavía no hace.</strong> No lee datos de clientes. Solo detecta R04. No genera informes todavía. Las cifras del ejemplo salen de datos inventados.</div>
     </section>
 
     <section id="faq">
@@ -199,5 +216,6 @@
     <span>TM Forum y TMF son marcas de TM Forum.</span>
   </footer>
 </div>
+<script src="../flow.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+/* Flujo interactivo de la landing: pipeline + recorrido de un pedido por carriles.
+   Usa los colores de style.css; no define paleta propia. */
+.flowdemo { margin: 8px 0 0; }
+.flowdemo .stages { display: grid; grid-template-columns: 1.1fr repeat(4, 1fr); gap: 10px; align-items: stretch; }
+.flowdemo .src, .flowdemo .stage {
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px;
+  position: relative; font-size: 14px; color: var(--muted);
+}
+.flowdemo .src ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 4px; }
+.flowdemo .src li { font: 600 13px var(--mono); color: var(--ink); }
+.flowdemo .src li small { font: 400 11px var(--sans); color: var(--muted); }
+.flowdemo .stage { cursor: pointer; text-align: left; font: 14px/1.45 var(--sans); color: var(--muted); transition: border-color .25s, background .25s; }
+.flowdemo .stage:hover { border-color: var(--brand); }
+.flowdemo .stage h3 { margin: 2px 0 4px; font-size: 17px; color: var(--ink); }
+.flowdemo .stage .n { display: block; margin-bottom: 4px; font: 700 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--brand-ink); }
+.flowdemo .stage code { display: block; margin-top: 8px; font: 12px/1.4 var(--mono); color: var(--ink); }
+.flowdemo .stage[aria-pressed="true"] { border-color: var(--brand); background: var(--tint); box-shadow: 0 0 0 2px var(--brand); }
+.flowdemo .stage.bad[aria-pressed="true"] { border-color: var(--crit); box-shadow: 0 0 0 2px var(--crit); background: var(--crit-bg); }
+.flowdemo .stages > * + *::before {
+  content: "→"; position: absolute; left: -14px; top: 50%; transform: translateY(-50%);
+  color: var(--brand-ink); font-size: 16px; z-index: 1;
+}
+.flowdemo .stages > .stage[aria-pressed="true"]::before { animation: nudge 1.2s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translate(4px, -50%); } }
+.flowdemo .cap { margin: 14px 0 10px; min-height: 3.2em; color: var(--ink); }
+.flowdemo .cap b { color: var(--accent); }
+.flowdemo .controls { display: flex; gap: 8px; align-items: center; margin: 12px 0 0; flex-wrap: wrap; }
+.flowdemo .controls button {
+  font: 600 14px var(--sans); background: var(--card); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 6px; padding: 6px 12px; cursor: pointer;
+}
+.flowdemo .controls button:hover { border-color: var(--brand); }
+.flowdemo .lanes { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.flowdemo svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.flowdemo svg text { fill: var(--ink); font: 12px var(--sans); }
+.flowdemo svg .m { fill: var(--muted); }
+.flowdemo svg .lane { stroke: var(--line); }
+.flowdemo svg .node { fill: var(--bg); stroke: var(--muted); stroke-width: 1.2; }
+.flowdemo svg .err { fill: var(--crit-bg); stroke: var(--crit); stroke-width: 2; }
+.flowdemo svg .ln { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+.flowdemo svg .hot { stroke: var(--crit); stroke-width: 2.5; stroke-dasharray: 6 4; fill: none; animation: dash 1s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -20; } }
+.flowdemo svg [data-s] { opacity: .1; transition: opacity .5s; }
+.flowdemo[data-on="1"] svg [data-s="1"],
+.flowdemo[data-on="2"] svg [data-s="1"], .flowdemo[data-on="2"] svg [data-s="2"],
+.flowdemo[data-on="3"] svg [data-s], .flowdemo[data-on="4"] svg [data-s] { opacity: 1; }
+.flowdemo .cost { display: none; margin-top: 12px; }
+.flowdemo[data-on="4"] .cost { display: block; }
+.flowdemo .cost .grid { margin-top: 0; }
+@media (max-width: 900px) {
+  .flowdemo .stages { grid-template-columns: 1fr; }
+  .flowdemo .stages > * + *::before { content: "↓"; left: 50%; top: -14px; transform: translateX(-50%); }
+  .flowdemo .stages > .stage[aria-pressed="true"]::before { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flowdemo svg .hot, .flowdemo .stages > .stage[aria-pressed="true"]::before { animation: none; }
+  .flowdemo svg [data-s] { transition: none; }
+}

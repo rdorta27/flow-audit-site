@@ -23,6 +23,7 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
+| `site/flow.css`, `site/flow.js` | Flujo interactivo de la landing ("Cómo funciona"): cuatro pasos y el recorrido de un pedido por carriles; los textos viven en `#flow-text` de cada idioma |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
 | `site/report.css` | Estilos del informe y de los SVG |
 | `site/favicon.svg` | Marca |
