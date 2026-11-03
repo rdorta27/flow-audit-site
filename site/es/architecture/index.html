@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: auditoría del flujo pedido-activación en catálogo, OMS, BPM y aprovisionamiento. En construcción.">
+<meta property="og:image:alt" content="Flow Audit: auditoría del flujo pedido-activación en catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación. En construcción.">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arquitectura · Flow Audit">
@@ -25,6 +25,7 @@
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/es/architecture/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/architecture/">
@@ -58,6 +59,7 @@
     <section>
       <span class="eyebrow">Diseño y componentes</span>
       <h1>Arquitectura</h1>
+      <p class="howto">Qué puedes hacer aquí: ver las piezas de Flow Audit, qué lee de cada sistema y qué ya existe y qué es diseño.</p>
       <p class="lead">Flow Audit es una herramienta de línea de comandos local: entra evidencia y sale un informe. Hoy ya lee datos, los unen y detectan un problema (R04); el informe y las otras cuatro reglas siguen siendo diseño.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
@@ -158,7 +160,7 @@
         <div class="block">
           <h3>Mecánica técnica</h3>
           <ul>
-            <li><strong>Ingesta.</strong> Leerá los exportes de catálogo, OMS, BPM y aprovisionamiento.</li>
+            <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
             <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (enlace explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
             <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin reintento, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
             <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo y por el costo de la hora cargada.</li>

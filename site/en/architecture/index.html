@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across product catalog, order manager, process orchestrator and activation system. Under construction.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Architecture · Flow Audit">
@@ -25,6 +25,7 @@
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/en/architecture/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/architecture/">
@@ -58,6 +59,7 @@
     <section>
       <span class="eyebrow">Design and components</span>
       <h1>Architecture</h1>
+      <p class="howto">What you can do here: see the parts of Flow Audit, what it reads from each system, and what already exists and what is still design.</p>
       <p class="lead">Flow Audit is a local-first command line tool: evidence goes in, a report comes out. Today it already reads data, joins it and detects one problem (R04); the report and the other four rules are still design.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
@@ -158,7 +160,7 @@
         <div class="block">
           <h3>Technical mechanics</h3>
           <ul>
-            <li><strong>Ingestion.</strong> Will read the exports of the catalog, OMS, BPM and provisioning.</li>
+            <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
             <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
             <li><strong>Rules.</strong> Five rules will detect failures without retry, manual waits, expired timers, duplicates and a missing identifier.</li>
             <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work and by the loaded hourly cost.</li>

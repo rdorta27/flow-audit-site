@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across product catalog, order manager, process orchestrator and activation system. Under construction.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Demo report · Flow Audit">
@@ -25,6 +25,7 @@
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/en/demo/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
@@ -58,6 +59,7 @@
     <section class="report-head">
       <span class="badge">Mock · synthetic data</span>
       <h1>Audit report<br>Ortelis Satellite</h1>
+      <p class="howto">What you can do here: read a finished audit, with each problem, its cost and the calculation that explains it.</p>
       <p class="lead">Ortelis is a fictional residential satellite internet operator. The report shows the look of a real audit, with five invented losses.</p>
       <p class="meta">September 2026 · 5,000 orders · CAT + OMS + BPM + PROV · USD · run demo-20260901</p>
       <div class="callout">
@@ -95,7 +97,7 @@
       <h2>Executive summary</h2>
       <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a gap between systems that no process owns.</p>
       <div class="callout">
-        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 18,750/month). Retry provisioning before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>80%</strong> of the cost.
+        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 18,750/month). Retry the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>80%</strong> of the cost.
       </div>
     </section>
 
@@ -109,8 +111,8 @@
       </div>
       <div class="scroller" tabindex="0" aria-label="Flow map across the four systems, scrolls on narrow screens">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
-          <title id="flt">Flow of one order across the catalog, OMS, BPM and provisioning</title>
-          <desc id="fld">The catalog validates the order. The BPM opens a manual capacity check. The OMS decomposes the order. The BPM installs. Activation fails in provisioning. The retry creates a second service order and then activates. Findings R01, R02, R03 and R04 are marked.</desc>
+          <title id="flt">Flow of one order across the product catalog, order manager, process orchestrator and activation system</title>
+          <desc id="fld">The catalog validates the order. The BPM opens a manual capacity check. The OMS decomposes the order. The BPM installs. Activation fails in the activation system. The retry creates a second service order and then activates. Findings R01, R02, R03 and R04 are marked.</desc>
           <defs>
             <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -125,7 +127,7 @@
           <text class="lane" x="14" y="56">CATALOG</text>
           <text class="lane" x="14" y="144">OMS</text>
           <text class="lane" x="14" y="232">BPM</text>
-          <text class="lane" x="14" y="320">PROVISIONING</text>
+          <text class="lane" x="14" y="320">ACTIVATION</text>
 
           <g class="node hot">
             <rect class="box" x="110" y="23" width="150" height="58" rx="2"/>
@@ -192,7 +194,7 @@
       <div class="scroller" tabindex="0" aria-label="State machine of the order, scrolls on narrow screens">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 320" role="img" aria-labelledby="smt smd">
           <title id="smt">States of the order and their dead ends</title>
-          <desc id="smd">Normal path: order, validated, decomposed, scheduled, installed, provisioning, active. From decomposed, a retry creates a second service order. From provisioning, a failure without retry drops into a manual queue. A 48-hour timer without compensation leaves the order stuck.</desc>
+          <desc id="smd">Normal path: order, validated, decomposed, scheduled, installed, activating, active. From decomposed, a retry creates a second service order. From activation, a failure without retry drops into a manual queue. A 48-hour timer without compensation leaves the order stuck.</desc>
           <defs>
             <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -207,7 +209,7 @@
           <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="2"/><text class="t" x="352" y="81">Decomposed</text></g>
           <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="2"/><text class="t" x="512" y="81">Scheduled</text></g>
           <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="2"/><text class="t" x="672" y="81">Installed</text></g>
-          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Provisioning</text></g>
+          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Activating</text></g>
           <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="2"/><text class="t" x="992" y="81">Active</text></g>
 
           <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
@@ -247,7 +249,7 @@
           <text class="elabel" x="20" y="310">With no common identifier, joining the four records requires a time window (R05).</text>
         </svg>
       </div>
-      <p class="note">A manual retry takes the order out of the queue. The timer does not. The 50 stuck orders stay in <code>PROVISIONING</code> at month end.</p>
+      <p class="note">A manual retry takes the order out of the queue. The timer does not. The 50 stuck orders stay in <code>ACTIVATION</code> at month end.</p>
     </section>
 
     <section>
@@ -261,7 +263,7 @@
       <div class="scroller" tabindex="0" aria-label="Timeline of order ORD-1005, scrolls on narrow screens">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
           <title id="tlt">Timeline of ORD-1005</title>
-          <desc id="tld">Two hours of manual check. Six of installation. One provisioning failure. Sixty hours with no event. A retry creates a second service order and activates the order.</desc>
+          <desc id="tld">Two hours of manual check. Six of installation. One activation failure. Sixty hours with no event. A retry creates a second service order and activates the order.</desc>
 
           <text class="lane" x="14" y="104">WORK</text>
           <text class="lane" x="14" y="148">WAIT</text>
@@ -348,7 +350,7 @@
           <tbody>
             <tr>
               <th scope="row">R01</th>
-              <td>Provisioning fallout with no retry</td>
+              <td>Activation failure with no retry</td>
               <td><span class="tag crit">Critical</span></td>
               <td class="num">400 · 8%</td>
               <td class="num">283</td>

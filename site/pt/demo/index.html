@@ -25,6 +25,7 @@
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/pt/demo/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
@@ -58,6 +59,7 @@
     <section class="report-head">
       <span class="badge">Mock · dados sintéticos</span>
       <h1>Relatório de auditoria<br>Ortelis Satellite</h1>
+      <p class="howto">O que você pode fazer aqui: ler uma auditoria concluída, com cada problema, seu custo e a conta que o explica.</p>
       <p class="lead">A Ortelis é uma operadora fictícia de internet por satélite residencial. O relatório mostra o aspecto de uma auditoria real, com cinco perdas inventadas.</p>
       <p class="meta">Setembro 2026 · 5.000 pedidos · CAT + OMS + BPM + PROV · USD · execução demo-20260901</p>
       <div class="callout">
@@ -95,7 +97,7 @@
       <h2>Resumo executivo</h2>
       <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um vazio entre sistemas que nenhum processo reivindica.</p>
       <div class="callout">
-        <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 18.750/mês). Tentar de novo o provisionamento antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>80%</strong> do custo.
+        <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 18.750/mês). Tentar de novo o ativação antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>80%</strong> do custo.
       </div>
     </section>
 
@@ -109,8 +111,8 @@
       </div>
       <div class="scroller" tabindex="0" aria-label="Mapa do fluxo entre os quatro sistemas, rola em telas estreitas">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
-          <title id="flt">Fluxo de um pedido entre catálogo, OMS, BPM e provisionamento</title>
-          <desc id="fld">O catálogo valida o pedido. O BPM abre uma checagem manual de capacidade. O OMS decompõe o pedido. O BPM instala. A ativação falha no provisionamento. A nova tentativa cria uma segunda ordem de serviço e depois ativa. Os achados R01, R02, R03 e R04 estão marcados.</desc>
+          <title id="flt">Fluxo de um pedido entre catálogo de produtos, gestor de pedidos, orquestrador de processos e sistema de ativação</title>
+          <desc id="fld">O catálogo valida o pedido. O BPM abre uma checagem manual de capacidade. O OMS decompõe o pedido. O BPM instala. A ativação falha no ativação. A nova tentativa cria uma segunda ordem de serviço e depois ativa. Os achados R01, R02, R03 e R04 estão marcados.</desc>
           <defs>
             <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -125,7 +127,7 @@
           <text class="lane" x="14" y="56">CATÁLOGO</text>
           <text class="lane" x="14" y="144">OMS</text>
           <text class="lane" x="14" y="232">BPM</text>
-          <text class="lane" x="14" y="320">PROVISIONAMENTO</text>
+          <text class="lane" x="14" y="320">ATIVAÇÃO</text>
 
           <g class="node hot">
             <rect class="box" x="110" y="23" width="150" height="58" rx="2"/>
@@ -192,7 +194,7 @@
       <div class="scroller" tabindex="0" aria-label="Máquina de estados do pedido, rola em telas estreitas">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 320" role="img" aria-labelledby="smt smd">
           <title id="smt">Estados do pedido e seus becos sem saída</title>
-          <desc id="smd">Caminho normal: pedido, validado, decomposto, agendado, instalado, provisionando, ativo. A partir de decomposto, uma nova tentativa cria uma segunda ordem de serviço. A partir de provisionando, uma falha sem nova tentativa cai em uma fila manual. Um timer de 48 horas sem compensação deixa o pedido travado.</desc>
+          <desc id="smd">Caminho normal: pedido, validado, decomposto, agendado, instalado, ativando, ativo. A partir de decomposto, uma nova tentativa cria uma segunda ordem de serviço. A partir de provisionando, uma falha sem nova tentativa cai em uma fila manual. Um timer de 48 horas sem compensação deixa o pedido travado.</desc>
           <defs>
             <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -207,7 +209,7 @@
           <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="2"/><text class="t" x="352" y="81">Decomposto</text></g>
           <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="2"/><text class="t" x="512" y="81">Agendado</text></g>
           <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="2"/><text class="t" x="672" y="81">Instalado</text></g>
-          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Provisionando</text></g>
+          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Ativando</text></g>
           <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="2"/><text class="t" x="992" y="81">Ativo</text></g>
 
           <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
@@ -261,7 +263,7 @@
       <div class="scroller" tabindex="0" aria-label="Linha do tempo do pedido ORD-1005, rola em telas estreitas">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
           <title id="tlt">Linha do tempo de ORD-1005</title>
-          <desc id="tld">Duas horas de checagem manual. Seis de instalação. Uma falha de provisionamento. Sessenta horas sem nenhum evento. Uma nova tentativa cria uma segunda ordem de serviço e ativa o pedido.</desc>
+          <desc id="tld">Duas horas de checagem manual. Seis de instalação. Uma falha de ativação. Sessenta horas sem nenhum evento. Uma nova tentativa cria uma segunda ordem de serviço e ativa o pedido.</desc>
 
           <text class="lane" x="14" y="104">TRABALHO</text>
           <text class="lane" x="14" y="148">ESPERA</text>
@@ -348,7 +350,7 @@
           <tbody>
             <tr>
               <th scope="row">R01</th>
-              <td>Fallout de provisionamento sem nova tentativa</td>
+              <td>Fallout de ativação sem nova tentativa</td>
               <td><span class="tag crit">Crítica</span></td>
               <td class="num">400 · 8%</td>
               <td class="num">283</td>

@@ -17,9 +17,13 @@
     }
     fetch("../data/status.json").then(function (r) { return r.json(); }).then(function (data) {
       var mode = "today";
-      var els = Array.prototype.slice.call(document.querySelectorAll("[data-status]"));
+      var api = window.FlowStatus = { mode: mode, data: data, refresh: function () { render(); }, works: function (id) {
+        var c = data.components && data.components[id];
+        return !c || api.mode === "plan" || le(c.since, data.current);
+      } };
       function render() {
-        els.forEach(function (el) {
+        api.mode = mode;
+        Array.prototype.slice.call(document.querySelectorAll("[data-status]")).forEach(function (el) {
           var c = data.components && data.components[el.getAttribute("data-status")];
           if (!c) return;
           var works = mode === "plan" || le(c.since, data.current);
@@ -30,7 +34,8 @@
           el.textContent = works ? t.ok : t.soon + " " + c.since;
         });
       }
-      render();
+      function notify() { try { document.dispatchEvent(new CustomEvent("flowstatus", { detail: api })); } catch (e) {} }
+      render(); notify();
       var host = document.querySelector("[data-status-switch]");
       if (host) {
         host.setAttribute("role", "group");
@@ -45,7 +50,7 @@
           b.addEventListener("click", function () {
             mode = d[0];
             Array.prototype.forEach.call(host.children, function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-            render();
+            render(); notify();
           });
           host.appendChild(b);
         });

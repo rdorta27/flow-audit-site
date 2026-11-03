@@ -26,7 +26,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../report.css">
-<link rel="stylesheet" href="../flow.css">
+<link rel="stylesheet" href="../journey.css">
 <script src="../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/">
 <link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/">
@@ -60,6 +60,7 @@
       <span class="eyebrow">Telecom order audit</span>
       <span class="badge">Under construction · version 0.3.1</span> <span data-status="report-cover">Arrives in 0.4.0</span>
       <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
+      <p class="howto">What you can do here: follow an order from start to finish, see where it broke and what it cost, and open a sample report.</p>
       <p class="lead">Flow Audit is a tool that checks how an order moves from the moment a customer buys to the moment the service works. It will show where each order stops and what each failure costs.</p>
       <p class="note">It is for telecom operators and for the people who audit their sales and activation systems.</p>
       <div class="row">
@@ -72,43 +73,50 @@
       </div>
     </section>
 
-    <section id="flujo">
-      <h2>How it works, step by step</h2>
-      <p class="note">This is what the engine does today on the test data. Click a step, or let it run on its own. The order below is real within the made-up dataset (ORD-1000).</p>
-      <div class="flowdemo" id="flowdemo" data-on="1">
-        <div class="stages">
-          <div class="src"><span class="n" style="font:700 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)">What it reads</span><ul><li>TMF622 <small>Product orders</small></li><li>TMF641 <small>Service orders</small></li><li>TMF640 <small>Activations</small></li></ul><p style="margin:8px 0 0;font-size:12px">read-only (GET). Catalog and orchestration arrive with the client's files (stage 2).</p></div>
-          <button type="button" class="stage" aria-pressed="false"><span class="n">1 · Read</span><span>Three read-only calls fetch the records, each one keeping its origin.</span><code>5,000 orders<br>5,020 service orders<br>5,400 activations</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">2 · Join</span><span>Each record is linked to its order and says how sure the link is.</span><code>5,100 explicit links<br>300 unlinked, in plain sight</code></button><button type="button" class="stage bad" aria-pressed="false"><span class="n">3 · Detect</span><span>Simple rules: each finding points at the records that prove it.</span><code>R04 → 20 orders with<br>a duplicate service order</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">4 · Cost</span><span>Hours and dollars a month, with the formula in view.</span><code>30 h · USD 1,590</code></button>
-        </div>
-        <p class="cap" aria-live="polite"></p>
-        <div class="lanes"></div>
-        <div class="controls"><button type="button" data-play></button></div>
-        <div class="callout cost"><strong>The R04 sum.</strong> 20 orders × 90 min = 30 h; 30 h × USD 45 = USD 1,350 of clean-up; plus 20 duplicate activations × USD 12 = USD 240. Total USD 1,590. The data is made up.</div>
-      </div>
-      <script type="application/json" id="flow-text">{"aria": "Journey of order ORD-1000 through the systems, time running left to right", "lanes": ["Order", "Service order", "Activation"], "wait": "65 hours with no retry", "play": "▶ Play", "pause": "⏸ Pause", "caps": ["<b>Read.</b> Flow Audit fetches the data with GET and writes nothing. Order ORD-1000 arrives with two service orders.", "<b>Join.</b> Each service order and activation is linked to its order by the id it carries. Records that cannot be linked are not dropped: they are marked.", "<b>Detect.</b> SO-20000 failed and, 65 hours later, SO-30000 appeared on the <i>same order line</i>. A retry should have reused the first order, not created another. That is R04.", "<b>Cost.</b> Cleaning up the extra orders takes 90 min per order; each duplicate activation costs USD 12. Over the 20 orders: 30 h and USD 1,590 a month."], "order": "the customer orders one line (order system, TMF622)", "a_h": "First attempt", "b_h": "Retry", "so": "Service order", "act": "Activation", "day": "Day", "failed": "FAILED", "active": "ACTIVE", "ok": "WORKED", "so_a": "Created to activate the line.", "act_a": "The device did not respond.", "so_b": "A NEW order for the same line: a duplicate.", "act_b": "Activated a second time.", "link": "linked to the order · explicit", "banner": "<b>Problem R04.</b> The retry created another order instead of repeating the first. There are now two orders for a single order line.", "costchip": "Cost to clean up: 30 h · USD 1,590 a month (20 orders like this)"}</script>
+    <section id="guia" aria-label="What you can do on this site">
+      <nav class="guide" aria-label="What you can do on this site">
+        <a href="#historia"><b>Understand how an order travels</b><span>Watch the order jump from system to system, step by step.</span></a>
+        <a href="#que"><b>See the systems and what to export</b><span>See the five systems an order passes through and what data to ask the client for from each.</span></a>
+        <a href="demo/index.html"><b>See a finished audit</b><span>Read the problems found, with their cost and the calculation that explains it.</span></a>
+      </nav>
+      <div class="release-bar"><span class="lbl">Show the site at</span><div data-status-switch></div></div>
     </section>
 
-    <section id="ejemplo">
-      <h2>One order, step by step</h2>
-      <p class="note">An example with made-up data: a customer orders satellite internet (order ORD-1005). It should be active within an hour and took 69.</p>
-      <div class="table-wrap">
-        <table>
-          <caption>The journey of order ORD-1005 across the four systems.</caption>
-          <thead><tr><th scope="col">When</th><th scope="col">System</th><th scope="col">What happens</th><th scope="col">Problem</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">0 h</th><td>Catalog</td><td>The offer is validated, but a technical field is missing: the satellite capacity.</td><td>—</td></tr>
-            <tr><th scope="row">+3 min</th><td>Orchestration</td><td>A task is created for a person to check the capacity by hand.</td><td>R02</td></tr>
-            <tr><th scope="row">+2 h</th><td>Orchestration</td><td>An analyst assigns the satellite beam by hand.</td><td>R02</td></tr>
-            <tr><th scope="row">+2 h</th><td>Orders</td><td>The order is split into a service order and an installation order.</td><td>—</td></tr>
-            <tr><th scope="row">+3 h</th><td>Orchestration</td><td>The installation is finished.</td><td>—</td></tr>
-            <tr><th scope="row">+9 h</th><td>Activation</td><td>The first attempt fails: the device does not answer (HUB_TIMEOUT).</td><td>—</td></tr>
-            <tr><th scope="row">+9 h</th><td>Activation</td><td>Nobody schedules a retry.</td><td>R01</td></tr>
-            <tr><th scope="row">+69 h</th><td>Orders</td><td>Someone retries by hand and a second service order is created.</td><td>R04</td></tr>
-            <tr><th scope="row">+69 h</th><td>Activation</td><td>The second attempt works.</td><td>—</td></tr>
-          </tbody>
-        </table>
+    <section id="historia" aria-labelledby="h-historia">
+      <span class="eyebrow">1 · The journey</span>
+      <h2 id="h-historia">A customer orders satellite internet</h2>
+      <p class="note">Order <span class="mono">ORD-1005</span>, from the made-up operator Ortelis. It should work in one hour. It worked at hour 69.</p>
+      <p class="howto">What you can do: press <b>Next</b> or <b>Play</b> to watch the order jump from system to system. Under each system appears what it notes, and below, apart, Flow Audit reads those notes. At every step compare what is known <b>without Flow Audit</b> and <b>with Flow Audit</b>.</p>
+      <ul class="sys-legend" aria-label="The five systems, each with its colour">
+        <li class="sys-chip" data-sys="sale">Sales channel <span data-status="system-sale"></span></li>
+        <li class="sys-chip" data-sys="cat">Product catalog <span class="tag">CAT</span> <span data-status="system-catalog"></span></li>
+        <li class="sys-chip" data-sys="oms">Order manager <span class="tag">OMS</span> <span data-status="system-oms"></span></li>
+        <li class="sys-chip" data-sys="bpm">Process orchestrator <span class="tag">BPM</span> <span data-status="system-bpm"></span></li>
+        <li class="sys-chip" data-sys="prov">Activation system <span class="tag">PROV</span> <span data-status="system-prov"></span></li>
+        <li class="sys-chip" data-sys="fa">Flow Audit (outside the path)</li>
+      </ul>
+      <div class="journey" id="journey">
+        <ol class="j-static" aria-label="The steps of order ORD-1005, to read without JavaScript.">
+          <li><strong>0 h · Sales channel.</strong> Ana orders “SkyHome 200”, satellite internet, on the operator's website. <span data-status="step-1-order"></span></li>
+          <li><strong>+1 min · Product catalog.</strong> The catalog confirms the offer exists. But its technical sheet lacks one piece of data: the satellite's capacity profile. <span data-status="step-2-catalog"></span></li>
+          <li><strong>+3 min · Process orchestrator.</strong> Because the data is missing, the orchestrator opens a task for a person. An analyst checks the capacity by hand: 2 hours. Problem: A field is missing in the catalog and someone fills it in by hand <span class="tag">R02</span>. <span data-status="step-3-manual-task"></span></li>
+          <li><strong>+2 h · Order manager.</strong> The order manager splits the order into technical work: a service order to activate the line and a work order to install the dish. <em>The service order is born here.</em> <span data-status="step-4-service-order"></span></li>
+          <li><strong>+3 h · Process orchestrator.</strong> A technician installs the dish at Ana's home. The installation ends well. <span data-status="step-5-installation"></span></li>
+          <li><strong>+9 h · Activation system.</strong> The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt. Problem: Activation fails and nobody retries it <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
+          <li><strong>+69 h · Order manager.</strong> 60 hours later, Ana calls. Someone retries by hand, but the order manager creates a new service order for the same line instead of repeating the first one. <em>A second service order is born.</em> Problem: A retry creates a second service order <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
+          <li><strong>+69 h · Activation system.</strong> The second attempt works. Ana has internet 69 hours after ordering it. <span data-status="step-8-closure"></span></li>
+        </ol>
       </div>
-      <div class="callout"><strong>Three problems in a single order.</strong> Flow Audit will find them, tie each to its proof and work out what each one costs.</div>
+      <script type="application/json" id="journey-text">{"ui": {"toolbar": "Move through the story", "first": "Go to the start", "prev": "← Previous", "prevKey": "Previous (←)", "next": "Next →", "nextKey": "Next (→)", "play": "▶ Play", "pause": "⏸ Pause", "playKey": "Play or pause (space)", "step": "Step", "stepOf": "Step {n} of {total}", "keys": "Keyboard: <kbd>←<\/kbd> <kbd>→<\/kbd> steps · <kbd>space<\/kbd> play · <kbd>Home<\/kbd> <kbd>End<\/kbd>", "svgTitle": "Order ORD-1005 travels between five systems; each one notes what it did.", "axis": ["0 h · ordered", "9 h · activation fails", "69 h · works"], "gapKey": "gap with no events", "gapArc": "60 h with nothing → manual retry", "band": "FLOW AUDIT · outside the path · reads the notes, never writes", "problem": "Problem", "records": "What the {sys} notes", "without": "Without Flow Audit", "withFA": "With Flow Audit"}, "systems": [{"id": "sale", "name": "Sales channel", "hint": "store or web"}, {"id": "cat", "name": "Product catalog", "hint": "what is sold"}, {"id": "oms", "name": "Order manager", "hint": "splits the work"}, {"id": "bpm", "name": "Process orchestrator", "hint": "coordinates the tasks"}, {"id": "prov", "name": "Activation system", "hint": "switches the service on"}], "steps": [{"sys": "sale", "h": 0, "t": "0 h", "what": "Ana orders “SkyHome 200”, satellite internet, on the operator's website.", "rec": "order       ORD-1005\nline 1      SkyHome 200 (OFFER-SKYHOME-200 v1)", "ticket": "ORD-1005 · line 1", "no": "The sales channel records a new order. It is the last it will know about it.", "fa": "Opens the journey of ORD-1005. Everything that happens later joins this number.", "conf": "It is the starting point: everything else joins this number.", "status": "step-1-order"}, {"sys": "cat", "h": 0.02, "bad": true, "t": "+1 min", "what": "The catalog confirms the offer exists. But its technical sheet lacks one piece of data: the satellite's capacity profile.", "rec": "technical sheet  SPEC-SKYHOME-200\nmissing          capacity_profile", "ticket": "missing capacity_profile", "no": "The catalog validates the offer and moves on. Nobody records that a technical field is missing.", "fa": "Flags the missing field in the technical sheet and joins it to the manual task it causes.", "conf": "Explicit link: the order names its offer.", "status": "step-2-catalog"}, {"sys": "bpm", "h": 0.05, "t": "+3 min", "what": "Because the data is missing, the orchestrator opens a task for a person. An analyst checks the capacity by hand: 2 hours.", "rec": "process  BPM-50005 · order ORD-1005\ntask     capacity_check · person · 2 h", "ticket": "manual check · 2 h", "prob": ["A field is missing in the catalog and someone fills it in by hand", "R02"], "no": "For the analyst, checking by hand is part of the job. Nobody adds up that it happens in all 5,000 orders of the month.", "fa": "Counts that task over the 5,000 orders: 416.7 h and USD 18,750 a month. Problem R02, with the proof.", "conf": "Explicit link: the process carries the order number.", "status": "step-3-manual-task"}, {"sys": "oms", "h": 2, "t": "+2 h", "what": "The order manager splits the order into technical work: a service order to activate the line and a work order to install the dish.", "born": "The service order is born here", "rec": "service order  SO-20005 → ORD-1005, line 1\nwork order     WO-40005 · installation", "ticket": "SO-20005 · line 1", "no": "The order manager sees its service order created. For it, all is well.", "fa": "Joins order SO-20005 to line 1 of the order and says how sure that link is: explicit.", "conf": "Explicit link: the service order points to its line.", "status": "step-4-service-order"}, {"sys": "bpm", "h": 3, "t": "+3 h", "what": "A technician installs the dish at Ana's home. The installation ends well.", "rec": "task  installation · external technician · done", "ticket": "installation · ok", "no": "The orchestrator sees the installation done. For it, all is well.", "fa": "Puts the installation hours into the order's journey.", "conf": "Needs the orchestrator's history, which arrives as a file.", "status": "step-5-installation"}, {"sys": "prov", "h": 9, "bad": true, "t": "+9 h", "what": "The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt.", "rec": "attempt  ACT-70005 · service order SO-20005\nresult   failed (HUB_TIMEOUT)", "ticket": "ACT-70005 · failed", "prob": ["Activation fails and nobody retries it", "R01"], "no": "Activation sees one failed attempt among hundreds. It does not know which customer is waiting or since when.", "fa": "Joins the failed attempt to Ana's order and measures the silence after it: nobody retries. Problem R01.", "conf": "Explicit link: the attempt carries its service order. Measuring the 60 h arrives with the history.", "status": "step-6-activation-fail"}, {"sys": "oms", "h": 69, "bad": true, "gap": true, "t": "+69 h", "what": "60 hours later, Ana calls. Someone retries by hand, but the order manager creates a new service order for the same line instead of repeating the first one.", "born": "A second service order is born", "rec": "service order  SO-30005 → ORD-1005, line 1\nalready existed  SO-20005, same line", "ticket": "SO-30005 · same line!", "prob": ["A retry creates a second service order", "R04"], "no": "Ana calls support. Someone retries by hand. The order manager creates another order and nobody sees there already was one.", "fa": "Sees two service orders on the same line and the 60 h gap. Problem R04: 20 orders like this, USD 1,590 a month.", "conf": "Explicit link on both orders. It is what the engine already detects.", "status": "step-7-second-order"}, {"sys": "prov", "h": 69.02, "t": "+69 h", "what": "The second attempt works. Ana has internet 69 hours after ordering it.", "rec": "attempt  ACT-80005 · service order SO-30005\nresult   worked", "ticket": "ACT-80005 · worked", "no": "Each system says its part went well. Nobody can explain why it took 69 h or what it cost.", "fa": "Closes the journey: 69 h end to end, 60 of them with nobody doing anything, three problems with their cost and proof.", "conf": "Explicit link. The exact 69 h need the history (client-ready).", "status": "step-8-closure"}], "segments": [{"sys": "bpm", "from": 0, "to": 2, "label": "manual check"}, {"sys": "oms", "from": 2, "to": 3, "label": "split"}, {"sys": "bpm", "from": 3, "to": 8, "label": "installation"}, {"sys": "prov", "from": 8, "to": 9, "label": "activation"}, {"sys": null, "from": 9, "to": 69, "label": "60 h with nobody doing anything", "gap": true}]}</script>
+    </section>
+
+    <section id="diferencia" aria-labelledby="h-dif">
+      <span class="eyebrow">The difference</span>
+      <h2 id="h-dif">The same order, told two ways</h2>
+      <div class="diff">
+        <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The cost is an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
+        <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each cost shows its calculation, with the client&#x27;s own rates.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
+      </div>
     </section>
 
     <section id="hallazgos">
@@ -132,22 +140,23 @@
 
     <section id="problema">
       <h2>What problem does it solve?</h2>
-      <p class="note">An order passes through four systems. Each system sees only its own part.</p>
+      <p class="note">An order passes through five systems. Each system sees only its own part.</p>
       <div class="grid">
         <div class="card"><h3>Nobody sees the whole path</h3><p>The sales system says the order is fine. The activation system says it never arrived. Nobody knows where it got lost.</p></div>
         <div class="card"><h3>Failures cost money</h3><p>A duplicate order gets billed twice. An activation without an order wastes resources. A waiting order delays billing.</p></div>
-        <div class="card"><h3>Flow Audit joins the pieces</h3><p>It will read the four systems, join the data for each order and show where the path breaks.</p></div>
+        <div class="card"><h3>Flow Audit joins the pieces</h3><p>It will read the five systems, join the data for each order and show where the path breaks.</p></div>
       </div>
     </section>
 
     <section id="que">
       <h2>What will it check?</h2>
-      <p class="note">These are the four systems an order goes through, in order.</p>
+      <p class="note">These are the five systems an order goes through, in order. The codes (CAT, OMS, BPM, PROV) are only secondary tags.</p>
       <div class="grid">
-        <div class="card"><span class="k">1 · Catalog</span><h3>What is sold</h3><p>It will check that each offer has the technical data needed to activate it.</p></div>
-        <div class="card"><span class="k">2 · Order management</span><h3>How the order is split</h3><p>It will follow how an order splits into technical tasks. It will count retries and orders that need manual work.</p></div>
-        <div class="card"><span class="k">3 · Orchestration</span><h3>Who does each step</h3><p>It will find where the process waits and which tasks end up done by hand.</p></div>
-        <div class="card"><span class="k">4 · Activation</span><h3>When the service works</h3><p>It will count activation attempts, which ones fail and how long confirmation takes.</p></div>
+        <div class="card"><span class="k">1 · Sales channel</span><h3>Where the order is placed</h3><p>It is the origin: the order arrives already noted in the order manager.</p></div>
+        <div class="card"><span class="k">2 · Product catalog <span class="tag">CAT</span></span><h3>What is sold</h3><p>It will check that each offer has the technical data needed to activate it.</p></div>
+        <div class="card"><span class="k">3 · Order manager <span class="tag">OMS</span></span><h3>How the order is split</h3><p>It will follow how an order splits into technical tasks. It will count retries and orders that need manual work.</p></div>
+        <div class="card"><span class="k">4 · Process orchestrator <span class="tag">BPM</span></span><h3>Who does each step</h3><p>It will find where the process waits and which tasks end up done by hand.</p></div>
+        <div class="card"><span class="k">5 · Activation system <span class="tag">PROV</span></span><h3>When the service works</h3><p>It will count activation attempts, which ones fail and how long confirmation takes.</p></div>
       </div>
     </section>
 
@@ -189,11 +198,25 @@
 
     <section id="glosario">
       <h2>Glossary</h2>
-      <div class="grid">
-        <div class="card"><h3>BSS and OSS</h3><p>An operator's systems. BSS handles sales and billing. OSS handles the network and activation.</p></div>
-        <div class="card"><h3>TM Forum (TMF)</h3><p>An industry association that publishes common formats so these systems can exchange data.</p></div>
-        <div class="card"><h3>Test server</h3><p>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</p></div>
-      </div>
+      <p class="note">The words this page uses, in order of appearance.</p>
+      <dl class="gloss">
+        <div><dt>Order</dt><dd>What a customer buys, for example “SkyHome 200”. The sales channel receives it.</dd></div>
+        <div><dt>Order line</dt><dd>Each product inside an order. An order can have several lines.</dd></div>
+        <div><dt>Service order</dt><dd>The technical instruction the order manager creates to activate a line. There should be one per line.</dd></div>
+        <div><dt>Work order</dt><dd>The task for a person or crew, for example installing the dish.</dd></div>
+        <div><dt>Activation attempt</dt><dd>Each time the activation system tries to switch the service on. It can work or fail.</dd></div>
+        <div><dt>Retry</dt><dd>Trying again an activation that failed. It should reuse the original service order, not create another.</dd></div>
+        <div><dt>Link (explicit, inferred, missing)</dt><dd>How a record is joined to its order. Explicit: it carries the number. Inferred: deduced from other data, with less certainty. Missing: it could not be joined and stays in view.</dd></div>
+        <div><dt>Evidence</dt><dd>The specific records that prove a problem.</dd></div>
+        <div><dt>Snapshot vs history</dt><dd>A snapshot is the current state of a record; history is everything that changed and when. Measuring waits needs the history.</dd></div>
+        <div><dt>Gap</dt><dd>Time in which an order has no event at all: nobody does anything.</dd></div>
+        <div><dt>Finding</dt><dd>A problem the audit found, with its evidence and its cost.</dd></div>
+        <div><dt>Loaded hour</dt><dd>One hour of work at its rate (for example USD 45), used to price manual work.</dd></div>
+        <div><dt>Revenue at risk</dt><dd>Money not yet collected or that could be lost because the service is not activated.</dd></div>
+        <div><dt>BSS and OSS</dt><dd>An operator&#x27;s systems. BSS handles sales and billing. OSS handles the network and activation.</dd></div>
+        <div><dt>TM Forum (TMF)</dt><dd>An industry association that publishes common formats so these systems can exchange data.</dd></div>
+        <div><dt>Test server</dt><dd>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</dd></div>
+      </dl>
     </section>
 
     <section id="seguir">
@@ -216,7 +239,7 @@
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>
 </div>
-<script src="../flow.js" defer></script>
+<script src="../journey.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>

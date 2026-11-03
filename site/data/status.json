@@ -1,6 +1,6 @@
 {
   "current": "0.3.2",
-  "plan": "0.5.0",
+  "plan": "0.6.0",
   "components": {
     "step-1-order": {
       "since": "0.3.0"
@@ -79,19 +79,6 @@
     }
   },
   "unused_ok": [
-    "step-1-order",
-    "step-2-catalog",
-    "step-3-manual-task",
-    "step-4-service-order",
-    "step-5-installation",
-    "step-6-activation-fail",
-    "step-7-second-order",
-    "step-8-closure",
-    "system-sale",
-    "system-catalog",
-    "system-oms",
-    "system-bpm",
-    "system-prov",
     "seam-sale-cat",
     "seam-cat-oms",
     "seam-oms-bpm",

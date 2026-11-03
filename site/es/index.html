@@ -26,7 +26,7 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../report.css">
-<link rel="stylesheet" href="../flow.css">
+<link rel="stylesheet" href="../journey.css">
 <script src="../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/">
 <link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/">
@@ -60,6 +60,7 @@
       <span class="eyebrow">Auditoría de pedidos de telecomunicaciones</span>
       <span class="badge">En construcción · versión 0.3.1</span> <span data-status="report-cover">Llega en 0.4.0</span>
       <h1>¿Dónde se atascan los pedidos?<br><em>Flow Audit lo encontrará.</em></h1>
+      <p class="howto">Qué puedes hacer aquí: seguir un pedido de principio a fin, ver dónde se rompió y qué costó, y abrir un informe de ejemplo.</p>
       <p class="lead">Flow Audit es una herramienta para revisar cómo avanza un pedido desde que el cliente compra hasta que el servicio funciona. Señalará dónde se detiene cada pedido y cuánto cuesta cada falla.</p>
       <p class="note">Es para operadores de telecomunicaciones y para quienes auditan sus sistemas de venta y activación.</p>
       <div class="row">
@@ -72,43 +73,50 @@
       </div>
     </section>
 
-    <section id="flujo">
-      <h2>Cómo funciona, paso a paso</h2>
-      <p class="note">Esto es lo que hace el motor hoy sobre los datos de prueba. Pulsa un paso, o deja que avance solo. El pedido de abajo es real dentro del dataset inventado (ORD-1000).</p>
-      <div class="flowdemo" id="flowdemo" data-on="1">
-        <div class="stages">
-          <div class="src"><span class="n" style="font:700 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--brand-ink)">Lo que lee</span><ul><li>TMF622 <small>Pedidos</small></li><li>TMF641 <small>Órdenes de servicio</small></li><li>TMF640 <small>Activaciones</small></li></ul><p style="margin:8px 0 0;font-size:12px">solo lectura (GET). Catálogo y orquestación llegan con los archivos del cliente (etapa 2).</p></div>
-          <button type="button" class="stage" aria-pressed="false"><span class="n">1 · Leer</span><span>Tres llamadas de solo lectura traen los registros, cada uno con su origen.</span><code>5.000 pedidos<br>5.020 órdenes<br>5.400 activaciones</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">2 · Unir</span><span>Cada registro se enlaza con su pedido y dice qué tan seguro es el enlace.</span><code>5.100 enlaces explícitos<br>300 sin enlace, a la vista</code></button><button type="button" class="stage bad" aria-pressed="false"><span class="n">3 · Detectar</span><span>Reglas simples: cada hallazgo apunta a los registros que lo prueban.</span><code>R04 → 20 pedidos con<br>una orden duplicada</code></button><button type="button" class="stage" aria-pressed="false"><span class="n">4 · Costo</span><span>Horas y dólares al mes, con la fórmula a la vista.</span><code>30 h · USD 1.590</code></button>
-        </div>
-        <p class="cap" aria-live="polite"></p>
-        <div class="lanes"></div>
-        <div class="controls"><button type="button" data-play></button></div>
-        <div class="callout cost"><strong>La cuenta de R04.</strong> 20 pedidos × 90 min = 30 h; 30 h × USD 45 = USD 1.350 de limpieza; más 20 activaciones duplicadas × USD 12 = USD 240. Total USD 1.590. Los datos son inventados.</div>
-      </div>
-      <script type="application/json" id="flow-text">{"aria": "Recorrido del pedido ORD-1000 por los sistemas, con el tiempo de izquierda a derecha", "lanes": ["Pedido", "Orden de servicio", "Activación"], "wait": "65 horas sin reintento", "play": "▶ Reproducir", "pause": "⏸ Pausa", "caps": ["<b>Se lee.</b> Flow Audit pide los datos por GET, sin escribir nada. El pedido ORD-1000 llega con dos órdenes de servicio.", "<b>Se une.</b> Cada orden y cada activación se enlaza con su pedido por el id que lleva. Los que no se pueden enlazar no se descartan: quedan marcados.", "<b>Se detecta.</b> SO-20000 falló y, 65 horas después, apareció SO-30000 sobre la <i>misma línea del pedido</i>. Un reintento debió reutilizar la primera orden, no crear otra. Es R04.", "<b>Se calcula.</b> Limpiar las órdenes sobrantes son 90 min por pedido; cada activación duplicada cuesta USD 12. En los 20 pedidos: 30 h y USD 1.590 al mes."], "order": "el cliente pide una línea (sistema de pedidos, TMF622)", "a_h": "Primer intento", "b_h": "Reintento", "so": "Orden de servicio", "act": "Activación", "day": "Día", "failed": "FALLÓ", "active": "ACTIVA", "ok": "FUNCIONÓ", "so_a": "Se crea para activar la línea.", "act_a": "El equipo no respondió.", "so_b": "Una orden NUEVA para la misma línea: duplicada.", "act_b": "Se activa por segunda vez.", "link": "enlazado al pedido · explícito", "banner": "<b>Problema R04.</b> El reintento creó otra orden en vez de repetir la primera. Ahora hay dos órdenes para una sola línea del pedido.", "costchip": "Costo de limpiarlo: 30 h · USD 1.590 al mes (20 pedidos como este)"}</script>
+    <section id="guia" aria-label="Qué puedes hacer en este sitio">
+      <nav class="guide" aria-label="Qué puedes hacer en este sitio">
+        <a href="#historia"><b>Entender cómo viaja un pedido</b><span>Mira el pedido saltar de sistema en sistema, paso a paso.</span></a>
+        <a href="#que"><b>Ver los sistemas y qué exportar</b><span>Mira los cinco sistemas por los que pasa un pedido y qué datos hay que pedirle al cliente de cada uno.</span></a>
+        <a href="demo/index.html"><b>Ver una auditoría terminada</b><span>Lee los problemas encontrados, con su costo y la cuenta que lo explica.</span></a>
+      </nav>
+      <div class="release-bar"><span class="lbl">Mostrar el sitio en</span><div data-status-switch></div></div>
     </section>
 
-    <section id="ejemplo">
-      <h2>Un pedido, paso a paso</h2>
-      <p class="note">Un ejemplo con datos inventados: un cliente pide internet por satélite (pedido ORD-1005). Debería activarse en una hora y tardó 69.</p>
-      <div class="table-wrap">
-        <table>
-          <caption>El recorrido del pedido ORD-1005 por los cuatro sistemas.</caption>
-          <thead><tr><th scope="col">Cuándo</th><th scope="col">Sistema</th><th scope="col">Qué pasa</th><th scope="col">Problema</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">0 h</th><td>Catálogo</td><td>Se valida la oferta, pero falta un dato técnico: la capacidad del satélite.</td><td>—</td></tr>
-            <tr><th scope="row">+3 min</th><td>Orquestación</td><td>Se crea una tarea para que una persona revise la capacidad a mano.</td><td>R02</td></tr>
-            <tr><th scope="row">+2 h</th><td>Orquestación</td><td>Un analista asigna el haz del satélite a mano.</td><td>R02</td></tr>
-            <tr><th scope="row">+2 h</th><td>Pedidos</td><td>El pedido se divide en una orden de servicio y una de instalación.</td><td>—</td></tr>
-            <tr><th scope="row">+3 h</th><td>Orquestación</td><td>Termina la instalación.</td><td>—</td></tr>
-            <tr><th scope="row">+9 h</th><td>Activación</td><td>El primer intento falla: el equipo no responde (HUB_TIMEOUT).</td><td>—</td></tr>
-            <tr><th scope="row">+9 h</th><td>Activación</td><td>Nadie programa un reintento.</td><td>R01</td></tr>
-            <tr><th scope="row">+69 h</th><td>Pedidos</td><td>Alguien reintenta a mano y se crea una segunda orden de servicio.</td><td>R04</td></tr>
-            <tr><th scope="row">+69 h</th><td>Activación</td><td>El segundo intento funciona.</td><td>—</td></tr>
-          </tbody>
-        </table>
+    <section id="historia" aria-labelledby="h-historia">
+      <span class="eyebrow">1 · El viaje</span>
+      <h2 id="h-historia">Un cliente pide internet por satélite</h2>
+      <p class="note">Pedido <span class="mono">ORD-1005</span>, del operador inventado Ortelis. Debería funcionar en una hora. Funcionó a las 69.</p>
+      <p class="howto">Qué puedes hacer: pulsa <b>Siguiente</b> o <b>Reproducir</b> para ver el pedido saltar de sistema en sistema. Debajo de cada sistema aparece lo que anota, y abajo, aparte, Flow Audit lee esas notas. En cada paso compara lo que se sabe <b>sin Flow Audit</b> y <b>con Flow Audit</b>.</p>
+      <ul class="sys-legend" aria-label="Los cinco sistemas, cada uno con su color">
+        <li class="sys-chip" data-sys="sale">Canal de venta <span data-status="system-sale"></span></li>
+        <li class="sys-chip" data-sys="cat">Catálogo de productos <span class="tag">CAT</span> <span data-status="system-catalog"></span></li>
+        <li class="sys-chip" data-sys="oms">Gestor de pedidos <span class="tag">OMS</span> <span data-status="system-oms"></span></li>
+        <li class="sys-chip" data-sys="bpm">Orquestador de procesos <span class="tag">BPM</span> <span data-status="system-bpm"></span></li>
+        <li class="sys-chip" data-sys="prov">Sistema de activación <span class="tag">PROV</span> <span data-status="system-prov"></span></li>
+        <li class="sys-chip" data-sys="fa">Flow Audit (fuera del camino)</li>
+      </ul>
+      <div class="journey" id="journey">
+        <ol class="j-static" aria-label="Los pasos del pedido ORD-1005, para leer sin JavaScript.">
+          <li><strong>0 h · Canal de venta.</strong> Ana pide «SkyHome 200», internet por satélite, en la web del operador. <span data-status="step-1-order"></span></li>
+          <li><strong>+1 min · Catálogo de productos.</strong> El catálogo confirma que la oferta existe. Pero a su ficha técnica le falta un dato: el perfil de capacidad del satélite. <span data-status="step-2-catalog"></span></li>
+          <li><strong>+3 min · Orquestador de procesos.</strong> Como falta el dato, el orquestador abre una tarea para una persona. Un analista revisa la capacidad a mano: 2 horas. Problema: Falta un dato en el catálogo y alguien lo completa a mano <span class="tag">R02</span>. <span data-status="step-3-manual-task"></span></li>
+          <li><strong>+2 h · Gestor de pedidos.</strong> El gestor de pedidos reparte el pedido en trabajo técnico: una orden de servicio para activar la línea y una orden de trabajo para instalar la antena. <em>Aquí nace la orden de servicio.</em> <span data-status="step-4-service-order"></span></li>
+          <li><strong>+3 h · Orquestador de procesos.</strong> Un técnico instala la antena en casa de Ana. La instalación termina bien. <span data-status="step-5-installation"></span></li>
+          <li><strong>+9 h · Sistema de activación.</strong> El sistema de activación intenta encender el servicio. El equipo del satélite no responde y el intento falla. Nadie programa otro intento. Problema: La activación falla y nadie la reintenta <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
+          <li><strong>+69 h · Gestor de pedidos.</strong> 60 horas después, Ana llama. Alguien reintenta a mano, pero el gestor crea una orden de servicio nueva para la misma línea en vez de repetir la primera. <em>Nace una segunda orden de servicio.</em> Problema: Un reintento crea una segunda orden de servicio <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
+          <li><strong>+69 h · Sistema de activación.</strong> El segundo intento funciona. Ana tiene internet 69 horas después de pedirlo. <span data-status="step-8-closure"></span></li>
+        </ol>
       </div>
-      <div class="callout"><strong>Tres problemas en un solo pedido.</strong> Flow Audit los encontrará, los unirá con sus pruebas y calculará cuánto cuesta cada uno.</div>
+      <script type="application/json" id="journey-text">{"ui": {"toolbar": "Avanzar por la historia", "first": "Ir al inicio", "prev": "← Anterior", "prevKey": "Anterior (←)", "next": "Siguiente →", "nextKey": "Siguiente (→)", "play": "▶ Reproducir", "pause": "⏸ Pausa", "playKey": "Reproducir o pausar (espacio)", "step": "Paso", "stepOf": "Paso {n} de {total}", "keys": "Teclado: <kbd>←<\/kbd> <kbd>→<\/kbd> pasos · <kbd>espacio<\/kbd> reproducir · <kbd>Inicio<\/kbd> <kbd>Fin<\/kbd>", "svgTitle": "El pedido ORD-1005 viaja entre cinco sistemas; cada uno anota lo que hizo.", "axis": ["0 h · pide", "9 h · falla la activación", "69 h · funciona"], "gapKey": "hueco sin eventos", "gapArc": "60 h sin nada → reintento a mano", "band": "FLOW AUDIT · fuera del camino · lee las notas, nunca escribe", "problem": "Problema", "records": "Lo que anota {sys}", "without": "Sin Flow Audit", "withFA": "Con Flow Audit"}, "systems": [{"id": "sale", "name": "Canal de venta", "hint": "tienda o web"}, {"id": "cat", "name": "Catálogo de productos", "hint": "qué se vende"}, {"id": "oms", "name": "Gestor de pedidos", "hint": "reparte el trabajo"}, {"id": "bpm", "name": "Orquestador de procesos", "hint": "coordina las tareas"}, {"id": "prov", "name": "Sistema de activación", "hint": "enciende el servicio"}], "steps": [{"sys": "sale", "h": 0, "t": "0 h", "what": "Ana pide «SkyHome 200», internet por satélite, en la web del operador.", "rec": "pedido      ORD-1005\nlínea 1     SkyHome 200 (OFFER-SKYHOME-200 v1)", "ticket": "ORD-1005 · línea 1", "no": "El canal de venta registra un pedido nuevo. Es lo último que sabrá de él.", "fa": "Abre el recorrido de ORD-1005. Todo lo que pase después se une a este número.", "conf": "Es el punto de partida: todo lo demás se une a este número.", "status": "step-1-order"}, {"sys": "cat", "h": 0.02, "bad": true, "t": "+1 min", "what": "El catálogo confirma que la oferta existe. Pero a su ficha técnica le falta un dato: el perfil de capacidad del satélite.", "rec": "ficha técnica  SPEC-SKYHOME-200\nfalta          capacity_profile", "ticket": "falta capacity_profile", "no": "El catálogo valida la oferta y sigue. Nadie registra que falta un dato técnico.", "fa": "Marca el dato que falta en la ficha técnica y lo une a la tarea manual que provoca.", "conf": "Enlace explícito: el pedido nombra su oferta.", "status": "step-2-catalog"}, {"sys": "bpm", "h": 0.05, "t": "+3 min", "what": "Como falta el dato, el orquestador abre una tarea para una persona. Un analista revisa la capacidad a mano: 2 horas.", "rec": "proceso  BPM-50005 · pedido ORD-1005\ntarea    capacity_check · persona · 2 h", "ticket": "revisión manual · 2 h", "prob": ["Falta un dato en el catálogo y alguien lo completa a mano", "R02"], "no": "Para el analista, revisar a mano es parte del trabajo. Nadie suma que pasa en los 5.000 pedidos del mes.", "fa": "Cuenta esa tarea en los 5.000 pedidos: 416,7 h y USD 18.750 al mes. Problema R02, con la prueba.", "conf": "Enlace explícito: el proceso lleva el número de pedido.", "status": "step-3-manual-task"}, {"sys": "oms", "h": 2, "t": "+2 h", "what": "El gestor de pedidos reparte el pedido en trabajo técnico: una orden de servicio para activar la línea y una orden de trabajo para instalar la antena.", "born": "Aquí nace la orden de servicio", "rec": "orden de servicio  SO-20005 → ORD-1005, línea 1\norden de trabajo   WO-40005 · instalación", "ticket": "SO-20005 · línea 1", "no": "El gestor ve su orden de servicio creada. Para él, todo va bien.", "fa": "Une la orden SO-20005 a la línea 1 del pedido y dice qué tan seguro es ese enlace: explícito.", "conf": "Enlace explícito: la orden apunta a su línea.", "status": "step-4-service-order"}, {"sys": "bpm", "h": 3, "t": "+3 h", "what": "Un técnico instala la antena en casa de Ana. La instalación termina bien.", "rec": "tarea  installation · técnico externo · terminada", "ticket": "instalación · ok", "no": "El orquestador ve la instalación terminada. Para él, todo va bien.", "fa": "Pone las horas de instalación en el recorrido del pedido.", "conf": "Necesita el historial del orquestador, que llega por archivo.", "status": "step-5-installation"}, {"sys": "prov", "h": 9, "bad": true, "t": "+9 h", "what": "El sistema de activación intenta encender el servicio. El equipo del satélite no responde y el intento falla. Nadie programa otro intento.", "rec": "intento    ACT-70005 · orden SO-20005\nresultado  falló (HUB_TIMEOUT)", "ticket": "ACT-70005 · falló", "prob": ["La activación falla y nadie la reintenta", "R01"], "no": "Activación ve un intento fallido entre cientos. No sabe qué cliente está esperando ni desde cuándo.", "fa": "Une el intento fallido al pedido de Ana y mide el silencio que viene después: nadie lo reintenta. Problema R01.", "conf": "Enlace explícito: el intento lleva su orden de servicio. Medir las 60 h llega con el historial.", "status": "step-6-activation-fail"}, {"sys": "oms", "h": 69, "bad": true, "gap": true, "t": "+69 h", "what": "60 horas después, Ana llama. Alguien reintenta a mano, pero el gestor crea una orden de servicio nueva para la misma línea en vez de repetir la primera.", "born": "Nace una segunda orden de servicio", "rec": "orden de servicio  SO-30005 → ORD-1005, línea 1\nya existía         SO-20005, misma línea", "ticket": "SO-30005 · ¡misma línea!", "prob": ["Un reintento crea una segunda orden de servicio", "R04"], "no": "Ana llama a soporte. Alguien reintenta a mano. El gestor crea otra orden y nadie ve que ya había una.", "fa": "Ve dos órdenes sobre la misma línea y las 60 h de hueco. Problema R04: 20 pedidos así, USD 1.590 al mes.", "conf": "Enlace explícito en las dos órdenes. Es lo que el motor ya detecta.", "status": "step-7-second-order"}, {"sys": "prov", "h": 69.02, "t": "+69 h", "what": "El segundo intento funciona. Ana tiene internet 69 horas después de pedirlo.", "rec": "intento    ACT-80005 · orden SO-30005\nresultado  funcionó", "ticket": "ACT-80005 · funcionó", "no": "Cada sistema dice que su parte salió bien. Nadie puede explicar por qué tardó 69 h ni cuánto costó.", "fa": "Cierra el recorrido: 69 h de punta a punta, 60 sin que nadie hiciera nada, tres problemas con su costo y su prueba.", "conf": "Enlace explícito. Las 69 h exactas necesitan el historial (listo para un cliente).", "status": "step-8-closure"}], "segments": [{"sys": "bpm", "from": 0, "to": 2, "label": "revisión manual"}, {"sys": "oms", "from": 2, "to": 3, "label": "reparto"}, {"sys": "bpm", "from": 3, "to": 8, "label": "instalación"}, {"sys": "prov", "from": 8, "to": 9, "label": "activación"}, {"sys": null, "from": 9, "to": 69, "label": "60 h sin que nadie haga nada", "gap": true}]}</script>
+    </section>
+
+    <section id="diferencia" aria-labelledby="h-dif">
+      <span class="eyebrow">La diferencia</span>
+      <h2 id="h-dif">El mismo pedido, contado de dos maneras</h2>
+      <div class="diff">
+        <div class="without"><h3>Sin Flow Audit</h3><ul><li>Cinco equipos, cinco pantallas. Cada uno ve que su parte salió bien.</li><li>Las 60 horas sin actividad no aparecen en ningún sistema.</li><li>La auditoría se hace con entrevistas y planillas. El costo es una opinión.</li><li>Dos auditorías del mismo operador llegan a conclusiones distintas.</li></ul></div>
+        <div class="with"><h3>Con Flow Audit</h3><ul><li>Un recorrido por pedido, armado con lo que cada sistema ya anota.</li><li>Cada problema señala el pedido y los registros que lo prueban.</li><li>Cada costo muestra su cuenta, con las tarifas del propio cliente.</li><li>Con los mismos datos, el resultado es siempre el mismo. No toca ningún sistema.</li></ul></div>
+      </div>
     </section>
 
     <section id="hallazgos">
@@ -132,22 +140,23 @@
 
     <section id="problema">
       <h2>¿Qué problema resuelve?</h2>
-      <p class="note">Un pedido pasa por cuatro sistemas. Cada sistema ve solo su parte.</p>
+      <p class="note">Un pedido pasa por cinco sistemas. Cada sistema ve solo su parte.</p>
       <div class="grid">
         <div class="card"><h3>Nadie ve el recorrido completo</h3><p>El sistema de ventas dice que el pedido está bien. El de activación dice que no le llegó nada. Nadie sabe dónde se perdió.</p></div>
         <div class="card"><h3>Las fallas cuestan dinero</h3><p>Un pedido duplicado se cobra dos veces. Una activación sin pedido gasta recursos. Un pedido que espera retrasa el cobro.</p></div>
-        <div class="card"><h3>Flow Audit une las piezas</h3><p>Leerá los cuatro sistemas, unirá los datos de cada pedido y mostrará dónde se rompe el recorrido.</p></div>
+        <div class="card"><h3>Flow Audit une las piezas</h3><p>Leerá los cinco sistemas, unirá los datos de cada pedido y mostrará dónde se rompe el recorrido.</p></div>
       </div>
     </section>
 
     <section id="que">
       <h2>¿Qué revisará?</h2>
-      <p class="note">Estos son los cuatro sistemas que recorre un pedido, en orden.</p>
+      <p class="note">Estos son los cinco sistemas que recorre un pedido, en orden. Los códigos (CAT, OMS, BPM, PROV) son solo etiquetas secundarias.</p>
       <div class="grid">
-        <div class="card"><span class="k">1 · Catálogo</span><h3>Lo que se vende</h3><p>Comprobará que cada oferta tenga los datos técnicos necesarios para activarla.</p></div>
-        <div class="card"><span class="k">2 · Gestión de pedidos</span><h3>Cómo se reparte el pedido</h3><p>Seguirá cómo un pedido se divide en tareas técnicas. Contará los reintentos y los pedidos que necesitan intervención manual.</p></div>
-        <div class="card"><span class="k">3 · Orquestación</span><h3>Quién hace cada paso</h3><p>Detectará dónde espera el proceso y qué tareas terminan a mano.</p></div>
-        <div class="card"><span class="k">4 · Activación</span><h3>Cuándo funciona el servicio</h3><p>Contará los intentos de activación, cuáles fallan y cuánto tarda la confirmación.</p></div>
+        <div class="card"><span class="k">1 · Canal de venta</span><h3>Dónde se hace el pedido</h3><p>Es el origen: el pedido llega ya anotado en el gestor de pedidos.</p></div>
+        <div class="card"><span class="k">2 · Catálogo de productos <span class="tag">CAT</span></span><h3>Lo que se vende</h3><p>Comprobará que cada oferta tenga los datos técnicos necesarios para activarla.</p></div>
+        <div class="card"><span class="k">3 · Gestor de pedidos <span class="tag">OMS</span></span><h3>Cómo se reparte el pedido</h3><p>Seguirá cómo un pedido se divide en tareas técnicas. Contará los reintentos y los pedidos que necesitan intervención manual.</p></div>
+        <div class="card"><span class="k">4 · Orquestador de procesos <span class="tag">BPM</span></span><h3>Quién hace cada paso</h3><p>Detectará dónde espera el proceso y qué tareas terminan a mano.</p></div>
+        <div class="card"><span class="k">5 · Sistema de activación <span class="tag">PROV</span></span><h3>Cuándo funciona el servicio</h3><p>Contará los intentos de activación, cuáles fallan y cuánto tarda la confirmación.</p></div>
       </div>
     </section>
 
@@ -189,11 +198,25 @@
 
     <section id="glosario">
       <h2>Glosario</h2>
-      <div class="grid">
-        <div class="card"><h3>BSS y OSS</h3><p>Los sistemas de un operador. BSS gestiona ventas y cobros. OSS gestiona la red y la activación.</p></div>
-        <div class="card"><h3>TM Forum (TMF)</h3><p>Asociación del sector que publica formatos comunes para que estos sistemas intercambien datos.</p></div>
-        <div class="card"><h3>Servidor de prueba</h3><p>Un programa nuestro que imita un sistema real con datos inventados. Siempre avisa de que los datos son simulados.</p></div>
-      </div>
+      <p class="note">Las palabras que usa esta página, en orden de aparición.</p>
+      <dl class="gloss">
+        <div><dt>Pedido</dt><dd>Lo que un cliente compra, por ejemplo «SkyHome 200». Lo recibe el canal de venta.</dd></div>
+        <div><dt>Línea del pedido</dt><dd>Cada producto dentro de un pedido. Un pedido puede tener varias líneas.</dd></div>
+        <div><dt>Orden de servicio</dt><dd>La instrucción técnica que el gestor de pedidos crea para activar una línea. Debe haber una por línea.</dd></div>
+        <div><dt>Orden de trabajo</dt><dd>La tarea para una persona o cuadrilla, por ejemplo instalar la antena.</dd></div>
+        <div><dt>Intento de activación</dt><dd>Cada vez que el sistema de activación intenta encender el servicio. Puede funcionar o fallar.</dd></div>
+        <div><dt>Reintento</dt><dd>Volver a intentar una activación que falló. Debería reutilizar la orden original, no crear otra.</dd></div>
+        <div><dt>Enlace (explícito, inferido, faltante)</dt><dd>Cómo se une un registro a su pedido. Explícito: lleva el número. Inferido: se deduce por otros datos, con menos certeza. Faltante: no se pudo unir y queda a la vista.</dd></div>
+        <div><dt>Evidencia</dt><dd>Los registros concretos que prueban un problema.</dd></div>
+        <div><dt>Foto o historial</dt><dd>La foto es el estado actual de un registro; el historial es todo lo que cambió y cuándo. Medir esperas necesita el historial.</dd></div>
+        <div><dt>Hueco</dt><dd>Tiempo en que un pedido no tiene ningún evento: nadie hace nada.</dd></div>
+        <div><dt>Hallazgo</dt><dd>Un problema que la auditoría encontró, con su evidencia y su costo.</dd></div>
+        <div><dt>Hora cargada</dt><dd>Una hora de trabajo con su tarifa (por ejemplo USD 45), que se usa para valorar el trabajo manual.</dd></div>
+        <div><dt>Ingreso en riesgo</dt><dd>Dinero que aún no se cobra o podría perderse porque el servicio no se activa.</dd></div>
+        <div><dt>BSS y OSS</dt><dd>Los sistemas de un operador. BSS gestiona ventas y cobros. OSS gestiona la red y la activación.</dd></div>
+        <div><dt>TM Forum (TMF)</dt><dd>Asociación del sector que publica formatos comunes para que estos sistemas intercambien datos.</dd></div>
+        <div><dt>Servidor de prueba</dt><dd>Un programa nuestro que imita un sistema real con datos inventados. Siempre avisa de que los datos son simulados.</dd></div>
+      </dl>
     </section>
 
     <section id="seguir">
@@ -216,7 +239,7 @@
     <span>TM Forum y TMF son marcas de TM Forum.</span>
   </footer>
 </div>
-<script src="../flow.js" defer></script>
+<script src="../journey.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>
