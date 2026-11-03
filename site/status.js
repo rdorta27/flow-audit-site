@@ -9,13 +9,15 @@
       pt: { ok: "Funciona hoje", soon: "Chega na", today: "Hoje", plan: "No fim do plano", label: "Versão mostrada na página", at: "Na", dimToday: "O que está esmaecido chega na", dimPlan: "Tudo funcionando" }
     };
     var t = T[lang] || T.en;
+    var cs = document.currentScript;
+    var base = cs && cs.src ? cs.src.replace(/status\.js[^\/]*$/, "") : "../";
     function num(v) { return String(v).split(".").map(function (n) { return parseInt(n, 10) || 0; }); }
     function le(a, b) {
       var x = num(a), y = num(b);
       for (var i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) < (y[i] || 0); }
       return true;
     }
-    fetch("../data/status.json").then(function (r) { return r.json(); }).then(function (data) {
+    fetch(base + "data/status.json").then(function (r) { return r.json(); }).then(function (data) {
       var mode = "today";
       var api = window.FlowStatus = { mode: mode, data: data, refresh: function () { render(); }, works: function (id) {
         var c = data.components && data.components[id];
@@ -27,7 +29,7 @@
           var c = data.components && data.components[el.getAttribute("data-status")];
           if (!c) return;
           var works = mode === "plan" || le(c.since, data.current);
-          var quiet = /^(system|step)-/.test(el.getAttribute("data-status"));
+          var quiet = /^(system|step|finding)-/.test(el.getAttribute("data-status"));
           if (quiet) {
             // Lists stay quiet: no badge per item, the item is dimmed instead (one switch explains it).
             el.textContent = ""; el.hidden = true;

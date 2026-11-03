@@ -1,114 +1,633 @@
 {
-  "generatedAt": "2026-10-01T00:00:00.000Z",
-  "runHash": "demo-20260901",
+  "schema_version": "findings/1",
+  "engine_version": "0.5.0-target",
+  "run": {
+    "id": "demo-20260901-mock",
+    "generated_at": "2026-10-01T00:00:00Z",
+    "inputs_hash": "mock: not computed",
+    "config_hash": "mock: not computed",
+    "rules_hash": "mock: not computed"
+  },
+  "sources": [
+    {
+      "system": "CAT",
+      "name": "catalog",
+      "kind": "file",
+      "endpoint": "data/demo/catalog.json",
+      "simulated": false,
+      "evidence_kind": "history",
+      "records": 7,
+      "rows_read": 7,
+      "rows_discarded": 0,
+      "sha256": "981d3bc395a88ccac863c7d48c460ee2e82d74305164e8d7207d2236fd94b426"
+    },
+    {
+      "system": "OMS",
+      "name": "orders and service orders",
+      "kind": "file",
+      "endpoint": "data/demo/oms_orders.csv",
+      "simulated": false,
+      "evidence_kind": "history",
+      "records": 5021,
+      "rows_read": 5021,
+      "rows_discarded": 0,
+      "sha256": "0e73a63689bfbe5d78687c39d4ab9815ee580b544fc26bc08aeb629db6f90361"
+    },
+    {
+      "system": "BPM",
+      "name": "process history",
+      "kind": "file",
+      "endpoint": "data/demo/bpm_history.jsonl",
+      "simulated": false,
+      "evidence_kind": "history",
+      "records": 5021,
+      "rows_read": 5021,
+      "rows_discarded": 0,
+      "sha256": "e664f0a394cfc0b016b003b5955dd43522201f26bb02c97a4ce75fd52cb37ede"
+    },
+    {
+      "system": "PROV",
+      "name": "activation attempts",
+      "kind": "file",
+      "endpoint": "data/demo/provisioning.jsonl",
+      "simulated": false,
+      "evidence_kind": "history",
+      "records": 5390,
+      "rows_read": 5390,
+      "rows_discarded": 0,
+      "sha256": "64086fadd47c2b6d83276a1981787dc3e9fedb212ed5ae932afb50b22c21ed6f"
+    }
+  ],
+  "labels": {
+    "synthetic_data": true,
+    "simulated_integration": false,
+    "estimated_impact": true
+  },
   "config": {
     "currency": "USD",
-    "ordersPerMonth": 5000,
-    "loadedHourUsd": 45,
+    "orders_per_month": 5000,
+    "loaded_hour_usd": 45,
     "rates": {
-      "manualMinutes": 5,
-      "dailyFollowupMinutes": 15,
-      "cleanupMinutes": 90,
-      "investigationMinutes": 45,
-      "duplicateActivationCostUsd": 12,
-      "arpuUsd": 65
+      "manual_minutes": 5,
+      "daily_followup_minutes": 15,
+      "cleanup_minutes": 90,
+      "investigation_minutes": 45,
+      "duplicate_activation_cost_usd": 12,
+      "arpu_usd": 65
     },
     "thresholds": {
-      "retryWindowHours": 24,
-      "stuckAfterHours": 72,
-      "duplicateWindowMinutes": 10
+      "retry_window_hours": 24,
+      "stuck_after_hours": 72,
+      "duplicate_window_minutes": 10
     }
   },
+  "correlation": {
+    "links": {
+      "attempt->service_order": {
+        "explicit": 5090,
+        "inferred": 300,
+        "ambiguous": 0,
+        "missing": 0,
+        "conflicting": 0
+      }
+    },
+    "unresolved": 0,
+    "unmapped": 0
+  },
+  "systems": [
+    {
+      "system": "CAT",
+      "name": "Product catalog",
+      "role": "lists what is sold and the technical data needed to switch it on",
+      "position": 1,
+      "read": true,
+      "source_kind": "file",
+      "records": 7,
+      "coverage": 1,
+      "cannot_observe": [],
+      "findings": [
+        "R02"
+      ]
+    },
+    {
+      "system": "OMS",
+      "name": "Order manager",
+      "role": "receives the order and splits it into service orders",
+      "position": 2,
+      "read": true,
+      "source_kind": "file",
+      "records": 5021,
+      "coverage": 1,
+      "cannot_observe": [],
+      "findings": [
+        "R01",
+        "R04",
+        "R05"
+      ]
+    },
+    {
+      "system": "BPM",
+      "name": "Process orchestrator",
+      "role": "runs the tasks in order and hands some to people",
+      "position": 3,
+      "read": true,
+      "source_kind": "file",
+      "records": 5021,
+      "coverage": 1,
+      "cannot_observe": [],
+      "findings": [
+        "R02",
+        "R03"
+      ]
+    },
+    {
+      "system": "PROV",
+      "name": "Activation system",
+      "role": "switches the service on in the network; can fail and retry",
+      "position": 4,
+      "read": true,
+      "source_kind": "file",
+      "records": 5390,
+      "coverage": 0.9318,
+      "cannot_observe": [],
+      "findings": [
+        "R01",
+        "R04",
+        "R05"
+      ]
+    }
+  ],
   "findings": [
     {
       "id": "R01",
-      "title": "Fallout de aprovisionamiento sin reintento",
+      "rule_version": "R01@1",
+      "title": "Activation fails and nobody retries it",
+      "plain_summary": "An activation attempt failed and no later attempt came within the retry window, so the order waited for a person.",
+      "where": "PROV",
       "severity": "critical",
-      "affectedOrders": 400,
-      "shareOfOrders": 0.08,
+      "status": "detected",
+      "affected_orders": 400,
+      "share_of_orders": 0.08,
+      "evidence_level": "history",
       "evidence": [
         {
-          "orderRef": "ORD-1005",
-          "eventIds": [],
-          "note": "ACT-70005 termina en failed (HUB_TIMEOUT); el siguiente intento llega 60 h después."
+          "order_ref": "ORD-1005",
+          "event_ids": [
+            "ACT-70005"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70005",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "ACT-70005 ends in failed (HUB_TIMEOUT); the next attempt comes 60 h later."
         },
         {
-          "orderRef": "ORD-1100",
-          "eventIds": [],
-          "note": "Sin intento posterior dentro de la ventana de 24 h."
+          "order_ref": "ORD-1100",
+          "event_ids": [],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70100",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "No later attempt inside the 24 h window."
         }
       ],
-      "impact": { "hoursMonth": 283.3, "usdMonth": 12750, "revenueAtRiskUsd": 0 },
-      "recommendation": "Reintentar automáticamente con backoff antes de enviar el pedido a la cola manual."
+      "evidence_total": 400,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "cost": {
+        "currency": "USD",
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 283.3,
+        "amount_month": 12750,
+        "formula": "hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; amount = hours × loaded_hour_usd; wait_days = 2.5",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.daily_followup_minutes",
+            "value": 15,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "loaded_hour_usd",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Manual follow-up of failed activations",
+            "amount": 12750,
+            "basis": "rate_assumption",
+            "observed": 400,
+            "input_keys": [
+              "rates.manual_minutes",
+              "rates.daily_followup_minutes",
+              "loaded_hour_usd"
+            ]
+          }
+        ],
+        "unmeasured": [],
+        "revenue_at_risk": {
+          "amount": 0,
+          "basis": null,
+          "label": "not lost revenue"
+        }
+      },
+      "recommendation": "Retry automatically with backoff before sending the order to the manual queue."
     },
     {
       "id": "R02",
-      "title": "Chequeo manual de capacidad por atributo faltante",
+      "rule_version": "R02@1",
+      "title": "Manual capacity check for a missing catalog attribute",
+      "plain_summary": "The technical sheet of the offer has no capacity_profile, so a person checks the capacity of each order by hand.",
+      "where": "CAT→BPM",
       "severity": "critical",
-      "affectedOrders": 4167,
-      "shareOfOrders": 0.8334,
+      "status": "detected",
+      "affected_orders": 4167,
+      "share_of_orders": 0.8334,
+      "evidence_level": "history",
       "evidence": [
         {
-          "orderRef": "ORD-1005",
-          "eventIds": [],
-          "note": "SPEC-SKYHOME-200 no define capacity_profile; el proceso abre una tarea manual de 5 minutos."
+          "order_ref": "ORD-1005",
+          "event_ids": [
+            "BPM-50005"
+          ],
+          "records": [
+            {
+              "system": "CAT",
+              "external_id": "SPEC-SKYHOME-200",
+              "endpoint": "data/demo/catalog.json"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50005",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "SPEC-SKYHOME-200 has no capacity_profile; the process opens a 5-minute manual task."
         }
       ],
-      "impact": { "hoursMonth": 347.3, "usdMonth": 15626, "revenueAtRiskUsd": 0 },
-      "recommendation": "Agregar capacity_profile al spec y automatizar la asignación de haz en el aprovisionamiento."
+      "evidence_total": 4167,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "cost": {
+        "currency": "USD",
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 347.3,
+        "amount_month": 15626.25,
+        "formula": "hours = affected × rates.manual_minutes / 60; amount = hours × loaded_hour_usd",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "loaded_hour_usd",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Manual capacity check",
+            "amount": 15626.25,
+            "basis": "rate_assumption",
+            "observed": 4167,
+            "input_keys": [
+              "rates.manual_minutes",
+              "loaded_hour_usd"
+            ]
+          }
+        ],
+        "unmeasured": [],
+        "revenue_at_risk": {
+          "amount": 0,
+          "basis": null,
+          "label": "not lost revenue"
+        }
+      },
+      "recommendation": "Add capacity_profile to the spec and automate the beam assignment."
     },
     {
       "id": "R03",
-      "title": "Timer de BPM vence sin compensación",
+      "rule_version": "R03@1",
+      "title": "Process timer expires without compensation",
+      "plain_summary": "A timer in the activation subprocess expired and nothing closed or requeued the order, so it stays open.",
+      "where": "BPM",
       "severity": "critical",
-      "affectedOrders": 150,
-      "shareOfOrders": 0.03,
+      "status": "detected",
+      "affected_orders": 150,
+      "share_of_orders": 0.03,
+      "evidence_level": "history",
       "evidence": [
         {
-          "orderRef": "ORD-1400",
-          "eventIds": [],
-          "note": "activation_timer expira a las 48 h; no hay compensación ni evento posterior."
+          "order_ref": "ORD-1400",
+          "event_ids": [
+            "BPM-51400"
+          ],
+          "records": [
+            {
+              "system": "BPM",
+              "external_id": "BPM-51400",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expires at 48 h; there is no compensation and no later event."
         }
       ],
-      "impact": { "hoursMonth": 317, "usdMonth": 14267, "revenueAtRiskUsd": 3250 },
-      "recommendation": "Compensar el timer: cerrar o reencolar el pedido a las 48 h en lugar de dejarlo abierto."
+      "evidence_total": 150,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "cost": {
+        "currency": "USD",
+        "kind": "accumulated_to_period_end",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 317.0,
+        "amount_month": 14267,
+        "formula": "hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; amount = hours × loaded_hour_usd; stuck = 50, days_stuck ≈ 25",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.daily_followup_minutes",
+            "value": 15,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "loaded_hour_usd",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.arpu_usd",
+            "value": 65,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Follow-up of stuck orders",
+            "amount": 14267,
+            "basis": "rate_assumption",
+            "observed": 50,
+            "input_keys": [
+              "rates.manual_minutes",
+              "rates.daily_followup_minutes",
+              "loaded_hour_usd"
+            ]
+          }
+        ],
+        "unmeasured": [],
+        "revenue_at_risk": {
+          "amount": 3250,
+          "basis": "arpu_assumption",
+          "label": "not lost revenue"
+        }
+      },
+      "recommendation": "Compensate the timer: close or requeue the order at 48 h instead of leaving it open."
     },
     {
       "id": "R04",
-      "title": "Reintento del OMS duplica la orden de servicio",
+      "rule_version": "R04@2",
+      "title": "Duplicate service order",
+      "plain_summary": "A retry created a second service order for the same order line instead of reusing the first.",
+      "where": "OMS",
       "severity": "medium",
-      "affectedOrders": 20,
-      "shareOfOrders": 0.004,
+      "status": "detected",
+      "affected_orders": 20,
+      "share_of_orders": 0.004,
+      "evidence_level": "history",
       "evidence": [
         {
-          "orderRef": "ORD-1005",
-          "eventIds": [],
-          "note": "SO-20005 y SO-30005, mismo pedido y mismo spec, creadas por el reintento."
+          "order_ref": "ORD-1005",
+          "event_ids": [
+            "SO-20005",
+            "SO-30005"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "SO-20005",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "OMS",
+              "external_id": "SO-30005",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "SO-20005 and SO-30005, same order and same spec, created by the retry."
         }
       ],
-      "impact": { "hoursMonth": 30, "usdMonth": 1590, "revenueAtRiskUsd": 0 },
-      "recommendation": "Hacer el reintento idempotente por clave de orden y spec."
+      "evidence_total": 20,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "cost": {
+        "currency": "USD",
+        "kind": "one_off",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 30,
+        "amount_month": 1590,
+        "formula": "hours = duplicates × rates.cleanup_minutes / 60; amount = hours × loaded_hour_usd + duplicates_that_reached_activation × rates.duplicate_activation_cost_usd",
+        "inputs": [
+          {
+            "key": "rates.cleanup_minutes",
+            "value": 90,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "loaded_hour_usd",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.duplicate_activation_cost_usd",
+            "value": 12,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Clean-up of duplicate service orders",
+            "amount": 1350,
+            "basis": "rate_assumption",
+            "observed": 20,
+            "input_keys": [
+              "rates.cleanup_minutes",
+              "loaded_hour_usd"
+            ]
+          },
+          {
+            "name": "Duplicate activations",
+            "amount": 240,
+            "basis": "rate_assumption",
+            "observed": 20,
+            "input_keys": [
+              "rates.duplicate_activation_cost_usd"
+            ]
+          }
+        ],
+        "unmeasured": [],
+        "revenue_at_risk": {
+          "amount": 0,
+          "basis": null,
+          "label": "not lost revenue"
+        }
+      },
+      "recommendation": "Make the retry reuse the existing service order, keyed by order and spec."
     },
     {
       "id": "R05",
-      "title": "Sin identificador de correlación end-to-end",
+      "rule_version": "R05@1",
+      "title": "No end-to-end correlation id",
+      "plain_summary": "Some attempts carry no service order reference and can only be joined to their order by terminal serial.",
+      "where": "OMS→PROV",
       "severity": "critical",
-      "affectedOrders": 300,
-      "shareOfOrders": 0.06,
+      "status": "detected",
+      "affected_orders": 300,
+      "share_of_orders": 0.06,
+      "evidence_level": "weak",
       "evidence": [
         {
-          "orderRef": "ORD-1550",
-          "eventIds": [],
-          "note": "El intento ACT-70550 no lleva so_ref; solo se une por serial SN-900550."
+          "order_ref": "ORD-1550",
+          "event_ids": [
+            "ACT-70550"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70550",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "Attempt ACT-70550 has no so_ref; it joins only by serial SN-900550."
         }
       ],
-      "impact": { "hoursMonth": 225, "usdMonth": 10125, "revenueAtRiskUsd": 0 },
-      "recommendation": "Propagar un id de correlación común desde la orden hasta el intento de aprovisionamiento."
+      "evidence_total": 300,
+      "confidence": {
+        "level": "possible",
+        "inferred_link_share": 1
+      },
+      "in_total": false,
+      "cost": {
+        "currency": "USD",
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 225,
+        "amount_month": 10125,
+        "formula": "hours = incidents_per_month × rates.investigation_minutes / 60; amount = hours × loaded_hour_usd",
+        "inputs": [
+          {
+            "key": "rates.investigation_minutes",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "loaded_hour_usd",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Investigation of uncorrelated incidents",
+            "amount": 10125,
+            "basis": "rate_assumption",
+            "observed": 300,
+            "input_keys": [
+              "rates.investigation_minutes",
+              "loaded_hour_usd"
+            ]
+          }
+        ],
+        "unmeasured": [],
+        "revenue_at_risk": {
+          "amount": 0,
+          "basis": null,
+          "label": "not lost revenue"
+        }
+      },
+      "recommendation": "Propagate one correlation id from the order to the activation attempt."
     }
   ],
+  "overlap": {
+    "by_order": {},
+    "pairs": []
+  },
+  "totals": {
+    "gross": {
+      "hours": 977.6,
+      "amount": 44233.25
+    },
+    "net": {
+      "hours": 977.6,
+      "amount": 44233.25
+    }
+  },
   "journeys": [
     {
-      "orderRef": "ORD-1005",
+      "order_ref": "ORD-1005",
       "segments": [
         {
           "system": "CAT",
@@ -122,8 +641,7 @@
           "from": "2026-09-01T00:47:06.000Z",
           "to": "2026-09-01T02:41:06.000Z",
           "kind": "wait",
-          "state": "MANUAL_CAPACITY_CHECK",
-          "actor": "human"
+          "state": "MANUAL_CAPACITY_CHECK"
         },
         {
           "system": "OMS",
@@ -137,8 +655,7 @@
           "from": "2026-09-01T03:39:54.000Z",
           "to": "2026-09-01T09:39:54.000Z",
           "kind": "work",
-          "state": "INSTALLED",
-          "actor": "partner"
+          "state": "INSTALLED"
         },
         {
           "system": "PROV",
@@ -169,8 +686,114 @@
           "state": "ACTIVE"
         }
       ],
-      "findings": ["R01", "R02", "R04"],
-      "correlation": { "strong": true, "gaps": [] }
+      "segments_unavailable": null,
+      "findings": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "correlation": {
+        "strong": true,
+        "gaps": []
+      },
+      "story": [
+        {
+          "at": "2026-09-01T00:44:06.000Z",
+          "system": "OMS",
+          "what": "The order manager received the order.",
+          "record": {
+            "id": "ORD-1005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T00:47:06.000Z",
+          "system": "CAT",
+          "what": "The catalog confirmed the offer exists, but its technical sheet has no capacity_profile.",
+          "record": {
+            "id": "SPEC-SKYHOME-200",
+            "endpoint": "data/demo/catalog.json"
+          },
+          "finding": "R02",
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T00:47:06.000Z",
+          "system": "BPM",
+          "what": "A person checked the capacity by hand for 2 hours.",
+          "record": {
+            "id": "BPM-50005",
+            "endpoint": "data/demo/bpm_history.jsonl"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T02:44:06.000Z",
+          "system": "OMS",
+          "what": "A service order (SO-20005) was created for line 1.",
+          "record": {
+            "id": "SO-20005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T09:39:54.000Z",
+          "system": "BPM",
+          "what": "The installation ended well.",
+          "record": {
+            "id": "BPM-50005",
+            "endpoint": "data/demo/bpm_history.jsonl"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T09:41:06.000Z",
+          "system": "PROV",
+          "what": "An activation attempt on SO-20005 failed (HUB_TIMEOUT); nobody scheduled another.",
+          "record": {
+            "id": "ACT-70005",
+            "endpoint": "data/demo/provisioning.jsonl"
+          },
+          "finding": "R01",
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:41:06.000Z",
+          "system": "OMS",
+          "what": "A second service order (SO-30005) was created for line 1, which already had one.",
+          "record": {
+            "id": "SO-30005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": "R04",
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:41:46.000Z",
+          "system": "PROV",
+          "what": "An activation attempt on SO-30005 worked.",
+          "record": {
+            "id": "ACT-80005",
+            "endpoint": "data/demo/provisioning.jsonl"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        }
+      ]
     }
   ]
 }

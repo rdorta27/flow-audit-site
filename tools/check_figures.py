@@ -33,15 +33,31 @@ def fmt(n, sep):
 def main():
     data = json.loads((ROOT / "data" / "report.json").read_text())
     findings = data["findings"]
-    total = sum(f["impact"]["usdMonth"] for f in findings)
-    hours = sum(f["impact"]["hoursMonth"] for f in findings)
-    risk = sum(f["impact"]["revenueAtRiskUsd"] for f in findings)
+    # Target design: all five rules (R05 counted apart by the engine, D-11).
+    total = sum(f["cost"]["amount_month"] for f in findings)
+    hours = sum(f["cost"]["hours_month"] for f in findings)
+    risk = sum(f["cost"]["revenue_at_risk"]["amount"] for f in findings)
     errors = []
+    if data.get("schema_version") != "findings/1":
+        errors.append("report.json: schema_version must be findings/1")
+    cfg = data["config"]
+    for f in findings:
+        cost = f["cost"]
+        if abs(sum(t["amount"] for t in cost["terms"]) - cost["amount_month"]) > 1e-6:
+            errors.append(f"report.json: {f['id']} amount differs from the sum of its terms")
+        for inp in cost["inputs"]:
+            v = cfg
+            for part in inp["key"].split("."):
+                v = v.get(part) if isinstance(v, dict) else None
+            if v != inp["value"]:
+                errors.append(f"report.json: {f['id']} input {inp['key']} differs from config")
+        if not cost["formula"]:
+            errors.append(f"report.json: {f['id']} has no formula")
     for lang, sep in SEP.items():
         landing = (ROOT / lang / "index.html").read_text()
         demo = (ROOT / lang / "demo" / "index.html").read_text()
         for f in findings:
-            usd = fmt(f["impact"]["usdMonth"], sep)
+            usd = fmt(f["cost"]["amount_month"], sep)
             if usd not in landing:
                 errors.append(f"{lang}/index.html: {f['id']} cost {usd} missing")
             if usd not in demo:
