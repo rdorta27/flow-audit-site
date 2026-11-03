@@ -32,6 +32,29 @@ def visible(html):
     metas = re.findall(r'<meta[^>]+(?:alt|description|title)[^>]*content="([^"]*)"', html)
     return re.sub(r"<[^>]+>", " ", html) + " " + " ".join(metas)
 
+# D-21: hours, not money. No money figure or money wording in any page (engine/ excluded).
+EXPECTED_HOURS = {"R04": 30, "R01": 283.3, "R02": 347.3, "R03": 317, "R05": 225}
+EXPECTED_TOTAL = 977.6
+MONEY_JSON = [r"usd", r"arpu", r"revenue", r"currency", r"amount", r"loaded_hour"]
+MONEY_VISIBLE = [r"USD", r"US\$", r"\$", r"ARPU", r"\bcost(?:s|o|os|e|es)?\b", r"\bcustos?\b", r"\bdólar", r"\bdollar",
+                 r"\bdinero\b", r"\bmoney\b", r"\bdinheiro\b", r"\brevenue\b", r"\bingresos? en riesgo",
+                 r"\breceita em risco", r"hora cargada", r"hora carregada", r"loaded hour"]
+
+
+def hfmt(n, dec):
+    s = f"{n:.1f}".rstrip("0").rstrip(".")
+    return s.replace(".", dec)
+
+
+def check_money(rel, html, errors):
+    """Visible text, meta descriptions and the journey JSON must carry no money wording."""
+    journey = " ".join(re.findall(r'id="journey-text">(.*?)</script>', html, flags=re.S))
+    text = visible(html) + " " + journey
+    for pat in MONEY_VISIBLE:
+        m = re.search(pat, text, re.I if pat not in (r"USD", r"US\$", r"ARPU") else 0)
+        if m:
+            errors.append(f"{rel}: money wording /{pat}/ near {text[max(0, m.start()-30):m.end()+30]!r}")
+
 
 def fmt(n, sep):
     return f"{round(n):,}".replace(",", sep)
@@ -40,42 +63,47 @@ def fmt(n, sep):
 def main():
     data = json.loads((ROOT / "data" / "report.json").read_text())
     findings = data["findings"]
-    # Target design: R01 to R04; R05 is shown apart (D-11).
-    total = sum(f["cost"]["amount_month"] for f in findings if f.get("in_total", True))  # D-11
-    hours = sum(f["cost"]["hours_month"] for f in findings if f.get("in_total", True))
-    risk = sum(f["cost"]["revenue_at_risk"]["amount"] for f in findings)
+    # D-21: the site shows hours, not money. Target design: R01 to R04; R05 is shown apart (D-11).
+    hours = sum(f["effort"]["hours_month"] for f in findings if f.get("in_total", True))
     errors = []
     if data.get("schema_version") != "findings/1":
         errors.append("report.json: schema_version must be findings/1")
     cfg = data["config"]
+    raw = (ROOT / "data" / "report.json").read_text()
+    for pat in MONEY_JSON:
+        if re.search(pat, raw, re.I):
+            errors.append(f"report.json: money key or wording /{pat}/")
     for f in findings:
-        cost = f["cost"]
-        if abs(sum(t["amount"] for t in cost["terms"]) - cost["amount_month"]) > 1e-6:
-            errors.append(f"report.json: {f['id']} amount differs from the sum of its terms")
-        for inp in cost["inputs"]:
+        e = f["effort"]
+        for inp in e["inputs"]:
             v = cfg
             for part in inp["key"].split("."):
                 v = v.get(part) if isinstance(v, dict) else None
             if v != inp["value"]:
                 errors.append(f"report.json: {f['id']} input {inp['key']} differs from config")
-        if not cost["formula"]:
+        if not e["formula"]:
             errors.append(f"report.json: {f['id']} has no formula")
+        if abs(sum(t["hours"] for t in e["terms"]) - e["hours_month"]) > 1e-6:
+            errors.append(f"report.json: {f['id']} hours differ from the sum of its terms")
+        want = EXPECTED_HOURS.get(f["id"])
+        if want is not None and abs(e["hours_month"] - want) > 1e-6:
+            errors.append(f"report.json: {f['id']} hours {e['hours_month']} expected {want}")
+    if abs(hours - EXPECTED_TOTAL) > 0.05:
+        errors.append(f"report.json: total hours {hours} expected {EXPECTED_TOTAL}")
     for lang, sep in SEP.items():
         landing = (ROOT / lang / "index.html").read_text()
         demo = (ROOT / lang / "demo" / "index.html").read_text()
+        dec = "," if sep == "." else "."
         for f in findings:
-            usd = fmt(f["cost"]["amount_month"], sep)
-            if usd not in landing:
-                errors.append(f"{lang}/index.html: {f['id']} cost {usd} missing")
-            if usd not in demo:
-                errors.append(f"{lang}/demo: {f['id']} cost {usd} missing")
+            h = hfmt(f["effort"]["hours_month"], dec)
+            for page, text in (("index.html", landing), ("demo", demo)):
+                if re.search(r"(?<![\d.,])" + re.escape(h) + r" h", text) is None:
+                    errors.append(f"{lang}/{page}: {f['id']} hours {h} h missing")
         for page, text in (("index.html", landing), ("demo", demo)):
-            if fmt(total, sep) not in text:
-                errors.append(f"{lang}/{page}: total {fmt(total, sep)} missing")
-            if fmt(risk, sep) not in text:
-                errors.append(f"{lang}/{page}: revenue at risk {fmt(risk, sep)} missing")
-        if fmt(hours, sep) not in demo:
-            errors.append(f"{lang}/demo: total hours {fmt(hours, sep)} missing")
+            if "978" not in text:
+                errors.append(f"{lang}/{page}: total 978 h missing")
+        if hfmt(hours, dec) not in demo and "978" not in demo:
+            errors.append(f"{lang}/demo: total hours missing")
         for page, text in (("index.html", landing), ("demo", demo)):
             flat = text.replace(",", "").replace(".", "")
             for old in STALE:
@@ -104,6 +132,10 @@ def main():
             for old in STALE:
                 if old in flat:
                     errors.append(f"{lang}/{d}: stale figure {old}")
+    for page in sorted(ROOT.rglob("*.html")):
+        rel = page.relative_to(ROOT)
+        if rel.parts[0] != "engine":
+            check_money(str(rel), page.read_text(), errors)
     status = json.loads((ROOT / "data" / "status.json").read_text())
     comps = status["components"]
     used = set()
@@ -116,7 +148,7 @@ def main():
     if errors:
         print("\n".join(errors))
         return 1
-    print(f"figures ok: {len(findings)} findings, USD {fmt(total, ',')}, {round(hours, 1)} h")
+    print(f"figures ok: {len(findings)} findings, {round(hours, 1)} h")
     return 0
 
 

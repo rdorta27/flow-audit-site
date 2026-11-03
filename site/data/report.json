@@ -64,16 +64,12 @@
     "estimated_impact": true
   },
   "config": {
-    "currency": "USD",
     "orders_per_month": 5000,
-    "loaded_hour_usd": 45,
     "rates": {
       "manual_minutes": 5,
       "daily_followup_minutes": 15,
       "cleanup_minutes": 90,
-      "investigation_minutes": 45,
-      "duplicate_activation_cost_usd": 12,
-      "arpu_usd": 65
+      "investigation_minutes": 45
     },
     "thresholds": {
       "retry_window_hours": 24,
@@ -203,14 +199,13 @@
         "inferred_link_share": 0
       },
       "in_total": true,
-      "cost": {
-        "currency": "USD",
+      "recommendation": "Retry automatically with backoff before sending the order to the manual queue.",
+      "effort": {
         "kind": "recurring",
         "period_days": null,
         "normalisation": null,
         "hours_month": 283.3,
-        "amount_month": 12750,
-        "formula": "hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; amount = hours × loaded_hour_usd; wait_days = 2.5",
+        "formula": "hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5",
         "inputs": [
           {
             "key": "rates.manual_minutes",
@@ -225,36 +220,22 @@
             "source": null,
             "owner": null,
             "date": null
-          },
-          {
-            "key": "loaded_hour_usd",
-            "value": 45,
-            "source": null,
-            "owner": null,
-            "date": null
           }
         ],
         "terms": [
           {
             "name": "Manual follow-up of failed activations",
-            "amount": 12750,
             "basis": "rate_assumption",
             "observed": 400,
             "input_keys": [
               "rates.manual_minutes",
-              "rates.daily_followup_minutes",
-              "loaded_hour_usd"
-            ]
+              "rates.daily_followup_minutes"
+            ],
+            "hours": 283.3
           }
         ],
-        "unmeasured": [],
-        "revenue_at_risk": {
-          "amount": 0,
-          "basis": null,
-          "label": "not lost revenue"
-        }
-      },
-      "recommendation": "Retry automatically with backoff before sending the order to the manual queue."
+        "unmeasured": []
+      }
     },
     {
       "id": "R02",
@@ -294,25 +275,17 @@
         "inferred_link_share": 0
       },
       "in_total": true,
-      "cost": {
-        "currency": "USD",
+      "recommendation": "Add capacity_profile to the spec and automate the beam assignment.",
+      "effort": {
         "kind": "recurring",
         "period_days": null,
         "normalisation": null,
         "hours_month": 347.3,
-        "amount_month": 15626.25,
-        "formula": "hours = affected × rates.manual_minutes / 60; amount = hours × loaded_hour_usd",
+        "formula": "hours = affected × rates.manual_minutes / 60",
         "inputs": [
           {
             "key": "rates.manual_minutes",
             "value": 5,
-            "source": null,
-            "owner": null,
-            "date": null
-          },
-          {
-            "key": "loaded_hour_usd",
-            "value": 45,
             "source": null,
             "owner": null,
             "date": null
@@ -321,23 +294,16 @@
         "terms": [
           {
             "name": "Manual capacity check",
-            "amount": 15626.25,
             "basis": "rate_assumption",
             "observed": 4167,
             "input_keys": [
-              "rates.manual_minutes",
-              "loaded_hour_usd"
-            ]
+              "rates.manual_minutes"
+            ],
+            "hours": 347.3
           }
         ],
-        "unmeasured": [],
-        "revenue_at_risk": {
-          "amount": 0,
-          "basis": null,
-          "label": "not lost revenue"
-        }
-      },
-      "recommendation": "Add capacity_profile to the spec and automate the beam assignment."
+        "unmeasured": []
+      }
     },
     {
       "id": "R03",
@@ -372,14 +338,13 @@
         "inferred_link_share": 0
       },
       "in_total": true,
-      "cost": {
-        "currency": "USD",
+      "recommendation": "Compensate the timer: close or requeue the order at 48 h instead of leaving it open.",
+      "effort": {
         "kind": "accumulated_to_period_end",
         "period_days": null,
         "normalisation": null,
         "hours_month": 317.0,
-        "amount_month": 14267,
-        "formula": "hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; amount = hours × loaded_hour_usd; stuck = 50, days_stuck ≈ 25",
+        "formula": "hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25",
         "inputs": [
           {
             "key": "rates.manual_minutes",
@@ -394,43 +359,22 @@
             "source": null,
             "owner": null,
             "date": null
-          },
-          {
-            "key": "loaded_hour_usd",
-            "value": 45,
-            "source": null,
-            "owner": null,
-            "date": null
-          },
-          {
-            "key": "rates.arpu_usd",
-            "value": 65,
-            "source": null,
-            "owner": null,
-            "date": null
           }
         ],
         "terms": [
           {
             "name": "Follow-up of stuck orders",
-            "amount": 14267,
             "basis": "rate_assumption",
             "observed": 50,
             "input_keys": [
               "rates.manual_minutes",
-              "rates.daily_followup_minutes",
-              "loaded_hour_usd"
-            ]
+              "rates.daily_followup_minutes"
+            ],
+            "hours": 317.0
           }
         ],
-        "unmeasured": [],
-        "revenue_at_risk": {
-          "amount": 3250,
-          "basis": "arpu_assumption",
-          "label": "not lost revenue"
-        }
-      },
-      "recommendation": "Compensate the timer: close or requeue the order at 48 h instead of leaving it open."
+        "unmeasured": []
+      }
     },
     {
       "id": "R04",
@@ -471,32 +415,17 @@
         "inferred_link_share": 0
       },
       "in_total": true,
-      "cost": {
-        "currency": "USD",
+      "recommendation": "Make the retry reuse the existing service order, keyed by order and spec.",
+      "effort": {
         "kind": "one_off",
         "period_days": null,
         "normalisation": null,
         "hours_month": 30,
-        "amount_month": 1590,
-        "formula": "hours = duplicates × rates.cleanup_minutes / 60; amount = hours × loaded_hour_usd + duplicates_that_reached_activation × rates.duplicate_activation_cost_usd",
+        "formula": "hours = duplicates × rates.cleanup_minutes / 60",
         "inputs": [
           {
             "key": "rates.cleanup_minutes",
             "value": 90,
-            "source": null,
-            "owner": null,
-            "date": null
-          },
-          {
-            "key": "loaded_hour_usd",
-            "value": 45,
-            "source": null,
-            "owner": null,
-            "date": null
-          },
-          {
-            "key": "rates.duplicate_activation_cost_usd",
-            "value": 12,
             "source": null,
             "owner": null,
             "date": null
@@ -505,32 +434,16 @@
         "terms": [
           {
             "name": "Clean-up of duplicate service orders",
-            "amount": 1350,
             "basis": "rate_assumption",
             "observed": 20,
             "input_keys": [
-              "rates.cleanup_minutes",
-              "loaded_hour_usd"
-            ]
-          },
-          {
-            "name": "Duplicate activations",
-            "amount": 240,
-            "basis": "rate_assumption",
-            "observed": 20,
-            "input_keys": [
-              "rates.duplicate_activation_cost_usd"
-            ]
+              "rates.cleanup_minutes"
+            ],
+            "hours": 30
           }
         ],
-        "unmeasured": [],
-        "revenue_at_risk": {
-          "amount": 0,
-          "basis": null,
-          "label": "not lost revenue"
-        }
-      },
-      "recommendation": "Make the retry reuse the existing service order, keyed by order and spec."
+        "unmeasured": []
+      }
     },
     {
       "id": "R05",
@@ -565,24 +478,16 @@
         "inferred_link_share": 1
       },
       "in_total": false,
-      "cost": {
-        "currency": "USD",
+      "recommendation": "Propagate one correlation id from the order to the activation attempt.",
+      "effort": {
         "kind": "recurring",
         "period_days": null,
         "normalisation": null,
         "hours_month": 225,
-        "amount_month": 10125,
-        "formula": "hours = incidents_per_month × rates.investigation_minutes / 60; amount = hours × loaded_hour_usd",
+        "formula": "hours = incidents_per_month × rates.investigation_minutes / 60",
         "inputs": [
           {
             "key": "rates.investigation_minutes",
-            "value": 45,
-            "source": null,
-            "owner": null,
-            "date": null
-          },
-          {
-            "key": "loaded_hour_usd",
             "value": 45,
             "source": null,
             "owner": null,
@@ -592,23 +497,16 @@
         "terms": [
           {
             "name": "Investigation of uncorrelated incidents",
-            "amount": 10125,
             "basis": "rate_assumption",
             "observed": 300,
             "input_keys": [
-              "rates.investigation_minutes",
-              "loaded_hour_usd"
-            ]
+              "rates.investigation_minutes"
+            ],
+            "hours": 225
           }
         ],
-        "unmeasured": [],
-        "revenue_at_risk": {
-          "amount": 0,
-          "basis": null,
-          "label": "not lost revenue"
-        }
-      },
-      "recommendation": "Propagate one correlation id from the order to the activation attempt."
+        "unmeasured": []
+      }
     }
   ],
   "overlap": {
@@ -617,12 +515,10 @@
   },
   "totals": {
     "gross": {
-      "hours": 977.6,
-      "amount": 44233.25
+      "hours": 977.6
     },
     "net": {
-      "hours": 977.6,
-      "amount": 44233.25
+      "hours": 977.6
     }
   },
   "journeys": [

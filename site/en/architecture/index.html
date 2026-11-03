@@ -76,7 +76,7 @@
           <g class="node"><rect class="box" x="15" y="25" width="190" height="60" rx="2"/><text class="t" x="29" y="50">1 · Ingestion</text><text class="p" x="29" y="68">exports → events</text></g>
           <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstruction</text><text class="p" x="259" y="68">events → journeys</text></g>
           <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detection</text><text class="p" x="489" y="68">journeys → findings</text></g>
-          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Quantification</text><text class="p" x="719" y="68">findings → h and USD</text></g>
+          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Quantification</text><text class="p" x="719" y="68">findings → hours</text></g>
           <g class="node"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Report</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
           <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
           <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
@@ -84,7 +84,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Working today: ingestion (orders, <a class="gl" href="../help/index.html#g-orden-servicio">service orders</a> and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its cost. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
+      <p class="note">Working today: ingestion (orders, <a class="gl" href="../help/index.html#g-orden-servicio">service orders</a> and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its hours. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
     </section>
 
     <section id="components">
@@ -130,7 +130,7 @@
         </div>
         <div class="block">
           <h3><code>dataset/</code></h3>
-          <p>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the impact rates. Today: it runs and the exports are byte-stable.</p>
+          <p>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the minutes per task. Today: it runs and the exports are byte-stable.</p>
         </div>
       </div>
     </section>
@@ -150,12 +150,12 @@
       <div class="concept">
         <div class="block">
           <h3>Core concept</h3>
-          <p>Flow Audit is an audit tool. It reads the records of the systems an order passes through and rebuilds its path. For every loss it will work out the hours, the dollars and the evidence; today it does so for one (R04).</p>
+          <p>Flow Audit is an audit tool. It reads the records of the systems an order passes through and rebuilds its path. For every loss it will work out the hours and the evidence; today it does so for one (R04).</p>
         </div>
         <div class="block">
           <h3>Physical analogy</h3>
           <p>Picture a parcel that crosses four warehouses. Each warehouse writes down only its own arrivals and departures.</p>
-          <p>Nobody knows where the parcel sat for three days. Flow Audit will put the four notebooks together. It will mark the warehouse where the parcel waited and add up the cost of that wait.</p>
+          <p>Nobody knows where the parcel sat for three days. Flow Audit will put the four notebooks together. It will mark the warehouse where the parcel waited and add up the hours of that wait.</p>
         </div>
         <div class="block">
           <h3>Technical mechanics</h3>
@@ -163,7 +163,7 @@
             <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
             <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
             <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
-            <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work and by the loaded hourly cost.</li>
+            <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work for each case.</li>
             <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
             <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
           </ul>
@@ -172,8 +172,7 @@
           <h3>Planned impact formula</h3>
           <ul>
             <li><strong>Hours per month</strong> = affected orders × minutes of work per order ÷ 60</li>
-            <li><strong>USD per month</strong> = hours per month × USD 45 per <a class="gl" href="../help/index.html#g-hora-cargada">loaded hour</a></li>
-            <li><strong>Example with the synthetic dataset (R02).</strong> 4,167 orders × 5 min ÷ 60 = 347 h. 347.25 h × USD 45 = USD 15,626.</li>
+            <li><strong>Example with the synthetic dataset (R02).</strong> 4,167 orders × 5 min ÷ 60 = 347.25 h.</li>
           </ul>
         </div>
       </div>

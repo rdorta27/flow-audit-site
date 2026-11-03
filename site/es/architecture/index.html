@@ -76,7 +76,7 @@
           <g class="node"><rect class="box" x="15" y="25" width="190" height="60" rx="2"/><text class="t" x="29" y="50">1 · Ingesta</text><text class="p" x="29" y="68">exportes → eventos</text></g>
           <g class="node"><rect class="box" x="245" y="25" width="190" height="60" rx="2"/><text class="t" x="259" y="50">2 · Reconstrucción</text><text class="p" x="259" y="68">eventos → recorridos</text></g>
           <g class="node"><rect class="box" x="475" y="25" width="190" height="60" rx="2"/><text class="t" x="489" y="50">3 · Detección</text><text class="p" x="489" y="68">recorridos → hallazgos</text></g>
-          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Cuantificación</text><text class="p" x="719" y="68">hallazgos → h y USD</text></g>
+          <g class="node"><rect class="box" x="705" y="25" width="190" height="60" rx="2"/><text class="t" x="719" y="50">4 · Cuantificación</text><text class="p" x="719" y="68">hallazgos → horas</text></g>
           <g class="node"><rect class="box" x="935" y="25" width="190" height="60" rx="2"/><text class="t" x="949" y="50">5 · Informe</text><text class="p" x="949" y="68">HTML + findings.json</text></g>
           <path class="edge" d="M205 55 H245" marker-end="url(#pa)"/>
           <path class="edge" d="M435 55 H475" marker-end="url(#pa)"/>
@@ -84,7 +84,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Hoy funcionan la ingesta (pedidos, <a class="gl" href="../help/index.html#g-orden-servicio">órdenes de servicio</a> y activaciones, por una API de prueba), la reconstrucción (unión de registros con su nivel de confianza) y una regla (R04) con su costo. Falta cablear todo en un solo comando (<code>audit</code>), el informe y las otras cuatro reglas. El informe demo es una maqueta hecha a mano, no generada.</p>
+      <p class="note">Hoy funcionan la ingesta (pedidos, <a class="gl" href="../help/index.html#g-orden-servicio">órdenes de servicio</a> y activaciones, por una API de prueba), la reconstrucción (unión de registros con su nivel de confianza) y una regla (R04) con sus horas. Falta cablear todo en un solo comando (<code>audit</code>), el informe y las otras cuatro reglas. El informe demo es una maqueta hecha a mano, no generada.</p>
     </section>
 
     <section id="components">
@@ -130,7 +130,7 @@
         </div>
         <div class="block">
           <h3><code>dataset/</code></h3>
-          <p>Un generador determinista con semilla fija. Escribe la evidencia sintética de Ortelis: 5.000 pedidos en septiembre de 2026 y las tasas de impacto. Hoy: corre y los exportes son idénticos byte a byte.</p>
+          <p>Un generador determinista con semilla fija. Escribe la evidencia sintética de Ortelis: 5.000 pedidos en septiembre de 2026 y los minutos por tarea. Hoy: corre y los exportes son idénticos byte a byte.</p>
         </div>
       </div>
     </section>
@@ -150,12 +150,12 @@
       <div class="concept">
         <div class="block">
           <h3>Concepto core</h3>
-          <p>Flow Audit es una herramienta de auditoría. Lee los registros de los sistemas por los que pasa un pedido y reconstruye su recorrido. Para cada pérdida calculará las horas, los dólares y la evidencia; hoy lo hace para una (R04).</p>
+          <p>Flow Audit es una herramienta de auditoría. Lee los registros de los sistemas por los que pasa un pedido y reconstruye su recorrido. Para cada pérdida calculará las horas y la evidencia; hoy lo hace para una (R04).</p>
         </div>
         <div class="block">
           <h3>Analogía física</h3>
           <p>Imagina un paquete que cruza cuatro almacenes. Cada almacén anota solo sus propias entradas y salidas.</p>
-          <p>Nadie sabe dónde el paquete estuvo parado tres días. Flow Audit juntará las cuatro libretas. Marcará el almacén donde el paquete esperó y sumará el costo de esa espera.</p>
+          <p>Nadie sabe dónde el paquete estuvo parado tres días. Flow Audit juntará las cuatro libretas. Marcará el almacén donde el paquete esperó y sumará las horas de esa espera.</p>
         </div>
         <div class="block">
           <h3>Mecánica técnica</h3>
@@ -163,7 +163,7 @@
             <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
             <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (<a class="gl" href="../help/index.html#g-enlace">enlace</a> explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
             <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin <a class="gl" href="../help/index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
-            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo y por el costo de la <a class="gl" href="../help/index.html#g-hora-cargada">hora cargada</a>.</li>
+            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo de cada caso.</li>
             <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
             <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
           </ul>
@@ -172,8 +172,7 @@
           <h3>Fórmula de impacto prevista</h3>
           <ul>
             <li><strong>Horas por mes</strong> = pedidos afectados × minutos de trabajo por pedido ÷ 60</li>
-            <li><strong>USD por mes</strong> = horas por mes × USD 45 por hora cargada</li>
-            <li><strong>Ejemplo con el dataset sintético (R02).</strong> 4.167 pedidos × 5 min ÷ 60 = 347 h. 347,25 h × USD 45 = USD 15.626.</li>
+            <li><strong>Ejemplo con el dataset sintético (R02).</strong> 4.167 pedidos × 5 min ÷ 60 = 347,25 h.</li>
           </ul>
         </div>
       </div>

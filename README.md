@@ -52,7 +52,7 @@ informe demo no coincide con `site/data/report.json`, o si reaparece una cifra v
 **Versión 0.4.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
 El plan del motor está en `../specs/backlog.md` (hitos Demo 1 y Client-ready). El sitio se
 reemplaza por el informe generado en M5-04. Las landings explican el producto con un
-pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con su costo, las dos etapas
+pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con sus horas, las dos etapas
 (Demo 1 y Client-ready) y las tarjetas «Hecho / Ahora / Siguiente». Esas tarjetas y las
 cifras vienen de `../specs/backlog.md` y de `core/docs/product.md`: contrástalas antes de
 cambiarlas.
