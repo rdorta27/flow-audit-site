@@ -5,6 +5,7 @@ Dev-only, standard library only; not published (it lives outside site/).
 Usage: python3 tools/check_figures.py   (from the repository root)
 """
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -46,6 +47,15 @@ def main():
             for old in STALE:
                 if old in flat:
                     errors.append(f"{lang}/{page}: stale figure {old}")
+    status = json.loads((ROOT / "data" / "status.json").read_text())
+    comps = status["components"]
+    used = set()
+    for page in ROOT.rglob("*.html"):
+        used.update(re.findall(r'data-status="([^"]+)"', page.read_text()))
+    for i in sorted(used - set(comps)):
+        errors.append(f"data-status id not in status.json: {i}")
+    for i in sorted(set(comps) - used - set(status.get("unused_ok", []))):
+        errors.append(f"status.json component never used (add to unused_ok?): {i}")
     if errors:
         print("\n".join(errors))
         return 1
