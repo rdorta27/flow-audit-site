@@ -58,7 +58,7 @@
   <main id="main">
     <section>
       <span class="eyebrow">Auditoria de pedidos de telecomunicações</span>
-      <span class="badge">Em construção · versão 0.3.0</span>
+      <span class="badge">Em construção · versão 0.3.1</span>
       <h1>Onde os pedidos travam?<br><em>O Flow Audit vai descobrir.</em></h1>
       <p class="lead">O Flow Audit é uma ferramenta para verificar como um pedido avança desde a compra do cliente até o serviço funcionar. Vai mostrar onde cada pedido para e quanto custa cada falha.</p>
       <p class="note">É para operadoras de telecomunicações e para quem audita seus sistemas de venda e ativação.</p>
@@ -119,15 +119,15 @@
           <caption>Os cinco problemas do exemplo e o custo estimado por mês.</caption>
           <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Custo por mês</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R01</th><td>A ativação falha e ninguém tenta de novo. O pedido espera cerca de 2,5 dias.</td><td>≈ USD 11.250</td></tr>
+            <tr><th scope="row">R01</th><td>A ativação falha e ninguém tenta de novo. O pedido espera cerca de 2,5 dias.</td><td>≈ USD 12.750</td></tr>
             <tr><th scope="row">R02</th><td>Falta um dado no catálogo e alguém o completa manualmente em cada pedido.</td><td>≈ USD 18.750</td></tr>
-            <tr><th scope="row">R03</th><td>Um temporizador vence e o processo não faz nada: o pedido fica sem ativar.</td><td>≈ USD 3.250 de receita em risco</td></tr>
+            <tr><th scope="row">R03</th><td>Um temporizador vence e o processo não faz nada: o pedido fica sem ativar.</td><td>≈ USD 14.267, mais USD 3.250 de receita em risco</td></tr>
             <tr><th scope="row">R04</th><td>Uma nova tentativa cria uma segunda ordem de serviço para o mesmo pedido.</td><td>≈ USD 1.590</td></tr>
             <tr><th scope="row">R05</th><td>Os sistemas não compartilham um número de pedido. Investigar um incidente leva cerca de 45 minutos.</td><td>≈ USD 10.125</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>No total:</strong> cerca de USD 41.700 por mês de custo operacional, mais USD 3.250 de receita em risco. São valores ilustrativos calculados com dados inventados.</div>
+      <div class="callout"><strong>No total:</strong> cerca de USD 57.482 por mês de custo operacional, mais USD 3.250 de receita em risco. São valores ilustrativos calculados com dados inventados.</div>
     </section>
 
     <section id="problema">
@@ -169,7 +169,7 @@
         <div class="card"><span class="k">Mais adiante</span><p>R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Feito · versão 0.3.0</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que os entrega como faria um sistema real. Um relatório de exemplo. Três leitores (pedidos, ordens de serviço e ativações): já leem os 5.000 pedidos, as 5.020 ordens e as 5.400 tentativas de ativação, cada dado leva a sua origem e eles são ligados entre si, dizendo quão seguro é cada vínculo; a regra R04 já encontra os 20 pedidos duplicados e os avalia em USD 1.590.</p></div>
+        <div class="card"><span class="k">Feito · versão 0.3.1</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que os entrega como faria um sistema real. Um relatório de exemplo. Três leitores (pedidos, ordens de serviço e ativações): já leem os 5.000 pedidos, as 5.020 ordens e as 5.400 tentativas de ativação, cada dado leva a sua origem e eles são ligados entre si, dizendo quão seguro é cada vínculo; a regra R04 já encontra os 20 pedidos duplicados e os avalia em USD 1.590.</p></div>
         <div class="card"><span class="k">Agora</span><p>Fixar o formato dos achados (findings.json) para o relatório o ler.</p></div>
         <div class="card"><span class="k">Em seguida</span><p>Mostrar o custo de cada problema com a sua fórmula e gerar o relatório real.</p></div>
       </div>

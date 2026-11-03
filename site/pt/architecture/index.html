@@ -58,10 +58,10 @@
     <section>
       <span class="eyebrow">Desenho e componentes</span>
       <h1>Arquitetura</h1>
-      <p class="lead">O Flow Audit é uma ferramenta de linha de comando local: entra evidência e sai um relatório. Hoje existem o esqueleto, o modelo canônico e o dataset sintético. As cinco etapas que transformam a evidência em achados ainda são desenho.</p>
+      <p class="lead">O Flow Audit é uma ferramenta de linha de comando local: entra evidência e sai um relatório. Hoje já lê dados, os une e detecta um problema (R04); o relatório e as outras quatro regras continuam sendo desenho.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Em construção · versão 0.3.0.</strong> Os componentes abaixo são arquivos reais do repositório; as etapas que os analisam ainda não estão escritas.</span>
+        <span><strong>Em construção · versão 0.3.1.</strong> Os componentes abaixo são arquivos reais do repositório. As etapas que ainda não existem dizem isso.</span>
       </div>
     </section>
 
@@ -82,7 +82,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">As cinco etapas são desenho. Hoje só roda a leitura de pedidos, ordens de serviço e ativações; o resto chega nos marcos Demo 1 e Client-ready. O relatório demo é uma maquete feita à mão, não gerada.</p>
+      <p class="note">Hoje funcionam a ingestão (pedidos, ordens de serviço e ativações, por uma API de teste), a reconstrução (união de registros com seu nível de confiança) e uma regra (R04) com seu custo. Falta ligar tudo em um só comando (<code>audit</code>), o relatório e as outras quatro regras. O relatório demo é uma maquete feita à mão, não gerada.</p>
     </section>
 
     <section id="components">
@@ -108,23 +108,23 @@
       <div class="concept">
         <div class="block">
           <h3><code>domain/</code></h3>
-          <p>O modelo canônico: eventos, catálogo, pedidos, jornadas, achados e impacto. Não tem E/S, nem relógio, nem arquivos. Aqui viverão a reconstrução e as cinco regras. Hoje: os tipos.</p>
+          <p>O modelo canônico e a lógica pura: eventos, pedidos, jornadas, achados e impacto, a união de registros com sua confiança, a classificação do tempo (trabalho, espera, vazio) e a regra R04. Não tem E/S, nem relógio, nem arquivos. Hoje: tudo isso existe; faltam as outras quatro regras.</p>
         </div>
         <div class="block">
           <h3><code>ports/</code></h3>
-          <p>As quatro interfaces das quais o resto do motor depende: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> e <code>Clock</code>. Hoje: as quatro estão declaradas; os adaptadores que implementam duas delas não existem.</p>
+          <p>As quatro interfaces das quais o resto do motor depende: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> e <code>Clock</code>. Hoje: os leitores de pedidos, ordens e ativações implementam <code>EvidenceSource</code>; faltam os de arquivos e o renderizador.</p>
         </div>
         <div class="block">
           <h3><code>adapters/</code></h3>
-          <p>O mundo exterior. Um relógio e os serializadores de exportação dos quatro sistemas. A eles se juntará o renderizador HTML. Hoje: <code>clock/</code>, <code>export/</code> e <code>ingest/</code> (leitores de pedidos, de ordens de serviço e de ativações por HTTP); <code>report/</code> está vazio.</p>
+          <p>O mundo exterior. Um relógio, os serializadores de exportação e os leitores. Hoje: <code>clock/</code>, <code>export/</code> e <code>ingest/</code> (leitores de pedidos, de ordens de serviço e de ativações por HTTP); <code>report/</code> está vazio.</p>
         </div>
         <div class="block">
           <h3><code>app/</code></h3>
-          <p>O caso de uso <code>runAudit()</code>. Unirá ingestão, reconstrução, detecção, quantificação e renderização, e não possui nenhum formato. Hoje: um esqueleto que não devolve achados.</p>
+          <p>O caso de uso <code>runAudit()</code>. Unirá ingestão, reconstrução, detecção, quantificação e renderização, e não possui nenhum formato. Hoje: um esqueleto que conta registros e não devolve achados; a regra R04 roda à parte, em <code>explain</code>.</p>
         </div>
         <div class="block">
           <h3><code>cli/</code></h3>
-          <p>Análise de argumentos, ajuda e códigos de saída. Dois comandos: <code>audit</code> e <code>dataset</code>. Hoje: os dois rodam; <code>audit</code> sai com código 2 porque não há fonte de evidência.</p>
+          <p>Análise de argumentos, ajuda e códigos de saída. Cinco comandos: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> e <code>dataset</code>. Hoje: <code>read</code> conta e une os registros, <code>explain</code> segue um pedido duplicado e <code>audit</code> sai com código 2 sem fonte.</p>
         </div>
         <div class="block">
           <h3><code>dataset/</code></h3>
@@ -137,8 +137,8 @@
       <h2>O que roda hoje</h2>
       <div class="grid">
         <div class="card"><span class="k">Check</span><p><code>deno task check</code> verifica os tipos do CLI, do gerador, do adaptador de relógio e dos testes. Passa.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passa 34 testes em cinco suítes: dataset, serializadores, fronteira de arquitetura, fronteira de licença e esqueleto.</p></div>
-        <div class="card"><span class="k">Auditoria</span><p><code>deno task audit</code> imprime a mensagem de esqueleto e sai com código 2. Ainda não há fonte de evidência.</p></div>
+        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passa: dataset, serializadores, fronteiras de arquitetura e licença, o esqueleto, o servidor de teste, os três leitores, a união e a regra R04.</p></div>
+        <div class="card"><span class="k">Auditoria</span><p><code>deno task audit</code> ainda não executa nada: sai com código 2. O que roda hoje: <code>read</code> (conta e une registros) e <code>explain</code> (um pedido duplicado, passo a passo).</p></div>
         <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenera os 5.000 pedidos a partir de uma semente fixa. Duas execuções produzem exportações idênticas byte a byte.</p></div>
       </div>
     </section>
@@ -148,7 +148,7 @@
       <div class="concept">
         <div class="block">
           <h3>Conceito central</h3>
-          <p>O Flow Audit será uma ferramenta de auditoria. Lerá os registros de quatro sistemas e reconstruirá o caminho de cada pedido. Para cada perda calculará as horas, os dólares e a evidência.</p>
+          <p>O Flow Audit é uma ferramenta de auditoria. Lê os registros dos sistemas pelos quais passa um pedido e reconstrói seu percurso. Para cada perda calculará as horas, os dólares e a evidência; hoje faz isso para uma (R04).</p>
         </div>
         <div class="block">
           <h3>Analogia física</h3>
@@ -159,7 +159,7 @@
           <h3>Mecânica técnica</h3>
           <ul>
             <li><strong>Ingestão.</strong> Lerá as exportações de catálogo, OMS, BPM e provisionamento.</li>
-            <li><strong>Reconstrução.</strong> Unirá os eventos de um pedido por uma janela de tempo, porque os sistemas não compartilham identificador.</li>
+            <li><strong>Reconstrução.</strong> Une os registros de um pedido pelos identificadores que cada sistema já leva (vínculo explícito) e, só quando faltam, infere por outro campo, como o serial do equipamento. Cada vínculo diz o quão seguro é. A janela de tempo ainda não é usada.</li>
             <li><strong>Regras.</strong> Cinco regras detectarão falhas sem nova tentativa, esperas manuais, timers vencidos, duplicidades e falta de identificador.</li>
             <li><strong>Impacto.</strong> Multiplicará os pedidos afetados pelos minutos de trabalho e pelo custo da hora carregada.</li>
             <li><strong>Severidade.</strong> Derivará a severidade das horas por mês. Ninguém a atribuirá à mão.</li>
@@ -201,7 +201,7 @@
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
     <a href="https://github.com/rdorta27/flow-audit-site/blob/main/THIRD-PARTY.md">Licença</a>
     <a href="../index.html#que">O que vai verificar</a>
-    <span>Em construção · versão 0.3.0</span>
+    <span>Em construção · versão 0.3.1</span>
   </footer>
 </div>
 </body>

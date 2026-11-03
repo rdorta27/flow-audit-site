@@ -70,7 +70,7 @@
           "note": "activation_timer expira a las 48 h; no hay compensación ni evento posterior."
         }
       ],
-      "impact": { "hoursMonth": 313.4, "usdMonth": 14104, "revenueAtRiskUsd": 3250 },
+      "impact": { "hoursMonth": 317, "usdMonth": 14267, "revenueAtRiskUsd": 3250 },
       "recommendation": "Compensar el timer: cerrar o reencolar el pedido a las 48 h en lugar de dejarlo abierto."
     },
     {

@@ -58,10 +58,10 @@
     <section>
       <span class="eyebrow">Design and components</span>
       <h1>Architecture</h1>
-      <p class="lead">Flow Audit is a local-first command line tool: evidence goes in, a report comes out. The skeleton, the canonical model and the synthetic dataset exist today. The five stages that turn evidence into findings are still design.</p>
+      <p class="lead">Flow Audit is a local-first command line tool: evidence goes in, a report comes out. Today it already reads data, joins it and detects one problem (R04); the report and the other four rules are still design.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Under construction · version 0.3.0.</strong> The components below are real files in the repository; the stages that analyse them are not written yet.</span>
+        <span><strong>Under construction · version 0.3.1.</strong> The components below are real files in the repository. Stages that do not exist yet say so.</span>
       </div>
     </section>
 
@@ -82,7 +82,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">The five stages are design. Only reading orders, service orders and activations runs today; the rest arrives in the Demo 1 and Client-ready milestones. The demo report is a hand-built preview, not a generated one.</p>
+      <p class="note">Working today: ingestion (orders, service orders and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its cost. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
     </section>
 
     <section id="components">
@@ -108,23 +108,23 @@
       <div class="concept">
         <div class="block">
           <h3><code>domain/</code></h3>
-          <p>The canonical model: events, catalog, orders, journeys, findings and impact. It has no I/O, no clock and no files. Reconstruction and the five rules will live here. Today: the types.</p>
+          <p>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, gap) and rule R04. No I/O, no clock, no files. Today: all of that exists; the other four rules do not.</p>
         </div>
         <div class="block">
           <h3><code>ports/</code></h3>
-          <p>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>. Today: all four are declared; the adapters that implement two of them do not exist yet.</p>
+          <p>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>. Today: the readers for orders, service orders and activations implement <code>EvidenceSource</code>; the file readers and the renderer are missing.</p>
         </div>
         <div class="block">
           <h3><code>adapters/</code></h3>
-          <p>The outside world. A clock and the export serializers for the four systems. The HTML renderer will join them. Today: <code>clock/</code>, <code>export/</code> and <code>ingest/</code> (readers for product orders, service orders and activations over HTTP); <code>report/</code> is empty.</p>
+          <p>The outside world. A clock, the export serializers and the readers. Today: <code>clock/</code>, <code>export/</code> and <code>ingest/</code> (readers for orders, service orders and activations over HTTP); <code>report/</code> is empty.</p>
         </div>
         <div class="block">
           <h3><code>app/</code></h3>
-          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and it owns no format. Today: a walking skeleton that returns no findings.</p>
+          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format. Today: a skeleton that counts records and returns no findings; rule R04 runs separately, in <code>explain</code>.</p>
         </div>
         <div class="block">
           <h3><code>cli/</code></h3>
-          <p>Argument parsing, help and exit codes. Two commands: <code>audit</code> and <code>dataset</code>. Today: both run; <code>audit</code> exits with code 2 because no evidence source exists.</p>
+          <p>Argument parsing, help and exit codes. Five commands: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> and <code>dataset</code>. Today: <code>read</code> counts and joins the records, <code>explain</code> follows a duplicated order and <code>audit</code> exits with code 2 when there is no source.</p>
         </div>
         <div class="block">
           <h3><code>dataset/</code></h3>
@@ -137,8 +137,8 @@
       <h2>What runs today</h2>
       <div class="grid">
         <div class="card"><span class="k">Check</span><p><code>deno task check</code> type-checks the CLI, the generator, the clock adapter and the tests. It passes.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes 34 tests in five suites: dataset, serializers, architecture boundary, license boundary and the walking skeleton.</p></div>
-        <div class="card"><span class="k">Audit</span><p><code>deno task audit</code> prints the walking-skeleton message and exits with code 2. There is no evidence source yet.</p></div>
+        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes: dataset, serializers, the architecture and license boundaries, the skeleton, the test server, the three readers, the join and rule R04.</p></div>
+        <div class="card"><span class="k">Audit</span><p><code>deno task audit</code> does not run anything yet: it exits with code 2. What does run today: <code>read</code> (counts and joins records) and <code>explain</code> (one duplicated order, step by step).</p></div>
         <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenerates the 5,000 orders from a fixed seed. Two runs produce byte-identical exports.</p></div>
       </div>
     </section>
@@ -148,7 +148,7 @@
       <div class="concept">
         <div class="block">
           <h3>Core concept</h3>
-          <p>Flow Audit will be an audit tool. It will read the records of four systems and rebuild the path of each order. For each loss it will calculate the hours, the dollars and the evidence.</p>
+          <p>Flow Audit is an audit tool. It reads the records of the systems an order passes through and rebuilds its path. For every loss it will work out the hours, the dollars and the evidence; today it does so for one (R04).</p>
         </div>
         <div class="block">
           <h3>Physical analogy</h3>
@@ -159,7 +159,7 @@
           <h3>Technical mechanics</h3>
           <ul>
             <li><strong>Ingestion.</strong> Will read the exports of the catalog, OMS, BPM and provisioning.</li>
-            <li><strong>Reconstruction.</strong> Will join the events of one order with a time window, because the systems share no identifier.</li>
+            <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
             <li><strong>Rules.</strong> Five rules will detect failures without retry, manual waits, expired timers, duplicates and a missing identifier.</li>
             <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work and by the loaded hourly cost.</li>
             <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
@@ -201,7 +201,7 @@
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
     <a href="https://github.com/rdorta27/flow-audit-site/blob/main/THIRD-PARTY.md">License</a>
     <a href="../index.html#que">What it will check</a>
-    <span>Under construction · version 0.3.0</span>
+    <span>Under construction · version 0.3.1</span>
   </footer>
 </div>
 </body>

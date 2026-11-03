@@ -38,9 +38,15 @@ números salen del dataset sintético y de sus tasas de impacto.
 El HTML repite esos números a mano. Cuando exista el renderer (M4-03) reemplaza la página
 por el informe generado; el diseño no cambia.
 
+## Verificar las cifras
+
+`python3 tools/check_figures.py` (desde esta carpeta) falla si una cifra de las landings o del
+informe demo no coincide con `site/data/report.json`, o si reaparece una cifra vieja. Corre en
+`.github/workflows/pages.yml` antes de publicar. Solo usa la biblioteca estándar y no se publica.
+
 ## Estado
 
-**Versión 0.3.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
+**Versión 0.3.1.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
 El plan del motor está en `../specs/backlog.md` (hitos Demo 1 y Client-ready). El sitio se
 reemplaza por el informe generado en M5-04. Las landings explican el producto con un
 pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con su costo, las dos etapas
