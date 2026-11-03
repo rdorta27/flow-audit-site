@@ -18,7 +18,8 @@ STALE = ["11250", "41700", "14104", "57319", "1268", "18750", "57482", "54358"]
 # Sales or readiness wording that must not come back (D-17, D-18, D-19).
 STALE_PHRASES = ["precio fijo", "fixed price", "fixed-price", "preço fixo", "¿se vende?", "is it for sale",
                  "está à venda", "licenciar", "license the tool", "tarifas del propio cliente",
-                 "client's own rates", "client&#x27;s own rates", "tarifas do próprio cliente"]
+                 "client's own rates", "client&#x27;s own rates", "tarifas do próprio cliente",
+                 "precio", "preço", "prices them", "to price", "pricing"]
 
 
 # Old names that must not return in visible text (lane titles, table cells,
