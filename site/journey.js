@@ -11,10 +11,14 @@
   var mq = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
   function reduce() { return !!(mq && mq.matches); }
   var SYS = T.systems, STEPS = T.steps, IDX = {};
+  // Steps 1..LAST are the order's trip; the steps after it (phase: "fa") show what Flow
+  // Audit does with the notes the trip left behind.
+  var LAST = 0; STEPS.forEach(function (s, i) { if (s.phase !== "fa") LAST = i; });
+  function tripStep() { return Math.min(step, LAST); }
   SYS.forEach(function (s, i) { IDX[s.id] = i; });
   function col(id) { return "var(--s-" + id + ")"; }
   function sysOf(id) { return SYS[IDX[id]]; }
-  function works(id) { return !window.FlowStatus || window.FlowStatus.works(id); }
+  function works() { return true; } // the story explains how it works; status lives on the status page
 
   function el(tag, attrs, text) {
     var e = document.createElementNS(NS, tag);
@@ -98,15 +102,16 @@
     });
     svg.appendChild(defs);
     var labels = [];
-    for (var i = 1; i <= step; i++) {
+    var ts = tripStep(), F = STEPS[step].phase === "fa" ? STEPS[step] : null;
+    for (var i = 1; i <= ts; i++) {
       var p = hopPath(i), s = STEPS[i], c = s.gap ? "var(--crit)" : col(s.sys);
       svg.appendChild(el("path", { "class": "hop", d: p.d, style: "stroke:" + c + (s.gap ? ";stroke-dasharray:7 6" : ""),
-        "marker-end": "url(#j-ar-" + s.sys + ")", opacity: i === step ? 1 : 0.55, id: i === step ? "j-cur-hop" : null }));
-      if (s.gap || i === step) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 20 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
+        "marker-end": "url(#j-ar-" + s.sys + ")", opacity: F ? 0.3 : (i === step ? 1 : 0.55), id: i === step ? "j-cur-hop" : null }));
+      if (s.gap || (i === step && !F)) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 20 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
     }
     labels.forEach(function (t) { svg.appendChild(t); });
     SYS.forEach(function (s) {
-      var x = cx(s.id), active = STEPS[step].sys === s.id;
+      var x = cx(s.id), active = !F && STEPS[step].sys === s.id;
       var g = el("g", { "class": "node" });
       g.appendChild(el("rect", { "class": "node-rect", x: x - NW / 2 + 4, y: NY, width: NW - 8, height: NH, rx: 10,
         style: "stroke:" + col(s.id) + (active ? ";fill:" + col(s.id) + ";fill-opacity:.18" : "") }));
@@ -124,12 +129,15 @@
       svg.appendChild(g);
     });
     var count = {}, layer = el("g", { "class": "fa-layer" }), rows = {};
-    STEPS.forEach(function (s, i) { if (i <= step) rows[s.sys] = (rows[s.sys] || 0) + 1; });
+    STEPS.forEach(function (s, i) { if (i <= ts) rows[s.sys] = (rows[s.sys] || 0) + 1; });
+    var pos = {};
     STEPS.forEach(function (s, i) {
-      if (i > step) return;
+      if (i > ts) return;
       var n = count[s.sys] = (count[s.sys] || 0) + 1;
       var x = cx(s.sys) - 88, y = TY + (n - 1) * (TH + 8);
-      var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + (i === step ? " fresh" : "") });
+      pos[i] = { x: x, y: y };
+      var hot = F && ((F.mode === "join" && F.links && F.links.some(function (l) { return l.indexOf(i) >= 0; })) || (F.mode === "rules" && s.prob));
+      var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + ((i === step || hot) ? " fresh" : "") + (F && !hot && F.mode !== "collect" ? " dim" : "") });
       g.appendChild(el("rect", { x: x, y: y, width: 176, height: TH, rx: 5, style: s.bad ? null : "stroke:" + col(s.sys) }));
       var tx = el("text", { x: x + 8, y: y + 17 }, s.ticket);
       g.appendChild(tx);
@@ -137,12 +145,20 @@
       // Fit long notes inside their box: measure once drawn, squeeze only if needed.
       try { if (tx.getComputedTextLength() > 160) { tx.setAttribute("textLength", "160"); tx.setAttribute("lengthAdjust", "spacingAndGlyphs"); } } catch (e) {}
       var lx = cx(s.sys) + (n === 1 ? -30 : 30);
-      layer.appendChild(el("line", { "class": "read" + (works(s.status) ? "" : " later"), x1: lx, y1: TY + (rows[s.sys] - 1) * (TH + 8) + TH, x2: lx, y2: FAY }));
+      layer.appendChild(el("line", { "class": "read" + (F && F.mode === "collect" ? " on" : "") + (works(s.status) ? "" : " later"), x1: lx, y1: TY + (rows[s.sys] - 1) * (TH + 8) + TH, x2: lx, y2: FAY }));
     });
-    layer.appendChild(el("rect", { "class": "fa-band", x: 14, y: FAY, width: 972, height: 44, rx: 10 }));
-    layer.appendChild(el("text", { "class": "fa-text", x: 30, y: FAY + 27 }, T.ui.band));
+    layer.appendChild(el("rect", { "class": "fa-band" + (F ? " on" : ""), x: 14, y: FAY, width: 972, height: 44, rx: 10 }));
+    layer.appendChild(el("text", { "class": "fa-text", x: 30, y: FAY + 27 }, F ? F.band : T.ui.band));
     svg.appendChild(layer);
-    var tok = el("circle", { "class": "token", r: 10, cx: cx(STEPS[step].sys), cy: NY - 2, style: "fill:" + (STEPS[step].gap ? "var(--crit)" : col(STEPS[step].sys)) });
+    if (F && F.mode === "rules") {
+      STEPS.forEach(function (s, i) {
+        if (i > ts || !s.prob || !pos[i]) return;
+        // The rule code sits under the station where the pattern shows.
+        svg.appendChild(el("text", { "class": "rule-tag", x: cx(s.sys) + NW / 2 - 8, y: NY + NH + 18, "text-anchor": "end" }, s.prob[1]));
+      });
+    }
+    var cs = STEPS[ts];
+    var tok = el("circle", { "class": "token", r: 10, cx: cx(cs.sys), cy: NY - 2, style: "fill:" + (cs.gap ? "var(--crit)" : col(cs.sys)) + (F ? ";opacity:.35" : "") });
     svg.appendChild(tok);
     var cur = document.getElementById("j-cur-hop");
     if (animateHop && cur && !reduce()) {
@@ -162,20 +178,28 @@
   }
 
   function drawPanel() {
-    var s = STEPS[step], sy = sysOf(s.sys);
-    var left = '<div><p class="j-when">' + T.ui.step + " " + (step + 1) + " · " + s.t + "</p>" +
-      '<p class="j-sysname" style="border-color:' + col(s.sys) + '">' + sy.name + "</p><p>" + s.what + "</p>" +
-      (s.born ? '<span class="j-born">' + s.born + "</span>" : "") +
-      (s.prob ? '<p class="j-prob">' + T.ui.problem + ": " + s.prob[0] + "<b>" + s.prob[1] + "</b></p>" : "") + "</div>";
-    var right = '<div><p class="j-muted">' + T.ui.records.replace("{sys}", sy.name.toLowerCase()) + '</p><div class="j-record">' + s.rec + "</div></div>";
-    var vs = '<div class="j-vs"><div class="without"><h4>' + T.ui.without + "</h4><p>" + s.no + "</p></div>" +
-      '<div class="with"><h4>' + T.ui.withFA + ' <span data-status="' + s.status + '"></span></h4><p>' + s.fa + '</p><p class="j-conf j-muted">' + s.conf + "</p></div></div>";
-    panel.innerHTML = left + right + vs;
+    var s = STEPS[step], left, right, below = "";
+    if (s.phase === "fa") {
+      left = '<div><p class="j-when">' + T.ui.step + " " + (step + 1) + " · " + T.ui.faPhase + "</p>" +
+        '<p class="j-sysname" style="border-color:var(--fa)">' + s.title + "</p><p>" + s.what + "</p></div>";
+      right = '<div><p class="j-muted">' + T.ui.produces + '</p><div class="j-record">' + s.rec + "</div></div>";
+    } else {
+      var sy = sysOf(s.sys);
+      left = '<div><p class="j-when">' + T.ui.step + " " + (step + 1) + " · " + s.t + "</p>" +
+        '<p class="j-sysname" style="border-color:' + col(s.sys) + '">' + sy.name + "</p><p>" + s.what + "</p>" +
+        (s.born ? '<span class="j-born">' + s.born + "</span>" : "") +
+        (s.prob ? '<p class="j-prob">' + T.ui.problem + ": " + s.prob[0] + "<b>" + s.prob[1] + "</b></p>" : "") + "</div>";
+      right = '<div><p class="j-muted">' + T.ui.records.replace("{sys}", sy.name.toLowerCase()) + '</p><div class="j-record">' + s.rec + "</div></div>";
+      below = '<div class="j-sees"><h4>' + T.ui.sees + "</h4><p>" + s.no + "</p></div>";
+    }
+    panel.innerHTML = left + right + below;
     count.textContent = T.ui.stepOf.replace("{n}", step + 1).replace("{total}", STEPS.length);
     bPrev.disabled = bFirst.disabled = step === 0;
     bNext.disabled = step === STEPS.length - 1;
-    document.getElementById("j-marker").style.left = "calc(" + (Math.min(s.h, 69.3) / 69.5 * 100) + "% - 1px)";
-    if (window.FlowStatus) window.FlowStatus.refresh();
+    var hh = s.phase === "fa" ? 69.3 : s.h;
+    document.getElementById("j-marker").style.left = "calc(" + (Math.min(hh, 69.3) / 69.5 * 100) + "% - 1px)";
+    ribbon.classList.toggle("focus", !!(s.phase === "fa" && s.mode === "time"));
+    stage.classList.toggle("fa-phase", s.phase === "fa");
   }
 
   function go(i, animate) {

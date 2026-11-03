@@ -113,3 +113,14 @@ body.landing .go { margin-top: 4px; }
 body.landing section { padding: 6px 0 8px; gap: 12px; }
 body.landing main { padding-top: 20px; }
 body.landing .hero-howto { display: none; }
+
+/* The journey's second half: what Flow Audit does with the notes. */
+.j-sees { grid-column: 1 / -1; background: var(--tint); border: 1px solid var(--line); border-radius: var(--r-box); padding: 12px 14px; display: grid; gap: 6px; }
+.j-sees h4 { margin: 0; font-size: var(--fs-s); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.j-sees p { margin: 0; }
+#j-flow .fa-band.on { fill: var(--fa-bg); stroke: var(--fa); stroke-width: 2; stroke-dasharray: none; }
+#j-flow .read.on { stroke: var(--fa); stroke-width: 2.5; stroke-dasharray: 2 4; opacity: 1; }
+#j-flow .ticket.dim { opacity: .35; }
+#j-flow .rule-tag { font-size: 13px; font-weight: 700; fill: var(--crit); paint-order: stroke; stroke: var(--card); stroke-width: 4px; }
+.j-ribbon.focus .j-ribbon-bar { outline: 3px solid var(--fa); outline-offset: 3px; }
+.j-stage.fa-phase .j-panel .j-sysname { color: var(--fa); }
