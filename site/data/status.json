@@ -1,5 +1,5 @@
 {
-  "current": "0.3.6",
+  "current": "0.4.0",
   "plan": "0.6.0",
   "components": {
     "step-1-order": {
@@ -87,6 +87,7 @@
     "finding-r02",
     "finding-r03",
     "finding-r05",
-    "finding-r04"
+    "finding-r04",
+    "report-cover"
   ]
 }
