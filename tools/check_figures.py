@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent / "site"
 SEP = {"es": ".", "en": ",", "pt": "."}
 # Figures that used to be wrong and must not come back.
-STALE = ["11250", "41700", "14104", "57319", "1268"]
+STALE = ["11250", "41700", "14104", "57319", "1268", "18750", "57482"]
 
 
 # Old names that must not return in visible text (lane titles, table cells,

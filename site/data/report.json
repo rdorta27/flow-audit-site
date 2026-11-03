@@ -45,8 +45,8 @@
       "id": "R02",
       "title": "Chequeo manual de capacidad por atributo faltante",
       "severity": "critical",
-      "affectedOrders": 5000,
-      "shareOfOrders": 1,
+      "affectedOrders": 4167,
+      "shareOfOrders": 0.8334,
       "evidence": [
         {
           "orderRef": "ORD-1005",
@@ -54,7 +54,7 @@
           "note": "SPEC-SKYHOME-200 no define capacity_profile; el proceso abre una tarea manual de 5 minutos."
         }
       ],
-      "impact": { "hoursMonth": 416.7, "usdMonth": 18750, "revenueAtRiskUsd": 0 },
+      "impact": { "hoursMonth": 347.3, "usdMonth": 15626, "revenueAtRiskUsd": 0 },
       "recommendation": "Agregar capacity_profile al spec y automatizar la asignación de haz en el aprovisionamiento."
     },
     {
