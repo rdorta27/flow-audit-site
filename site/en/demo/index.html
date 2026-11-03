@@ -61,7 +61,7 @@
       <h1>Audit report<br>Ortelis Satellite</h1>
       <p class="howto">What you can do here: read a finished audit, with each problem, its cost and the calculation that explains it.</p>
       <p class="lead">Ortelis is a fictional residential satellite internet operator. The report shows the look of a real audit, with five invented losses.</p>
-      <p class="meta">September 2026 · 5,000 orders · CAT + OMS + BPM + PROV · USD · run demo-20260901</p>
+      <p class="meta">September 2026 · 5,000 orders · catalog + order manager + process orchestrator + activation · USD · run demo-20260901</p>
       <div class="callout">
         This report is a <strong>mock</strong>. No engine generated it. The orders and numbers come from the invented dataset. It has the shape of the planned output (<code>findings.json</code> + <code>journeys</code>).
       </div>
@@ -70,7 +70,7 @@
     <section aria-label="Indicators">
       <div class="kpis">
         <div class="kpi">
-          <span class="k">Findings</span>
+          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Findings</a></span>
           <span class="v">5</span>
           <span class="s">4 critical · 1 medium</span>
         </div>
@@ -82,7 +82,7 @@
         <div class="kpi">
           <span class="k">Cost</span>
           <span class="v">USD 57,482</span>
-          <span class="s">per month, at USD 45 per loaded hour</span>
+          <span class="s">per month, at USD 45 per <a class="gl" href="../index.html#g-hora-cargada">loaded hour</a></span>
         </div>
         <div class="kpi">
           <span class="k">Stuck orders</span>
@@ -90,14 +90,14 @@
           <span class="s">1% of the month, no later event</span>
         </div>
       </div>
-      <p class="note">The revenue at risk from stuck orders adds up to USD 3,250 per month (50 × ARPU 65). The cost of R03 already includes it.</p>
+      <p class="note">The <a class="gl" href="../index.html#g-ingreso-riesgo">revenue at risk</a> from stuck orders adds up to USD 3,250 per month (50 × ARPU 65). The cost of R03 already includes it.</p>
     </section>
 
     <section>
       <h2>Executive summary</h2>
-      <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a gap between systems that no process owns.</p>
+      <p class="lead">An order takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a <a class="gl" href="../index.html#g-hueco">gap</a> between systems that no process owns.</p>
       <div class="callout">
-        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 18,750/month). Retry the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>80%</strong> of the cost.
+        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (USD 18,750/month). <a class="gl" href="../index.html#g-reintento">Retry</a> the activation before the manual queue (USD 12,750/month). Compensate the 48-hour timer (USD 14,267/month). The three actions cover <strong>80%</strong> of the cost.
       </div>
     </section>
 
@@ -112,7 +112,7 @@
       <div class="scroller" tabindex="0" aria-label="Flow map across the four systems, scrolls on narrow screens">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
           <title id="flt">Flow of one order across the product catalog, order manager, process orchestrator and activation system</title>
-          <desc id="fld">The catalog validates the order. The BPM opens a manual capacity check. The OMS decomposes the order. The BPM installs. Activation fails in the activation system. The retry creates a second service order and then activates. Findings R01, R02, R03 and R04 are marked.</desc>
+          <desc id="fld">The catalog validates the order. The process orchestrator opens a manual capacity check. The order manager decomposes the order. The process orchestrator installs. Activation fails in the activation system. The retry creates a second service order and then activates. Findings R01, R02, R03 and R04 are marked.</desc>
           <defs>
             <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -125,8 +125,8 @@
           <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
 
           <text class="lane" x="14" y="56">CATALOG</text>
-          <text class="lane" x="14" y="144">OMS</text>
-          <text class="lane" x="14" y="232">BPM</text>
+          <text class="lane" x="14" y="138">ORDER<tspan x="14" dy="13">MANAGER</tspan></text>
+          <text class="lane" x="14" y="226">PROCESS<tspan x="14" dy="13">ORCHESTRATOR</tspan></text>
           <text class="lane" x="14" y="320">ACTIVATION</text>
 
           <g class="node hot">
@@ -158,7 +158,7 @@
 
           <g class="node hot">
             <rect class="box" x="790" y="287" width="150" height="58" rx="2"/>
-            <text class="t" x="802" y="309">Activation</text>
+            <text class="t" x="802" y="309">ACTIVATION</text>
             <text class="p" x="802" y="325">fails HUB_TIMEOUT</text>
             <text class="s" x="928" y="304" text-anchor="end">R01</text>
           </g>
@@ -185,7 +185,7 @@
           <text class="elabel" x="948" y="252" text-anchor="end">60 h</text>
         </svg>
       </div>
-      <p class="note">Source: <code>data/demo/</code> (synthetic dataset). Arrows cross from one system to another. No common identifier joins them (R05). SO = service order. WO = work order.</p>
+      <p class="note">Source: <code>data/demo/</code> (synthetic dataset). Arrows cross from one system to another. No common identifier joins them (R05). SO = <a class="gl" href="../index.html#g-orden-servicio">service order</a>. WO = work order.</p>
     </section>
 
     <section>
@@ -368,7 +368,7 @@
             </tr>
             <tr>
               <th scope="row">R03</th>
-              <td>The BPM timer expires without compensation</td>
+              <td>The process orchestrator timer expires without compensation</td>
               <td><span class="tag crit">Critical</span></td>
               <td class="num">150 · 3%</td>
               <td class="num">317</td>
@@ -377,7 +377,7 @@
             </tr>
             <tr>
               <th scope="row">R04</th>
-              <td>The OMS retry duplicates the service order</td>
+              <td>The order manager retry duplicates the service order</td>
               <td><span class="tag med">Medium</span></td>
               <td class="num">20 · 0.4%</td>
               <td class="num">30</td>
@@ -405,7 +405,7 @@
           </tfoot>
         </table>
       </div>
-      <p class="note">R03 includes USD 3,250 of revenue at risk. The evidence for each finding is in <a href="../../data/report.json">data/report.json</a> (mock text in Spanish).</p>
+      <p class="note">R03 includes USD 3,250 of revenue at risk. The <a class="gl" href="../index.html#g-evidencia">evidence</a> for each finding is in <a href="../../data/report.json">data/report.json</a> (mock text in Spanish).</p>
     </section>
   </main>
 

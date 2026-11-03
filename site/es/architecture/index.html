@@ -60,7 +60,7 @@
       <span class="eyebrow">Diseño y componentes</span>
       <h1>Arquitectura</h1>
       <p class="howto">Qué puedes hacer aquí: ver las piezas de Flow Audit, qué lee de cada sistema y qué ya existe y qué es diseño.</p>
-      <p class="lead">Flow Audit es una herramienta de línea de comandos local: entra evidencia y sale un informe. Hoy ya lee datos, los unen y detectan un problema (R04); el informe y las otras cuatro reglas siguen siendo diseño.</p>
+      <p class="lead">Flow Audit es una herramienta de línea de comandos local: entra <a class="gl" href="../index.html#g-evidencia">evidencia</a> y sale un informe. Hoy ya lee datos, los unen y detectan un problema (R04); el informe y las otras cuatro reglas siguen siendo diseño.</p>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
         <span><strong>En construcción · versión 0.3.2.</strong> Los componentes de abajo son archivos reales del repositorio. Las etapas que todavía no existen lo dicen.</span>
@@ -84,7 +84,7 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Hoy funcionan la ingesta (pedidos, órdenes de servicio y activaciones, por una API de prueba), la reconstrucción (unión de registros con su nivel de confianza) y una regla (R04) con su costo. Falta cablear todo en un solo comando (<code>audit</code>), el informe y las otras cuatro reglas. El informe demo es una maqueta hecha a mano, no generada.</p>
+      <p class="note">Hoy funcionan la ingesta (pedidos, <a class="gl" href="../index.html#g-orden-servicio">órdenes de servicio</a> y activaciones, por una API de prueba), la reconstrucción (unión de registros con su nivel de confianza) y una regla (R04) con su costo. Falta cablear todo en un solo comando (<code>audit</code>), el informe y las otras cuatro reglas. El informe demo es una maqueta hecha a mano, no generada.</p>
     </section>
 
     <section id="components">
@@ -110,7 +110,7 @@
       <div class="concept">
         <div class="block">
           <h3><code>domain/</code></h3>
-          <p>El modelo canónico y la lógica pura: eventos, pedidos, recorridos, hallazgos e impacto, la unión de registros con su confianza, la clasificación del tiempo (trabajo, espera, hueco) y la regla R04. No tiene E/S, ni reloj, ni archivos. Hoy: todo eso existe; faltan las otras cuatro reglas.</p>
+          <p>El modelo canónico y la lógica pura: eventos, pedidos, recorridos, hallazgos e impacto, la unión de registros con su confianza, la clasificación del tiempo (trabajo, espera, <a class="gl" href="../index.html#g-hueco">hueco</a>) y la regla R04. No tiene E/S, ni reloj, ni archivos. Hoy: todo eso existe; faltan las otras cuatro reglas.</p>
         </div>
         <div class="block">
           <h3><code>ports/</code></h3>
@@ -122,7 +122,7 @@
         </div>
         <div class="block">
           <h3><code>app/</code></h3>
-          <p>El caso de uso <code>runAudit()</code>. Unirá ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato. Hoy: un esqueleto que cuenta registros y no devuelve hallazgos; la regla R04 corre aparte, en <code>explain</code>.</p>
+          <p>El caso de uso <code>runAudit()</code>. Unirá ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato. Hoy: un esqueleto que cuenta registros y no devuelve <a class="gl" href="../index.html#g-hallazgo">hallazgos</a>; la regla R04 corre aparte, en <code>explain</code>.</p>
         </div>
         <div class="block">
           <h3><code>cli/</code></h3>
@@ -139,7 +139,7 @@
       <h2>Qué se ejecuta hoy</h2>
       <div class="grid">
         <div class="card"><span class="k">Check</span><p><code>deno task check</code> comprueba tipos del CLI, el generador, el adaptador de reloj y los tests. Pasa.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> pasa: dataset, serializadores, fronteras de arquitectura y licencia, el esqueleto, el servidor de prueba, los tres lectores, la unión y la regla R04.</p></div>
+        <div class="card"><span class="k">Test</span><p><code>deno task test</code> pasa: dataset, serializadores, fronteras de arquitectura y licencia, el esqueleto, el <a class="gl" href="../index.html#g-servidor-prueba">servidor de prueba</a>, los tres lectores, la unión y la regla R04.</p></div>
         <div class="card"><span class="k">Auditoría</span><p><code>deno task audit</code> todavía no ejecuta nada: sale con código 2. Lo que sí corre hoy: <code>read</code> (cuenta y une registros) y <code>explain</code> (un pedido duplicado, paso a paso).</p></div>
         <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenera los 5.000 pedidos desde una semilla fija. Dos ejecuciones producen exportes idénticos byte a byte.</p></div>
       </div>
@@ -161,9 +161,9 @@
           <h3>Mecánica técnica</h3>
           <ul>
             <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
-            <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (enlace explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
-            <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin reintento, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
-            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo y por el costo de la hora cargada.</li>
+            <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (<a class="gl" href="../index.html#g-enlace">enlace</a> explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
+            <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin <a class="gl" href="../index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
+            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo y por el costo de la <a class="gl" href="../index.html#g-hora-cargada">hora cargada</a>.</li>
             <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
             <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
           </ul>
@@ -189,7 +189,7 @@
             <li><strong>Fuente de la demo.</strong> Un servicio TMF propio, MIT, sobre el dataset sintético. Está marcado como simulado.</li>
             <li><strong>Sistemas de prueba.</strong> bss-oss-rust se lee solo por HTTP, en una máquina local. No se distribuye aquí, no forma parte de la demo pública y conserva su licencia.</li>
             <li><strong>Frontera.</strong> No se copia ni vendoriza código de terceros, y no se commitea ninguna captura de otro sistema. Al repositorio solo entra dato sintético.</li>
-            <li><strong>Marcas.</strong> TM Forum y TMF son de TM Forum. Flow Audit es independiente y no está certificado ni respaldado por TM Forum.</li>
+            <li><strong>Marcas.</strong> <a class="gl" href="../index.html#g-tmf">TM Forum</a> y TMF son de TM Forum. Flow Audit es independiente y no está certificado ni respaldado por TM Forum.</li>
           </ul>
         </div>
       </div>

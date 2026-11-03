@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: auditoría BSS del flujo de pedido a activación entre catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación. En construcción.">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · auditoría de flujo BSS">
@@ -103,7 +103,7 @@
           <li><strong>+2 h · Gestor de pedidos.</strong> El gestor de pedidos reparte el pedido en trabajo técnico: una orden de servicio para activar la línea y una orden de trabajo para instalar la antena. <em>Aquí nace la orden de servicio.</em> <span data-status="step-4-service-order"></span></li>
           <li><strong>+3 h · Orquestador de procesos.</strong> Un técnico instala la antena en casa de Ana. La instalación termina bien. <span data-status="step-5-installation"></span></li>
           <li><strong>+9 h · Sistema de activación.</strong> El sistema de activación intenta encender el servicio. El equipo del satélite no responde y el intento falla. Nadie programa otro intento. Problema: La activación falla y nadie la reintenta <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
-          <li><strong>+69 h · Gestor de pedidos.</strong> 60 horas después, Ana llama. Alguien reintenta a mano, pero el gestor crea una orden de servicio nueva para la misma línea en vez de repetir la primera. <em>Nace una segunda orden de servicio.</em> Problema: Un reintento crea una segunda orden de servicio <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
+          <li><strong>+69 h · Gestor de pedidos.</strong> 60 horas después, Ana llama. Alguien reintenta a mano, pero el gestor crea una orden de servicio nueva para la misma línea en vez de repetir la primera. <em>Nace una segunda orden de servicio.</em> Problema: Un <a class="gl" href="#g-reintento">reintento</a> crea una segunda orden de servicio <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
           <li><strong>+69 h · Sistema de activación.</strong> El segundo intento funciona. Ana tiene internet 69 horas después de pedirlo. <span data-status="step-8-closure"></span></li>
         </ol>
       </div>
@@ -129,7 +129,7 @@
           <tbody>
             <tr><th scope="row">R01</th><td>La activación falla y nadie la reintenta. El pedido espera unos 2,5 días.</td><td>≈ USD 12.750</td></tr>
             <tr><th scope="row">R02</th><td>Falta un dato en el catálogo y alguien lo completa a mano en cada pedido.</td><td>≈ USD 18.750</td></tr>
-            <tr><th scope="row">R03</th><td>Un temporizador vence y el proceso no hace nada: el pedido queda sin activar.</td><td>≈ USD 14.267, más USD 3.250 de ingresos en riesgo</td></tr>
+            <tr><th scope="row">R03</th><td>Un temporizador vence y el proceso no hace nada: el pedido queda sin activar.</td><td>≈ USD 14.267, más USD 3.250 de <a class="gl" href="#g-ingreso-riesgo">ingresos en riesgo</a></td></tr>
             <tr><th scope="row">R04</th><td>Un reintento crea una segunda orden de servicio para el mismo pedido.</td><td>≈ USD 1.590</td></tr>
             <tr><th scope="row">R05</th><td>Los sistemas no comparten un número de pedido. Investigar un incidente lleva unos 45 minutos.</td><td>≈ USD 10.125</td></tr>
           </tbody>
@@ -156,7 +156,7 @@
         <div class="card"><span class="k">2 · Catálogo de productos <span class="tag">CAT</span></span><h3>Lo que se vende</h3><p>Comprobará que cada oferta tenga los datos técnicos necesarios para activarla.</p></div>
         <div class="card"><span class="k">3 · Gestor de pedidos <span class="tag">OMS</span></span><h3>Cómo se reparte el pedido</h3><p>Seguirá cómo un pedido se divide en tareas técnicas. Contará los reintentos y los pedidos que necesitan intervención manual.</p></div>
         <div class="card"><span class="k">4 · Orquestador de procesos <span class="tag">BPM</span></span><h3>Quién hace cada paso</h3><p>Detectará dónde espera el proceso y qué tareas terminan a mano.</p></div>
-        <div class="card"><span class="k">5 · Sistema de activación <span class="tag">PROV</span></span><h3>Cuándo funciona el servicio</h3><p>Contará los intentos de activación, cuáles fallan y cuánto tarda la confirmación.</p></div>
+        <div class="card"><span class="k">5 · Sistema de activación <span class="tag">PROV</span></span><h3>Cuándo funciona el servicio</h3><p>Contará los <a class="gl" href="#g-intento">intentos de activación</a>, cuáles fallan y cuánto tarda la confirmación.</p></div>
       </div>
     </section>
 
@@ -173,13 +173,13 @@
       <h2>¿Qué se está construyendo?</h2>
       <p class="note">Dos etapas. La segunda no empieza hasta que la primera funciona.</p>
       <div class="grid">
-        <div class="card"><span class="k">Etapa 1 · Primer informe real</span><p>Leer pedidos, órdenes de servicio y activaciones del servidor de prueba, detectar el problema R04 (pedidos duplicados) y generar un informe con su costo y la fórmula. El costo de R04 es USD 1.590: USD 1.350 de limpieza manual más USD 240 de activaciones duplicadas, ya medidas porque las activaciones se enlazan con su orden.</p></div>
+        <div class="card"><span class="k">Etapa 1 · Primer informe real</span><p>Leer pedidos, <a class="gl" href="#g-orden-servicio">órdenes de servicio</a> y activaciones del servidor de prueba, detectar el problema R04 (pedidos duplicados) y generar un informe con su costo y la fórmula. El costo de R04 es USD 1.590: USD 1.350 de limpieza manual más USD 240 de activaciones duplicadas, ya medidas porque las activaciones se enlazan con su orden.</p></div>
         <div class="card"><span class="k">Etapa 2 · Listo para un cliente</span><p>Leer los archivos que exporta un cliente real (CSV o JSON), con una configuración que traduce sus columnas, y detectar también R01, R02 y R05. Es lo que permite hacer una primera auditoría de verdad.</p></div>
         <div class="card"><span class="k">Más adelante</span><p>R03 y el sistema de orquestación, informe en PDF, una interfaz web y los idiomas del motor.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Hecho · versión 0.3.2</span><p>Un operador inventado con 5.000 pedidos de prueba. Un servidor que los entrega como lo haría un sistema real. Un informe de ejemplo. Tres lectores (pedidos, órdenes de servicio y activaciones): ya leen los 5.000 pedidos, las 5.020 órdenes y los 5.400 intentos de activación, cada dato lleva su origen y se unen entre sí diciendo qué tan seguro es cada enlace; la regla R04 ya encuentra los 20 pedidos duplicados y los valora en USD 1.590.</p></div>
-        <div class="card"><span class="k">Ahora</span><p>Fijar el formato de los hallazgos (findings.json) para que el informe lo lea.</p></div>
+        <div class="card"><span class="k">Hecho · versión 0.3.2</span><p>Un operador inventado con 5.000 pedidos de prueba. Un servidor que los entrega como lo haría un sistema real. Un informe de ejemplo. Tres lectores (pedidos, órdenes de servicio y activaciones): ya leen los 5.000 pedidos, las 5.020 órdenes y los 5.400 intentos de activación, cada dato lleva su origen y se unen entre sí diciendo qué tan seguro es cada <a class="gl" href="#g-enlace">enlace</a>; la regla R04 ya encuentra los 20 pedidos duplicados y los valora en USD 1.590.</p></div>
+        <div class="card"><span class="k">Ahora</span><p>Fijar el formato de los <a class="gl" href="#g-hallazgo">hallazgos</a> (findings.json) para que el informe lo lea.</p></div>
         <div class="card"><span class="k">Siguiente</span><p>Mostrar el costo de cada problema con su fórmula y generar el informe real.</p></div>
       </div>
       <div class="callout" style="margin-top:16px"><strong>Lo que todavía no hace.</strong> No lee datos de clientes. Solo detecta R04. No genera informes todavía. Las cifras del ejemplo salen de datos inventados.</div>
@@ -201,21 +201,21 @@
       <p class="note">Las palabras que usa esta página, en orden de aparición.</p>
       <dl class="gloss">
         <div><dt>Pedido</dt><dd>Lo que un cliente compra, por ejemplo «SkyHome 200». Lo recibe el canal de venta.</dd></div>
-        <div><dt>Línea del pedido</dt><dd>Cada producto dentro de un pedido. Un pedido puede tener varias líneas.</dd></div>
-        <div><dt>Orden de servicio</dt><dd>La instrucción técnica que el gestor de pedidos crea para activar una línea. Debe haber una por línea.</dd></div>
-        <div><dt>Orden de trabajo</dt><dd>La tarea para una persona o cuadrilla, por ejemplo instalar la antena.</dd></div>
-        <div><dt>Intento de activación</dt><dd>Cada vez que el sistema de activación intenta encender el servicio. Puede funcionar o fallar.</dd></div>
-        <div><dt>Reintento</dt><dd>Volver a intentar una activación que falló. Debería reutilizar la orden original, no crear otra.</dd></div>
-        <div><dt>Enlace (explícito, inferido, faltante)</dt><dd>Cómo se une un registro a su pedido. Explícito: lleva el número. Inferido: se deduce por otros datos, con menos certeza. Faltante: no se pudo unir y queda a la vista.</dd></div>
-        <div><dt>Evidencia</dt><dd>Los registros concretos que prueban un problema.</dd></div>
-        <div><dt>Foto o historial</dt><dd>La foto es el estado actual de un registro; el historial es todo lo que cambió y cuándo. Medir esperas necesita el historial.</dd></div>
-        <div><dt>Hueco</dt><dd>Tiempo en que un pedido no tiene ningún evento: nadie hace nada.</dd></div>
-        <div><dt>Hallazgo</dt><dd>Un problema que la auditoría encontró, con su evidencia y su costo.</dd></div>
-        <div><dt>Hora cargada</dt><dd>Una hora de trabajo con su tarifa (por ejemplo USD 45), que se usa para valorar el trabajo manual.</dd></div>
-        <div><dt>Ingreso en riesgo</dt><dd>Dinero que aún no se cobra o podría perderse porque el servicio no se activa.</dd></div>
-        <div><dt>BSS y OSS</dt><dd>Los sistemas de un operador. BSS gestiona ventas y cobros. OSS gestiona la red y la activación.</dd></div>
-        <div><dt>TM Forum (TMF)</dt><dd>Asociación del sector que publica formatos comunes para que estos sistemas intercambien datos.</dd></div>
-        <div><dt>Servidor de prueba</dt><dd>Un programa nuestro que imita un sistema real con datos inventados. Siempre avisa de que los datos son simulados.</dd></div>
+        <div><dt id="g-linea">Línea del pedido</dt><dd>Cada producto dentro de un pedido. Un pedido puede tener varias líneas.</dd></div>
+        <div><dt id="g-orden-servicio">Orden de servicio</dt><dd>La instrucción técnica que el gestor de pedidos crea para activar una línea. Debe haber una por línea.</dd></div>
+        <div><dt id="g-orden-trabajo">Orden de trabajo</dt><dd>La tarea para una persona o cuadrilla, por ejemplo instalar la antena.</dd></div>
+        <div><dt id="g-intento">Intento de activación</dt><dd>Cada vez que el sistema de activación intenta encender el servicio. Puede funcionar o fallar.</dd></div>
+        <div><dt id="g-reintento">Reintento</dt><dd>Volver a intentar una activación que falló. Debería reutilizar la orden original, no crear otra.</dd></div>
+        <div><dt id="g-enlace">Enlace (explícito, inferido, faltante)</dt><dd>Cómo se une un registro a su pedido. Explícito: lleva el número. Inferido: se deduce por otros datos, con menos certeza. Faltante: no se pudo unir y queda a la vista.</dd></div>
+        <div><dt id="g-evidencia">Evidencia</dt><dd>Los registros concretos que prueban un problema.</dd></div>
+        <div><dt id="g-historial">Foto o historial</dt><dd>La foto es el estado actual de un registro; el historial es todo lo que cambió y cuándo. Medir esperas necesita el historial.</dd></div>
+        <div><dt id="g-hueco">Hueco</dt><dd>Tiempo en que un pedido no tiene ningún evento: nadie hace nada.</dd></div>
+        <div><dt id="g-hallazgo">Hallazgo</dt><dd>Un problema que la auditoría encontró, con su evidencia y su costo.</dd></div>
+        <div><dt id="g-hora-cargada">Hora cargada</dt><dd>Una hora de trabajo con su tarifa (por ejemplo USD 45), que se usa para valorar el trabajo manual.</dd></div>
+        <div><dt id="g-ingreso-riesgo">Ingreso en riesgo</dt><dd>Dinero que aún no se cobra o podría perderse porque el servicio no se activa.</dd></div>
+        <div><dt id="g-bss-oss">BSS y OSS</dt><dd>Los sistemas de un operador. BSS gestiona ventas y cobros. OSS gestiona la red y la activación.</dd></div>
+        <div><dt id="g-tmf">TM Forum (TMF)</dt><dd>Asociación del sector que publica formatos comunes para que estos sistemas intercambien datos.</dd></div>
+        <div><dt id="g-servidor-prueba">Servidor de prueba</dt><dd>Un programa nuestro que imita un sistema real con datos inventados. Siempre avisa de que los datos son simulados.</dd></div>
       </dl>
     </section>
 

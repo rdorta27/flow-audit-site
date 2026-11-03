@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: auditoría BSS del flujo de pedido a activación entre catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación. En construcción.">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Informe demo · Flow Audit">
@@ -61,7 +61,7 @@
       <h1>Informe de auditoría<br>Ortelis Satellite</h1>
       <p class="howto">Qué puedes hacer aquí: leer una auditoría terminada, con cada problema, su costo y la cuenta que lo explica.</p>
       <p class="lead">Ortelis es un operador ficticio de internet satelital residencial. El informe muestra el aspecto de una auditoría real, con cinco pérdidas inventadas.</p>
-      <p class="meta">Septiembre 2026 · 5.000 pedidos · CAT + OMS + BPM + PROV · USD · ejecución demo-20260901</p>
+      <p class="meta">Septiembre 2026 · 5.000 pedidos · catálogo + gestor de pedidos + orquestador de procesos + activación · USD · ejecución demo-20260901</p>
       <div class="callout">
         Este informe es una <strong>maqueta</strong>. Ningún motor lo generó. Los pedidos y los números salen del dataset inventado. Tiene la forma de la salida prevista (<code>findings.json</code> + <code>journeys</code>).
       </div>
@@ -70,7 +70,7 @@
     <section aria-label="Indicadores">
       <div class="kpis">
         <div class="kpi">
-          <span class="k">Hallazgos</span>
+          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Hallazgos</a></span>
           <span class="v">5</span>
           <span class="s">4 críticos · 1 medio</span>
         </div>
@@ -82,7 +82,7 @@
         <div class="kpi">
           <span class="k">Costo</span>
           <span class="v">USD 57.482</span>
-          <span class="s">por mes, a USD 45 la hora cargada</span>
+          <span class="s">por mes, a USD 45 la <a class="gl" href="../index.html#g-hora-cargada">hora cargada</a></span>
         </div>
         <div class="kpi">
           <span class="k">Pedidos atascados</span>
@@ -90,12 +90,12 @@
           <span class="s">1% del mes, sin evento posterior</span>
         </div>
       </div>
-      <p class="note">El ingreso en riesgo por los pedidos atascados suma USD 3.250 al mes (50 × ARPU 65). El costo de R03 ya lo incluye.</p>
+      <p class="note">El <a class="gl" href="../index.html#g-ingreso-riesgo">ingreso en riesgo</a> por los pedidos atascados suma USD 3.250 al mes (50 × ARPU 65). El costo de R03 ya lo incluye.</p>
     </section>
 
     <section>
       <h2>Resumen ejecutivo</h2>
-      <p class="lead">Un pedido tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un hueco entre sistemas que ningún proceso reclama.</p>
+      <p class="lead">Un pedido tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
       <div class="callout">
         <strong>Prioridad:</strong> agregar <code>capacity_profile</code> al catálogo técnico (USD 18.750/mes). Reintentar el activación antes de la cola manual (USD 12.750/mes). Compensar el timer de 48 horas (USD 14.267/mes). Las tres acciones cubren el <strong>80%</strong> del costo.
       </div>
@@ -112,7 +112,7 @@
       <div class="scroller" tabindex="0" aria-label="Mapa del flujo entre los cuatro sistemas, se desplaza en pantallas angostas">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
           <title id="flt">Flujo de un pedido entre catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación</title>
-          <desc id="fld">El catálogo valida el pedido. El BPM abre un chequeo manual de capacidad. El OMS descompone el pedido. El BPM instala. La activación falla en el sistema de activación. El reintento crea una segunda orden de servicio y después activa. Se marcan los hallazgos R01, R02, R03 y R04.</desc>
+          <desc id="fld">El catálogo valida el pedido. El orquestador abre un chequeo manual de capacidad. El gestor de pedidos descompone el pedido. El orquestador instala. La activación falla en el sistema de activación. El reintento crea una segunda orden de servicio y después activa. Se marcan los hallazgos R01, R02, R03 y R04.</desc>
           <defs>
             <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -125,8 +125,8 @@
           <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
 
           <text class="lane" x="14" y="56">CATÁLOGO</text>
-          <text class="lane" x="14" y="144">OMS</text>
-          <text class="lane" x="14" y="232">BPM</text>
+          <text class="lane" x="14" y="138">GESTOR DE<tspan x="14" dy="13">PEDIDOS</tspan></text>
+          <text class="lane" x="14" y="226">ORQUESTADOR<tspan x="14" dy="13">DE PROCESOS</tspan></text>
           <text class="lane" x="14" y="320">ACTIVACIÓN</text>
 
           <g class="node hot">
@@ -249,7 +249,7 @@
           <text class="elabel" x="20" y="310">Sin identificador común, unir los cuatro registros exige una ventana de tiempo (R05).</text>
         </svg>
       </div>
-      <p class="note">Un reintento manual saca al pedido de la cola. El timer no lo saca. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
+      <p class="note">Un <a class="gl" href="../index.html#g-reintento">reintento</a> manual saca al pedido de la cola. El timer no lo saca. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
     </section>
 
     <section>
@@ -368,7 +368,7 @@
             </tr>
             <tr>
               <th scope="row">R03</th>
-              <td>El timer del BPM vence sin compensación</td>
+              <td>El timer del orquestador vence sin compensación</td>
               <td><span class="tag crit">Crítica</span></td>
               <td class="num">150 · 3%</td>
               <td class="num">317</td>
@@ -377,7 +377,7 @@
             </tr>
             <tr>
               <th scope="row">R04</th>
-              <td>El reintento del OMS duplica la orden de servicio</td>
+              <td>El reintento del gestor de pedidos duplica la orden de servicio</td>
               <td><span class="tag med">Media</span></td>
               <td class="num">20 · 0,4%</td>
               <td class="num">30</td>
@@ -405,7 +405,7 @@
           </tfoot>
         </table>
       </div>
-      <p class="note">R03 incluye USD 3.250 de ingreso en riesgo. La evidencia de cada hallazgo está en <a href="../../data/report.json">data/report.json</a> (texto del mock en español).</p>
+      <p class="note">R03 incluye USD 3.250 de ingreso en riesgo. La <a class="gl" href="../index.html#g-evidencia">evidencia</a> de cada hallazgo está en <a href="../../data/report.json">data/report.json</a> (texto del mock en español).</p>
     </section>
   </main>
 

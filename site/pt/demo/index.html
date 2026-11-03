@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: auditoria BSS do fluxo de pedido à ativação entre catálogo de produtos, gestor de pedidos, orquestrador de processos e sistema de ativação. Em construção.">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Relatório demo · Flow Audit">
@@ -61,7 +61,7 @@
       <h1>Relatório de auditoria<br>Ortelis Satellite</h1>
       <p class="howto">O que você pode fazer aqui: ler uma auditoria concluída, com cada problema, seu custo e a conta que o explica.</p>
       <p class="lead">A Ortelis é uma operadora fictícia de internet por satélite residencial. O relatório mostra o aspecto de uma auditoria real, com cinco perdas inventadas.</p>
-      <p class="meta">Setembro 2026 · 5.000 pedidos · CAT + OMS + BPM + PROV · USD · execução demo-20260901</p>
+      <p class="meta">Setembro 2026 · 5.000 pedidos · catálogo + gestor de pedidos + orquestrador de processos + ativação · USD · execução demo-20260901</p>
       <div class="callout">
         Este relatório é um <strong>mock</strong>. Nenhum motor o gerou. Os pedidos e os números vêm do dataset inventado. Tem a forma da saída planejada (<code>findings.json</code> + <code>journeys</code>).
       </div>
@@ -70,7 +70,7 @@
     <section aria-label="Indicadores">
       <div class="kpis">
         <div class="kpi">
-          <span class="k">Achados</span>
+          <span class="k"><a class="gl" href="../index.html#g-hallazgo">Achados</a></span>
           <span class="v">5</span>
           <span class="s">4 críticos · 1 médio</span>
         </div>
@@ -82,7 +82,7 @@
         <div class="kpi">
           <span class="k">Custo</span>
           <span class="v">USD 57.482</span>
-          <span class="s">por mês, a USD 45 por hora carregada</span>
+          <span class="s">por mês, a USD 45 por <a class="gl" href="../index.html#g-hora-cargada">hora carregada</a></span>
         </div>
         <div class="kpi">
           <span class="k">Pedidos travados</span>
@@ -90,12 +90,12 @@
           <span class="s">1% do mês, sem evento posterior</span>
         </div>
       </div>
-      <p class="note">A receita em risco dos pedidos travados soma USD 3.250 por mês (50 × ARPU 65). O custo de R03 já a inclui.</p>
+      <p class="note">A <a class="gl" href="../index.html#g-ingreso-riesgo">receita em risco</a> dos pedidos travados soma USD 3.250 por mês (50 × ARPU 65). O custo de R03 já a inclui.</p>
     </section>
 
     <section>
       <h2>Resumo executivo</h2>
-      <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um vazio entre sistemas que nenhum processo reivindica.</p>
+      <p class="lead">Um pedido leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um <a class="gl" href="../index.html#g-hueco">vazio</a> entre sistemas que nenhum processo reivindica.</p>
       <div class="callout">
         <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (USD 18.750/mês). Tentar de novo o ativação antes da fila manual (USD 12.750/mês). Compensar o timer de 48 horas (USD 14.267/mês). As três ações cobrem <strong>80%</strong> do custo.
       </div>
@@ -112,7 +112,7 @@
       <div class="scroller" tabindex="0" aria-label="Mapa do fluxo entre os quatro sistemas, rola em telas estreitas">
         <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
           <title id="flt">Fluxo de um pedido entre catálogo de produtos, gestor de pedidos, orquestrador de processos e sistema de ativação</title>
-          <desc id="fld">O catálogo valida o pedido. O BPM abre uma checagem manual de capacidade. O OMS decompõe o pedido. O BPM instala. A ativação falha no ativação. A nova tentativa cria uma segunda ordem de serviço e depois ativa. Os achados R01, R02, R03 e R04 estão marcados.</desc>
+          <desc id="fld">O catálogo valida o pedido. O orquestrador abre uma checagem manual de capacidade. O gestor de pedidos decompõe o pedido. O orquestrador instala. A ativação falha no sistema de ativação. A nova tentativa cria uma segunda ordem de serviço e depois ativa. Os achados R01, R02, R03 e R04 estão marcados.</desc>
           <defs>
             <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
@@ -125,8 +125,8 @@
           <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
 
           <text class="lane" x="14" y="56">CATÁLOGO</text>
-          <text class="lane" x="14" y="144">OMS</text>
-          <text class="lane" x="14" y="232">BPM</text>
+          <text class="lane" x="14" y="138">GESTOR DE<tspan x="14" dy="13">PEDIDOS</tspan></text>
+          <text class="lane" x="14" y="226">ORQUESTRADOR<tspan x="14" dy="13">DE PROCESSOS</tspan></text>
           <text class="lane" x="14" y="320">ATIVAÇÃO</text>
 
           <g class="node hot">
@@ -249,7 +249,7 @@
           <text class="elabel" x="20" y="310">Sem identificador comum, unir os quatro registros exige uma janela de tempo (R05).</text>
         </svg>
       </div>
-      <p class="note">Uma nova tentativa manual tira o pedido da fila. O timer não tira. Os 50 pedidos travados continuam em <code>PROVISIONING</code> no fim do mês.</p>
+      <p class="note">Uma <a class="gl" href="../index.html#g-reintento">nova tentativa</a> manual tira o pedido da fila. O timer não tira. Os 50 pedidos travados continuam em <code>PROVISIONING</code> no fim do mês.</p>
     </section>
 
     <section>
@@ -368,7 +368,7 @@
             </tr>
             <tr>
               <th scope="row">R03</th>
-              <td>O timer do BPM vence sem compensação</td>
+              <td>O timer do orquestrador vence sem compensação</td>
               <td><span class="tag crit">Crítica</span></td>
               <td class="num">150 · 3%</td>
               <td class="num">317</td>
@@ -377,7 +377,7 @@
             </tr>
             <tr>
               <th scope="row">R04</th>
-              <td>A nova tentativa do OMS duplica a ordem de serviço</td>
+              <td>A nova tentativa do gestor de pedidos duplica a ordem de serviço</td>
               <td><span class="tag med">Média</span></td>
               <td class="num">20 · 0,4%</td>
               <td class="num">30</td>
@@ -405,7 +405,7 @@
           </tfoot>
         </table>
       </div>
-      <p class="note">R03 inclui USD 3.250 de receita em risco. A evidência de cada achado está em <a href="../../data/report.json">data/report.json</a> (texto do mock em espanhol).</p>
+      <p class="note">R03 inclui USD 3.250 de receita em risco. A <a class="gl" href="../index.html#g-evidencia">evidência</a> de cada achado está em <a href="../../data/report.json">data/report.json</a> (texto do mock em espanhol).</p>
     </section>
   </main>
 

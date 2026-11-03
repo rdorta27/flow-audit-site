@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across catalog, OMS, BPM and provisioning. Under construction.">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across product catalog, order manager, process orchestrator and activation system. Under construction.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · BSS flow audit">
@@ -69,7 +69,7 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>It already detects one problem, on test data.</strong> It reads orders, service orders and activations, joins them and finds the 20 duplicate orders (R04) with their cost. It does not produce the report or read client data yet.</span>
+        <span><strong>It already detects one problem, on test data.</strong> It reads orders, <a class="gl" href="#g-orden-servicio">service orders</a> and activations, joins them and finds the 20 duplicate orders (R04) with their cost. It does not produce the report or read client data yet.</span>
       </div>
     </section>
 
@@ -100,9 +100,9 @@
           <li><strong>0 h · Sales channel.</strong> Ana orders “SkyHome 200”, satellite internet, on the operator's website. <span data-status="step-1-order"></span></li>
           <li><strong>+1 min · Product catalog.</strong> The catalog confirms the offer exists. But its technical sheet lacks one piece of data: the satellite's capacity profile. <span data-status="step-2-catalog"></span></li>
           <li><strong>+3 min · Process orchestrator.</strong> Because the data is missing, the orchestrator opens a task for a person. An analyst checks the capacity by hand: 2 hours. Problem: A field is missing in the catalog and someone fills it in by hand <span class="tag">R02</span>. <span data-status="step-3-manual-task"></span></li>
-          <li><strong>+2 h · Order manager.</strong> The order manager splits the order into technical work: a service order to activate the line and a work order to install the dish. <em>The service order is born here.</em> <span data-status="step-4-service-order"></span></li>
+          <li><strong>+2 h · Order manager.</strong> The order manager splits the order into technical work: a service order to activate the line and a <a class="gl" href="#g-orden-trabajo">work order</a> to install the dish. <em>The service order is born here.</em> <span data-status="step-4-service-order"></span></li>
           <li><strong>+3 h · Process orchestrator.</strong> A technician installs the dish at Ana's home. The installation ends well. <span data-status="step-5-installation"></span></li>
-          <li><strong>+9 h · Activation system.</strong> The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt. Problem: Activation fails and nobody retries it <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
+          <li><strong>+9 h · Activation system.</strong> The activation system tries to switch the service on. The satellite equipment does not answer and the attempt fails. Nobody schedules another attempt. Problem: Activation fails and nobody <a class="gl" href="#g-reintento">retries</a> it <span class="tag">R01</span>. <span data-status="step-6-activation-fail"></span></li>
           <li><strong>+69 h · Order manager.</strong> 60 hours later, Ana calls. Someone retries by hand, but the order manager creates a new service order for the same line instead of repeating the first one. <em>A second service order is born.</em> Problem: A retry creates a second service order <span class="tag">R04</span>. <span data-status="step-7-second-order"></span></li>
           <li><strong>+69 h · Activation system.</strong> The second attempt works. Ana has internet 69 hours after ordering it. <span data-status="step-8-closure"></span></li>
         </ol>
@@ -129,7 +129,7 @@
           <tbody>
             <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>≈ USD 12,750</td></tr>
             <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on every order.</td><td>≈ USD 18,750</td></tr>
-            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>≈ USD 14,267, plus USD 3,250 of revenue at risk</td></tr>
+            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>≈ USD 14,267, plus USD 3,250 of <a class="gl" href="#g-ingreso-riesgo">revenue at risk</a></td></tr>
             <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td>≈ USD 1,590</td></tr>
             <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>≈ USD 10,125</td></tr>
           </tbody>
@@ -156,7 +156,7 @@
         <div class="card"><span class="k">2 · Product catalog <span class="tag">CAT</span></span><h3>What is sold</h3><p>It will check that each offer has the technical data needed to activate it.</p></div>
         <div class="card"><span class="k">3 · Order manager <span class="tag">OMS</span></span><h3>How the order is split</h3><p>It will follow how an order splits into technical tasks. It will count retries and orders that need manual work.</p></div>
         <div class="card"><span class="k">4 · Process orchestrator <span class="tag">BPM</span></span><h3>Who does each step</h3><p>It will find where the process waits and which tasks end up done by hand.</p></div>
-        <div class="card"><span class="k">5 · Activation system <span class="tag">PROV</span></span><h3>When the service works</h3><p>It will count activation attempts, which ones fail and how long confirmation takes.</p></div>
+        <div class="card"><span class="k">5 · Activation system <span class="tag">PROV</span></span><h3>When the service works</h3><p>It will count <a class="gl" href="#g-intento">activation attempts</a>, which ones fail and how long confirmation takes.</p></div>
       </div>
     </section>
 
@@ -173,13 +173,13 @@
       <h2>What is being built?</h2>
       <p class="note">Two stages. The second does not start until the first works.</p>
       <div class="grid">
-        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the test server, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up plus USD 240 of duplicate activations, already measured because activations are linked to their service order.</p></div>
+        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the <a class="gl" href="#g-servidor-prueba">test server</a>, detect problem R04 (duplicate orders) and produce a report with its cost and formula. The cost of R04 is USD 1,590: USD 1,350 of manual clean-up plus USD 240 of duplicate activations, already measured because activations are linked to their service order.</p></div>
         <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is what makes a first real audit possible.</p></div>
         <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
       </div>
       <div class="grid" style="margin-top:16px">
         <div class="card"><span class="k">Done · version 0.3.2</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Three readers (orders, service orders and activations): they already read all 5,000 orders, 5,020 service orders and 5,400 activation attempts, every record carries its origin and they are joined, saying how sure each link is; rule R04 already finds the 20 duplicate orders and values them at USD 1,590.</p></div>
-        <div class="card"><span class="k">Now</span><p>Fix the format of the findings (findings.json) so the report can read it.</p></div>
+        <div class="card"><span class="k">Now</span><p>Fix the format of the <a class="gl" href="#g-hallazgo">findings</a> (findings.json) so the report can read it.</p></div>
         <div class="card"><span class="k">Next</span><p>Show each problem's cost with its formula and produce the real report.</p></div>
       </div>
       <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It only detects R04. It does not generate reports yet. The example figures come from made-up data.</div>
@@ -201,21 +201,21 @@
       <p class="note">The words this page uses, in order of appearance.</p>
       <dl class="gloss">
         <div><dt>Order</dt><dd>What a customer buys, for example “SkyHome 200”. The sales channel receives it.</dd></div>
-        <div><dt>Order line</dt><dd>Each product inside an order. An order can have several lines.</dd></div>
-        <div><dt>Service order</dt><dd>The technical instruction the order manager creates to activate a line. There should be one per line.</dd></div>
-        <div><dt>Work order</dt><dd>The task for a person or crew, for example installing the dish.</dd></div>
-        <div><dt>Activation attempt</dt><dd>Each time the activation system tries to switch the service on. It can work or fail.</dd></div>
-        <div><dt>Retry</dt><dd>Trying again an activation that failed. It should reuse the original service order, not create another.</dd></div>
-        <div><dt>Link (explicit, inferred, missing)</dt><dd>How a record is joined to its order. Explicit: it carries the number. Inferred: deduced from other data, with less certainty. Missing: it could not be joined and stays in view.</dd></div>
-        <div><dt>Evidence</dt><dd>The specific records that prove a problem.</dd></div>
-        <div><dt>Snapshot vs history</dt><dd>A snapshot is the current state of a record; history is everything that changed and when. Measuring waits needs the history.</dd></div>
-        <div><dt>Gap</dt><dd>Time in which an order has no event at all: nobody does anything.</dd></div>
-        <div><dt>Finding</dt><dd>A problem the audit found, with its evidence and its cost.</dd></div>
-        <div><dt>Loaded hour</dt><dd>One hour of work at its rate (for example USD 45), used to price manual work.</dd></div>
-        <div><dt>Revenue at risk</dt><dd>Money not yet collected or that could be lost because the service is not activated.</dd></div>
-        <div><dt>BSS and OSS</dt><dd>An operator&#x27;s systems. BSS handles sales and billing. OSS handles the network and activation.</dd></div>
-        <div><dt>TM Forum (TMF)</dt><dd>An industry association that publishes common formats so these systems can exchange data.</dd></div>
-        <div><dt>Test server</dt><dd>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</dd></div>
+        <div><dt id="g-linea">Order line</dt><dd>Each product inside an order. An order can have several lines.</dd></div>
+        <div><dt id="g-orden-servicio">Service order</dt><dd>The technical instruction the order manager creates to activate a line. There should be one per line.</dd></div>
+        <div><dt id="g-orden-trabajo">Work order</dt><dd>The task for a person or crew, for example installing the dish.</dd></div>
+        <div><dt id="g-intento">Activation attempt</dt><dd>Each time the activation system tries to switch the service on. It can work or fail.</dd></div>
+        <div><dt id="g-reintento">Retry</dt><dd>Trying again an activation that failed. It should reuse the original service order, not create another.</dd></div>
+        <div><dt id="g-enlace">Link (explicit, inferred, missing)</dt><dd>How a record is joined to its order. Explicit: it carries the number. Inferred: deduced from other data, with less certainty. Missing: it could not be joined and stays in view.</dd></div>
+        <div><dt id="g-evidencia">Evidence</dt><dd>The specific records that prove a problem.</dd></div>
+        <div><dt id="g-historial">Snapshot vs history</dt><dd>A snapshot is the current state of a record; history is everything that changed and when. Measuring waits needs the history.</dd></div>
+        <div><dt id="g-hueco">Gap</dt><dd>Time in which an order has no event at all: nobody does anything.</dd></div>
+        <div><dt id="g-hallazgo">Finding</dt><dd>A problem the audit found, with its evidence and its cost.</dd></div>
+        <div><dt id="g-hora-cargada">Loaded hour</dt><dd>One hour of work at its rate (for example USD 45), used to price manual work.</dd></div>
+        <div><dt id="g-ingreso-riesgo">Revenue at risk</dt><dd>Money not yet collected or that could be lost because the service is not activated.</dd></div>
+        <div><dt id="g-bss-oss">BSS and OSS</dt><dd>An operator&#x27;s systems. BSS handles sales and billing. OSS handles the network and activation.</dd></div>
+        <div><dt id="g-tmf">TM Forum (TMF)</dt><dd>An industry association that publishes common formats so these systems can exchange data.</dd></div>
+        <div><dt id="g-servidor-prueba">Test server</dt><dd>Our own program that imitates a real system with made-up data. It always states that the data is simulated.</dd></div>
       </dl>
     </section>
 

@@ -15,6 +15,17 @@ SEP = {"es": ".", "en": ",", "pt": "."}
 STALE = ["11250", "41700", "14104", "57319", "1268"]
 
 
+# Old names that must not return in visible text (lane titles, table cells,
+# alt text). Codes such as OMS/BPM stay allowed only as small tags on the landing.
+OLD_NAMES = [r"\bOMS\b", r"\bBPM\b", r"provisioning", r"\bprovisi[oó]n\b"]
+
+
+def visible(html):
+    html = re.sub(r"<(script|style|code)\b.*?</\1>", "", html, flags=re.S | re.I)
+    metas = re.findall(r'<meta[^>]+(?:alt|description|title)[^>]*content="([^"]*)"', html)
+    return re.sub(r"<[^>]+>", " ", html) + " " + " ".join(metas)
+
+
 def fmt(n, sep):
     return f"{round(n):,}".replace(",", sep)
 
@@ -47,6 +58,15 @@ def main():
             for old in STALE:
                 if old in flat:
                     errors.append(f"{lang}/{page}: stale figure {old}")
+    for lang in SEP:
+        for rel in ("demo/index.html", "index.html"):
+            text = visible((ROOT / lang / rel).read_text())
+            if rel == "index.html":
+                # landing may show the codes as tags next to the plain name
+                text = re.sub(r"\b(OMS|BPM)\b", "", text)
+            for pat in OLD_NAMES:
+                if re.search(pat, text, re.I if "provisi" in pat else 0):
+                    errors.append(f"{lang}/{rel}: old name /{pat}/ in visible text")
     status = json.loads((ROOT / "data" / "status.json").read_text())
     comps = status["components"]
     used = set()
