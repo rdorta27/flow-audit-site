@@ -55,9 +55,11 @@
   [bFirst, bPrev, bNext, bPlay, count, keys].forEach(function (n) { bar.appendChild(n); });
 
   var scroll = h("div", "j-scroll");
-  var svg = el("svg", { id: "j-flow", viewBox: "0 0 1000 430", role: "img", "aria-labelledby": "j-flow-title" });
+  var svg = el("svg", { id: "j-flow", viewBox: "0 36 1000 394", role: "img", "aria-labelledby": "j-flow-title" });
   svg.appendChild(el("title", { id: "j-flow-title" }, T.ui.svgTitle));
   scroll.appendChild(svg);
+  var cue = h("p", "j-cue", T.ui.scroll || "");
+  cue.setAttribute("aria-hidden", "true");
 
   var ribbon = h("div", "j-ribbon");
   var rbar = h("div", "j-ribbon-bar");
@@ -67,7 +69,7 @@
   var panel = h("div", "j-panel"); panel.setAttribute("aria-live", "polite");
 
   var stage = h("div", "j-stage");
-  [bar, scroll, ribbon, panel].forEach(function (n) { stage.appendChild(n); });
+  [bar, cue, scroll, ribbon, panel].forEach(function (n) { stage.appendChild(n); });
 
   // Time ribbon: segments in the systems' colours; the 60 h gap dominates on purpose.
   (function () {
