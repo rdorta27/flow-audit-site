@@ -148,15 +148,80 @@
       </div>
     </section>
 
-    <section id="que">
-      <h2>What will it check?</h2>
-      <p class="note">These are the five systems an order goes through, in order. The codes (CAT, OMS, BPM, PROV) are only secondary tags.</p>
-      <div class="grid">
-        <div class="card"><span class="k">1 · Sales channel</span><h3>Where the order is placed</h3><p>It is the origin: the order arrives already noted in the order manager.</p></div>
-        <div class="card"><span class="k">2 · Product catalog <span class="tag">CAT</span></span><h3>What is sold</h3><p>It will check that each offer has the technical data needed to activate it.</p></div>
-        <div class="card"><span class="k">3 · Order manager <span class="tag">OMS</span></span><h3>How the order is split</h3><p>It will follow how an order splits into technical tasks. It will count retries and orders that need manual work.</p></div>
-        <div class="card"><span class="k">4 · Process orchestrator <span class="tag">BPM</span></span><h3>Who does each step</h3><p>It will find where the process waits and which tasks end up done by hand.</p></div>
-        <div class="card"><span class="k">5 · Activation system <span class="tag">PROV</span></span><h3>When the service works</h3><p>It will count <a class="gl" href="#g-intento">activation attempts</a>, which ones fail and how long confirmation takes.</p></div>
+    <section id="que" class="sysview" aria-labelledby="h-que">
+      <span class="eyebrow">2 · The systems</span>
+      <h2 id="h-que">Five systems, four joins: this is where orders break</h2>
+      <p class="note">Each system sees only its own part. The problems live in the joins, where nobody owns the handover.</p>
+      <p class="howto">What you can do: pick a system in the chain to see what it does, what it records and what to ask the client to export. Below, the table is the list of what to ask for.</p>
+      <div class="chain" id="chain" role="group" aria-label="Chain of the five systems and the joins between them" tabindex="-1">
+        <button type="button" class="sys" data-sys="sale" aria-controls="sd-sale" aria-pressed="false"><small aria-hidden="true">&nbsp;</small><b>Sales channel</b><span class="hint">store or web</span><span data-status="system-sale"></span></button>
+        <div class="seam" style="--a:var(--s-sale);--b:var(--s-cat)"><span>the order names its offer</span><div class="arrow" aria-hidden="true"></div><div class="tags"></div></div>
+        <button type="button" class="sys" data-sys="cat" aria-controls="sd-cat" aria-pressed="false"><small>CAT</small><b>Product catalog</b><span class="hint">what is sold</span><span data-status="system-catalog"></span></button>
+        <div class="seam" style="--a:var(--s-cat);--b:var(--s-oms)"><span>the offer points to its technical sheet</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span></div></div>
+        <button type="button" class="sys" data-sys="oms" aria-controls="sd-oms" aria-pressed="true"><small>OMS</small><b>Order manager</b><span class="hint">splits the work</span><span data-status="system-oms"></span></button>
+        <div class="seam" style="--a:var(--s-oms);--b:var(--s-bpm)"><span>the process carries the order number</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span><span class="rtag">R03</span></div></div>
+        <button type="button" class="sys" data-sys="bpm" aria-controls="sd-bpm" aria-pressed="false"><small>BPM</small><b>Process orchestrator</b><span class="hint">coordinates the tasks</span><span data-status="system-bpm"></span></button>
+        <div class="seam" style="--a:var(--s-bpm);--b:var(--s-prov)"><span>each attempt with its service order · <span data-fig="R05">300</span> without a link</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R01</span><span class="rtag">R04</span><span class="rtag">R05</span></div></div>
+        <button type="button" class="sys" data-sys="prov" aria-controls="sd-prov" aria-pressed="false"><small>PROV</small><b>Activation system</b><span class="hint">turns the service on</span><span data-status="system-prov"></span></button>
+      </div>
+      <article class="sysdetail" id="sd-sale" data-sys="sale" aria-label="Selected system: Sales channel">
+        <h3><span class="dot" aria-hidden="true"></span>Sales channel <span data-status="system-sale"></span></h3>
+        <p class="unread">Not read in this version yet.</p>
+        <div class="kv"><span>What it does</span><p>Where the customer places the order: store, web or call center.</p></div>
+        <div class="kv"><span>What question it answers</span><p>What was ordered and when?</p></div>
+        <div class="kv"><span>What it records</span><p>Not read separately: it arrives inside the order.</p></div>
+        <div class="kv"><span>What to ask the client for</span><p>Nothing separate.</p></div>
+        <div class="kv"><span>Where Flow Audit reads it from</span><p>Inside the order</p></div>
+      </article>
+      <article class="sysdetail" id="sd-cat" data-sys="cat" aria-label="Selected system: Product catalog">
+        <h3><span class="dot" aria-hidden="true"></span>Product catalog <span class="tag">CAT</span> <span data-status="system-catalog"></span></h3>
+        <p class="unread">Not read in this version yet.</p>
+        <div class="kv"><span>What it does</span><p>The list of what is sold and, for each offer, the technical sheet with the data needed to activate it.</p></div>
+        <div class="kv"><span>What question it answers</span><p>Does every offer have all its technical data?</p></div>
+        <div class="kv"><span>What it records</span><p>Offers, versions and technical sheets with their attributes.</p></div>
+        <div class="kv"><span>What to ask the client for</span><p>Catalog export (JSON).</p></div>
+        <div class="kv"><span>Where Flow Audit reads it from</span><p>Client file</p></div>
+      </article>
+      <article class="sysdetail" id="sd-oms" data-sys="oms" aria-label="Selected system: Order manager">
+        <h3><span class="dot" aria-hidden="true"></span>Order manager <span class="tag">OMS</span> <span data-status="system-oms"></span></h3>
+        <p class="unread">Not read in this version yet.</p>
+        <div class="kv"><span>What it does</span><p>Receives the order and splits it into service orders and work orders.</p></div>
+        <div class="kv"><span>What question it answers</span><p>How is each order split, retried and closed?</p></div>
+        <div class="kv"><span>What it records</span><p>Orders, lines and service orders, each one pointing to its line.</p></div>
+        <div class="kv"><span>What to ask the client for</span><p>Orders and service orders (CSV) or TMF622/641 API.</p></div>
+        <div class="kv"><span>Where Flow Audit reads it from</span><p>Test server today; client file in the "Client-ready" stage</p></div>
+      </article>
+      <article class="sysdetail" id="sd-bpm" data-sys="bpm" aria-label="Selected system: Process orchestrator">
+        <h3><span class="dot" aria-hidden="true"></span>Process orchestrator <span class="tag">BPM</span> <span data-status="system-bpm"></span></h3>
+        <p class="unread">Not read in this version yet.</p>
+        <div class="kv"><span>What it does</span><p>Coordinates the tasks in order and assigns some to people.</p></div>
+        <div class="kv"><span>What question it answers</span><p>Where does the process wait and what is done by hand?</p></div>
+        <div class="kv"><span>What it records</span><p>Processes, tasks, who did them and when; timers.</p></div>
+        <div class="kv"><span>What to ask the client for</span><p>Process history (JSONL).</p></div>
+        <div class="kv"><span>Where Flow Audit reads it from</span><p>Client file</p></div>
+      </article>
+      <article class="sysdetail" id="sd-prov" data-sys="prov" aria-label="Selected system: Activation system">
+        <h3><span class="dot" aria-hidden="true"></span>Activation system <span class="tag">PROV</span> <span data-status="system-prov"></span></h3>
+        <p class="unread">Not read in this version yet.</p>
+        <div class="kv"><span>What it does</span><p>Turns the service on in the network. It can fail and retry.</p></div>
+        <div class="kv"><span>What question it answers</span><p>How many attempts, which fail and how long do they take?</p></div>
+        <div class="kv"><span>What it records</span><p>Each attempt with its service order, result and error.</p></div>
+        <div class="kv"><span>What to ask the client for</span><p>Activation attempts (JSONL) or TMF640 API.</p></div>
+        <div class="kv"><span>Where Flow Audit reads it from</span><p>Test server today; client file in the "Client-ready" stage</p></div>
+      </article>
+      <h3 class="mh">Problems by system: the list of what to ask the client for</h3>
+      <div class="table-wrap">
+        <table class="matrix">
+          <caption>Which systems each problem touches. Each dot is a system whose data you need to ask for.</caption>
+          <thead><tr><th scope="col">Problem</th><th scope="col" data-sys="cat">Product catalog</th><th scope="col" data-sys="oms">Order manager</th><th scope="col" data-sys="bpm">Process orchestrator</th><th scope="col" data-sys="prov">Activation system</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Activation fails and nobody retries it <span class="rtag">R01</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
+            <tr><th scope="row">A catalog field is missing and someone fills it in by hand <span class="rtag">R02</span></th><td class="c" data-sys="cat"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="prov"></td></tr>
+            <tr><th scope="row">A timer expires and nobody acts <span class="rtag">R03</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="prov"></td></tr>
+            <tr><th scope="row">A retry creates a second service order <span class="rtag">R04</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
+            <tr><th scope="row">The systems do not share an order number <span class="rtag">R05</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Yes</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Yes</span></td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -240,6 +305,7 @@
   </footer>
 </div>
 <script src="../journey.js" defer></script>
+<script src="../systems.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>

@@ -148,15 +148,80 @@
       </div>
     </section>
 
-    <section id="que">
-      <h2>¿Qué revisará?</h2>
-      <p class="note">Estos son los cinco sistemas que recorre un pedido, en orden. Los códigos (CAT, OMS, BPM, PROV) son solo etiquetas secundarias.</p>
-      <div class="grid">
-        <div class="card"><span class="k">1 · Canal de venta</span><h3>Dónde se hace el pedido</h3><p>Es el origen: el pedido llega ya anotado en el gestor de pedidos.</p></div>
-        <div class="card"><span class="k">2 · Catálogo de productos <span class="tag">CAT</span></span><h3>Lo que se vende</h3><p>Comprobará que cada oferta tenga los datos técnicos necesarios para activarla.</p></div>
-        <div class="card"><span class="k">3 · Gestor de pedidos <span class="tag">OMS</span></span><h3>Cómo se reparte el pedido</h3><p>Seguirá cómo un pedido se divide en tareas técnicas. Contará los reintentos y los pedidos que necesitan intervención manual.</p></div>
-        <div class="card"><span class="k">4 · Orquestador de procesos <span class="tag">BPM</span></span><h3>Quién hace cada paso</h3><p>Detectará dónde espera el proceso y qué tareas terminan a mano.</p></div>
-        <div class="card"><span class="k">5 · Sistema de activación <span class="tag">PROV</span></span><h3>Cuándo funciona el servicio</h3><p>Contará los <a class="gl" href="#g-intento">intentos de activación</a>, cuáles fallan y cuánto tarda la confirmación.</p></div>
+    <section id="que" class="sysview" aria-labelledby="h-que">
+      <span class="eyebrow">2 · Los sistemas</span>
+      <h2 id="h-que">Cinco sistemas, cuatro uniones: ahí se rompen los pedidos</h2>
+      <p class="note">Cada sistema ve solo su parte. Los problemas viven en las uniones, donde nadie es dueño del traspaso.</p>
+      <p class="howto">Qué puedes hacer: elige un sistema de la cadena para ver qué hace, qué anota y qué datos hay que pedirle al cliente. Abajo, la tabla es la lista de lo que hay que pedir.</p>
+      <div class="chain" id="chain" role="group" aria-label="Cadena de los cinco sistemas y sus uniones" tabindex="-1">
+        <button type="button" class="sys" data-sys="sale" aria-controls="sd-sale" aria-pressed="false"><small aria-hidden="true">&nbsp;</small><b>Canal de venta</b><span class="hint">tienda o web</span><span data-status="system-sale"></span></button>
+        <div class="seam" style="--a:var(--s-sale);--b:var(--s-cat)"><span>el pedido nombra su oferta</span><div class="arrow" aria-hidden="true"></div><div class="tags"></div></div>
+        <button type="button" class="sys" data-sys="cat" aria-controls="sd-cat" aria-pressed="false"><small>CAT</small><b>Catálogo de productos</b><span class="hint">qué se vende</span><span data-status="system-catalog"></span></button>
+        <div class="seam" style="--a:var(--s-cat);--b:var(--s-oms)"><span>la oferta apunta a su ficha técnica</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span></div></div>
+        <button type="button" class="sys" data-sys="oms" aria-controls="sd-oms" aria-pressed="true"><small>OMS</small><b>Gestor de pedidos</b><span class="hint">reparte el trabajo</span><span data-status="system-oms"></span></button>
+        <div class="seam" style="--a:var(--s-oms);--b:var(--s-bpm)"><span>el proceso lleva el número de pedido</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span><span class="rtag">R03</span></div></div>
+        <button type="button" class="sys" data-sys="bpm" aria-controls="sd-bpm" aria-pressed="false"><small>BPM</small><b>Orquestador de procesos</b><span class="hint">coordina las tareas</span><span data-status="system-bpm"></span></button>
+        <div class="seam" style="--a:var(--s-bpm);--b:var(--s-prov)"><span>cada intento con su orden de servicio · <span data-fig="R05">300</span> sin enlace</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R01</span><span class="rtag">R04</span><span class="rtag">R05</span></div></div>
+        <button type="button" class="sys" data-sys="prov" aria-controls="sd-prov" aria-pressed="false"><small>PROV</small><b>Sistema de activación</b><span class="hint">enciende el servicio</span><span data-status="system-prov"></span></button>
+      </div>
+      <article class="sysdetail" id="sd-sale" data-sys="sale" aria-label="Sistema elegido: Canal de venta">
+        <h3><span class="dot" aria-hidden="true"></span>Canal de venta <span data-status="system-sale"></span></h3>
+        <p class="unread">Todavía no se lee en esta versión.</p>
+        <div class="kv"><span>Qué hace</span><p>Donde el cliente hace el pedido: tienda, web o call center.</p></div>
+        <div class="kv"><span>Qué pregunta responde</span><p>¿Qué se pidió y cuándo?</p></div>
+        <div class="kv"><span>Qué anota</span><p>No se lee aparte: llega dentro del pedido.</p></div>
+        <div class="kv"><span>Qué pedirle al cliente</span><p>Nada aparte.</p></div>
+        <div class="kv"><span>De dónde lo lee Flow Audit</span><p>Dentro del pedido</p></div>
+      </article>
+      <article class="sysdetail" id="sd-cat" data-sys="cat" aria-label="Sistema elegido: Catálogo de productos">
+        <h3><span class="dot" aria-hidden="true"></span>Catálogo de productos <span class="tag">CAT</span> <span data-status="system-catalog"></span></h3>
+        <p class="unread">Todavía no se lee en esta versión.</p>
+        <div class="kv"><span>Qué hace</span><p>La lista de lo que se vende y, para cada oferta, la ficha técnica con los datos para activarla.</p></div>
+        <div class="kv"><span>Qué pregunta responde</span><p>¿Cada oferta tiene todos los datos técnicos?</p></div>
+        <div class="kv"><span>Qué anota</span><p>Ofertas, versiones y fichas técnicas con sus atributos.</p></div>
+        <div class="kv"><span>Qué pedirle al cliente</span><p>Exportación del catálogo (JSON).</p></div>
+        <div class="kv"><span>De dónde lo lee Flow Audit</span><p>Archivo del cliente</p></div>
+      </article>
+      <article class="sysdetail" id="sd-oms" data-sys="oms" aria-label="Sistema elegido: Gestor de pedidos">
+        <h3><span class="dot" aria-hidden="true"></span>Gestor de pedidos <span class="tag">OMS</span> <span data-status="system-oms"></span></h3>
+        <p class="unread">Todavía no se lee en esta versión.</p>
+        <div class="kv"><span>Qué hace</span><p>Recibe el pedido y lo reparte en órdenes de servicio y órdenes de trabajo.</p></div>
+        <div class="kv"><span>Qué pregunta responde</span><p>¿Cómo se reparte, se reintenta y se cierra cada pedido?</p></div>
+        <div class="kv"><span>Qué anota</span><p>Pedidos, líneas y órdenes de servicio, cada una apuntando a su línea.</p></div>
+        <div class="kv"><span>Qué pedirle al cliente</span><p>Pedidos y órdenes (CSV) o API TMF622/641.</p></div>
+        <div class="kv"><span>De dónde lo lee Flow Audit</span><p>Servidor de prueba hoy; archivo del cliente en la etapa «Listo para un cliente»</p></div>
+      </article>
+      <article class="sysdetail" id="sd-bpm" data-sys="bpm" aria-label="Sistema elegido: Orquestador de procesos">
+        <h3><span class="dot" aria-hidden="true"></span>Orquestador de procesos <span class="tag">BPM</span> <span data-status="system-bpm"></span></h3>
+        <p class="unread">Todavía no se lee en esta versión.</p>
+        <div class="kv"><span>Qué hace</span><p>Coordina las tareas en orden y asigna algunas a personas.</p></div>
+        <div class="kv"><span>Qué pregunta responde</span><p>¿Dónde espera el proceso y qué se hace a mano?</p></div>
+        <div class="kv"><span>Qué anota</span><p>Procesos, tareas, quién las hizo y cuándo; temporizadores.</p></div>
+        <div class="kv"><span>Qué pedirle al cliente</span><p>Historial de procesos (JSONL).</p></div>
+        <div class="kv"><span>De dónde lo lee Flow Audit</span><p>Archivo del cliente</p></div>
+      </article>
+      <article class="sysdetail" id="sd-prov" data-sys="prov" aria-label="Sistema elegido: Sistema de activación">
+        <h3><span class="dot" aria-hidden="true"></span>Sistema de activación <span class="tag">PROV</span> <span data-status="system-prov"></span></h3>
+        <p class="unread">Todavía no se lee en esta versión.</p>
+        <div class="kv"><span>Qué hace</span><p>Enciende el servicio en la red. Puede fallar y reintentar.</p></div>
+        <div class="kv"><span>Qué pregunta responde</span><p>¿Cuántos intentos, cuáles fallan y cuánto tardan?</p></div>
+        <div class="kv"><span>Qué anota</span><p>Cada intento con su orden de servicio, resultado y error.</p></div>
+        <div class="kv"><span>Qué pedirle al cliente</span><p>Intentos de activación (JSONL) o API TMF640.</p></div>
+        <div class="kv"><span>De dónde lo lee Flow Audit</span><p>Servidor de prueba hoy; archivo del cliente en la etapa «Listo para un cliente»</p></div>
+      </article>
+      <h3 class="mh">Problemas por sistema: la lista de lo que hay que pedirle al cliente</h3>
+      <div class="table-wrap">
+        <table class="matrix">
+          <caption>Qué sistemas toca cada problema. Cada punto es un sistema cuyos datos hay que pedir.</caption>
+          <thead><tr><th scope="col">Problema</th><th scope="col" data-sys="cat">Catálogo de productos</th><th scope="col" data-sys="oms">Gestor de pedidos</th><th scope="col" data-sys="bpm">Orquestador de procesos</th><th scope="col" data-sys="prov">Sistema de activación</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">La activación falla y nadie la reintenta <span class="rtag">R01</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Sí</span></td></tr>
+            <tr><th scope="row">Falta un dato en el catálogo y se completa a mano <span class="rtag">R02</span></th><td class="c" data-sys="cat"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="prov"></td></tr>
+            <tr><th scope="row">Un temporizador vence y nadie actúa <span class="rtag">R03</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"></td><td class="c" data-sys="bpm"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="prov"></td></tr>
+            <tr><th scope="row">Un reintento crea una segunda orden de servicio <span class="rtag">R04</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Sí</span></td></tr>
+            <tr><th scope="row">Los sistemas no comparten un número de pedido <span class="rtag">R05</span></th><td class="c" data-sys="cat"></td><td class="c" data-sys="oms"><span aria-hidden="true">●</span><span class="sr">Sí</span></td><td class="c" data-sys="bpm"></td><td class="c" data-sys="prov"><span aria-hidden="true">●</span><span class="sr">Sí</span></td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -240,6 +305,7 @@
   </footer>
 </div>
 <script src="../journey.js" defer></script>
+<script src="../systems.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>
