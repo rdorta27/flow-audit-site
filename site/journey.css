@@ -112,5 +112,4 @@ body.landing main { gap: 0; }
 body.landing .go { margin-top: 4px; }
 body.landing section { padding: 6px 0 8px; gap: 12px; }
 body.landing main { padding-top: 20px; }
-body.landing #hallazgos > .note, body.landing #hallazgos .mh + .note { display: none; }
 body.landing .hero-howto { display: none; }

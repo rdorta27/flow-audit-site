@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Flow Audit report 063730bdf0bf5bcf</title>
+<style>
+:root{--bg:#1f1f28;--card:#2a2a37;--tint:#252535;--ink:#dcd7ba;--muted:#a6a69c;--line:#363646;
+--crit:#f08a94;--fa:#e6c384;--s-cat:#98bb6c;--s-oms:#7e9cd8;--s-bpm:#957fb8;--s-prov:#ffa066;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+--sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme:light){:root{--bg:#f2ecbc;--card:#f9f5d7;--tint:#e5ddb0;--ink:#545464;
+--muted:#5a5a68;--line:#c9c18e;--crit:#b4232f;--fa:#8a6200;--s-cat:#6f894e;--s-oms:#4d699b;
+--s-bpm:#624c83;--s-prov:#cc6d00}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans)}
+main{max-width:60rem;margin:0 auto;padding:1rem}
+h1,h2,h3{line-height:1.2}h2{margin-top:2rem;border-bottom:1px solid var(--line);padding-bottom:.25rem}
+code{font-family:var(--mono);font-size:.9em;overflow-wrap:anywhere}
+.brand{color:var(--fa);font-weight:700;margin:0}
+.muted,.note,small{color:var(--muted)}
+.story{padding-left:1.4rem}.story li{margin:.3rem 0}.story .missing{color:var(--muted);font-style:italic}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.75rem 1rem;margin:.75rem 0}
+.labels{display:flex;flex-wrap:wrap;gap:.5rem}
+.label{border:1px solid var(--fa);color:var(--fa);border-radius:999px;padding:.1rem .6rem;font-size:.85rem}
+.kpis,.grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem}
+.kpis .card{margin:0}.kpis small{display:block}
+.big{font-size:1.6rem;font-weight:700}
+.chip{display:inline-block;border:1px solid var(--line);border-left:6px solid var(--muted);border-radius:4px;padding:0 .5rem;font-size:.85rem;font-weight:600}
+.s-cat{border-left-color:var(--s-cat)}.s-oms{border-left-color:var(--s-oms)}
+.s-bpm{border-left-color:var(--s-bpm)}.s-prov{border-left-color:var(--s-prov)}
+.sev{border:1px solid var(--crit);color:var(--crit);border-radius:4px;padding:0 .5rem;font-size:.85rem;text-transform:uppercase}
+.formula{background:var(--tint);padding:.5rem;border-radius:4px}
+table{width:100%;border-collapse:collapse;display:block;overflow-x:auto}
+th,td{border-bottom:1px solid var(--line);padding:.3rem .5rem;text-align:left;vertical-align:top}
+.n{text-align:right;font-variant-numeric:tabular-nums}
+.flow{list-style:none;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.node{border:2px solid var(--muted);border-radius:8px;padding:.5rem 1rem;background:var(--card);font-weight:700}
+.node small{display:block;font-weight:400}.node.unread{opacity:.6;border-style:dashed}
+.node.s-cat{border-color:var(--s-cat)}.node.s-oms{border-color:var(--s-oms)}
+.node.s-bpm{border-color:var(--s-bpm)}.node.s-prov{border-color:var(--s-prov)}
+.arrow{color:var(--muted)}
+footer{max-width:60rem;margin:0 auto;padding:1rem;color:var(--muted);font-size:.85rem;overflow-wrap:anywhere}
+a{color:inherit}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<p class="brand">Flow Audit</p>
+<h1>Order-to-activate audit</h1>
+<p class="labels"><span class="label">Synthetic data</span><span class="label">Simulated integration</span><span class="label">Estimated impact</span></p>
+<p class="muted">Generated 2026-11-03T21:50:11.984Z · run 063730bdf0bf5bcf · engine 0.3.6 · schema findings/1</p>
+</header>
+<section aria-labelledby="kpi"><h2 id="kpi">At a glance</h2>
+<ul class="kpis">
+<li class="card"><span class="big">USD 1,590</span><small>estimated cost, each order counted once</small></li>
+<li class="card"><span class="big">30 h</span><small>of manual work</small></li>
+<li class="card"><span class="big">1</span><small>finding</small></li>
+<li class="card"><span class="big">3</span><small>sources read</small></li>
+</ul>
+<table><thead><tr><th>Per rule</th><th class="n">Hours</th><th class="n">Cost</th></tr></thead><tbody><tr><td>R04 · Duplicate service order</td><td class="n">30 h</td><td class="n">USD 1,590</td></tr>
+<tr><td>Sum of the rules (gross)</td><td class="n">30 h</td><td class="n">USD 1,590</td></tr>
+<tr><th>Net total, each order counted once</th><th class="n">30 h</th><th class="n">USD 1,590</th></tr></tbody></table>
+<p class="note">No order is charged by more than one rule, so the net total equals the sum.</p>
+</section>
+<section aria-labelledby="sum"><h2 id="sum">Executive summary</h2><p>Flow Audit read 5,000 orders from 3 sources and checked them against 1 rule. The estimated cost is <strong>USD 1,590</strong> (30 h). It is an estimate built from the rates in this report, not a measured loss.</p>
+<h3>Fix first</h3><ol><li><a href="#R04">Duplicate service order</a>: USD 1,590 (30 h)</li></ol></section>
+<section aria-labelledby="find"><h2 id="find">Findings</h2><article class="card finding" id="R04" data-rule="R04@2">
+<header><h3>R04 · Duplicate service order</h3>
+<p class="chips"><span class="chip s-oms" title="OMS">Order manager</span> <span class="sev sev-medium">medium</span></p></header>
+<p>A second service order exists for the same order line. When activation failed, a retry created a new order instead of reusing the first.</p>
+<p class="cost"><span class="big">USD 1,590</span> · 30 h · one off</p>
+<p class="formula"><code>hours = groups × cleanup_minutes / 60; amount = hours × loaded_hour_usd + groups_that_reached_activation × duplicate_activation_cost_usd</code></p>
+<table><thead><tr><th>Term</th><th class="n">Amount</th><th>Basis</th></tr></thead><tbody><tr><td>Clean-up of duplicate service orders</td><td class="n">USD 1,350</td><td>rate assumption, observed 20</td></tr><tr><td>Duplicate activations</td><td class="n">USD 240</td><td>rate assumption, observed 20</td></tr></tbody></table>
+
+<details open><summary>Inputs (rates you can change)</summary><ul><li><code>rates.cleanup_minutes</code> = 90</li><li><code>loaded_hour_usd</code> = 45</li><li><code>rates.duplicate_activation_cost_usd</code> = 12</li></ul></details>
+<p>20 orders affected (0.4%) · evidence strong · confirmed · inferred links 0%</p>
+<p class="note">groups 20 · extra service orders 21 · retry new order 20 · parallel duplicate 0 · needs review 0 · reached activation 20 · activation attempts 21</p>
+<details><summary>Evidence: 20 of 20 orders shown</summary><ul><li><code>ORD-1000</code> 2 service orders over item ORD-1000-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1001</code> 2 service orders over item ORD-1001-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1002</code> 2 service orders over item ORD-1002-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1003</code> 2 service orders over item ORD-1003-1 (1 extra, retry_new_order); a duplicate reached activation</li><li><code>ORD-1004</code> 2 service orders over item ORD-1004-1 (1 extra, retry_new_order); a duplicate reached activation</li></ul></details>
+<p><strong>What to do.</strong> Make the retry reuse the existing service order, and confirm in billing the orders whose duplicate reached activation.</p>
+</article></section>
+<section aria-labelledby="map"><h2 id="map">Flow map</h2><ol class="flow"><li class="node s-cat unread">Product catalog<small>not read</small></li><li class="arrow" aria-hidden="true">→</li><li class="node s-oms">Order manager<small>read</small></li><li class="arrow" aria-hidden="true">→</li><li class="node s-bpm unread">Process orchestrator<small>not read</small></li><li class="arrow" aria-hidden="true">→</li><li class="node s-prov">Activation system<small>read</small></li></ol>
+<p class="note">Colours are fixed per system. Greyed systems were not read in this run.</p></section>
+<section aria-labelledby="sys"><h2 id="sys">Systems</h2><ul class="grid"><li class="card sys">
+<p>1. <span class="chip s-cat" title="CAT">Product catalog</span> <strong>Product catalog</strong></p>
+<p class="muted">lists what is sold and the technical data needed to switch it on</p>
+<p>Not read in this run</p>
+<ul class="note"><li>not read in this run: no catalog source is wired yet</li></ul>
+</li><li class="card sys">
+<p>2. <span class="chip s-oms" title="OMS">Order manager</span> <strong>Order manager</strong></p>
+<p class="muted">receives the order and splits it into service orders</p>
+<p>10,021 records · 100% of orders · findings: R04</p>
+<ul class="note"><li>when each state change happened: the source is a snapshot, not a history</li></ul>
+</li><li class="card sys">
+<p>3. <span class="chip s-bpm" title="BPM">Process orchestrator</span> <strong>Process orchestrator</strong></p>
+<p class="muted">runs the tasks in order and hands some to people</p>
+<p>Not read in this run</p>
+<ul class="note"><li>not read in this run: no process source is wired yet</li></ul>
+</li><li class="card sys">
+<p>4. <span class="chip s-prov" title="PROV">Activation system</span> <strong>Activation system</strong></p>
+<p class="muted">switches the service on in the network; can fail and retry</p>
+<p>5,390 records · 93.2% of orders · findings: R04</p>
+<ul class="note"><li>when each attempt changed state: the source is a snapshot, not a history</li></ul>
+</li></ul></section>
+<section aria-labelledby="tl"><h2 id="tl">Timeline</h2><p class="note">Timelines are unavailable when the source serves snapshots: a snapshot has no history of state changes (<code>segmentsUnavailable</code>).</p><article class="card"><h3>Order <code>ORD-1000</code></h3>
+<p>Findings: R04</p><ol class="story"><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T00:00:27.000Z</time> The order manager received the order. <small class="muted">ORD-1000 · http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder</small></li><li class="missing"><span class="chip s-cat" title="CAT">Product catalog</span> The product catalog was checked that the offer can be sold and activated. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T02:32:27.000Z</time> A service order (SO-20000) was created for line 1. <small class="muted">SO-20000 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small></li><li class="missing"><span class="chip s-bpm" title="BPM">Process orchestrator</span> The process orchestrator ran its tasks for the order. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-01T07:07:57.000Z</time> An activation attempt on SO-20000 failed. <small class="muted">ACT-70000 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-03T19:07:27.000Z</time> A second service order (SO-30000) was created for line 1, which already had one. <small class="muted">SO-30000 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small> <span class="sev sev-medium">R04 starts here</span></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-03T19:08:07.000Z</time> An activation attempt on SO-30000 succeeded. <small class="muted">ACT-80000 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li></ol><p class="note">Timeline unavailable: ORD-1000: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built</p></article>
+<article class="card"><h3>Order <code>ORD-1001</code></h3>
+<p>Findings: R04</p><ol class="story"><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T00:08:07.400Z</time> The order manager received the order. <small class="muted">ORD-1001 · http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder</small></li><li class="missing"><span class="chip s-cat" title="CAT">Product catalog</span> The product catalog was checked that the offer can be sold and activated. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T02:05:07.400Z</time> A service order (SO-20001) was created for line 1. <small class="muted">SO-20001 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small></li><li class="missing"><span class="chip s-bpm" title="BPM">Process orchestrator</span> The process orchestrator ran its tasks for the order. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-01T09:55:37.400Z</time> An activation attempt on SO-20001 failed. <small class="muted">ACT-70001 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-03T21:55:07.400Z</time> A second service order (SO-30001) was created for line 1, which already had one. <small class="muted">SO-30001 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small> <span class="sev sev-medium">R04 starts here</span></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-03T21:55:47.400Z</time> An activation attempt on SO-30001 succeeded. <small class="muted">ACT-80001 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li></ol><p class="note">Timeline unavailable: ORD-1001: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built</p></article>
+<article class="card"><h3>Order <code>ORD-1002</code></h3>
+<p>Findings: R04</p><ol class="story"><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T00:17:14.800Z</time> The order manager received the order. <small class="muted">ORD-1002 · http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder</small></li><li class="missing"><span class="chip s-cat" title="CAT">Product catalog</span> The product catalog was checked that the offer can be sold and activated. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-01T01:58:14.800Z</time> A service order (SO-20002) was created for line 1. <small class="muted">SO-20002 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small></li><li class="missing"><span class="chip s-bpm" title="BPM">Process orchestrator</span> The process orchestrator ran its tasks for the order. <small class="muted">(not visible in this source)</small></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-01T12:01:44.800Z</time> An activation attempt on SO-20002 failed. <small class="muted">ACT-70002 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li><li><span class="chip s-oms" title="OMS">Order manager</span> <time>2026-09-04T00:01:14.800Z</time> A second service order (SO-30002) was created for line 1, which already had one. <small class="muted">SO-30002 · http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</small> <span class="sev sev-medium">R04 starts here</span></li><li><span class="chip s-prov" title="PROV">Activation system</span> <time>2026-09-04T00:01:54.800Z</time> An activation attempt on SO-30002 succeeded. <small class="muted">ACT-80002 · http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</small></li></ol><p class="note">Timeline unavailable: ORD-1002: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built</p></article></section>
+<section aria-labelledby="cor"><h2 id="cor">Correlation limits</h2><p>Links between records are <strong>explicit</strong> when a record names its parent, and
+<strong>inferred</strong> when matched by time or serial. 300 records could not be placed under exactly one order; 0 had a state that was not recognised.</p>
+<table><thead><tr><th>Link</th><th class="n">Explicit</th><th class="n">Inferred</th><th class="n">Ambiguous</th><th class="n">Missing</th><th class="n">Conflicting</th></tr></thead><tbody><tr><td>service_order-&gt;order</td><td class="n">5,021</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><td>process-&gt;service_order</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><td>process-&gt;order</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><td>attempt-&gt;service_order</td><td class="n">5,090</td><td class="n">0</td><td class="n">0</td><td class="n">300</td><td class="n">0</td></tr></tbody></table></section>
+<section aria-labelledby="src"><h2 id="src">Sources and provenance</h2><table><thead><tr><th>System</th><th>Reader</th><th>Kind</th><th class="n">Rows</th><th>Endpoint</th><th>SHA-256</th></tr></thead><tbody><tr><td><span class="chip s-oms" title="OMS">Order manager</span></td><td>TMF622 productOrder (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,000 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder</code></td><td><code>17e7c79902b9</code></td></tr><tr><td><span class="chip s-oms" title="OMS">Order manager</span></td><td>TMF641 serviceOrder (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,021 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder</code></td><td><code>ce74b8da8276</code></td></tr><tr><td><span class="chip s-prov" title="PROV">Activation system</span></td><td>TMF640 serviceActivation (simulated)</td><td>tmf-api, snapshot</td><td class="n">5,390 read, 0 discarded</td><td><code>http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation</code></td><td><code>5123dd743f25</code></td></tr></tbody></table></section>
+</main>
+<footer>
+<p>Run <code>063730bdf0bf5bcf</code> · inputs <code>0e18a362633b18939e17e37ea020931e12b6190d2ada80a94e26088b4cc0628d</code> · config <code>d3cdb513cc14f476244c57b733437bda558df9629118e9c5ee5e795d12c46001</code> · rules <code>34fd9a2e5aa6ac89cf0773a0c0aab37ad09cfcbf6dad55b5b9484ca6364d1c74</code></p>
+<p>Flow Audit 0.3.6. Synthetic data. Impact is an estimate from configurable rates.</p>
+</footer>
+</body>
+</html>
