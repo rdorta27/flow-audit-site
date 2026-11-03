@@ -40,7 +40,7 @@ por el informe generado; el diseño no cambia.
 
 ## Estado
 
-**Versión 0.2.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
+**Versión 0.3.0.** El sitio está en construcción: el demo es un mock y no hay motor detrás.
 El plan del motor está en `../specs/backlog.md` (hitos Demo 1 y Client-ready). El sitio se
 reemplaza por el informe generado en M5-04. Las landings explican el producto con un
 pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con su costo, las dos etapas
