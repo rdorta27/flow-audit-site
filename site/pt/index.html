@@ -67,8 +67,50 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Ainda não analisa dados.</strong> Hoje existem dados de teste, um servidor de teste e um relatório de exemplo.</span>
+        <span><strong>Ainda não analisa dados.</strong> Hoje existem dados de teste, um servidor de teste, leitores de pedidos e um relatório de exemplo.</span>
       </div>
+    </section>
+
+    <section id="ejemplo">
+      <h2>Um pedido, passo a passo</h2>
+      <p class="note">Um exemplo com dados inventados: um cliente pede internet por satélite (pedido ORD-1005). Deveria ficar ativo em uma hora e levou 69.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>O percurso do pedido ORD-1005 pelos quatro sistemas.</caption>
+          <thead><tr><th scope="col">Quando</th><th scope="col">Sistema</th><th scope="col">O que acontece</th><th scope="col">Problema</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0 h</th><td>Catálogo</td><td>A oferta é validada, mas falta um dado técnico: a capacidade do satélite.</td><td>—</td></tr>
+            <tr><th scope="row">+3 min</th><td>Orquestração</td><td>Cria-se uma tarefa para uma pessoa conferir a capacidade manualmente.</td><td>R02</td></tr>
+            <tr><th scope="row">+2 h</th><td>Orquestração</td><td>Um analista atribui o feixe do satélite manualmente.</td><td>R02</td></tr>
+            <tr><th scope="row">+2 h</th><td>Pedidos</td><td>O pedido é dividido em uma ordem de serviço e uma de instalação.</td><td>—</td></tr>
+            <tr><th scope="row">+3 h</th><td>Orquestração</td><td>A instalação termina.</td><td>—</td></tr>
+            <tr><th scope="row">+9 h</th><td>Ativação</td><td>A primeira tentativa falha: o equipamento não responde (HUB_TIMEOUT).</td><td>—</td></tr>
+            <tr><th scope="row">+9 h</th><td>Ativação</td><td>Ninguém programa uma nova tentativa.</td><td>R01</td></tr>
+            <tr><th scope="row">+69 h</th><td>Pedidos</td><td>Alguém tenta de novo manualmente e é criada uma segunda ordem de serviço.</td><td>R04</td></tr>
+            <tr><th scope="row">+69 h</th><td>Ativação</td><td>A segunda tentativa funciona.</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>Três problemas em um único pedido.</strong> O Flow Audit vai encontrá-los, ligá-los às suas provas e calcular quanto cada um custa.</div>
+    </section>
+
+    <section id="hallazgos">
+      <h2>Os cinco problemas que procura</h2>
+      <p class="note">Cada problema tem um código, de R01 a R05. Os valores são mensais, para uma operadora com 5.000 pedidos, com dados inventados.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>Os cinco problemas do exemplo e o custo estimado por mês.</caption>
+          <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Custo por mês</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">R01</th><td>A ativação falha e ninguém tenta de novo. O pedido espera cerca de 2,5 dias.</td><td>≈ USD 11.250</td></tr>
+            <tr><th scope="row">R02</th><td>Falta um dado no catálogo e alguém o completa manualmente em cada pedido.</td><td>≈ USD 18.750</td></tr>
+            <tr><th scope="row">R03</th><td>Um temporizador vence e o processo não faz nada: o pedido fica sem ativar.</td><td>≈ USD 3.250 de receita em risco</td></tr>
+            <tr><th scope="row">R04</th><td>Uma nova tentativa cria uma segunda ordem de serviço para o mesmo pedido.</td><td>≈ USD 1.590</td></tr>
+            <tr><th scope="row">R05</th><td>Os sistemas não compartilham um número de pedido. Investigar um incidente leva cerca de 45 minutos.</td><td>≈ USD 10.125</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>No total:</strong> cerca de USD 41.700 por mês de custo operacional, mais USD 3.250 de receita em risco. São valores ilustrativos calculados com dados inventados.</div>
     </section>
 
     <section id="problema">
@@ -102,14 +144,19 @@
     </section>
 
     <section id="estado">
-      <h2>Em que ponto está?</h2>
-      <p class="note">Primeiro desenhamos o relatório. Agora construímos o motor que vai preenchê-lo.</p>
+      <h2>O que está sendo construído?</h2>
+      <p class="note">Duas etapas. A segunda só começa quando a primeira funcionar.</p>
       <div class="grid">
-        <div class="card"><span class="k">Feito · versão 0.2.0</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que entrega esses pedidos como um sistema real faria. Um relatório de exemplo.</p></div>
-        <div class="card"><span class="k">Agora</span><p>Um leitor que pega os pedidos do servidor de teste sem alterá-los.</p></div>
-        <div class="card"><span class="k">Depois</span><p>Juntar os dados de cada pedido, encontrar pedidos duplicados e gerar o relatório real.</p></div>
+        <div class="card"><span class="k">Etapa 1 · Primeiro relatório real</span><p>Ler pedidos e ordens de serviço do servidor de teste, detectar o problema R04 (pedidos duplicados) e gerar um relatório com o custo e a fórmula. Nesta etapa o custo de R04 será de USD 1.350, a limpeza manual. Os USD 12 por ativação duplicada serão medidos depois.</p></div>
+        <div class="card"><span class="k">Etapa 2 · Pronto para um cliente</span><p>Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas, e detectar também R01, R02 e R05. É o que permite fazer uma primeira auditoria de verdade.</p></div>
+        <div class="card"><span class="k">Mais adiante</span><p>R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</p></div>
       </div>
-      <div class="callout"><strong>O que ainda não faz.</strong> Não lê dados de clientes. Não encontra problemas. Não gera relatórios. Os números do exemplo vêm de dados inventados.</div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><span class="k">Feito · versão 0.2.0</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que os entrega como faria um sistema real. Um relatório de exemplo. Leitores de pedidos e de ordens de serviço: já leem os 5.000 pedidos e as 5.020 ordens.</p></div>
+        <div class="card"><span class="k">Agora</span><p>Guardar de onde vem cada dado (qual sistema, qual endereço, quando foi lido), para que cada problema tenha sua prova.</p></div>
+        <div class="card"><span class="k">Em seguida</span><p>Ligar cada pedido às suas ordens de serviço e detectar os 20 pedidos duplicados do exemplo.</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>O que ainda não faz.</strong> Não lê dados de clientes. Não detecta problemas. Não gera relatórios. Os valores do exemplo vêm de dados inventados.</div>
     </section>
 
     <section id="faq">
@@ -119,6 +166,7 @@
         <div class="card"><h3>Onde vai rodar?</h3><p>No computador de quem audita, pela linha de comando. Não vai precisar de servidor nem de banco de dados.</p></div>
         <div class="card"><h3>Os dados do cliente vão sair?</h3><p>Não. Os dados entram, sai uma pasta com o relatório. Nada é enviado a serviços externos.</p></div>
         <div class="card"><h3>Vai alterar os sistemas?</h3><p>Não. Só lê. Nunca cria, altera nem apaga pedidos.</p></div>
+        <div class="card"><h3>Está à venda?</h3><p>Ainda não. É um projeto de teste. A ideia é oferecer auditorias de preço fixo sobre os dados de um cliente e, mais adiante, licenciar a ferramenta a consultorias.</p></div>
       </div>
     </section>
 

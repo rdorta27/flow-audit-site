@@ -67,8 +67,50 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>It does not analyse data yet.</strong> Today there is test data, a test server and an example report.</span>
+        <span><strong>It does not analyse data yet.</strong> Today there is test data, a test server, order readers and an example report.</span>
       </div>
+    </section>
+
+    <section id="ejemplo">
+      <h2>One order, step by step</h2>
+      <p class="note">An example with made-up data: a customer orders satellite internet (order ORD-1005). It should be active within an hour and took 69.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>The journey of order ORD-1005 across the four systems.</caption>
+          <thead><tr><th scope="col">When</th><th scope="col">System</th><th scope="col">What happens</th><th scope="col">Problem</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0 h</th><td>Catalog</td><td>The offer is validated, but a technical field is missing: the satellite capacity.</td><td>—</td></tr>
+            <tr><th scope="row">+3 min</th><td>Orchestration</td><td>A task is created for a person to check the capacity by hand.</td><td>R02</td></tr>
+            <tr><th scope="row">+2 h</th><td>Orchestration</td><td>An analyst assigns the satellite beam by hand.</td><td>R02</td></tr>
+            <tr><th scope="row">+2 h</th><td>Orders</td><td>The order is split into a service order and an installation order.</td><td>—</td></tr>
+            <tr><th scope="row">+3 h</th><td>Orchestration</td><td>The installation is finished.</td><td>—</td></tr>
+            <tr><th scope="row">+9 h</th><td>Activation</td><td>The first attempt fails: the device does not answer (HUB_TIMEOUT).</td><td>—</td></tr>
+            <tr><th scope="row">+9 h</th><td>Activation</td><td>Nobody schedules a retry.</td><td>R01</td></tr>
+            <tr><th scope="row">+69 h</th><td>Orders</td><td>Someone retries by hand and a second service order is created.</td><td>R04</td></tr>
+            <tr><th scope="row">+69 h</th><td>Activation</td><td>The second attempt works.</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>Three problems in a single order.</strong> Flow Audit will find them, tie each to its proof and work out what each one costs.</div>
+    </section>
+
+    <section id="hallazgos">
+      <h2>The five problems it looks for</h2>
+      <p class="note">Each problem has a code, R01 to R05. Figures are monthly, for an operator with 5,000 orders, using made-up data.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>The five problems in the example and their estimated monthly cost.</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Cost per month</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>≈ USD 11,250</td></tr>
+            <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on every order.</td><td>≈ USD 18,750</td></tr>
+            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>≈ USD 3,250 of revenue at risk</td></tr>
+            <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td>≈ USD 1,590</td></tr>
+            <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>≈ USD 10,125</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>In total:</strong> about USD 41,700 a month in operating cost, plus USD 3,250 of revenue at risk. These are illustrative figures worked out from made-up data.</div>
     </section>
 
     <section id="problema">
@@ -102,14 +144,19 @@
     </section>
 
     <section id="estado">
-      <h2>Where is it now?</h2>
-      <p class="note">First we designed the report. Now we are building the engine that will fill it.</p>
+      <h2>What is being built?</h2>
+      <p class="note">Two stages. The second does not start until the first works.</p>
       <div class="grid">
-        <div class="card"><span class="k">Done · version 0.2.0</span><p>A made-up operator with 5,000 test orders. A server that delivers those orders the way a real system would. An example report.</p></div>
-        <div class="card"><span class="k">Now</span><p>A reader that takes orders from the test server without changing them.</p></div>
-        <div class="card"><span class="k">Next</span><p>Join the data for each order, find duplicate orders and generate the real report.</p></div>
+        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders and service orders from the test server, detect problem R04 (duplicate orders) and produce a report with its cost and formula. In this stage the cost of R04 is USD 1,350, the manual clean-up. The USD 12 per duplicate activation will be measured later.</p></div>
+        <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is what makes a first real audit possible.</p></div>
+        <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
       </div>
-      <div class="callout"><strong>What it does not do yet.</strong> It does not read customer data. It does not find problems. It does not generate reports. The example figures come from made-up data.</div>
+      <div class="grid" style="margin-top:16px">
+        <div class="card"><span class="k">Done · version 0.2.0</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Readers for orders and service orders: they already read all 5,000 orders and 5,020 service orders.</p></div>
+        <div class="card"><span class="k">Now</span><p>Keep where each piece of data comes from (which system, which address, when it was read), so every problem has its proof.</p></div>
+        <div class="card"><span class="k">Next</span><p>Join each order to its service orders and find the 20 duplicate orders in the example.</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It does not find problems. It does not generate reports. The example figures come from made-up data.</div>
     </section>
 
     <section id="faq">
@@ -119,6 +166,7 @@
         <div class="card"><h3>Where will it run?</h3><p>On the auditor's computer, from the command line. It will not need a server or a database.</p></div>
         <div class="card"><h3>Will customer data leave?</h3><p>No. Data goes in, a folder with the report comes out. Nothing is sent to outside services.</p></div>
         <div class="card"><h3>Will it change the systems?</h3><p>No. It only reads. It never creates, changes or deletes orders.</p></div>
+        <div class="card"><h3>Is it for sale?</h3><p>Not yet. It is a test project. The idea is to offer fixed-price audits on a client's data and, later, to license the tool to consultancies.</p></div>
       </div>
     </section>
 
