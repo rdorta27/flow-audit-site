@@ -12,13 +12,13 @@
 #j-flow { display: block; width: 100%; min-width: 900px; height: auto; }
 #j-flow text { font-family: var(--sans); fill: var(--ink); }
 #j-flow .node-rect { fill: var(--bg); stroke-width: 2; }
-#j-flow .node-name { font-family: var(--serif); font-size: 15px; }
-#j-flow .node-hint { font-size: 14px; fill: var(--muted); }
+#j-flow .node-name { font-family: var(--serif); font-size: 16px; }
+#j-flow .node-hint { font-size: 13px; fill: var(--muted); }
 #j-flow .hop { fill: none; stroke-width: 2.5; stroke-linecap: round; }
 #j-flow .hop-label { font-size: 14px; paint-order: stroke; stroke: var(--card); stroke-width: 5px; stroke-linejoin: round; fill: var(--muted); font-variant-numeric: tabular-nums; }
 #j-flow .hop-label.bad { fill: var(--crit); font-weight: 700; }
 #j-flow .ticket rect { fill: var(--card); stroke-width: 1.5; }
-#j-flow .ticket text { font-family: var(--mono); font-size: 14px; }
+#j-flow .ticket text { font-family: var(--mono); font-size: 13px; }
 #j-flow .ticket.bad rect { fill: var(--crit-bg); stroke: var(--crit); }
 #j-flow .ticket.bad text { fill: var(--crit); }
 #j-flow .ticket.fresh rect { stroke-width: 2.5; }

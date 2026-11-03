@@ -34,7 +34,7 @@
     return b;
   }
 
-  var X0 = 100, DX = 200, NY = 150, NW = 160, NH = 62, TY = 240, TH = 26, FAY = 370;
+  var X0 = 100, DX = 200, NY = 150, NW = 160, NH = 74, TY = 252, TH = 26, FAY = 372;
   function cx(id) { return X0 + IDX[id] * DX; }
   function hopPath(i) {
     var a = STEPS[i - 1].sys, b = STEPS[i].sys, fwd = IDX[b] > IDX[a];
@@ -55,7 +55,7 @@
   [bFirst, bPrev, bNext, bPlay, count, keys].forEach(function (n) { bar.appendChild(n); });
 
   var scroll = h("div", "j-scroll");
-  var svg = el("svg", { id: "j-flow", viewBox: "0 36 1000 394", role: "img", "aria-labelledby": "j-flow-title" });
+  var svg = el("svg", { id: "j-flow", viewBox: "0 6 1000 424", role: "img", "aria-labelledby": "j-flow-title" });
   svg.appendChild(el("title", { id: "j-flow-title" }, T.ui.svgTitle));
   scroll.appendChild(svg);
   var cue = h("p", "j-cue", T.ui.scroll || "");
@@ -102,7 +102,7 @@
       var p = hopPath(i), s = STEPS[i], c = s.gap ? "var(--crit)" : col(s.sys);
       svg.appendChild(el("path", { "class": "hop", d: p.d, style: "stroke:" + c + (s.gap ? ";stroke-dasharray:7 6" : ""),
         "marker-end": "url(#j-ar-" + s.sys + ")", opacity: i === step ? 1 : 0.55, id: i === step ? "j-cur-hop" : null }));
-      if (s.gap || i === step) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 10 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
+      if (s.gap || i === step) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 20 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
     }
     labels.forEach(function (t) { svg.appendChild(t); });
     SYS.forEach(function (s) {
@@ -118,22 +118,26 @@
         lines = [words.slice(0, best).join(" "), words.slice(best).join(" ")];
       }
       lines.forEach(function (ln, li) {
-        g.appendChild(el("text", { "class": "node-name", x: x + 3, y: NY + (lines.length > 1 ? 22 + li * 16 : 27), "text-anchor": "middle" }, ln));
+        g.appendChild(el("text", { "class": "node-name", x: x + 3, y: NY + (lines.length > 1 ? 24 + li * 18 : 31), "text-anchor": "middle" }, ln));
       });
-      g.appendChild(el("text", { "class": "node-hint", x: x + 3, y: NY + (lines.length > 1 ? 55 : 46), "text-anchor": "middle" }, s.hint));
+      g.appendChild(el("text", { "class": "node-hint", x: x + 3, y: NY + (lines.length > 1 ? 62 : 54), "text-anchor": "middle" }, s.hint));
       svg.appendChild(g);
     });
-    var count = {}, layer = el("g", { "class": "fa-layer" });
+    var count = {}, layer = el("g", { "class": "fa-layer" }), rows = {};
+    STEPS.forEach(function (s, i) { if (i <= step) rows[s.sys] = (rows[s.sys] || 0) + 1; });
     STEPS.forEach(function (s, i) {
       if (i > step) return;
       var n = count[s.sys] = (count[s.sys] || 0) + 1;
       var x = cx(s.sys) - 88, y = TY + (n - 1) * (TH + 8);
       var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + (i === step ? " fresh" : "") });
       g.appendChild(el("rect", { x: x, y: y, width: 176, height: TH, rx: 5, style: s.bad ? null : "stroke:" + col(s.sys) }));
-      g.appendChild(el("text", { x: x + 8, y: y + 17, textLength: s.ticket.length > 22 ? 160 : null, lengthAdjust: "spacingAndGlyphs" }, s.ticket));
+      var tx = el("text", { x: x + 8, y: y + 17 }, s.ticket);
+      g.appendChild(tx);
       svg.appendChild(g);
+      // Fit long notes inside their box: measure once drawn, squeeze only if needed.
+      try { if (tx.getComputedTextLength() > 160) { tx.setAttribute("textLength", "160"); tx.setAttribute("lengthAdjust", "spacingAndGlyphs"); } } catch (e) {}
       var lx = cx(s.sys) + (n === 1 ? -30 : 30);
-      layer.appendChild(el("line", { "class": "read" + (works(s.status) ? "" : " later"), x1: lx, y1: y + TH, x2: lx, y2: FAY }));
+      layer.appendChild(el("line", { "class": "read" + (works(s.status) ? "" : " later"), x1: lx, y1: TY + (rows[s.sys] - 1) * (TH + 8) + TH, x2: lx, y2: FAY }));
     });
     layer.appendChild(el("rect", { "class": "fa-band", x: 14, y: FAY, width: 972, height: 44, rx: 10 }));
     layer.appendChild(el("text", { "class": "fa-text", x: 30, y: FAY + 27 }, T.ui.band));
