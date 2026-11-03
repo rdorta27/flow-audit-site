@@ -30,20 +30,27 @@
   border-radius: 6px; padding: 6px 12px; cursor: pointer;
 }
 .flowdemo .controls button:hover { border-color: var(--brand); }
-.flowdemo .lanes { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
-.flowdemo svg { display: block; min-width: 720px; width: 100%; height: auto; }
-.flowdemo svg text { fill: var(--ink); font: 12px var(--sans); }
-.flowdemo svg .m { fill: var(--muted); }
-.flowdemo svg .lane { stroke: var(--line); }
-.flowdemo svg .node { fill: var(--bg); stroke: var(--muted); stroke-width: 1.2; }
-.flowdemo svg .err { fill: var(--crit-bg); stroke: var(--crit); stroke-width: 2; }
-.flowdemo svg .ln { stroke: var(--muted); stroke-width: 1.5; fill: none; }
-.flowdemo svg .hot { stroke: var(--crit); stroke-width: 2.5; stroke-dasharray: 6 4; fill: none; animation: dash 1s linear infinite; }
-@keyframes dash { to { stroke-dashoffset: -20; } }
-.flowdemo svg [data-s] { opacity: .1; transition: opacity .5s; }
-.flowdemo[data-on="1"] svg [data-s="1"],
-.flowdemo[data-on="2"] svg [data-s="1"], .flowdemo[data-on="2"] svg [data-s="2"],
-.flowdemo[data-on="3"] svg [data-s], .flowdemo[data-on="4"] svg [data-s] { opacity: 1; }
+.flowdemo .lanes { margin-top: 4px; }
+.flowdemo .story { display: grid; grid-template-columns: 1fr 120px 1fr; gap: 10px 14px; align-items: start; }
+.flowdemo .order { background: var(--tint); border: 1px solid var(--brand); border-radius: 8px; padding: 10px 14px; color: var(--ink); }
+.flowdemo .col-h { font: 700 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--brand-ink); }
+.flowdemo .col { display: grid; gap: 10px; }
+.flowdemo .rec { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; transition: border-color .4s, background .4s; }
+.flowdemo .rec .sys { font: 600 12px var(--sans); color: var(--muted); }
+.flowdemo .rec .sys small { font-weight: 400; margin-left: 6px; }
+.flowdemo .rec .id { font: 700 15px var(--mono); color: var(--ink); margin: 2px 0; }
+.flowdemo .rec .st { font: 700 11px var(--sans); letter-spacing: .06em; padding: 1px 6px; border-radius: 4px; background: var(--tint); color: var(--ink); margin-left: 6px; }
+.flowdemo .rec p { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+.flowdemo .chip { display: inline-block; margin-top: 8px; font: 600 11px var(--sans); color: var(--med); background: var(--med-bg); border-radius: 4px; padding: 2px 7px; }
+.flowdemo[data-on="3"] .rec.dup, .flowdemo[data-on="4"] .rec.dup { border-color: var(--crit); background: var(--crit-bg); }
+.flowdemo .gap { align-self: center; text-align: center; font: 700 13px var(--sans); color: var(--crit); border-top: 2px dashed var(--crit); border-bottom: 2px dashed var(--crit); padding: 14px 4px; }
+.flowdemo .banner { background: var(--crit-bg); border: 1px solid var(--crit); border-radius: 8px; padding: 12px 14px; color: var(--ink); }
+.flowdemo .costchip { font: 700 15px var(--mono); color: var(--accent); }
+.flowdemo .story [data-s] { opacity: .08; transition: opacity .5s; }
+.flowdemo[data-on="1"] .story [data-s="1"],
+.flowdemo[data-on="2"] .story [data-s="1"], .flowdemo[data-on="2"] .story [data-s="2"],
+.flowdemo[data-on="3"] .story [data-s="1"], .flowdemo[data-on="3"] .story [data-s="2"], .flowdemo[data-on="3"] .story [data-s="3"],
+.flowdemo[data-on="4"] .story [data-s] { opacity: 1; }
 .flowdemo .cost { display: none; margin-top: 12px; }
 .flowdemo[data-on="4"] .cost { display: block; }
 .flowdemo .cost .grid { margin-top: 0; }
@@ -51,8 +58,10 @@
   .flowdemo .stages { grid-template-columns: 1fr; }
   .flowdemo .stages > * + *::before { content: "↓"; left: 50%; top: -14px; transform: translateX(-50%); }
   .flowdemo .stages > .stage[aria-pressed="true"]::before { animation: none; }
+  .flowdemo .story { grid-template-columns: 1fr; }
+  .flowdemo .story .col-h.mid { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flowdemo svg .hot, .flowdemo .stages > .stage[aria-pressed="true"]::before { animation: none; }
-  .flowdemo svg [data-s] { transition: none; }
+  .flowdemo .x, .flowdemo .stages > .stage[aria-pressed="true"]::before { animation: none; }
+  .flowdemo .story [data-s] { transition: none; }
 }

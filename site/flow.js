@@ -14,7 +14,6 @@
     { id: "ACT-70000", state: "failed", at: "2026-09-01T03:10:00Z", so: 0 },
     { id: "ACT-80000", state: "succeeded", at: "2026-09-03T19:40:00Z", so: 1 }
   ];
-  var NS = "http://www.w3.org/2000/svg";
   var step = 1, timer = null;
 
   function el(tag, attrs, text) {
@@ -25,43 +24,45 @@
   }
   function g(s) { return el("g", { "data-s": s }); }
 
-  // Carriles ---------------------------------------------------------------
-  var W = 860, L = 120, lane = { o: 56, s: 150, a: 244 };
-  var t0 = Date.parse(SO[0].at), t1 = Date.parse(SO[1].at);
-  var x = function (t) { return L + (Date.parse(t) - t0) / (t1 - t0) * (W - L - 230); };
-  var svg = el("svg", { viewBox: "0 0 " + W + " 330", role: "img", "aria-label": T.aria });
-  [[T.lanes[0], "TMF622", lane.o], [T.lanes[1], "TMF641", lane.s], [T.lanes[2], "TMF640", lane.a]].forEach(function (r) {
-    svg.appendChild(el("line", { "class": "lane", x1: 8, x2: W - 8, y1: r[2] - 16, y2: r[2] - 16 }));
-    svg.appendChild(el("text", { x: 10, y: r[2] + 14 }, r[0]));
-    svg.appendChild(el("text", { x: 10, y: r[2] + 29, "class": "m" }, r[1]));
-  });
-  var gp = g("1");
-  gp.appendChild(el("rect", { "class": "node", x: L, y: lane.o, width: 150, height: 34, rx: 6 }));
-  gp.appendChild(el("text", { x: L + 9, y: lane.o + 21 }, "ORD-1000"));
-  svg.appendChild(gp);
-  SO.forEach(function (s, i) {
-    var cx = x(s.at), grp = g("1");
-    grp.appendChild(el("path", { "class": "ln", d: "M" + (L + 75) + " " + (lane.o + 34) + " L" + (cx + 55) + " " + lane.s }));
-    grp.appendChild(el("rect", { "class": i ? "err" : "node", x: cx, y: lane.s, width: 110, height: 34, rx: 6 }));
-    grp.appendChild(el("text", { x: cx + 9, y: lane.s + 15 }, s.id));
-    grp.appendChild(el("text", { x: cx + 9, y: lane.s + 29, "class": "m" }, s.state));
-    svg.appendChild(grp);
-  });
-  ACT.forEach(function (a) {
-    var ax = x(a.at), grp = g("2");
-    var sx = x(SO[a.so].at) + 55;
-    grp.appendChild(el("path", { "class": "ln", d: "M" + sx + " " + (lane.s + 34) + " L" + (ax + 40) + " " + lane.a }));
-    grp.appendChild(el("rect", { "class": a.so ? "err" : "node", x: ax, y: lane.a, width: 90, height: 34, rx: 6 }));
-    grp.appendChild(el("text", { x: ax + 9, y: lane.a + 15 }, a.id));
-    grp.appendChild(el("text", { x: ax + 9, y: lane.a + 29, "class": "m" }, a.state));
-    svg.appendChild(grp);
-  });
-  var gh = g("3"), a = x(SO[0].at) + 110, b = x(SO[1].at);
-  gh.appendChild(el("path", { "class": "hot", d: "M" + (L + 75) + " " + (lane.o + 34) + " L" + (b + 55) + " " + lane.s }));
-  gh.appendChild(el("path", { "class": "hot", d: "M" + a + " " + (lane.s + 17) + " H" + b }));
-  gh.appendChild(el("text", { x: (a + b) / 2 - 70, y: lane.s + 78, "class": "m" }, T.wait));
-  svg.appendChild(gh);
-  root.querySelector(".lanes").appendChild(svg);
+  // Historia del pedido -----------------------------------------------------
+  function h(tag, cls, html, s) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html) e.innerHTML = html;
+    if (s) e.setAttribute("data-s", s);
+    return e;
+  }
+  function rec(sys, id, state, text, when, cls, link) {
+    var c = h("div", "rec " + (cls || ""), "", "1");
+    c.appendChild(h("div", "sys", sys + " <small>" + when + "</small>"));
+    c.appendChild(h("div", "id", id + ' <span class="st">' + state + "</span>"));
+    c.appendChild(h("p", "", text));
+    c.appendChild(h("div", "chip", link, "2"));
+    return c;
+  }
+  var story = h("div", "story");
+  story.setAttribute("role", "group");
+  story.setAttribute("aria-label", T.aria);
+  var order = h("div", "order", "<b>ORD-1000</b> · " + T.order, "1");
+  order.style.gridColumn = "1 / -1";
+  story.appendChild(order);
+  story.appendChild(h("div", "col-h", T.a_h));
+  story.appendChild(h("div", "col-h mid", ""));
+  story.appendChild(h("div", "col-h", T.b_h));
+  var A = h("div", "col"), B = h("div", "col");
+  A.appendChild(rec(T.so, "SO-20000", T.failed, T.so_a, T.day + " 1 · 02:32", "", T.link));
+  A.appendChild(rec(T.act, "ACT-70000", T.failed, T.act_a, T.day + " 1 · 03:10", "", T.link));
+  B.appendChild(rec(T.so, "SO-30000", T.active, T.so_b, T.day + " 3 · 19:07", "dup", T.link));
+  B.appendChild(rec(T.act, "ACT-80000", T.ok, T.act_b, T.day + " 3 · 19:40", "dup", T.link));
+  var mid = h("div", "gap", "<span>" + T.wait + "</span>", "3");
+  story.appendChild(A); story.appendChild(mid); story.appendChild(B);
+  var ban = h("div", "banner", T.banner, "3");
+  ban.style.gridColumn = "1 / -1";
+  story.appendChild(ban);
+  var cost = h("div", "costchip", T.costchip, "4");
+  cost.style.gridColumn = "1 / -1";
+  story.appendChild(cost);
+  root.querySelector(".lanes").appendChild(story);
 
   // Pasos ------------------------------------------------------------------
   var stages = root.querySelectorAll(".stage"), cap = root.querySelector(".cap");
