@@ -23,7 +23,8 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
 | `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
-| `site/flow.css`, `site/flow.js` | Flujo interactivo de la landing ("Cómo funciona"): cuatro pasos y el recorrido de un pedido por carriles; los textos viven en `#flow-text` de cada idioma |
+| `site/journey.js`, `site/journey.css` | El viaje de un pedido (ORD-1005) en la landing: estaciones por sistema, notas, banda de Flow Audit, cinta de 69 h y "sin / con Flow Audit"; los textos viven en `#journey-text` de cada idioma |
+| `site/status.js`, `site/data/status.json` | Qué funciona hoy y qué llega después: marcas por componente y el selector Hoy / Final del plan |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
 | `site/report.css` | Estilos del informe y de los SVG |
 | `site/favicon.svg` | Marca |
@@ -56,9 +57,10 @@ cambiarlas.
 
 ## Versiones
 
-`core` fija los números (semver). Este repo lleva un tag solo cuando publica esa misma versión
-de `core`, con el mismo número. Los arreglos que solo tocan el sitio no llevan tag: Pages
-publica en cada push. Los dos repos empiezan alineados en `0.1.0`.
+Los números marcan el avance hacia cada hito, no siguen semver: `0.4.0` es Demo 1, `0.5.0`
+Client-ready y `0.6.0` Order-to-cash; una `0.3.x` es un paso hacia la `0.4.0` y puede traer
+funciones. `core` y este repo comparten el número de cada versión y se etiquetan juntos.
+Pages publica en cada push a `main`.
 
 ## Publicación
 
