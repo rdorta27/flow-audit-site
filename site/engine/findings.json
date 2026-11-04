@@ -1,9 +1,9 @@
 {
   "schema_version": "findings/2",
-  "engine_version": "0.4.5",
+  "engine_version": "0.5.0",
   "run": {
     "id": "223ab103f21bed90",
-    "generated_at": "2026-11-04T16:12:58.821Z",
+    "generated_at": "2026-11-04T16:19:47.432Z",
     "inputs_hash": "b8975e760bd8077018f9ac5283b0079178de8aeb9ad2bf797c35b74d8d7c6ed4",
     "config_hash": "ff9044288aeb6422203b643f5489e9762799fd6dfd0a61041f829e3acaa00501",
     "rules_hash": "da820c47e526c16888c046cba6ab6966120f770da40bfa765193feb727e46a85"
