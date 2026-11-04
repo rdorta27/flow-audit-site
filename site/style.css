@@ -348,3 +348,23 @@ a.gl { text-decoration: underline dotted; text-underline-offset: 3px; }
   .flow .fh { display: none; }
   .flow .fv { display: block; }
 }
+
+/* S-25: findings chart, built by chart.js from engine/findings.json */
+.bars { display: grid; gap: 14px; }
+.bars ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.b-head, .b-row { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 2px 24px; align-items: baseline; }
+.b-head { font-size: var(--fs-s); color: var(--muted); }
+.b-name { grid-column: 1 / -1; }
+.b-line { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.b-bar { display: block; flex: none; height: 14px; min-width: 2px; background: var(--brand); }
+.b-est { display: none; }
+.b-n { font-weight: 600; white-space: nowrap; }
+.b-h { font-size: var(--fs-s); color: var(--muted); grid-column: 2; grid-row: 2; align-self: center; }
+.b-apart { margin: 10px 0 0; font-size: var(--fs-s); color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; }
+.b-apart + ul .b-bar { background: var(--muted); }
+@media (max-width: 640px) {
+  .b-head, .b-row { grid-template-columns: minmax(0, 1fr); }
+  .b-head span + span, .b-head { display: none; }
+  .b-est { display: inline; }
+  .b-h { grid-column: 1; grid-row: auto; }
+}

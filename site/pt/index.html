@@ -132,7 +132,8 @@
     <section id="hallazgos">
       <h2>Os cinco problemas que procura</h2>
       <p class="note">Cada problema tem um código, de R01 a R05. Os valores são mensais, para uma operadora com 5.000 pedidos, com dados inventados. O motor já executa as cinco regras sobre arquivos; no servidor simulado R02 não roda e R03 não é avaliada. Falta mostrar aqui o relatório do próprio motor.</p>
-      <div class="table-wrap">
+      <div id="findings-chart" data-src="../engine/findings.json">
+        <div class="table-wrap">
         <table class="ftable">
           <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Pedidos afetados (medido)</th><th scope="col">Horas por mês (suposto)</th></tr></thead>
           <tbody>
@@ -144,7 +145,9 @@
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>Estimativa com suposições de exemplo</strong> (minutos por caso, não medidos em nenhuma operadora): cerca de 978 h por mês somando R01 a R04. R05 (225 h) aparece à parte, como risco de rastreabilidade. Todos os minutos estão em <code>config.json</code> e são de exemplo.</div>
+      </div>
+      <p class="note">Cerca de 978 h por mês somando R01 a R04, estimativa com suposições de exemplo (minutos por caso em <code>config.json</code>, não medidos em nenhuma operadora).</p>
+      <script type="application/json" id="chart-text">{"names": {"R01": "A ativação falha e ninguém tenta de novo", "R02": "Falta um dado no catálogo e é completado à mão", "R03": "Um temporizador vence e ninguém age", "R04": "Uma nova tentativa cria uma segunda ordem de serviço", "R05": "Os sistemas não compartilham um número de pedido"}, "units": {"default": "pedidos", "R05": "incidentes"}, "label": "Pedidos afetados por cada problema, medidos; à direita, as horas por mês como estimativa com minutos de exemplo.", "est": "estimativa com minutos de exemplo", "ordersHead": "Pedidos afetados (medido)", "hoursHead": "Horas por mês: estimativa com minutos de exemplo", "apart": "À parte, fora do total: R05 se apoia em ligações inferidas entre sistemas."}</script>
     </section>
 
     <section id="guia">
@@ -164,6 +167,7 @@
   </footer>
 </div>
 <script src="../journey.js" defer></script>
+<script src="../chart.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>
