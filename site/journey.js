@@ -1,6 +1,7 @@
-/* The journey of one order (S-07). All texts come from #journey-text in each landing
-   (three languages); step ids match data/status.json. Without JavaScript the static
-   numbered list inside #journey stays. No dependencies. */
+/* The journey of one order (S-07, S-13). Wording per step kind lives in #journey-text
+   (three languages). Steps 1–8 and the records of steps 9–12 are drawn from
+   engine/findings.json journeys[].story, so replacing that file redraws the journey.
+   Without JavaScript the static numbered list inside #journey stays. No dependencies. */
 (function () {
   var root = document.getElementById("journey");
   var raw = document.getElementById("journey-text");
@@ -39,6 +40,7 @@
   }
 
   var X0 = 100, DX = 200, NY = 150, NW = 160, NH = 74, TY = 252, TH = 26, FAY = 372;
+  var SPAN = 69.5;
   function cx(id) { return X0 + IDX[id] * DX; }
   function hopPath(i) {
     var a = STEPS[i - 1].sys, b = STEPS[i].sys, fwd = IDX[b] > IDX[a];
@@ -106,7 +108,7 @@
       var p = hopPath(i), s = STEPS[i], c = s.gap ? "var(--crit)" : col(s.sys);
       svg.appendChild(el("path", { "class": "hop", d: p.d, style: "stroke:" + c + (s.gap ? ";stroke-dasharray:7 6" : ""),
         "marker-end": "url(#j-ar-" + s.sys + ")", opacity: F ? 0.3 : (i === step ? 1 : 0.55), id: i === step ? "j-cur-hop" : null }));
-      if (s.gap || (i === step && !F)) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 20 : 0), "text-anchor": "middle" }, s.gap ? T.ui.gapArc : s.t));
+      if (s.gap || (i === step && !F)) labels.push(el("text", { "class": "hop-label" + (s.gap ? " bad" : ""), x: p.mx, y: p.my - (s.gap ? 20 : 0), "text-anchor": "middle" }, s.gap ? (s.gapLabel || T.ui.gapArc) : s.t));
     }
     labels.forEach(function (t) { svg.appendChild(t); });
     SYS.forEach(function (s) {
@@ -136,7 +138,7 @@
       var x = cx(s.sys) - 88, y = TY + (n - 1) * (TH + 8);
       pos[i] = { x: x, y: y };
       var hot = F && ((F.mode === "join" && F.links && F.links.some(function (l) { return l.indexOf(i) >= 0; })) || (F.mode === "rules" && s.prob));
-      var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + ((i === step || hot) ? " fresh" : "") + (F && !hot && F.mode !== "collect" ? " dim" : "") });
+      var g = el("g", { "class": "ticket" + (s.bad ? " bad" : "") + (s.unseen ? " dim" : "") + ((i === step || hot) ? " fresh" : "") + (F && !hot && F.mode !== "collect" ? " dim" : "") });
       g.appendChild(el("rect", { x: x, y: y, width: 176, height: TH, rx: 5, style: s.bad ? null : "stroke:" + col(s.sys) }));
       var tx = el("text", { x: x + 8, y: y + 17 }, s.ticket);
       g.appendChild(tx);
@@ -196,8 +198,9 @@
     count.textContent = T.ui.stepOf.replace("{n}", step + 1).replace("{total}", STEPS.length);
     bPrev.disabled = step === 0;
     bNext.disabled = step === STEPS.length - 1;
-    var hh = s.phase === "fa" ? 69.3 : s.h;
-    document.getElementById("j-marker").style.left = "calc(" + (Math.min(hh, 69.3) / 69.5 * 100) + "% - 1px)";
+    var hh = s.phase === "fa" ? SPAN : s.h;
+    var marker = document.getElementById("j-marker");
+    if (marker) marker.style.left = "calc(" + (Math.min(hh, SPAN) / SPAN * 100) + "% - 1px)";
     ribbon.classList.toggle("focus", !!(s.phase === "fa" && s.mode === "time"));
     stage.classList.toggle("fa-phase", s.phase === "fa");
   }
@@ -236,10 +239,10 @@
   root.appendChild(stage);
   go(0);
 
-  // Steps 9–12 take hours (and, where the file has them, record counts) from the engine run.
-  // Replacing findings.json redraws those lines. A failed read leaves the page text.
+  // The file leads. journeys[0] is the example the engine wrote; a replaced file redraws.
+  var CODE = { CAT: "cat", OMS: "oms", BPM: "bpm", PROV: "prov", SALE: "sale" };
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-  function numfmt(n) {
+  function numfmt() {
     var es = document.documentElement.lang !== "en";
     var thousands = es ? "." : ",", decimal = es ? "," : ".";
     return {
@@ -247,16 +250,127 @@
       hours: function (v) { return String(Math.round(v * 10) / 10).replace(".", decimal); }
     };
   }
-  function fillHours(data) {
+  function kindOf(what) {
+    var w = what || "";
+    if (/^The order manager received the order/.test(w)) return "received";
+    if (/^The product catalog was checked/.test(w)) return "catalog";
+    if (/^A (?:second|third|fourth|number \d+) service order/.test(w)) return "serviceOrderAgain";
+    if (/^A service order \(/.test(w)) return "serviceOrder";
+    if (/^The process orchestrator started process/.test(w)) return "process";
+    if (/^The process orchestrator ran its tasks/.test(w)) return "orchestrator";
+    if (/^An activation attempt on .+ failed/.test(w)) return "attemptFailed";
+    if (/^An activation attempt on .+ succeeded/.test(w)) return "attemptOk";
+    if (/^An activation attempt on .+ is still pending/.test(w)) return "attemptPending";
+    if (/^An activation attempt on /.test(w)) return "attemptOther";
+    return "other";
+  }
+  function fill(tmpl, vars) {
+    return String(tmpl || "").replace(/\{(\w+)\}/g, function (_, k) { return vars[k] != null ? vars[k] : ""; });
+  }
+  function storySteps(story, fmt) {
+    var K = T.ui.kinds || {};
+    var times = story.map(function (st) { return st.at ? Date.parse(st.at) : NaN; }).filter(function (t) { return !isNaN(t); });
+    var t0 = times.length ? Math.min.apply(null, times) : null;
+    var prev = null;
+    return story.map(function (st) {
+      var kind = kindOf(st.what);
+      var pack = K[kind] || K.other || {};
+      var sys = CODE[st.system] || "oms";
+      var recId = st.record && st.record.id ? st.record.id : "";
+      var so = (st.what.match(/service order \(([^)]+)\)/) || [])[1] || "";
+      var proc = (st.what.match(/process ([A-Za-z0-9-]+)/) || [])[1] || "";
+      var code = (st.what.match(/error ([A-Za-z0-9_]+)/) || [])[1] || "";
+      var line = (st.what.match(/for (line \d+|an order line)/) || [])[1] || "";
+      var lineNo = (line.match(/^line (\d+)$/) || [])[1];
+      var lineWord = lineNo ? " (" + (T.ui.lineWord || "line ") + lineNo + ")" : (line ? " (" + (T.ui.lineAny || line) + ")" : "");
+      var vars = {
+        record: recId,
+        proc: proc ? " " + proc : "",
+        code: code ? " (" + code + ")" : "",
+        line: lineWord
+      };
+      var h = st.at && t0 != null ? (Date.parse(st.at) - t0) / 3600000 : (prev != null ? prev : 0);
+      var gap = prev != null && st.at && (h - prev) > 12;
+      var ticket = fill(pack.ticket, vars).trim() || (st.observed ? recId : (T.ui.unseenTicket || ""));
+      var step = {
+        sys: sys,
+        h: h,
+        t: st.at ? (h < 0.02 ? "0 h" : h < 1 ? "+" + Math.max(1, Math.round(h * 60)) + " min" : "+" + fmt.hours(h) + " h") : (T.ui.timeUnknown || ""),
+        what: st.observed ? fill(pack.what, vars) : (pack.unseen || fill(pack.what, vars)),
+        rec: esc(recId || (st.observed ? "" : (pack.unseen || ""))),
+        ticket: ticket || (T.ui.unseenTicket || "—"),
+        no: pack.no || "",
+        born: pack.born || "",
+        bad: !!st.finding,
+        unseen: !st.observed,
+        gap: gap,
+        gapLabel: gap && T.ui.gapHop ? T.ui.gapHop.replace("{h}", fmt.hours(h - prev)) : ""
+      };
+      if (st.finding && T.ui.problems && T.ui.problems[st.finding]) step.prob = [T.ui.problems[st.finding], st.finding];
+      if (st.at) prev = h;
+      return step;
+    });
+  }
+  function paintRibbon(journey, spanH) {
+    var segs = (journey && journey.segments) || [];
+    var out = "", used = 0;
+    segs.forEach(function (s) {
+      var from = Date.parse(s.from), to = Date.parse(s.to);
+      if (isNaN(from) || isNaN(to) || to <= from) return;
+      var w = (to - from) / (spanH * 3600000) * 100;
+      used += w;
+      var sys = CODE[s.system] || "oms";
+      out += s.kind === "gap"
+        ? '<span class="gap" style="width:' + w.toFixed(2) + '%"></span>'
+        : '<span style="width:' + w.toFixed(2) + '%;background:' + col(sys) + '"></span>';
+    });
+    if (used < 99) out += '<span style="width:' + (100 - used).toFixed(2) + '%;background:var(--s-prov)"></span>';
+    rbar.innerHTML = out + '<i class="j-marker" id="j-marker"></i>';
+    if (T.ui.axisStart) {
+      axis.innerHTML = "<span>" + T.ui.axisStart + "</span><span>" + (T.ui.axisEnd || "{h} h").replace("{h}", numfmt().hours(spanH)) + "</span>";
+    }
+  }
+  function applyEngine(data) {
     var fmt = numfmt();
+    var journeys = data.journeys || [];
+    var journey = journeys[0];
+    if (!journey || !journey.story || !journey.story.length || !T.ui.kinds) return;
+    var trip = storySteps(journey.story, fmt);
+    var fa = T.steps.filter(function (s) { return s.phase === "fa"; });
+    STEPS = trip.concat(fa);
+    LAST = trip.length - 1;
+    var times = journey.story.map(function (st) { return st.at ? Date.parse(st.at) : NaN; }).filter(function (t) { return !isNaN(t); });
+    var span = times.length > 1 ? (Math.max.apply(null, times) - Math.min.apply(null, times)) / 3600000 : 1;
+    if (span < 0.1) span = 0.1;
+    SPAN = span;
+    var gap = 0;
+    (journey.segments || []).forEach(function (seg) {
+      if (seg.kind !== "gap" || !seg.from || !seg.to) return;
+      var h = (Date.parse(seg.to) - Date.parse(seg.from)) / 3600000;
+      if (h > gap) gap = h;
+    });
+    var records = [];
+    journey.story.forEach(function (st) {
+      if (st.observed && st.record && st.record.id && records.indexOf(st.record.id) < 0) records.push(st.record.id);
+    });
+    var chain = records.join(" → ");
+    var link = journey.correlation && journey.correlation.strong ? (T.ui.linkSure || "") : (T.ui.linkWeak || "");
     var byId = {};
     (data.findings || []).forEach(function (f) { byId[f.id] = f; });
-    var journey = (data.journeys || [])[0];
     var net = data.totals && data.totals.net && data.totals.net.hours;
     var note = (T.ui.hoursNote && net != null) ? T.ui.hoursNote.replace("{net}", fmt.hours(net)) : "";
-    STEPS.forEach(function (s) {
-      if (s.phase !== "fa") return;
+    var orders = data.scope && data.scope.orders;
+    fa.forEach(function (s) {
       if (note) s.hoursNote = note;
+      if (s.mode === "collect" && T.ui.collectRec) {
+        s.rec = esc(fill(T.ui.collectRec, {
+          records: records.join(", "),
+          sources: data.sources ? String(data.sources.length) : "",
+          orders: orders != null ? fmt.int(orders) : ""
+        }));
+      }
+      if (s.mode === "join" && T.ui.joinRec) s.rec = esc(fill(T.ui.joinRec, { chain: chain, link: link }));
+      if (s.mode === "time" && T.ui.timeRec) s.rec = esc(T.ui.timeRec.replace("{span}", fmt.hours(span)).replace("{gap}", fmt.hours(gap)));
       if (s.mode === "rules" && T.ui.findingLine) {
         var lines = [];
         Object.keys(byId).sort(function (a, b) { return byId[b].affected_orders - byId[a].affected_orders; }).forEach(function (id) {
@@ -271,26 +385,15 @@
         });
         if (lines.length) s.rec = lines.join("\n");
       }
-      if (s.mode === "time" && journey && T.ui.timeRec) {
-        var times = (journey.story || []).map(function (st) { return st.at ? Date.parse(st.at) : NaN; }).filter(function (t) { return !isNaN(t); });
-        var span = times.length > 1 ? (Math.max.apply(null, times) - Math.min.apply(null, times)) / 3600000 : null;
-        var gap = 0;
-        (journey.segments || []).forEach(function (seg) {
-          if (seg.kind !== "gap" || !seg.from || !seg.to) return;
-          var h = (Date.parse(seg.to) - Date.parse(seg.from)) / 3600000;
-          if (h > gap) gap = h;
-        });
-        if (span != null) s.rec = esc(T.ui.timeRec.replace("{span}", fmt.hours(span)).replace("{gap}", fmt.hours(gap)));
-      }
-      if (s.mode === "collect" && T.ui.collectRec && data.sources) {
-        var orders = data.scope && data.scope.orders;
-        s.rec = esc(T.ui.collectRec.replace("{sources}", String(data.sources.length)).replace("{orders}", orders != null ? fmt.int(orders) : ""));
-      }
     });
-    go(step);
+    var title = document.getElementById("j-flow-title");
+    if (title && T.ui.svgTitleLive && journey.order_ref) title.textContent = T.ui.svgTitleLive.replace("{order}", journey.order_ref);
+    paintRibbon(journey, span);
+    stop();
+    go(0);
   }
   var src = root.getAttribute("data-src");
   if (src && window.fetch) {
-    fetch(src).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(fillHours).catch(function () {});
+    fetch(src).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(applyEngine).catch(function () {});
   }
 })();

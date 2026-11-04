@@ -25,7 +25,7 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Ejemplo de auditoría: tarjetas y supuestos leídos de `engine/findings.json` |
 | `site/engine/findings.json` | Corrida del motor sobre los datos de demo. La página de ejemplo y el gráfico leen este archivo |
-| `site/journey.js`, `site/journey.css` | El viaje de un pedido (ORD-1005) en la landing: estaciones por sistema, notas, banda de Flow Audit, cinta de 69 h y "sin / con Flow Audit"; los textos viven en `#journey-text` de cada idioma |
+| `site/journey.js`, `site/journey.css` | El viaje en la landing. La lista estática cuenta el pedido de ejemplo; el dibujo interactivo sale de `engine/findings.json` (`journeys[].story`), con el texto de cada tipo de paso en los tres idiomas |
 | `site/status.js`, `site/data/status.json` | Qué funciona hoy y qué llega después: marcas por componente y el selector Hoy / Final del plan |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
 | `site/report.css` | Estilos del informe y de los SVG |
