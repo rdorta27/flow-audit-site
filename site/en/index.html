@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · BSS flow audit</title>
-<meta name="description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and how many hours each failure wastes. It is under construction.">
+<meta name="description" content="Flow Audit joins the records of the systems a telecom order crosses and shows which orders have a problem, with the records that prove it and the cause. Open-source (MIT) technical demo, under construction.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/">
 <meta property="og:title" content="Flow Audit · BSS flow audit">
-<meta property="og:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and how many hours each failure wastes. It is under construction.">
+<meta property="og:description" content="Flow Audit joins the records of the systems a telecom order crosses and shows which orders have a problem, with the records that prove it and the cause. Open-source (MIT) technical demo, under construction.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · BSS flow audit">
-<meta name="twitter:description" content="Flow Audit checks how a telecom order moves from sale to activation. It finds where orders get stuck and how many hours each failure wastes. It is under construction.">
+<meta name="twitter:description" content="Flow Audit joins the records of the systems a telecom order crosses and shows which orders have a problem, with the records that prove it and the cause. Open-source (MIT) technical demo, under construction.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -60,7 +60,7 @@
     <section>
       <span class="badge">Under construction · version 0.4.3</span>
       <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
-      <p class="howto hero-howto">What you can do here: follow an order from start to finish, see where it broke and how many hours were lost, and open a sample report.</p>
+      <p class="howto hero-howto">What you can do here: follow an order from start to finish, see where it broke and which orders have a problem, and open a sample report.</p>
       <p class="lead">An internet order crosses four or five systems and each one only sees its own part. Every system can say "my part went fine" while the customer still waits 69 hours. Flow Audit gathers what each system wrote down, rebuilds each order's journey and shows where the time goes.</p>
       <p class="note"><strong>Open-source technical demo (MIT), under construction. There is no commercial offer.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Read the license</a>.</p>
       <div class="row">
@@ -69,8 +69,15 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>It already detects one problem, on test data.</strong> It reads orders, <a class="gl" href="help/index.html#g-orden-servicio">service orders</a> and activations, joins them and finds the 20 duplicate orders (R04) with their hours. It already writes its report; it does not read client data yet.</span>
+        <span><strong>It already detects one problem, on test data.</strong> It reads orders, <a class="gl" href="help/index.html#g-orden-servicio">service orders</a> and activations, joins them and finds the 20 duplicate orders (R04) with their cause. It already writes its report; it does not read client data yet.</span>
       </div>
+    </section>
+
+    <section id="aporte" aria-labelledby="h-aporte">
+      <span class="eyebrow">What no single system sees</span>
+      <h2 id="h-aporte">What does Flow Audit add?</h2>
+      <p class="lead">It joins the records of the systems an order crosses and points out which orders have a problem, with the records that prove it and the cause of each. For example: <strong>400 orders</strong> whose activation failed and nobody retried; <strong>4,167 orders</strong> sent to a manual task because a catalog attribute is missing.</p>
+      <p class="note">It finds, it does not fix, and it does not reduce hours by itself: correcting the cause is the operator's work. The orders in the example are synthetic data.</p>
     </section>
 
     <section id="historia" aria-labelledby="h-historia">
@@ -106,8 +113,8 @@
       <h2 id="h-dif">The same order, told two ways</h2>
       <p class="note" id="problema">An order passes through five systems. Each system sees only its part.</p>
       <div class="diff">
-        <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The lost time is an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
-        <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each figure shows its calculation in hours and the example minutes it uses, which can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
+        <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The findings are an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
+        <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each problem shows the orders affected and the cause. The hours are a separate estimate, with example minutes that can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
       </div>
     </section>
 
@@ -115,38 +122,38 @@
       <h2>The five problems it looks for</h2>
       <p class="note">Each problem has a code, R01 to R05. Figures are monthly, for an operator with 5,000 orders, using made-up data.</p>
       <h3 class="mh">Measured today by the engine</h3>
-      <p class="note">The engine reads the test data and finds these orders. The hours use example minutes.</p>
+      <p class="note">The engine reads the test data and finds these orders. The orders affected are shown; the hours are an estimate with example minutes.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>The problem measured today and its hours.</caption>
-          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Calculation with example minutes</th><th scope="col">Hours per month</th><th scope="col">Status</th></tr></thead>
+          <caption>The problem measured today: orders affected and hours estimate.</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Orders affected</th><th scope="col">Status</th><th scope="col">Estimate with example assumptions (minutes per case, not measured at any operator)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td>20 orders × 90 min ÷ 60</td><td>≈ 30 h</td><td class="fstatus"><span data-status="finding-r04">Measured today</span></td></tr>
+            <tr><th scope="row">R04</th><td>A retry creates a second service order for the same order.</td><td><strong>20 orders</strong></td><td class="fstatus"><span data-status="finding-r04">Measured today</span></td><td>≈ 30 h<br><span class="note">20 orders × 90 min ÷ 60</span></td></tr>
           </tbody>
         </table>
       </div>
       <h3 class="mh">Projected with example minutes</h3>
-      <p class="note">No engine detects these four yet. The hours are a calculation with the example minutes in the &ldquo;Calculation&rdquo; column; with other minutes the hours change.</p>
+      <p class="note">No engine detects these four yet. The orders affected come from the test data; the hours are an estimate with the example minutes in the last column, and change with other minutes.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Projected problems and their estimated hours per month.</caption>
-          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Calculation with example minutes</th><th scope="col">Hours per month</th><th scope="col">Status</th></tr></thead>
+          <caption>Projected problems: orders affected and estimated hours per month.</caption>
+          <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Orders affected</th><th scope="col">Status</th><th scope="col">Estimate with example assumptions (minutes per case, not measured at any operator)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td>400 orders × (5 min + 2.5 days × 15 min) ÷ 60</td><td>≈ 283.3 h</td><td class="fstatus"><span data-status="finding-r01">Arrives in 0.5.0</span></td></tr>
-            <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on 8 orders out of 10.</td><td>4,167 orders × 5 min ÷ 60</td><td>≈ 347.3 h</td><td class="fstatus"><span data-status="finding-r02">Arrives in 0.5.0</span></td></tr>
-            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td>50 orders × (5 min + 25 days × 15 min) ÷ 60</td><td>≈ 317 h</td><td class="fstatus"><span data-status="finding-r03">Arrives in 0.5.0</span></td></tr>
-            <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td>300 incidents × 45 min ÷ 60</td><td>≈ 225 h</td><td class="fstatus"><span data-status="finding-r05">Arrives in 0.5.0</span></td></tr>
+            <tr><th scope="row">R01</th><td>The activation fails and nobody retries it. The order waits about 2.5 days.</td><td><strong>400 orders</strong></td><td class="fstatus"><span data-status="finding-r01">Arrives in 0.5.0</span></td><td>≈ 283.3 h<br><span class="note">400 orders × (5 min + 2.5 days × 15 min) ÷ 60</span></td></tr>
+            <tr><th scope="row">R02</th><td>A catalog field is missing and someone fills it in by hand on 8 orders out of 10.</td><td><strong>4,167 orders</strong></td><td class="fstatus"><span data-status="finding-r02">Arrives in 0.5.0</span></td><td>≈ 347.3 h<br><span class="note">4,167 orders × 5 min ÷ 60</span></td></tr>
+            <tr><th scope="row">R03</th><td>A timer expires and the process does nothing: the order is left inactive.</td><td><strong>50 orders</strong></td><td class="fstatus"><span data-status="finding-r03">Arrives in 0.5.0</span></td><td>≈ 317 h<br><span class="note">50 orders × (5 min + 25 days × 15 min) ÷ 60</span></td></tr>
+            <tr><th scope="row">R05</th><td>The systems share no order number. Investigating an incident takes about 45 minutes.</td><td><strong>300 incidents</strong></td><td class="fstatus"><span data-status="finding-r05">Arrives in 0.5.0</span></td><td>≈ 225 h<br><span class="note">300 incidents × 45 min ÷ 60</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>In total:</strong> about 978 h a month of manual work and waiting (R01 to R04). R05 (225 h) is shown apart, as a traceability risk. Of that total, only R04 is measured today; the rest is projection. All the minutes are in <code>config.json</code> and are examples.</div>
+      <div class="callout"><strong>Estimate with example assumptions</strong> (minutes per case, not measured at any operator): about 978 h a month adding R01 to R04. R05 (225 h) is shown apart, as a traceability risk. Of this, only R04 is measured today; the rest is projection. All the minutes are in <code>config.json</code> and are examples.</div>
     </section>
 
     <section id="guia" aria-labelledby="h-guia">
       <h2 id="h-guia">Keep exploring</h2>
       <nav class="guide five" aria-label="Keep exploring">
         <a href="systems/index.html"><b>Systems</b><span>The five systems an order passes through, what data to ask for from each, and what the audit will deliver.</span></a>
-        <a href="demo/index.html"><b>Demo report</b><span>Read the problems found, with their hours and the calculation that explains them.</span></a>
+        <a href="demo/index.html"><b>Demo report</b><span>Read the problems found, with the orders affected, the cause and, apart, an hours estimate.</span></a>
         <a href="architecture/index.html"><b>Architecture</b><span>How it will work inside: the pipeline, the components and the hours formula.</span></a>
         <a href="status/index.html"><b>Status</b><span>What is being built, and what is real, simulated or missing.</span></a>
         <a href="help/index.html"><b>Help</b><span>Frequently asked questions and glossary.</span></a>

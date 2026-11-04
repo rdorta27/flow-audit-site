@@ -59,8 +59,8 @@
     <section class="report-head">
       <span class="badge">Maqueta · datos sintéticos</span>
       <h1>Informe de auditoría<br>Ortelis Satellite</h1>
-      <div class="callout"><strong>Esto es un ejemplo, no una auditoría real.</strong> Ningún motor generó este informe todavía. Hoy el motor mide solo R04 (30 h); el resto son proyecciones con minutos de ejemplo (<code>config.json</code>). Los pedidos salen del dataset inventado y la forma es la de la salida prevista (<code>findings.json</code> + <code>journeys</code>).</div>
-      <p class="howto">Qué puedes hacer aquí: leer una auditoría terminada, con cada problema, sus horas y la cuenta que las explica.</p>
+      <div class="callout"><strong>Esto es un ejemplo, no una auditoría real.</strong> Ningún motor generó este informe todavía. Hoy el motor mide solo R04 (20 pedidos); el resto son proyecciones, con horas estimadas con minutos de ejemplo (<code>config.json</code>). Los pedidos salen del dataset inventado y la forma es la de la salida prevista (<code>findings.json</code> + <code>journeys</code>).</div>
+      <p class="howto">Qué puedes hacer aquí: leer una auditoría terminada, con cada problema, los pedidos afectados, la causa y, aparte, una estimación de horas.</p>
       <p class="lead">Ortelis es un operador ficticio de internet satelital residencial. El informe muestra el aspecto de una auditoría real, con cinco pérdidas inventadas.</p>
       <p class="meta">Septiembre 2026 · 5.000 pedidos · catálogo + gestor de pedidos + orquestador de procesos + activación · ejecución demo-20260901</p>
     </section>
@@ -73,14 +73,14 @@
           <span class="s">4 críticos · 1 medio</span>
         </div>
         <div class="kpi">
-          <span class="k">Trabajo manual</span>
-          <span class="v">978 h</span>
-          <span class="s">por mes, solo en los cuatro sistemas</span>
+          <span class="k">Activación sin reintento</span>
+          <span class="v">400</span>
+          <span class="s">pedidos · R01</span>
         </div>
         <div class="kpi">
-          <span class="k">Fuera del total</span>
-          <span class="v">225 h</span>
-          <span class="s">por mes, R05 aparte (trazabilidad)</span>
+          <span class="k">Tarea manual por dato faltante</span>
+          <span class="v">4.167</span>
+          <span class="s">pedidos · R02</span>
         </div>
         <div class="kpi">
           <span class="k">Pedidos atascados</span>
@@ -88,14 +88,26 @@
           <span class="s">1% del mes, sin evento posterior</span>
         </div>
       </div>
-      <p class="note">Cada cifra de horas es minutos por caso × casos. El total (≈ 978 h) suma R01 a R04; R05 (225 h) se muestra aparte.</p>
+      <p class="note">Estimación con supuestos de ejemplo (minutos por caso, no medidos en ningún operador): ≈ 978 h al mes sumando R01 a R04; R05 (225 h) aparte. Ver «Supuestos».</p>
     </section>
 
     <section>
       <h2>Resumen ejecutivo</h2>
-      <p class="lead">Un pedido tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../help/index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
+      <p class="lead">Un pedido sintético, <span class="mono">ORD-1005</span>, tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../help/index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
       <div class="callout">
-        <strong>Prioridad:</strong> agregar <code>capacity_profile</code> al catálogo técnico (347,3 h/mes). Reintentar la activación antes de la cola manual (283,3 h/mes). Compensar el timer de 48 horas (317 h). Las tres acciones cubren el <strong>97 %</strong> de las horas.
+        <strong>Prioridad:</strong> agregar <code>capacity_profile</code> al catálogo técnico (4.167 pedidos). Reintentar la activación antes de la cola manual (400 pedidos). Compensar el timer de 48 horas (50 pedidos). Las tres acciones cubren el <strong>97 %</strong> de las horas estimadas, con supuestos de ejemplo no medidos en ningún operador.
+      </div>
+    </section>
+
+    <section id="supuestos" aria-labelledby="h-supuestos">
+      <h2 id="h-supuestos">Supuestos</h2>
+      <p class="note">Las horas son una estimación con cuatro tasas de ejemplo. Ninguna está medida en ningún operador; se cambian en <code>config.json</code>. Los pedidos afectados no dependen de ellas.</p>
+      <div class="table-wrap">
+        <table class="ftable">
+          <caption>Supuestos de ejemplo para estimar horas</caption>
+          <thead><tr><th scope="col">Tasa</th><th scope="col">Minutos por caso</th><th scope="col">Hallazgo que la usa</th><th scope="col">Nota</th></tr></thead>
+          <tbody><tr><th scope="row">Atención manual <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Seguimiento diario <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Limpieza <code>cleanup_minutes</code></th><td>90</td><td>R04</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Investigación <code>investigation_minutes</code></th><td>45</td><td>R05</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr></tbody>
+        </table>
       </div>
     </section>
 
@@ -339,7 +351,7 @@
           <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>400 pedidos · 8%</dd></div>
-            <div><dt>Horas</dt><dd>283,3 h/mes</dd></div>
+            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>283,3 h/mes</dd></div>
           </dl>
           
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
@@ -352,7 +364,7 @@
           <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="cat">Catálogo</li><li class="sys-chip" data-sys="bpm">Orquestador</li></ul>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>4.167 pedidos · 83,3%</dd></div>
-            <div><dt>Horas</dt><dd>347,3 h/mes</dd></div>
+            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>347,3 h/mes</dd></div>
           </dl>
           <p class="fnote">Caso sintético: 83 % de los pedidos del demo; los vendidos con la segunda versión de la oferta no tienen el problema.</p>
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
@@ -365,7 +377,7 @@
           <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="bpm">Orquestador</li></ul>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>150 pedidos · 3%</dd></div>
-            <div><dt>Horas</dt><dd>317 h acumuladas al cierre del período</dd></div>
+            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>317 h acumuladas al cierre del período</dd></div>
           </dl>
           <p class="fnote">Esta regla llega en la 0.5.0: hoy el motor no la ejecuta.</p>
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
@@ -378,7 +390,7 @@
           <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>20 pedidos · 0,4%</dd></div>
-            <div><dt>Horas</dt><dd>30 h, una sola vez (limpieza del mes auditado)</dd></div>
+            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>30 h, una sola vez (limpieza del mes auditado)</dd></div>
           </dl>
           
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
@@ -391,7 +403,7 @@
           <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>300 pedidos · 6%</dd></div>
-            <div><dt>Horas</dt><dd>225 h/mes</dd></div>
+            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>225 h/mes</dd></div>
           </dl>
           
           <p class="fl">Fórmula</p><pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
@@ -400,8 +412,8 @@
         </article>
       </div>
       <div class="ftotals" role="group" aria-label="Totales">
-        <div class="callout"><strong>Diseño objetivo (R01 a R04)</strong><br>978 h por mes de trabajo manual y espera. R05 (225 h) va aparte, como riesgo de trazabilidad, hasta tener mediciones reales.</div>
-        <div class="callout"><strong>Lo que el motor produce hoy</strong><br>Solo R04: 30 h, una sola vez. Las otras cuatro reglas llegan en 0.5.0. <a href="../../engine/report.html">Ver el informe que generó el motor 0.4.0</a> (en inglés, desde el servidor simulado) y su <a href="../../engine/findings.json">findings.json</a>.</div>
+        <div class="callout"><strong>Estimación con supuestos de ejemplo (R01 a R04)</strong><br>978 h por mes de trabajo manual y espera, con minutos por caso que no están medidos en ningún operador. R05 (225 h) va aparte, como riesgo de trazabilidad, hasta tener mediciones reales.</div>
+        <div class="callout"><strong>Lo que el motor produce hoy</strong><br>Solo R04: 20 pedidos (estimados en 30 h, una sola vez). Las otras cuatro reglas llegan en 0.5.0. <a href="../../engine/report.html">Ver el informe que generó el motor 0.4.0</a> (en inglés, desde el servidor simulado) y su <a href="../../engine/findings.json">findings.json</a>.</div>
       </div>
       <p class="note">Cada tarjeta se atenúa o no según la versión elegida en el selector de la página; la fórmula usa las claves de <code>config.json</code>.</p>
       <p class="note">La <a class="gl" href="../help/index.html#g-evidencia">evidencia</a> de cada hallazgo está en <a href="../../data/report.json">data/report.json</a>, con el esquema <code>findings/1</code> (en inglés).</p>
