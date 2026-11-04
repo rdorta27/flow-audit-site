@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Arquitectura · Flow Audit</title>
-<meta name="description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El esqueleto existe; el análisis no.">
+<meta name="description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El motor ya lee archivos y escribe el informe.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/es/architecture/">
 <meta property="og:title" content="Arquitectura · Flow Audit">
-<meta property="og:description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El esqueleto existe; el análisis no.">
+<meta property="og:description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El motor ya lee archivos y escribe el informe.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Arquitectura · Flow Audit">
-<meta name="twitter:description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El esqueleto existe; el análisis no.">
+<meta name="twitter:description" content="El pipeline, los seis componentes, las reglas y la fórmula de impacto de Flow Audit. El motor ya lee archivos y escribe el informe.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -105,8 +105,8 @@
         <div><dt><code>domain/</code></dt><dd>El modelo canónico y la lógica pura: eventos, pedidos, recorridos, hallazgos e impacto, la unión de registros con su confianza, la clasificación del tiempo (trabajo, espera, <a class="gl" href="../help/index.html#g-hueco">hueco</a>) y las cinco reglas. No tiene E/S, ni reloj, ni archivos.</dd></div>
         <div><dt><code>ports/</code></dt><dd>Las cuatro interfaces de las que depende el resto del motor: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> y <code>Clock</code>.</dd></div>
         <div><dt><code>adapters/</code></dt><dd>El mundo exterior. Un reloj, los serializadores de exporte y los lectores.</dd></div>
-        <div><dt><code>app/</code></dt><dd>El caso de uso <code>runAudit()</code>. Unirá ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato.</dd></div>
-        <div><dt><code>cli/</code></dt><dd>Parseo de argumentos, ayuda y códigos de salida. Cinco comandos: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> y <code>dataset</code>.</dd></div>
+        <div><dt><code>app/</code></dt><dd>El caso de uso <code>runAudit()</code>. Une ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato.</dd></div>
+        <div><dt><code>cli/</code></dt><dd>Parseo de argumentos, ayuda y códigos de salida. Siete comandos: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code>, <code>dataset</code>, <code>diff</code> y <code>engagement</code>.</dd></div>
         <div><dt><code>dataset/</code></dt><dd>Un generador determinista con semilla fija. Escribe la evidencia sintética de Ortelis: 5.000 pedidos en septiembre de 2026 y los minutos por tarea.</dd></div>
       </dl>
     </section>
@@ -124,12 +124,12 @@
     <section id="design">
       <h2>Diseño</h2>
       <ul class="plain">
-        <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
+        <li><strong>Ingesta.</strong> Lee los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
         <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (<a class="gl" href="../help/index.html#g-enlace">enlace</a> explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
-        <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin <a class="gl" href="../help/index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
-        <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo de cada caso.</li>
-        <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
-        <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
+        <li><strong>Reglas.</strong> Cinco reglas detectan fallas sin <a class="gl" href="../help/index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
+        <li><strong>Impacto.</strong> Multiplica los pedidos afectados por los minutos de trabajo de cada caso. Las horas son una estimación; los pedidos afectados van primero.</li>
+        <li><strong>Severidad.</strong> Deriva la severidad de las horas por mes. Nadie la asigna a mano.</li>
+        <li><strong>Informe.</strong> Genera un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
       </ul>
     </section>
 

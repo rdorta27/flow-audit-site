@@ -12,8 +12,8 @@ Spanish (`es`), English (`en`) and Portuguese (`pt`). Everything published lives
   one line what you can do with it.
 - **One name and one colour per system** (table in `../specs/design/README.md`); Flow Audit
   is never drawn inside the order's path.
-- **No number by hand.** Figures come from `site/data/report.json`; the S-01 check enforces
-  it once it exists.
+- **No number by hand.** Figures come from `site/data/report.json` or `site/engine/findings.json`,
+  never typed. `tools/check_figures.py` and `tools/check_pages.py` exist; run both.
 - **Real vs target.** The site shows the whole target design; each component's state
   ("Works today" / "Arrives in …") comes from `site/data/status.json` (S-00), never from
   text in the HTML. Only the coordinator edits `status.json` when an engine card closes.
@@ -24,8 +24,9 @@ Spanish (`es`), English (`en`) and Portuguese (`pt`). Everything published lives
   their licenses). Light and dark through the tokens in `site/style.css`; readable at
   375 px with no horizontal page scroll; visible focus; respect `prefers-reduced-motion`;
   content readable without JavaScript.
-- Verify: `cd site && python3 -m http.server 8000`, open each language in light and dark
-  and at 375 px; run the S-01 check when it exists.
+- Verify: `python3 tools/check_figures.py` and `python3 tools/check_pages.py` from this
+  folder; then `cd site && python3 -m http.server 8000`, and look at each language in light
+  and dark and at 375 px.
 - Do not edit `../specs/` or the engine (`../core/`) from a site card; report the Result and
   let the coordinator close the card.
 - Commits: `<type>: <summary>`, a why paragraph and `Changes:`; no tool attribution lines.

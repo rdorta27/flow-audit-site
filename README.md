@@ -32,30 +32,31 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/favicon.svg` | Marca |
 | `.github/workflows/pages.yml` | Publica `site/` en GitHub Pages en cada push a `main` |
 
-## El mock
+## Cifras
 
-`site/data/report.json` es el contrato: `generatedAt`, `runHash`, `config`,
-`findings[]` y `journeys[]`, con los mismos campos que el puerto `ReportRenderer`. Los
-números salen del dataset sintético y de sus tasas de impacto.
+Hay dos archivos, y no se mezclan:
 
-El HTML repite esos números a mano. Cuando exista el renderer (M4-03) reemplaza la página
-por el informe generado; el diseño no cambia.
+| Archivo | Qué es |
+|---|---|
+| `site/engine/findings.json` y `site/engine/report.html` | La corrida real del motor sobre los datos de demo. El gráfico de la portada lee el JSON. |
+| `site/data/report.json` | La vista previa hecha a mano de la página demo. S-06 la retira cuando la página demo se construya desde el motor. |
+
+Ningún número se escribe a mano en el HTML. `python3 tools/check_figures.py` falla si una cifra de las landings o del informe demo no coincide con el archivo que le corresponde, o si reaparece una cifra vieja.
 
 ## Verificar las cifras
 
-`python3 tools/check_figures.py` (desde esta carpeta) falla si una cifra de las landings o del
-informe demo no coincide con `site/data/report.json`, o si reaparece una cifra vieja. Corre en
-`.github/workflows/pages.yml` antes de publicar. Solo usa la biblioteca estándar y no se publica.
+`python3 tools/check_figures.py` y `python3 tools/check_pages.py` (desde esta carpeta). El segundo
+abre cada página en Chromium, en claro y oscuro, a 1280 y 500 px. Los dos corren en
+`.github/workflows/pages.yml` antes de publicar. Solo usan la biblioteca estándar y no se publican.
 
 ## Estado
 
-**Versión 0.4.4.** El sitio está en construcción: el informe demo es el diseño objetivo, y el informe real del motor está en `site/engine/`.
-El plan del motor está en `../specs/backlog.md` (hitos Demo 1 y Client-ready). El sitio se
-reemplaza por el informe generado en M5-04. Las landings explican el producto con un
-pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con sus horas, las dos etapas
-(Demo 1 y Client-ready) y las tarjetas «Hecho / Ahora / Siguiente». Esas tarjetas y las
-cifras vienen de `../specs/backlog.md` y de `core/docs/product.md`: contrástalas antes de
-cambiarlas.
+**Versión 0.4.4, publicada.** El sitio está en construcción, camino a Client-ready (0.5.0).
+Demo 1 (0.4.0) está cerrado. El informe real del motor está en `site/engine/`. La página demo
+sigue siendo una vista previa hecha a mano; S-06 la cambia por la salida del motor. Las
+landings explican el producto con un pedido de ejemplo (ORD-1005) y los cinco problemas
+R01–R05. Lo que falta está en `../specs/backlog.md`; lo cerrado, en `../specs/done/`.
+Contrasta las cifras con esos archivos y con `site/engine/findings.json` antes de cambiarlas.
 
 ## Versiones
 
@@ -113,8 +114,8 @@ en `<html>` lo fuerza. Esquinas de 2 px, márgenes amplios y ritmo vertical gene
 | Texto, etiquetas y gráficos | Source Sans 3, en `site/fonts/source-sans-3/` | OFL 1.1 |
 | `code` y `pre` | La monoespaciada del sistema | — |
 
-Cada carpeta lleva su licencia y su `SOURCE.md`. El informe real será un solo archivo sin fuentes externas
-(`core/AGENTS.md`): cuando exista el renderizador, tendrá que incrustar estas fuentes en el propio HTML.
+Cada carpeta lleva su licencia y su `SOURCE.md`. El informe del motor ya existe y es un solo archivo
+sin fuentes externas (`core/AGENTS.md`): usa la sans y la mono del sistema, no estas dos fuentes.
 
 ## Licencia
 

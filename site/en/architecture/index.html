@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Architecture · Flow Audit</title>
-<meta name="description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
+<meta name="description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The engine already reads files and writes the report.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/architecture/">
 <meta property="og:title" content="Architecture · Flow Audit">
-<meta property="og:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
+<meta property="og:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The engine already reads files and writes the report.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Architecture · Flow Audit">
-<meta name="twitter:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The skeleton exists; the analysis does not.">
+<meta name="twitter:description" content="The pipeline, the six components, the rules and the impact formula of Flow Audit. The engine already reads files and writes the report.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -105,8 +105,8 @@
         <div><dt><code>domain/</code></dt><dd>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, <a class="gl" href="../help/index.html#g-hueco">gap</a>) and the five rules. No I/O, no clock, no files.</dd></div>
         <div><dt><code>ports/</code></dt><dd>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>.</dd></div>
         <div><dt><code>adapters/</code></dt><dd>The outside world. A clock, the export serializers and the readers.</dd></div>
-        <div><dt><code>app/</code></dt><dd>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format.</dd></div>
-        <div><dt><code>cli/</code></dt><dd>Argument parsing, help and exit codes. Five commands: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> and <code>dataset</code>.</dd></div>
+        <div><dt><code>app/</code></dt><dd>The <code>runAudit()</code> use case. It ties ingestion, reconstruction, detection, quantification and rendering together, and owns no format.</dd></div>
+        <div><dt><code>cli/</code></dt><dd>Argument parsing, help and exit codes. Seven commands: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code>, <code>dataset</code>, <code>diff</code> and <code>engagement</code>.</dd></div>
         <div><dt><code>dataset/</code></dt><dd>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the minutes per task.</dd></div>
       </dl>
     </section>
@@ -124,12 +124,12 @@
     <section id="design">
       <h2>Design</h2>
       <ul class="plain">
-        <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
+        <li><strong>Ingestion.</strong> Reads the exports of the product catalog, order manager, process orchestrator and activation system.</li>
         <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
-        <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
-        <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work for each case.</li>
-        <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
-        <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
+        <li><strong>Rules.</strong> Five rules detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
+        <li><strong>Impact.</strong> Multiplies the affected orders by the minutes of work for each case. Hours are an estimate; affected orders come first.</li>
+        <li><strong>Severity.</strong> Derives the severity from the hours per month. Nobody assigns it by hand.</li>
+        <li><strong>Report.</strong> Generates one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
       </ul>
     </section>
 
