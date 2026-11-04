@@ -60,6 +60,40 @@
     <section>
       <span class="badge">En construcción · versión 0.4.3</span>
       <h1>¿Dónde se atascan los pedidos?<br><em>Flow Audit lo encontrará.</em></h1>
+      <figure class="flow">
+<svg class="fh" viewBox="-4 0 964 100" role="img" aria-label="Cómo funciona: exportaciones de cuatro sistemas, que solo se leen; se unen por pedido; pasan cinco reglas; sale un informe con los pedidos afectados, la prueba y la causa.">
+  <text class="t" x="0" y="24">Exportaciones</text>
+  <text class="l" x="0" y="50">de cuatro sistemas</text>
+  <text class="l o" x="0" y="72">solo lee</text>
+  <path class="a" d="M196 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="250" y="24">Une por pedido</text>
+  <text class="l" x="250" y="50">sigue los números</text>
+  <text class="l" x="250" y="72">de pedido y de orden</text>
+  <path class="a" d="M446 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="500" y="24">Cinco reglas</text>
+  <text class="l" x="500" y="50">R01 a R05</text>
+  <path class="a" d="M696 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="750" y="24">Informe</text>
+  <text class="l" x="750" y="50">pedidos afectados,</text>
+  <text class="l" x="750" y="72">prueba y causa</text>
+</svg>
+<svg class="fv" viewBox="-4 0 344 490" role="img" aria-label="Cómo funciona: exportaciones de cuatro sistemas, que solo se leen; se unen por pedido; pasan cinco reglas; sale un informe con los pedidos afectados, la prueba y la causa.">
+  <text class="t" x="0" y="24">Exportaciones</text>
+  <text class="l" x="0" y="50">de cuatro sistemas</text>
+  <text class="l o" x="0" y="72">solo lee</text>
+  <path class="a" d="M8 108V124m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="154">Une por pedido</text>
+  <text class="l" x="0" y="180">sigue los números</text>
+  <text class="l" x="0" y="202">de pedido y de orden</text>
+  <path class="a" d="M8 238V254m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="284">Cinco reglas</text>
+  <text class="l" x="0" y="310">R01 a R05</text>
+  <path class="a" d="M8 368V384m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="414">Informe</text>
+  <text class="l" x="0" y="440">pedidos afectados,</text>
+  <text class="l" x="0" y="462">prueba y causa</text>
+</svg>
+</figure>
       <p class="lead">Un pedido de internet pasa por cuatro o cinco sistemas y cada uno solo ve su parte. Cada sistema puede decir «mi parte salió bien» y el cliente igual esperar 69 horas. Flow Audit junta lo que anotó cada sistema, arma el recorrido de cada pedido y muestra a dónde se va el tiempo.</p>
       <p class="note"><strong>Demo técnico de código abierto (MIT). No hay oferta comercial.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Ver la licencia</a>.</p>
       <div class="row">
@@ -88,7 +122,6 @@
 
     <section id="diferencia" aria-labelledby="h-dif">
       <h2 id="h-dif">¿Qué agrega Flow Audit?</h2>
-      <p class="lead">Une los registros de los sistemas por los que pasa un pedido y señala qué pedidos tienen un problema, con los registros que lo prueban y la causa de cada uno.</p>
       <div class="diff">
         <div class="without"><h3>Sin Flow Audit</h3><ul><li>Cinco equipos, cinco pantallas. Cada uno ve que su parte salió bien.</li><li>Las 60 horas sin actividad no aparecen en ningún sistema.</li><li>La auditoría se hace con entrevistas y planillas. Los hallazgos son una opinión.</li><li>Dos auditorías del mismo operador llegan a conclusiones distintas.</li></ul></div>
         <div class="with"><h3>Con Flow Audit</h3><ul><li>Un recorrido por pedido, armado con lo que cada sistema ya anota.</li><li>Cada problema señala el pedido y los registros que lo prueban.</li><li>Cada problema muestra los pedidos afectados y la causa. Las horas son una estimación aparte, con minutos de ejemplo que se cambian en config.json.</li><li>Con los mismos datos, el resultado es siempre el mismo. No toca ningún sistema.</li></ul></div>

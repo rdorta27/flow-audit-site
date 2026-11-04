@@ -60,6 +60,40 @@
     <section>
       <span class="badge">Under construction · version 0.4.3</span>
       <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
+      <figure class="flow">
+<svg class="fh" viewBox="-4 0 964 100" role="img" aria-label="How it works: exports of four systems, which are only read; they are joined by order; five rules run; a report comes out with the orders affected, the proof and the cause.">
+  <text class="t" x="0" y="24">Exports</text>
+  <text class="l" x="0" y="50">from four systems</text>
+  <text class="l o" x="0" y="72">reads only</text>
+  <path class="a" d="M196 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="250" y="24">Joins by order</text>
+  <text class="l" x="250" y="50">follows the order and</text>
+  <text class="l" x="250" y="72">service-order numbers</text>
+  <path class="a" d="M446 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="500" y="24">Five rules</text>
+  <text class="l" x="500" y="50">R01 to R05</text>
+  <path class="a" d="M696 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="750" y="24">Report</text>
+  <text class="l" x="750" y="50">orders affected,</text>
+  <text class="l" x="750" y="72">proof and cause</text>
+</svg>
+<svg class="fv" viewBox="-4 0 344 490" role="img" aria-label="How it works: exports of four systems, which are only read; they are joined by order; five rules run; a report comes out with the orders affected, the proof and the cause.">
+  <text class="t" x="0" y="24">Exports</text>
+  <text class="l" x="0" y="50">from four systems</text>
+  <text class="l o" x="0" y="72">reads only</text>
+  <path class="a" d="M8 108V124m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="154">Joins by order</text>
+  <text class="l" x="0" y="180">follows the order and</text>
+  <text class="l" x="0" y="202">service-order numbers</text>
+  <path class="a" d="M8 238V254m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="284">Five rules</text>
+  <text class="l" x="0" y="310">R01 to R05</text>
+  <path class="a" d="M8 368V384m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="414">Report</text>
+  <text class="l" x="0" y="440">orders affected,</text>
+  <text class="l" x="0" y="462">proof and cause</text>
+</svg>
+</figure>
       <p class="lead">An internet order crosses four or five systems and each one only sees its own part. Every system can say "my part went fine" while the customer still waits 69 hours. Flow Audit gathers what each system wrote down, rebuilds each order's journey and shows where the time goes.</p>
       <p class="note"><strong>Open-source technical demo (MIT). There is no commercial offer.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Read the license</a>.</p>
       <div class="row">
@@ -88,7 +122,6 @@
 
     <section id="diferencia" aria-labelledby="h-dif">
       <h2 id="h-dif">What does Flow Audit add?</h2>
-      <p class="lead">It joins the records of the systems an order crosses and points out which orders have a problem, with the records that prove it and the cause of each.</p>
       <div class="diff">
         <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The findings are an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
         <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each problem shows the orders affected and the cause. The hours are a separate estimate, with example minutes that can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>

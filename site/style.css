@@ -335,3 +335,16 @@ a.gl { text-decoration: underline dotted; text-underline-offset: 3px; }
 .faq { margin: 0; display: grid; gap: 18px; max-width: 760px; }
 .faq dt { font: 700 var(--fs-l) var(--sans); }
 .faq dd { margin: 4px 0 0; color: var(--muted); }
+
+/* S-24: how it works, one picture. Horizontal on wide screens, vertical below 900 px. */
+.flow { margin: 0; }
+.flow svg { display: block; width: calc(100% + 4px); margin-left: -4px; height: auto; }
+.flow .fv { display: none; max-width: 344px; }
+.flow .t { font: 700 19px var(--serif); fill: var(--ink); }
+.flow .l { font: 15px var(--sans); fill: var(--muted); }
+.flow .o { fill: var(--accent); font-weight: 600; }
+.flow .a { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+@media (max-width: 900px) {
+  .flow .fh { display: none; }
+  .flow .fv { display: block; }
+}
