@@ -58,12 +58,7 @@
   <main id="main">
     <section>
       <h1>Architecture</h1>
-      <p class="howto">What you can do here: see the parts of Flow Audit, what it reads from each system, and what already exists and what is still design.</p>
-      <p class="lead">Flow Audit is a local-first command line tool: <a class="gl" href="../help/index.html#g-evidencia">evidence</a> goes in, a report comes out. Today it already reads data, joins it and detects one problem (R04); the report and the other four rules are still design.</p>
-      <div class="status-strip">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Under construction · version 0.4.3.</strong> The components below are real files in the repository. Stages that do not exist yet say so.</span>
-      </div>
+      <p class="lead">Flow Audit is a local-first command line tool: <a class="gl" href="../help/index.html#g-evidencia">evidence</a> goes in, a report comes out. Today the engine reads export files, joins the records and runs the five rules; showing its own report on this site is what is missing.</p>
     </section>
 
     <section id="pipeline">
@@ -83,7 +78,6 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Working today: ingestion (orders, <a class="gl" href="../help/index.html#g-orden-servicio">service orders</a> and activations, from a test API), reconstruction (joining records with a confidence level) and one rule (R04) with its hours. Still missing: wiring it all into one command (<code>audit</code>), the report and the other four rules. The demo report is a hand-made mock, not generated.</p>
     </section>
 
     <section id="components">
@@ -106,91 +100,48 @@
           <path class="edge" d="M570 176 V230" marker-end="url(#pc)"/>
         </svg>
       </div>
-      <div class="concept">
-        <div class="block">
-          <h3><code>domain/</code></h3>
-          <p>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, <a class="gl" href="../help/index.html#g-hueco">gap</a>) and rule R04. No I/O, no clock, no files. Today: all of that exists; the other four rules do not.</p>
-        </div>
-        <div class="block">
-          <h3><code>ports/</code></h3>
-          <p>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>. Today: the readers for orders, service orders and activations implement <code>EvidenceSource</code>; the file readers and the renderer are missing.</p>
-        </div>
-        <div class="block">
-          <h3><code>adapters/</code></h3>
-          <p>The outside world. A clock, the export serializers and the readers. Today: <code>clock/</code>, <code>export/</code> and <code>ingest/</code> (readers for orders, service orders and activations over HTTP); <code>report/</code> is empty.</p>
-        </div>
-        <div class="block">
-          <h3><code>app/</code></h3>
-          <p>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format. Today: a skeleton that counts records and returns no <a class="gl" href="../help/index.html#g-hallazgo">findings</a>; rule R04 runs separately, in <code>explain</code>.</p>
-        </div>
-        <div class="block">
-          <h3><code>cli/</code></h3>
-          <p>Argument parsing, help and exit codes. Five commands: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> and <code>dataset</code>. Today: <code>read</code> counts and joins the records, <code>explain</code> follows a duplicated order and <code>audit</code> exits with code 2 when there is no source.</p>
-        </div>
-        <div class="block">
-          <h3><code>dataset/</code></h3>
-          <p>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the minutes per task. Today: it runs and the exports are byte-stable.</p>
-        </div>
-      </div>
+      <dl class="faq">
+        <div><dt><code>domain/</code></dt><dd>The canonical model and the pure logic: events, orders, journeys, findings and impact, the join of records with its confidence, the classification of time (work, wait, <a class="gl" href="../help/index.html#g-hueco">gap</a>) and the five rules. No I/O, no clock, no files.</dd></div>
+        <div><dt><code>ports/</code></dt><dd>The four interfaces the rest of the engine depends on: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> and <code>Clock</code>.</dd></div>
+        <div><dt><code>adapters/</code></dt><dd>The outside world. A clock, the export serializers and the readers.</dd></div>
+        <div><dt><code>app/</code></dt><dd>The <code>runAudit()</code> use case. It will tie ingestion, reconstruction, detection, quantification and rendering together, and owns no format.</dd></div>
+        <div><dt><code>cli/</code></dt><dd>Argument parsing, help and exit codes. Five commands: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> and <code>dataset</code>.</dd></div>
+        <div><dt><code>dataset/</code></dt><dd>A deterministic generator with a fixed seed. It writes the synthetic Ortelis evidence: 5,000 orders in September 2026 and the minutes per task.</dd></div>
+      </dl>
     </section>
 
     <section id="today">
       <h2>What runs today</h2>
-      <div class="grid">
-        <div class="card"><span class="k">Check</span><p><code>deno task check</code> type-checks the CLI, the generator, the clock adapter and the tests. It passes.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> passes: dataset, serializers, the architecture and license boundaries, the skeleton, the <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, the three readers, the join and rule R04.</p></div>
-        <div class="card"><span class="k">Audit</span><p><code>deno task audit</code> does not run anything yet: it exits with code 2. What does run today: <code>read</code> (counts and joins records) and <code>explain</code> (one duplicated order, step by step).</p></div>
-        <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenerates the 5,000 orders from a fixed seed. Two runs produce byte-identical exports.</p></div>
-      </div>
+      <ul class="plain">
+        <li><code>deno task check</code> type-checks the CLI, the generator, the clock adapter and the tests. It passes.</li>
+        <li><code>deno task test</code> passes: dataset, serializers, the architecture and license boundaries, the skeleton, the <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, the three readers, the join and the rules.</li>
+        <li><code>deno task audit</code> runs the audit: it reads the files, joins the records, applies the five rules and writes <code>findings.json</code> and <code>report.html</code>. <code>read</code> (counts and joins records) and <code>explain</code> (one duplicated order, step by step) also run.</li>
+        <li><code>deno task dataset</code> regenerates the 5,000 orders from a fixed seed. Two runs produce byte-identical exports.</li>
+      </ul>
     </section>
 
     <section id="design">
       <h2>Design</h2>
-      <div class="concept">
-        <div class="block">
-          <h3>Core concept</h3>
-          <p>Flow Audit is an audit tool. It reads the records of the systems an order passes through and rebuilds its path. For every loss it will work out the hours and the evidence; today it does so for one (R04).</p>
-        </div>
-        <div class="block">
-          <h3>Physical analogy</h3>
-          <p>Picture a parcel that crosses four warehouses. Each warehouse writes down only its own arrivals and departures.</p>
-          <p>Nobody knows where the parcel sat for three days. Flow Audit will put the four notebooks together. It will mark the warehouse where the parcel waited and add up the hours of that wait.</p>
-        </div>
-        <div class="block">
-          <h3>Technical mechanics</h3>
-          <ul>
-            <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
-            <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
-            <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
-            <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work for each case.</li>
-            <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
-            <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3>Planned impact formula</h3>
-          <ul>
-            <li><strong>Hours per month</strong> = affected orders × minutes of work per order ÷ 60</li>
-            <li><strong>Example with the synthetic dataset (R02).</strong> 4,167 orders × 5 min ÷ 60 = 347.25 h.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="plain">
+        <li><strong>Ingestion.</strong> Will read the exports of the product catalog, order manager, process orchestrator and activation system.</li>
+        <li><strong>Reconstruction.</strong> Joins the records of one order through the identifiers each system already carries (explicit link) and, only when they are missing, infers through another field, such as the terminal serial. Every link says how sure it is. The time window is not used yet.</li>
+        <li><strong>Rules.</strong> Five rules will detect failures without <a class="gl" href="../help/index.html#g-reintento">retry</a>, manual waits, expired timers, duplicates and a missing identifier.</li>
+        <li><strong>Impact.</strong> Will multiply the affected orders by the minutes of work for each case.</li>
+        <li><strong>Severity.</strong> Will derive the severity from the hours per month. Nobody will assign it by hand.</li>
+        <li><strong>Report.</strong> Will generate one self-contained HTML file and a <code>findings.json</code> with the evidence of each finding.</li>
+      </ul>
     </section>
 
     <section id="license">
       <h2>License and third-party components</h2>
-      <div class="concept">
-        <div class="block">
-          <ul>
-            <li><strong>Engine.</strong> MIT. The code, the canonical model and the rules can be read, used and changed.</li>
-            <li><strong>Site.</strong> MIT for the code. The two fonts keep their own licenses: P052 under AGPL-3.0 with an embedding exception, Source Sans 3 under OFL-1.1.</li>
-            <li><strong>Demo source.</strong> A TMF service of our own, MIT, over the synthetic dataset. It is marked as simulated.</li>
-            <li><strong>Systems under test.</strong> bss-oss-rust is read over HTTP only, on a local machine. It is not distributed here, is not part of the public demo and keeps its own license.</li>
-            <li><strong>Boundary.</strong> No third-party code is copied or vendored, and no capture from another system is committed. Only synthetic data enters the repository.</li>
-            <li><strong>Trademarks.</strong> <a class="gl" href="../help/index.html#g-tmf">TM Forum</a> and TMF belong to TM Forum. Flow Audit is independent and is not certified or endorsed by TM Forum.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="plain">
+        <li><strong>Engine.</strong> MIT. The code, the canonical model and the rules can be read, used and changed.</li>
+        <li><strong>Site.</strong> MIT for the code. The two fonts keep their own licenses: P052 under AGPL-3.0 with an embedding exception, Source Sans 3 under OFL-1.1.</li>
+        <li><strong>Demo source.</strong> A TMF service of our own, MIT, over the synthetic dataset. It is marked as simulated.</li>
+        <li><strong>Systems under test.</strong> bss-oss-rust is read over HTTP only, on a local machine. It is not distributed here, is not part of the public demo and keeps its own license.</li>
+        <li><strong>Boundary.</strong> No third-party code is copied or vendored, and no capture from another system is committed. Only synthetic data enters the repository.</li>
+        <li><strong>Trademarks.</strong> <a class="gl" href="../help/index.html#g-tmf">TM Forum</a> and TMF belong to TM Forum. Flow Audit is independent and is not certified or endorsed by TM Forum.</li>
+      </ul>
     </section>
   </main>
 

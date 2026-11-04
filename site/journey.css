@@ -60,15 +60,6 @@
 .j-born { background: var(--s-oms); color: var(--bg); font-weight: 700; font-size: var(--fs-s); padding: 2px 8px; border-radius: var(--r-box); justify-self: start; }
 .j-prob { color: var(--crit); background: var(--crit-bg); border-radius: var(--r-box); padding: 6px 10px; font-size: var(--fs-m); }
 .j-prob b { font-family: var(--mono); font-size: var(--fs-s); margin-left: 6px; opacity: .8; }
-.j-vs { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 720px) { .j-vs { grid-template-columns: 1fr; } }
-.j-vs > div { border-radius: var(--r-box); padding: 12px 14px; display: grid; gap: 6px; align-content: start; min-width: 0; }
-.j-vs h4 { margin: 0; font-size: var(--fs-s); letter-spacing: .06em; text-transform: uppercase; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.j-vs .without { background: var(--tint); border: 1px solid var(--line); }
-.j-vs .without h4 { color: var(--muted); }
-.j-vs .with { background: var(--fa-bg); border: 1px dashed var(--fa); }
-.j-vs .with h4 { color: var(--fa); }
-.j-conf { font-size: var(--fs-m); }
 
 /* The difference (S-10) */
 .diff { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -80,39 +71,21 @@
 .diff .with h3 { color: var(--fa); }
 .diff ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 
-/* Page guide, release bar, glossary (S-08) */
-.guide { margin-left: 0; width: 100%; font-weight: 400; font-size: inherit; align-items: stretch; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
-.guide a { padding: 14px 16px; display: grid; gap: 4px; text-decoration: none; color: inherit; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-box); padding: 14px 16px; }
-.guide a:hover { border-color: var(--brand); }
-.guide a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.guide b { font-family: var(--serif); font-weight: 400; font-size: var(--fs-xl); }
-.guide span { font-size: var(--fs-m); color: var(--muted); }
-.howto { font-size: var(--fs-m); color: var(--muted); border-left: 3px solid var(--brand); padding-left: 10px; margin: 0; }
-.release-bar { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
-.release-bar .lbl { font-size: var(--fs-s); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.sys-legend .st-badge { margin-left: 6px; }
+/* Glossary (S-08) */
 .gloss { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 20px; margin: 0; }
 .gloss div { min-width: 0; }
 .gloss dt { font-weight: 700; }
 .gloss dd { margin: 0; color: var(--muted); font-size: var(--fs-m); }
-.tag { font-family: var(--mono); font-size: var(--fs-s); color: var(--muted); border: 1px solid var(--line); border-radius: var(--r-box); padding: 0 5px; }
 
 @media (prefers-reduced-motion: reduce) { .j-marker { transition: none; } }
 
 /* the hero is a flex column: keep badges at their own width */
 .st-badge { align-self: flex-start; width: fit-content; }
-.status-strip > span:not(.status-dot) { flex: 1 1 0; min-width: 0; }
 
-/* Landing (S-17): short link cards in one row, tighter vertical rhythm. */
-@media (min-width: 900px) { .guide.five { grid-template-columns: repeat(5, 1fr); } }
-.guide.five a { padding: 10px 12px; }
-.guide.five b { font-size: var(--fs-l); }
-.guide.five span { font-size: var(--fs-s); }
+/* Landing (S-17): tighter vertical rhythm. */
 body.landing main { gap: 0; }
-body.landing .go { margin-top: 4px; }
 body.landing section { padding: 6px 0 8px; gap: 12px; }
 body.landing main { padding-top: 20px; }
-body.landing .hero-howto { display: none; }
 
 /* The journey's second half: what Flow Audit does with the notes. */
 .j-sees { grid-column: 1 / -1; background: var(--tint); border: 1px solid var(--line); border-radius: var(--r-box); padding: 12px 14px; display: grid; gap: 6px; }
@@ -124,3 +97,6 @@ body.landing .hero-howto { display: none; }
 #j-flow .rule-tag { font-size: 13px; font-weight: 700; fill: var(--crit); paint-order: stroke; stroke: var(--card); stroke-width: 4px; }
 .j-ribbon.focus .j-ribbon-bar { outline: 3px solid var(--fa); outline-offset: 3px; }
 .j-stage.fa-phase .j-panel .j-sysname { color: var(--fa); }
+
+/* Keyboard hint: pointless on touch screens. */
+@media (hover: none) { .j-keys { display: none; } }

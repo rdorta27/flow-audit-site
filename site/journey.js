@@ -50,13 +50,12 @@
 
   // Build the interactive structure (replaces the static list) ---------------------
   var bar = h("div", "j-controls"); bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", T.ui.toolbar);
-  var bFirst = btn("j-first", "", "⏮", T.ui.first); bFirst.setAttribute("aria-label", T.ui.first);
   var bPrev = btn("j-prev", "", T.ui.prev, T.ui.prevKey);
   var bNext = btn("j-next", "primary", T.ui.next, T.ui.nextKey);
   var bPlay = btn("j-play", "", T.ui.play, T.ui.playKey);
   var count = h("span", "j-count");
   var keys = h("span", "j-keys", T.ui.keys);
-  [bFirst, bPrev, bNext, bPlay, count, keys].forEach(function (n) { bar.appendChild(n); });
+  [bPrev, bNext, bPlay, count, keys].forEach(function (n) { bar.appendChild(n); });
 
   var scroll = h("div", "j-scroll");
   var svg = el("svg", { id: "j-flow", viewBox: "0 6 1000 424", role: "img", "aria-labelledby": "j-flow-title" });
@@ -194,7 +193,7 @@
     }
     panel.innerHTML = left + right + below;
     count.textContent = T.ui.stepOf.replace("{n}", step + 1).replace("{total}", STEPS.length);
-    bPrev.disabled = bFirst.disabled = step === 0;
+    bPrev.disabled = step === 0;
     bNext.disabled = step === STEPS.length - 1;
     var hh = s.phase === "fa" ? 69.3 : s.h;
     document.getElementById("j-marker").style.left = "calc(" + (Math.min(hh, 69.3) / 69.5 * 100) + "% - 1px)";
@@ -215,7 +214,6 @@
   }
   bPrev.onclick = function () { stop(); go(step - 1); };
   bNext.onclick = function () { stop(); go(step + 1, true); };
-  bFirst.onclick = function () { stop(); go(0); };
   bPlay.onclick = togglePlay;
   document.addEventListener("keydown", function (e) {
     if (e.altKey || e.ctrlKey || e.metaKey || e.defaultPrevented) return;

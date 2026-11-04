@@ -4,9 +4,9 @@
   try {
     var lang = (document.documentElement.lang || "en").slice(0, 2);
     var T = {
-      es: { ok: "Funciona hoy", soon: "Llega en", today: "Hoy", plan: "Al final del plan", label: "Versión que muestra la página", at: "En", dimToday: "Lo atenuado llega en", dimPlan: "Todo funcionando" },
-      en: { ok: "Works today", soon: "Arrives in", today: "Today", plan: "End of plan", label: "Version shown on the page", at: "In", dimToday: "Dimmed items arrive in", dimPlan: "Everything working" },
-      pt: { ok: "Funciona hoje", soon: "Chega na", today: "Hoje", plan: "No fim do plano", label: "Versão mostrada na página", at: "Na", dimToday: "O que está esmaecido chega na", dimPlan: "Tudo funcionando" }
+      es: { ok: "Funciona hoy", soon: "Llega en" },
+      en: { ok: "Works today", soon: "Arrives in" },
+      pt: { ok: "Funciona hoje", soon: "Chega na" }
     };
     var t = T[lang] || T.en;
     var cs = document.currentScript;
@@ -18,7 +18,7 @@
       return true;
     }
     fetch(base + "data/status.json").then(function (r) { return r.json(); }).then(function (data) {
-      var mode = "today";
+      var mode = "today"; // the release switch is gone; "plan" stays available through window.FlowStatus
       var api = window.FlowStatus = { mode: mode, data: data, refresh: function () { render(); }, works: function (id) {
         var c = data.components && data.components[id];
         return !c || api.mode === "plan" || le(c.since, data.current);
@@ -45,31 +45,6 @@
       }
       function notify() { try { document.dispatchEvent(new CustomEvent("flowstatus", { detail: api })); } catch (e) {} }
       render(); notify();
-      var host = document.querySelector("[data-status-switch]");
-      if (host) {
-        host.setAttribute("role", "group");
-        host.setAttribute("aria-label", t.label);
-        host.classList.add("st-switch");
-        var last = data.current;
-        Object.keys(data.components || {}).forEach(function (k) { var v = data.components[k].since; if (!le(v, last)) last = v; });
-        var defs = [["today", t.today + " · " + data.current], ["plan", t.at + " " + last]];
-        var note = document.createElement("span"); note.className = "st-note";
-        function setNote() { note.textContent = mode === "plan" ? t.dimPlan : t.dimToday + " " + last; }
-        host.textContent = "";
-        defs.forEach(function (d) {
-          var b = document.createElement("button");
-          b.type = "button"; b.textContent = d[1]; b.setAttribute("data-mode", d[0]);
-          b.setAttribute("aria-pressed", String(d[0] === mode));
-          b.addEventListener("click", function () {
-            mode = d[0];
-            Array.prototype.forEach.call(host.children, function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-            render(); notify(); setNote();
-          });
-          host.appendChild(b);
-        });
-        setNote();
-        if (host.parentNode) host.parentNode.appendChild(note);
-      }
     }).catch(function () {});
   } catch (e) {}
 })();

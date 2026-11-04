@@ -82,6 +82,11 @@
     }
   },
   "unused_ok": [
+    "system-sale",
+    "system-catalog",
+    "system-oms",
+    "system-bpm",
+    "system-prov",
     "seam-sale-cat",
     "seam-cat-oms",
     "seam-oms-bpm",

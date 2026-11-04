@@ -64,64 +64,47 @@
     <section id="que" class="sysview" aria-labelledby="h-que">
       <h2 id="h-que">Cinco sistemas, quatro uniões: é aí que os pedidos quebram</h2>
       <p class="note">Cada sistema vê só a sua parte. Os problemas vivem nas uniões, onde ninguém é dono da passagem.</p>
-      <p class="howto">O que você pode fazer: escolha um sistema da cadeia para ver o que ele faz, o que registra e que dados pedir ao cliente. Abaixo, a tabela é a lista do que pedir.</p>
       <div class="chain" id="chain" role="group" aria-label="Cadeia dos cinco sistemas e das uniões entre eles" tabindex="-1">
-        <button type="button" class="sys" data-sys="sale" aria-controls="sd-sale" aria-pressed="false"><small aria-hidden="true">&nbsp;</small><b>Canal de venda</b><span class="hint">loja ou web</span><span data-status="system-sale"></span></button>
-        <div class="seam" style="--a:var(--s-sale);--b:var(--s-cat)"><span>o pedido nomeia sua oferta</span><div class="arrow" aria-hidden="true"></div><div class="tags"></div></div>
-        <button type="button" class="sys" data-sys="cat" aria-controls="sd-cat" aria-pressed="false"><small>CAT</small><b>Catálogo de produtos</b><span class="hint">o que se vende</span><span data-status="system-catalog"></span></button>
-        <div class="seam" style="--a:var(--s-cat);--b:var(--s-oms)"><span>a oferta aponta para sua ficha técnica</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span></div></div>
-        <button type="button" class="sys" data-sys="oms" aria-controls="sd-oms" aria-pressed="true"><small>OMS</small><b>Gestor de pedidos</b><span class="hint">reparte o trabalho</span><span data-status="system-oms"></span></button>
-        <div class="seam" style="--a:var(--s-oms);--b:var(--s-bpm)"><span>o processo leva o número do pedido</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span><span class="rtag">R03</span></div></div>
-        <button type="button" class="sys" data-sys="bpm" aria-controls="sd-bpm" aria-pressed="false"><small>BPM</small><b>Orquestrador de processos</b><span class="hint">coordena as tarefas</span><span data-status="system-bpm"></span></button>
-        <div class="seam" style="--a:var(--s-bpm);--b:var(--s-prov)"><span>cada tentativa com sua ordem de serviço · <span data-fig="R05">300</span> sem vínculo</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R01</span><span class="rtag">R04</span><span class="rtag">R05</span></div></div>
-        <button type="button" class="sys" data-sys="prov" aria-controls="sd-prov" aria-pressed="false"><small>PROV</small><b>Sistema de ativação</b><span class="hint">liga o serviço</span><span data-status="system-prov"></span></button>
+        <button type="button" class="sys" data-sys="sale" aria-controls="sd-sale" aria-pressed="false"><small aria-hidden="true">&nbsp;</small><b>Canal de venda</b><span class="hint">loja ou web</span></button>
+        <div class="seam"><span>o pedido nomeia sua oferta</span><div class="arrow" aria-hidden="true"></div><div class="tags"></div></div>
+        <button type="button" class="sys" data-sys="cat" aria-controls="sd-cat" aria-pressed="false"><small>CAT</small><b>Catálogo de produtos</b><span class="hint">o que se vende</span></button>
+        <div class="seam"><span>a oferta aponta para sua ficha técnica</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span></div></div>
+        <button type="button" class="sys" data-sys="oms" aria-controls="sd-oms" aria-pressed="true"><small>OMS</small><b>Gestor de pedidos</b><span class="hint">reparte o trabalho</span></button>
+        <div class="seam"><span>o processo leva o número do pedido</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R02</span><span class="rtag">R03</span></div></div>
+        <button type="button" class="sys" data-sys="bpm" aria-controls="sd-bpm" aria-pressed="false"><small>BPM</small><b>Orquestrador de processos</b><span class="hint">coordena as tarefas</span></button>
+        <div class="seam"><span>cada tentativa com sua ordem de serviço · <span data-fig="R05">300</span> sem vínculo</span><div class="arrow" aria-hidden="true"></div><div class="tags"><span class="rtag">R01</span><span class="rtag">R04</span><span class="rtag">R05</span></div></div>
+        <button type="button" class="sys" data-sys="prov" aria-controls="sd-prov" aria-pressed="false"><small>PROV</small><b>Sistema de ativação</b><span class="hint">liga o serviço</span></button>
       </div>
       <article class="sysdetail" id="sd-sale" data-sys="sale" aria-label="Sistema escolhido: Canal de venda">
-        <h3><span class="dot" aria-hidden="true"></span>Canal de venda <span data-status="system-sale"></span></h3>
-        <p class="unread">Ainda não é lido nesta versão.</p>
-        <div class="kv"><span>O que faz</span><p>Onde o cliente faz o pedido: loja, web ou call center.</p></div>
-        <div class="kv"><span>Que pergunta responde</span><p>O que foi pedido e quando?</p></div>
+        <h3>Canal de venda</h3>
         <div class="kv"><span>O que registra</span><p>Não é lido à parte: chega dentro do pedido.</p></div>
         <div class="kv"><span>O que pedir ao cliente</span><p>Nada à parte.</p></div>
         <div class="kv"><span>De onde o Flow Audit lê</span><p>Dentro do pedido</p></div>
       </article>
       <article class="sysdetail" id="sd-cat" data-sys="cat" aria-label="Sistema escolhido: Catálogo de produtos">
-        <h3><span class="dot" aria-hidden="true"></span>Catálogo de produtos <span class="tag">CAT</span> <span data-status="system-catalog"></span></h3>
-        <p class="unread">Ainda não é lido nesta versão.</p>
-        <div class="kv"><span>O que faz</span><p>A lista do que se vende e, para cada oferta, a ficha técnica com os dados para ativá-la.</p></div>
-        <div class="kv"><span>Que pergunta responde</span><p>Cada oferta tem todos os dados técnicos?</p></div>
+        <h3>Catálogo de produtos</h3>
         <div class="kv"><span>O que registra</span><p>Ofertas, versões e fichas técnicas com seus atributos.</p></div>
         <div class="kv"><span>O que pedir ao cliente</span><p>Exportação do catálogo (JSON).</p></div>
         <div class="kv"><span>De onde o Flow Audit lê</span><p>Arquivo do cliente</p></div>
       </article>
       <article class="sysdetail" id="sd-oms" data-sys="oms" aria-label="Sistema escolhido: Gestor de pedidos">
-        <h3><span class="dot" aria-hidden="true"></span>Gestor de pedidos <span class="tag">OMS</span> <span data-status="system-oms"></span></h3>
-        <p class="unread">Ainda não é lido nesta versão.</p>
-        <div class="kv"><span>O que faz</span><p>Recebe o pedido e o reparte em ordens de serviço e ordens de trabalho.</p></div>
-        <div class="kv"><span>Que pergunta responde</span><p>Como cada pedido é repartido, retentado e encerrado?</p></div>
+        <h3>Gestor de pedidos</h3>
         <div class="kv"><span>O que registra</span><p>Pedidos, linhas e ordens de serviço, cada uma apontando para sua linha.</p></div>
         <div class="kv"><span>O que pedir ao cliente</span><p>Pedidos e ordens (CSV) ou API TMF622/641.</p></div>
-        <div class="kv"><span>De onde o Flow Audit lê</span><p>Servidor de teste hoje; arquivo do cliente na etapa «Pronto para um cliente»</p></div>
+        <div class="kv"><span>De onde o Flow Audit lê</span><p>Arquivo do cliente</p></div>
       </article>
       <article class="sysdetail" id="sd-bpm" data-sys="bpm" aria-label="Sistema escolhido: Orquestrador de processos">
-        <h3><span class="dot" aria-hidden="true"></span>Orquestrador de processos <span class="tag">BPM</span> <span data-status="system-bpm"></span></h3>
-        <p class="unread">Ainda não é lido nesta versão.</p>
-        <div class="kv"><span>O que faz</span><p>Coordena as tarefas em ordem e atribui algumas a pessoas.</p></div>
-        <div class="kv"><span>Que pergunta responde</span><p>Onde o processo espera e o que se faz à mão?</p></div>
+        <h3>Orquestrador de processos</h3>
         <div class="kv"><span>O que registra</span><p>Processos, tarefas, quem as fez e quando; temporizadores.</p></div>
         <div class="kv"><span>O que pedir ao cliente</span><p>Histórico de processos (JSONL).</p></div>
         <div class="kv"><span>De onde o Flow Audit lê</span><p>Arquivo do cliente</p></div>
       </article>
       <article class="sysdetail" id="sd-prov" data-sys="prov" aria-label="Sistema escolhido: Sistema de ativação">
-        <h3><span class="dot" aria-hidden="true"></span>Sistema de ativação <span class="tag">PROV</span> <span data-status="system-prov"></span></h3>
-        <p class="unread">Ainda não é lido nesta versão.</p>
-        <div class="kv"><span>O que faz</span><p>Liga o serviço na rede. Pode falhar e tentar de novo.</p></div>
-        <div class="kv"><span>Que pergunta responde</span><p>Quantas tentativas, quais falham e quanto demoram?</p></div>
+        <h3>Sistema de ativação</h3>
         <div class="kv"><span>O que registra</span><p>Cada tentativa com sua ordem de serviço, resultado e erro.</p></div>
         <div class="kv"><span>O que pedir ao cliente</span><p>Tentativas de ativação (JSONL) ou API TMF640.</p></div>
-        <div class="kv"><span>De onde o Flow Audit lê</span><p>Servidor de teste hoje; arquivo do cliente na etapa «Pronto para um cliente»</p></div>
+        <div class="kv"><span>De onde o Flow Audit lê</span><p>Arquivo do cliente</p></div>
       </article>
-      <h3 class="mh">Problemas por sistema: a lista do que pedir ao cliente</h3>
       <div class="table-wrap">
         <table class="matrix">
           <caption>Que sistemas cada problema toca. Cada ponto é um sistema cujos dados é preciso pedir.</caption>
@@ -139,15 +122,15 @@
 
     <section id="who-uses-it" aria-labelledby="h-who-uses-it">
       <h2 id="h-who-uses-it">Quem usa e quando ajuda</h2>
-      <p class="note">Um guia curto. O Flow Audit é uma demo técnica de código aberto (MIT), em construção. <a href="../../engine/report.html">Veja o relatório real do motor</a>.</p>
-      <div class="grid">
-        <div class="card"><h3>Quem executa</h3><p>Um analista. Roda a auditoria com os exports dos sistemas e confere o que sai.</p></div>
-        <div class="card"><h3>Quem lê</h3><p>O patrocinador: quem decide se vai corrigir. Lê o relatório.</p></div>
-        <div class="card"><h3>Quando ajuda mais</h3><p>Com sistemas de idades e fornecedores diferentes. Em migrações, antes e depois. Com erros de configuração e de processo. Com lacunas entre equipes.</p></div>
-        <div class="card"><h3>Quando ajuda menos</h3><p>Com um único sistema que já segue a ordem do início ao fim. Ali não há ligações para conferir.</p></div>
-        <div class="card"><h3>Frente a outras formas de olhar</h3><p>Um monitor avisa o que acontece agora; isto confere o que já aconteceu, cruzando sistemas. A mineração de processos reconstrói o caminho a partir de um registro de eventos; aqui é preciso ter esse registro e casar os números de pedido. As entrevistas contam o que as pessoas acham; isto mostra o que os dados dizem. Não substitui nada: se complementam.</p></div>
-        <div class="card"><h3>O que exportar</h3><p>Há uma lista por sistema, com campos, formato e período: <a href="#requisitos">a tabela de exportação</a>; a ajuda explica o resto: <a href="../help/index.html">página de ajuda</a>.</p></div>
-      </div>
+      <p class="note">Um guia curto. <a href="../../engine/report.html">Veja o relatório real do motor</a>.</p>
+      <ul class="plain">
+        <li><strong>Quem executa.</strong> Um analista. Roda a auditoria com os exports dos sistemas e confere o que sai.</li>
+        <li><strong>Quem lê.</strong> O patrocinador: quem decide se vai corrigir. Lê o relatório.</li>
+        <li><strong>Quando ajuda mais.</strong> Com sistemas de idades e fornecedores diferentes. Em migrações, antes e depois. Com erros de configuração e de processo. Com lacunas entre equipes.</li>
+        <li><strong>Quando ajuda menos.</strong> Com um único sistema que já segue a ordem do início ao fim. Ali não há ligações para conferir.</li>
+        <li><strong>Frente a outras formas de olhar.</strong> Um monitor avisa o que acontece agora; isto confere o que já aconteceu, cruzando sistemas. A mineração de processos reconstrói o caminho a partir de um registro de eventos; aqui é preciso ter esse registro e casar os números de pedido. As entrevistas contam o que as pessoas acham; isto mostra o que os dados dizem. Não substitui nada: se complementam.</li>
+        <li><strong>O que exportar.</strong> Há uma lista por sistema, com campos, formato e período: <a href="#requisitos">a tabela de exportação</a>; a ajuda explica o resto: <a href="../help/index.html">página de ajuda</a>.</li>
+      </ul>
     </section>
 
     <section id="requisitos">
@@ -155,7 +138,6 @@
       <p class="note">São requisitos do desenho, não uma oferta. Hoje o motor só lê os dados inventados de teste.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>O que seria preciso para auditar uma operadora real</caption>
           <thead><tr><th scope="col">Sistema</th><th scope="col">O que exportar</th><th scope="col">Campos que são lidos</th><th scope="col">Formato</th><th scope="col">Período</th></tr></thead>
           <tbody>
             <tr><th scope="row">Catálogo de produtos</th><td>A ficha técnica de cada oferta</td><td class="mono">spec_id, name, service_type e, por atributo: name, type, required, used_by</td><td>JSON</td><td>Estado atual</td></tr>
@@ -165,20 +147,20 @@
           </tbody>
         </table>
       </div>
-      <div class="grid" style="margin-top:16px">
-        <div class="card"><h3>Minutos por tarefa</h3><p>Quem audita informa os próprios minutos por tarefa em <code>config.json</code>. Sem eles, as horas são as de exemplo.</p></div>
-        <div class="card"><h3>Onde roda</h3><p>No computador de quem audita, pela linha de comando. Nada sai dessa máquina: os dados entram e sai uma pasta com o relatório.</p></div>
-        <div class="card"><h3>Retenção</h3><p>O desenho não guarda cópias: o motor não conserva dados entre execuções e só escreve a pasta de saída. Quem audita decide por quanto tempo guardar os exports e essa pasta.</p></div>
-      </div>
+      <ul class="plain">
+        <li><strong>Minutos por tarefa.</strong> Quem audita informa os próprios minutos por tarefa em <code>config.json</code>. Sem eles, as horas são as de exemplo.</li>
+        <li><strong>Onde roda.</strong> No computador de quem audita, pela linha de comando. Nada sai dessa máquina: os dados entram e sai uma pasta com o relatório.</li>
+        <li><strong>Retenção.</strong> O desenho não guarda cópias: o motor não conserva dados entre execuções e só escreve a pasta de saída. Quem audita decide por quanto tempo guardar os exports e essa pasta.</li>
+      </ul>
     </section>
 
     <section>
       <h2>O que vai produzir?</h2>
-      <div class="grid">
-        <div class="card"><h3>Um relatório em um só arquivo</h3><p>Uma página que abre em qualquer navegador, sem internet. Traz um resumo, o caminho do pedido e os problemas encontrados.</p></div>
-        <div class="card"><h3>Provas de cada problema</h3><p>Cada problema indica o pedido, os dados que o comprovam e a sua causa. As horas, à parte, são uma estimativa com minutos de exemplo.</p></div>
-        <div class="card"><h3>Resultados repetíveis</h3><p>Com os mesmos dados, a auditoria sempre dá o mesmo resultado.</p></div>
-      </div>
+      <ul class="plain">
+        <li><strong>Um relatório em um só arquivo.</strong> Uma página que abre em qualquer navegador, sem internet. Traz um resumo, o caminho do pedido e os problemas encontrados.</li>
+        <li><strong>Provas de cada problema.</strong> Cada problema indica o pedido, os dados que o comprovam e a sua causa. As horas, à parte, são uma estimativa com minutos de exemplo.</li>
+        <li><strong>Resultados repetíveis.</strong> Com os mesmos dados, a auditoria sempre dá o mesmo resultado.</li>
+      </ul>
     </section>
   </main>
 
