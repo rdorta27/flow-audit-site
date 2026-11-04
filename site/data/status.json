@@ -1,21 +1,21 @@
 {
-  "current": "0.4.3",
+  "current": "0.4.4",
   "plan": "0.6.0",
   "components": {
     "step-1-order": {
       "since": "0.3.0"
     },
     "step-2-catalog": {
-      "since": "0.4.3"
+      "since": "0.4.4"
     },
     "step-3-manual-task": {
-      "since": "0.4.3"
+      "since": "0.4.4"
     },
     "step-4-service-order": {
       "since": "0.3.0"
     },
     "step-5-installation": {
-      "since": "0.4.3"
+      "since": "0.4.4"
     },
     "step-6-activation-fail": {
       "since": "0.3.0",
@@ -33,13 +33,13 @@
       "note": "Arrives inside the order"
     },
     "system-catalog": {
-      "since": "0.4.3"
+      "since": "0.4.4"
     },
     "system-oms": {
       "since": "0.3.0"
     },
     "system-bpm": {
-      "since": "0.4.3"
+      "since": "0.4.4"
     },
     "system-prov": {
       "since": "0.3.0"
@@ -57,19 +57,19 @@
       "since": "0.5.0"
     },
     "finding-r01": {
-      "since": "0.4.3",
+      "since": "0.4.4",
       "note": "Engine detects it from files"
     },
     "finding-r02": {
-      "since": "0.4.3",
+      "since": "0.4.4",
       "note": "Engine detects it from files"
     },
     "finding-r03": {
-      "since": "0.4.3",
+      "since": "0.4.4",
       "note": "Engine detects it from files; suspected when the BPM source is a snapshot"
     },
     "finding-r05": {
-      "since": "0.4.3",
+      "since": "0.4.4",
       "note": "Engine detects it from files; shown apart from the total"
     },
     "finding-r04": {
