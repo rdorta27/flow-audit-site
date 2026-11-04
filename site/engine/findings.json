@@ -1,9 +1,9 @@
 {
   "schema_version": "findings/2",
-  "engine_version": "0.4.4",
+  "engine_version": "0.4.5",
   "run": {
     "id": "223ab103f21bed90",
-    "generated_at": "2026-11-04T13:35:04.002Z",
+    "generated_at": "2026-11-04T14:52:48.046Z",
     "inputs_hash": "b8975e760bd8077018f9ac5283b0079178de8aeb9ad2bf797c35b74d8d7c6ed4",
     "config_hash": "ff9044288aeb6422203b643f5489e9762799fd6dfd0a61041f829e3acaa00501",
     "rules_hash": "da820c47e526c16888c046cba6ab6966120f770da40bfa765193feb727e46a85"
@@ -4816,6 +4816,185 @@
   },
   "journeys": [
     {
+      "order_ref": "ORD-1005",
+      "segments": [
+        {
+          "system": "OMS",
+          "from": "2026-09-01T00:44:06.000Z",
+          "to": "2026-09-01T00:47:06.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "capacity_check",
+          "actor": "human",
+          "queue_separable": false,
+          "from": "2026-09-01T00:47:06.000Z",
+          "to": "2026-09-01T02:41:06.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:41:06.000Z",
+          "to": "2026-09-01T02:44:06.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "decompose",
+          "actor": "system",
+          "from": "2026-09-01T02:44:06.000Z",
+          "to": "2026-09-01T02:44:36.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:44:36.000Z",
+          "to": "2026-09-01T03:40:06.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "installation",
+          "actor": "partner",
+          "from": "2026-09-01T03:40:06.000Z",
+          "to": "2026-09-01T09:40:06.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T09:40:06.000Z",
+          "to": "2026-09-01T09:41:06.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "failed",
+          "actor": "system",
+          "from": "2026-09-01T09:41:06.000Z",
+          "to": "2026-09-01T09:41:36.000Z"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T09:41:36.000Z",
+          "to": "2026-09-03T21:41:06.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "succeeded",
+          "actor": "system",
+          "from": "2026-09-03T21:41:06.000Z",
+          "to": "2026-09-03T21:41:46.000Z"
+        }
+      ],
+      "findings": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "correlation": {
+        "strong": true,
+        "gaps": []
+      },
+      "story": [
+        {
+          "at": "2026-09-01T00:44:06.000Z",
+          "system": "OMS",
+          "what": "The order manager received the order.",
+          "record": {
+            "id": "ORD-1005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": null,
+          "system": "CAT",
+          "what": "The product catalog was checked that the offer can be sold and activated.",
+          "record": null,
+          "finding": null,
+          "observed": false,
+          "reason": "not visible in this source"
+        },
+        {
+          "at": "2026-09-01T02:44:06.000Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-50005.",
+          "record": null,
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T02:44:06.000Z",
+          "system": "OMS",
+          "what": "A service order (SO-20005) was created for line 1.",
+          "record": {
+            "id": "SO-20005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T09:41:36.000Z",
+          "system": "PROV",
+          "what": "An activation attempt on SO-20005 failed (error HUB_TIMEOUT).",
+          "record": {
+            "id": "ACT-70005",
+            "endpoint": "data/demo/provisioning.jsonl"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:41:06.000Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-60005.",
+          "record": null,
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:41:06.000Z",
+          "system": "OMS",
+          "what": "A second service order (SO-30005) was created for line 1, which already had one.",
+          "record": {
+            "id": "SO-30005",
+            "endpoint": "data/demo/oms_orders.csv"
+          },
+          "finding": "R04",
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:41:46.000Z",
+          "system": "PROV",
+          "what": "An activation attempt on SO-30005 succeeded.",
+          "record": {
+            "id": "ACT-80005",
+            "endpoint": "data/demo/provisioning.jsonl"
+          },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        }
+      ]
+    },
+    {
       "order_ref": "ORD-1000",
       "segments": [
         {
@@ -5172,185 +5351,262 @@
           "reason": null
         }
       ]
-    },
-    {
-      "order_ref": "ORD-1002",
-      "segments": [
-        {
-          "system": "OMS",
-          "from": "2026-09-01T00:17:14.800Z",
-          "to": "2026-09-01T00:20:14.800Z",
-          "kind": "gap",
-          "state": "no_evidence"
+    }
+  ],
+  "waiting": {
+    "measurable": true,
+    "reason": null,
+    "stages": [
+      {
+        "system": "BPM",
+        "stage": "timer_expired",
+        "orders": 150,
+        "work": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "system": "BPM",
-          "kind": "work",
-          "state": "capacity_check",
-          "actor": "human",
-          "queue_separable": false,
-          "from": "2026-09-01T00:20:14.800Z",
-          "to": "2026-09-01T01:56:14.800Z"
+        "wait": {
+          "median_hours": 48,
+          "p90_hours": 48
         },
-        {
-          "system": "BPM",
-          "from": "2026-09-01T01:56:14.800Z",
-          "to": "2026-09-01T01:58:14.800Z",
-          "kind": "gap",
-          "state": "no_evidence"
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "system": "BPM",
-          "kind": "work",
-          "state": "decompose",
-          "actor": "system",
-          "from": "2026-09-01T01:58:14.800Z",
-          "to": "2026-09-01T01:58:44.800Z"
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "system": "BPM",
-          "from": "2026-09-01T01:58:44.800Z",
-          "to": "2026-09-01T02:59:14.800Z",
-          "kind": "gap",
-          "state": "no_evidence"
-        },
-        {
-          "system": "BPM",
-          "kind": "work",
-          "state": "installation",
-          "actor": "partner",
-          "from": "2026-09-01T02:59:14.800Z",
-          "to": "2026-09-01T11:59:14.800Z"
-        },
-        {
-          "system": "BPM",
-          "from": "2026-09-01T11:59:14.800Z",
-          "to": "2026-09-01T12:01:14.800Z",
-          "kind": "gap",
-          "state": "no_evidence"
-        },
-        {
-          "system": "PROV",
-          "kind": "work",
-          "state": "failed",
-          "actor": "system",
-          "from": "2026-09-01T12:01:14.800Z",
-          "to": "2026-09-01T12:01:44.800Z"
-        },
-        {
-          "system": "PROV",
-          "from": "2026-09-01T12:01:44.800Z",
-          "to": "2026-09-04T00:01:14.800Z",
-          "kind": "gap",
-          "state": "no_evidence"
-        },
-        {
-          "system": "PROV",
-          "kind": "work",
-          "state": "succeeded",
-          "actor": "system",
-          "from": "2026-09-04T00:01:14.800Z",
-          "to": "2026-09-04T00:01:54.800Z"
-        }
-      ],
-      "findings": [
-        "R01",
-        "R02",
-        "R04"
-      ],
-      "correlation": {
-        "strong": true,
-        "gaps": []
+        "waiting_hours": 7200
       },
-      "story": [
-        {
-          "at": "2026-09-01T00:17:14.800Z",
-          "system": "OMS",
-          "what": "The order manager received the order.",
-          "record": {
-            "id": "ORD-1002",
-            "endpoint": "data/demo/oms_orders.csv"
-          },
-          "finding": null,
-          "observed": true,
-          "reason": null
+      {
+        "system": "BPM",
+        "stage": "no_evidence",
+        "orders": 5000,
+        "work": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": null,
-          "system": "CAT",
-          "what": "The product catalog was checked that the offer can be sold and activated.",
-          "record": null,
-          "finding": null,
-          "observed": false,
-          "reason": "not visible in this source"
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": "2026-09-01T01:58:14.800Z",
-          "system": "BPM",
-          "what": "The process orchestrator started process BPM-50002.",
-          "record": null,
-          "finding": null,
-          "observed": true,
-          "reason": null
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": "2026-09-01T01:58:14.800Z",
-          "system": "OMS",
-          "what": "A service order (SO-20002) was created for line 1.",
-          "record": {
-            "id": "SO-20002",
-            "endpoint": "data/demo/oms_orders.csv"
-          },
-          "finding": null,
-          "observed": true,
-          "reason": null
+        "gap": {
+          "median_hours": 0.1,
+          "p90_hours": 1.2
         },
-        {
-          "at": "2026-09-01T12:01:44.800Z",
-          "system": "PROV",
-          "what": "An activation attempt on SO-20002 failed (error HUB_TIMEOUT).",
-          "record": {
-            "id": "ACT-70002",
-            "endpoint": "data/demo/provisioning.jsonl"
-          },
-          "finding": null,
-          "observed": true,
-          "reason": null
+        "waiting_hours": 5557.5
+      },
+      {
+        "system": "PROV",
+        "stage": "no_evidence",
+        "orders": 20,
+        "work": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": "2026-09-04T00:01:14.800Z",
-          "system": "BPM",
-          "what": "The process orchestrator started process BPM-60002.",
-          "record": null,
-          "finding": null,
-          "observed": true,
-          "reason": null
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": "2026-09-04T00:01:14.800Z",
-          "system": "OMS",
-          "what": "A second service order (SO-30002) was created for line 1, which already had one.",
-          "record": {
-            "id": "SO-30002",
-            "endpoint": "data/demo/oms_orders.csv"
-          },
-          "finding": "R04",
-          "observed": true,
-          "reason": null
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
         },
-        {
-          "at": "2026-09-04T00:01:54.800Z",
-          "system": "PROV",
-          "what": "An activation attempt on SO-30002 succeeded.",
-          "record": {
-            "id": "ACT-80002",
-            "endpoint": "data/demo/provisioning.jsonl"
-          },
-          "finding": null,
-          "observed": true,
-          "reason": null
-        }
+        "gap": {
+          "median_hours": 60,
+          "p90_hours": 60
+        },
+        "waiting_hours": 1201.8
+      },
+      {
+        "system": "OMS",
+        "stage": "no_evidence",
+        "orders": 5000,
+        "work": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": 0.1,
+          "p90_hours": 0.1
+        },
+        "waiting_hours": 250
+      },
+      {
+        "system": "BPM",
+        "stage": "timer",
+        "orders": 200,
+        "work": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "wait": {
+          "median_hours": 1,
+          "p90_hours": 1.4
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 197.5
+      },
+      {
+        "system": "BPM",
+        "stage": "activation",
+        "orders": 410,
+        "work": {
+          "median_hours": 60,
+          "p90_hours": 60
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      },
+      {
+        "system": "BPM",
+        "stage": "capacity_check",
+        "orders": 5000,
+        "work": {
+          "median_hours": 1.9,
+          "p90_hours": 2.4
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      },
+      {
+        "system": "BPM",
+        "stage": "decompose",
+        "orders": 5000,
+        "work": {
+          "median_hours": 0,
+          "p90_hours": 0
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      },
+      {
+        "system": "BPM",
+        "stage": "installation",
+        "orders": 4960,
+        "work": {
+          "median_hours": 7,
+          "p90_hours": 10
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      },
+      {
+        "system": "PROV",
+        "stage": "failed",
+        "orders": 471,
+        "work": {
+          "median_hours": 0,
+          "p90_hours": 0
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      },
+      {
+        "system": "PROV",
+        "stage": "succeeded",
+        "orders": 4458,
+        "work": {
+          "median_hours": 0,
+          "p90_hours": 0
+        },
+        "wait": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "queue": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "gap": {
+          "median_hours": null,
+          "p90_hours": null
+        },
+        "waiting_hours": 0
+      }
+    ],
+    "most_waiting": {
+      "system": "BPM",
+      "stage": "timer_expired",
+      "waiting_hours": 7200,
+      "findings": [
+        "R03"
       ]
     }
-  ]
+  }
 }

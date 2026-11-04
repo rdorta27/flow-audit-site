@@ -51,7 +51,7 @@ abre cada página en Chromium, en claro y oscuro, a 1280 y 500 px. Los dos corre
 
 ## Estado
 
-**Versión 0.4.4, publicada.** El sitio está en construcción, camino a Client-ready (0.5.0).
+**Versión 0.4.5, candidata.** El sitio está en construcción, camino a Client-ready (0.5.0).
 Demo 1 (0.4.0) está cerrado. El informe real del motor está en `site/engine/`. La página de
 ejemplo se arma desde `engine/findings.json`: pedidos medidos, causa, prueba y horas como
 estimación. Las landings explican el producto con un pedido de ejemplo (ORD-1005) y los cinco
