@@ -1,49 +1,85 @@
 {
   "schema_version": "findings/1",
-  "engine_version": "0.4.0",
+  "engine_version": "0.4.2",
   "run": {
-    "id": "568f8c71e31d871e",
-    "generated_at": "2026-11-03T22:18:17.153Z",
-    "inputs_hash": "0e18a362633b18939e17e37ea020931e12b6190d2ada80a94e26088b4cc0628d",
-    "config_hash": "858fb229a437daae1edc9b2612d4a96cf29c6ab6ac7b9d9b02cb87eb04295bc8",
-    "rules_hash": "34fd9a2e5aa6ac89cf0773a0c0aab37ad09cfcbf6dad55b5b9484ca6364d1c74"
+    "id": "00b071c376dbaa4a",
+    "generated_at": "2026-11-04T11:55:19.286Z",
+    "inputs_hash": "bfe199e8ad380e74088c9636196b1c6fffe5558c0e21b74328fe8f3ab8cee740",
+    "config_hash": "02bd2575fc60f264a995621955d514a807169459953ce687102759db958a80fe",
+    "rules_hash": "9866075d7341a490052d036dcbcefc452ea00cdb4160fbe399ffb4ff4d6b0ea3"
   },
   "sources": [
     {
       "system": "OMS",
-      "name": "TMF622 productOrder",
-      "kind": "tmf-api",
-      "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder",
+      "name": "OMS orders (file)",
+      "kind": "file",
+      "endpoint": "data/demo/oms_orders.csv",
       "simulated": true,
-      "evidence_kind": "snapshot",
+      "evidence_kind": "history",
       "records": 5000,
       "rows_read": 5000,
       "rows_discarded": 0,
-      "sha256": "17e7c79902b9fadfc24ff8470a277cf710e67e8d56d49bb782ecde3e78ca73dc"
+      "sha256": "e8474830528c3f990b83deb9f5b3d3e171c85eab70f2ab220cb2d522e78f7d8c"
     },
     {
       "system": "OMS",
-      "name": "TMF641 serviceOrder",
-      "kind": "tmf-api",
-      "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder",
+      "name": "OMS service orders (file)",
+      "kind": "file",
+      "endpoint": "data/demo/oms_orders.csv",
       "simulated": true,
-      "evidence_kind": "snapshot",
+      "evidence_kind": "history",
       "records": 5021,
       "rows_read": 5021,
       "rows_discarded": 0,
-      "sha256": "ce74b8da82762f14bd897e07c77c1b9cb2bcf15228b43e059a51eb1c63d98f79"
+      "sha256": "6b886d788b793c6f3230477a5f9661e32ad5af12615f98227e99df5b774b058e"
     },
     {
       "system": "PROV",
-      "name": "TMF640 serviceActivation",
-      "kind": "tmf-api",
-      "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation",
+      "name": "PROV activation attempts (file)",
+      "kind": "file",
+      "endpoint": "data/demo/provisioning.jsonl",
       "simulated": true,
-      "evidence_kind": "snapshot",
+      "evidence_kind": "history",
       "records": 5390,
       "rows_read": 5390,
       "rows_discarded": 0,
-      "sha256": "5123dd743f254f0142f42f882fe312a5a9e4fdb65599b2c34a8b996cd9c21d93"
+      "sha256": "7bce19ba44fc4555d094130da21e44dcc2370f7e012a53f779f553258c87edc8"
+    },
+    {
+      "system": "OMS",
+      "name": "OMS work orders (file)",
+      "kind": "file",
+      "endpoint": "data/demo/oms_orders.csv",
+      "simulated": true,
+      "evidence_kind": "history",
+      "records": 5000,
+      "rows_read": 5000,
+      "rows_discarded": 0,
+      "sha256": "f6f908ca021bdec0a4c9aeb38ef0b19d14c23fb8c32dca9f65159a500ade38e1"
+    },
+    {
+      "system": "BPM",
+      "name": "BPM processes (file)",
+      "kind": "file",
+      "endpoint": "data/demo/bpm_history.jsonl",
+      "simulated": true,
+      "evidence_kind": "history",
+      "records": 5021,
+      "rows_read": 5021,
+      "rows_discarded": 0,
+      "sha256": "598b8f342fa7ccfedb451c07290fe8487d9ffff9b2c4d3d245f1d9128831aa35"
+    },
+    {
+      "system": "CAT",
+      "name": "CAT catalog (file)",
+      "kind": "file",
+      "endpoint": "data/demo/catalog.json",
+      "simulated": true,
+      "evidence_kind": "history",
+      "records": 7,
+      "rows_read": 7,
+      "rows_discarded": 0,
+      "sha256": "d36b5d26b01f0b15b5ec38e3b5048263e297bd7d4fb2ace5ec3ad7caf548d04b"
     }
   ],
   "labels": {
@@ -63,6 +99,44 @@
       "retry_window_hours": 24,
       "stuck_after_hours": 72,
       "duplicate_window_minutes": 10
+    },
+    "rules": {
+      "r01": {
+        "error_classes": [
+          {
+            "code": "HUB_TIMEOUT",
+            "class": "transient"
+          },
+          {
+            "code": "TERMINAL_NOT_REGISTERED",
+            "class": "permanent"
+          },
+          {
+            "code": "ACCOUNT_BLOCKED",
+            "class": "permanent"
+          },
+          {
+            "code": "ADDRESS_NOT_SERVICEABLE",
+            "class": "permanent"
+          }
+        ],
+        "maintenance_windows": [
+          {
+            "from": "2026-09-14T02:00:00.000Z",
+            "to": "2026-09-14T06:00:00.000Z"
+          }
+        ],
+        "old_pending_hours": 72
+      },
+      "r02": {
+        "activation_requirements": [
+          {
+            "attribute": "capacity_profile",
+            "required_by": "PROV",
+            "via_task": "capacity_check"
+          }
+        ]
+      }
     }
   },
   "correlation": {
@@ -75,7 +149,7 @@
         "conflicting": 0
       },
       "process->service_order": {
-        "explicit": 0,
+        "explicit": 5021,
         "inferred": 0,
         "ambiguous": 0,
         "missing": 0,
@@ -90,13 +164,13 @@
       },
       "attempt->service_order": {
         "explicit": 5090,
-        "inferred": 0,
+        "inferred": 300,
         "ambiguous": 0,
-        "missing": 300,
+        "missing": 0,
         "conflicting": 0
       }
     },
-    "unresolved": 300,
+    "unresolved": 0,
     "unmapped": 0
   },
   "systems": [
@@ -105,12 +179,12 @@
       "name": "Product catalog",
       "role": "lists what is sold and the technical data needed to switch it on",
       "position": 1,
-      "read": false,
-      "source_kind": null,
-      "records": 0,
-      "coverage": null,
+      "read": true,
+      "source_kind": "file",
+      "records": 7,
+      "coverage": 1,
       "cannot_observe": [
-        "not read in this run: no catalog source is wired yet"
+        "which version of an offer applied to an order: the catalog holds validity dates only"
       ],
       "findings": []
     },
@@ -120,13 +194,15 @@
       "role": "receives the order and splits it into service orders",
       "position": 2,
       "read": true,
-      "source_kind": "tmf-api",
-      "records": 10021,
+      "source_kind": "file",
+      "records": 15021,
       "coverage": 1,
       "cannot_observe": [
-        "when each state change happened: the source is a snapshot, not a history"
+        "when each state change happened: a row holds the current state and its creation time"
       ],
       "findings": [
+        "R01",
+        "R02",
         "R04"
       ]
     },
@@ -135,13 +211,11 @@
       "name": "Process orchestrator",
       "role": "runs the tasks in order and hands some to people",
       "position": 3,
-      "read": false,
-      "source_kind": null,
-      "records": 0,
-      "coverage": null,
-      "cannot_observe": [
-        "not read in this run: no process source is wired yet"
-      ],
+      "read": true,
+      "source_kind": "file",
+      "records": 5021,
+      "coverage": 1,
+      "cannot_observe": [],
       "findings": []
     },
     {
@@ -150,18 +224,936 @@
       "role": "switches the service on in the network; can fail and retry",
       "position": 4,
       "read": true,
-      "source_kind": "tmf-api",
+      "source_kind": "file",
       "records": 5390,
-      "coverage": 0.9318,
-      "cannot_observe": [
-        "when each attempt changed state: the source is a snapshot, not a history"
-      ],
+      "coverage": 0.9918,
+      "cannot_observe": [],
       "findings": [
-        "R04"
+        "R01",
+        "R04",
+        "R05"
       ]
     }
   ],
   "findings": [
+    {
+      "id": "R01",
+      "rule_version": "R01@1",
+      "title": "Activation fails and nobody retries",
+      "plain_summary": "An activation failed and nothing tried it again within the retry window, so a person has to find the order and push it through by hand.",
+      "where": "PROV",
+      "severity": "critical",
+      "status": "detected",
+      "affected_orders": 400,
+      "share_of_orders": 0.08,
+      "evidence_level": "strong",
+      "evidence": [
+        {
+          "order_ref": "ORD-1000",
+          "event_ids": [
+            "ACT-70000",
+            "ACT-80000"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1000",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70000",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80000",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1001",
+          "event_ids": [
+            "ACT-70001",
+            "ACT-80001"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1001",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70001",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80001",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1002",
+          "event_ids": [
+            "ACT-70002",
+            "ACT-80002"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1002",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70002",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80002",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1003",
+          "event_ids": [
+            "ACT-70003",
+            "ACT-80003"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1003",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70003",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80003",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1004",
+          "event_ids": [
+            "ACT-70004",
+            "ACT-80004"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1004",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70004",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80004",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1005",
+          "event_ids": [
+            "ACT-70005",
+            "ACT-80005"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1005",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70005",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80005",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1006",
+          "event_ids": [
+            "ACT-70006",
+            "ACT-80006"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1006",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70006",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80006",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1007",
+          "event_ids": [
+            "ACT-70007",
+            "ACT-80007"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1007",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70007",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80007",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1008",
+          "event_ids": [
+            "ACT-70008",
+            "ACT-80008"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1008",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70008",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80008",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1009",
+          "event_ids": [
+            "ACT-70009",
+            "ACT-80009"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1009",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70009",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80009",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1010",
+          "event_ids": [
+            "ACT-70010",
+            "ACT-80010"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1010",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70010",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80010",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1011",
+          "event_ids": [
+            "ACT-70011",
+            "ACT-80011"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1011",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70011",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80011",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1012",
+          "event_ids": [
+            "ACT-70012",
+            "ACT-80012"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1012",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70012",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80012",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1013",
+          "event_ids": [
+            "ACT-70013",
+            "ACT-80013"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1013",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70013",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80013",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1014",
+          "event_ids": [
+            "ACT-70014",
+            "ACT-80014"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1014",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70014",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80014",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1015",
+          "event_ids": [
+            "ACT-70015",
+            "ACT-80015"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1015",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70015",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80015",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1016",
+          "event_ids": [
+            "ACT-70016",
+            "ACT-80016"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1016",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70016",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80016",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1017",
+          "event_ids": [
+            "ACT-70017",
+            "ACT-80017"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1017",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70017",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80017",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1018",
+          "event_ids": [
+            "ACT-70018",
+            "ACT-80018"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1018",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70018",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80018",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        },
+        {
+          "order_ref": "ORD-1019",
+          "event_ids": [
+            "ACT-70019",
+            "ACT-80019"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1019",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-70019",
+              "endpoint": "data/demo/provisioning.jsonl"
+            },
+            {
+              "system": "PROV",
+              "external_id": "ACT-80019",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "HUB_TIMEOUT (transient); next attempt 2.5 days later; link explicit"
+        }
+      ],
+      "evidence_total": 400,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "breakdown": {
+        "wait_days": 1000,
+        "excluded_permanent": 41,
+        "excluded_maintenance": 0,
+        "uncertain_timeout": 0,
+        "old_pending": 50,
+        "resolved_by_callback": 0,
+        "unknown_code": 0,
+        "inferred_links": 0,
+        "unlinked_failed_attempts": 0,
+        "ambiguous_failed_attempts": 0
+      },
+      "cost": {
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 283.3,
+        "formula": "hours = affected × (manual_minutes + wait_days × daily_followup_minutes) / 60",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.daily_followup_minutes",
+            "value": 15,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "thresholds.retry_window_hours",
+            "value": 24,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Manual handling of the failed activations",
+            "hours": 33.3,
+            "basis": "rate_assumption",
+            "observed": 400,
+            "input_keys": [
+              "rates.manual_minutes"
+            ]
+          },
+          {
+            "name": "Daily follow-up while the order waits",
+            "hours": 250,
+            "basis": "rate_assumption",
+            "observed": 1000,
+            "input_keys": [
+              "rates.daily_followup_minutes"
+            ]
+          }
+        ],
+        "unmeasured": []
+      },
+      "recommendation": "Retry a failed activation automatically, or raise it to a queue a person owns, within the retry window."
+    },
+    {
+      "id": "R02",
+      "rule_version": "R02@1",
+      "title": "Missing catalog attribute forces a manual task",
+      "plain_summary": "The product's technical spec lacks a value the activation system needs, so a person fills it in by hand on every order.",
+      "where": "CAT",
+      "severity": "critical",
+      "status": "detected",
+      "affected_orders": 4167,
+      "share_of_orders": 0.8334,
+      "evidence_level": "strong",
+      "evidence": [
+        {
+          "order_ref": "ORD-1000",
+          "event_ids": [
+            "BPM-50000"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1000",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1001",
+          "event_ids": [
+            "BPM-50001"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1001",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1002",
+          "event_ids": [
+            "BPM-50002"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1002",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1003",
+          "event_ids": [
+            "BPM-50003"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1003",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1004",
+          "event_ids": [
+            "BPM-50004"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1004",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1005",
+          "event_ids": [
+            "BPM-50005"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1005",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1006",
+          "event_ids": [
+            "BPM-50006"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1006",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1007",
+          "event_ids": [
+            "BPM-50007"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1007",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1008",
+          "event_ids": [
+            "BPM-50008"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1008",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1009",
+          "event_ids": [
+            "BPM-50009"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1009",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1010",
+          "event_ids": [
+            "BPM-50010"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1010",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1011",
+          "event_ids": [
+            "BPM-50011"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1011",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1012",
+          "event_ids": [
+            "BPM-50012"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1012",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1013",
+          "event_ids": [
+            "BPM-50013"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1013",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1014",
+          "event_ids": [
+            "BPM-50014"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1014",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1015",
+          "event_ids": [
+            "BPM-50015"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1015",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1016",
+          "event_ids": [
+            "BPM-50016"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1016",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1017",
+          "event_ids": [
+            "BPM-50017"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1017",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-200 v1 → SPEC-SKYHOME-200 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1018",
+          "event_ids": [
+            "BPM-50018"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1018",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-50 v1 → SPEC-SKYHOME-50 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        },
+        {
+          "order_ref": "ORD-1019",
+          "event_ids": [
+            "BPM-50019"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1019",
+              "endpoint": "data/demo/oms_orders.csv"
+            }
+          ],
+          "note": "OFFER-SKYHOME-100 v1 → SPEC-SKYHOME-100 lacks capacity_profile; human task capacity_check ran (spec explicit)"
+        }
+      ],
+      "evidence_total": 4167,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "breakdown": {
+        "spec_inferred": 0,
+        "unknown_spec": 0,
+        "missing_without_task": 0
+      },
+      "cost": {
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 347.3,
+        "formula": "hours = affected × manual_minutes / 60",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Manual check that the missing attribute makes necessary",
+            "hours": 347.3,
+            "basis": "rate_assumption",
+            "observed": 4167,
+            "input_keys": [
+              "rates.manual_minutes"
+            ]
+          }
+        ],
+        "unmeasured": []
+      },
+      "recommendation": "Add the missing attribute to the spec of the offer version, so the activation system gets it without a manual step. The hours are freeable capacity, not savings."
+    },
     {
       "id": "R04",
       "rule_version": "R04@2",
@@ -185,22 +1177,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1000",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20000",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30000",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80000",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1000-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -216,22 +1208,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1001",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20001",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30001",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80001",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1001-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -247,22 +1239,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1002",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20002",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30002",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80002",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1002-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -278,22 +1270,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1003",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20003",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30003",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80003",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1003-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -309,22 +1301,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1004",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20004",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30004",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80004",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1004-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -340,22 +1332,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1005",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20005",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30005",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80005",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1005-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -371,22 +1363,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1006",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20006",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30006",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80006",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1006-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -402,22 +1394,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1007",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20007",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30007",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80007",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1007-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -433,22 +1425,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1008",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20008",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30008",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80008",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1008-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -464,22 +1456,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1009",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20009",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30009",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80009",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1009-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -495,22 +1487,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1010",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20010",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30010",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80010",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1010-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -526,22 +1518,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1011",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20011",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30011",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80011",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1011-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -557,22 +1549,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1012",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20012",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30012",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80012",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1012-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -588,22 +1580,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1013",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20013",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30013",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80013",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1013-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -619,22 +1611,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1014",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20014",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30014",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80014",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1014-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -650,22 +1642,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1015",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20015",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30015",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80015",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1015-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -681,22 +1673,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1016",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20016",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30016",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80016",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1016-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -714,32 +1706,32 @@
             {
               "system": "OMS",
               "external_id": "ORD-1017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-35017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             },
             {
               "system": "PROV",
               "external_id": "ACT-85017",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "3 service orders over item ORD-1017-1 (2 extra, retry_new_order); a duplicate reached activation"
@@ -755,22 +1747,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1018",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20018",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30018",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80018",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1018-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -786,22 +1778,22 @@
             {
               "system": "OMS",
               "external_id": "ORD-1019",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-20019",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "OMS",
               "external_id": "SO-30019",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+              "endpoint": "data/demo/oms_orders.csv"
             },
             {
               "system": "PROV",
               "external_id": "ACT-80019",
-              "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+              "endpoint": "data/demo/provisioning.jsonl"
             }
           ],
           "note": "2 service orders over item ORD-1019-1 (1 extra, retry_new_order); a duplicate reached activation"
@@ -851,32 +1843,2043 @@
         "unmeasured": []
       },
       "recommendation": "Make the retry reuse the existing service order, and confirm in billing the orders whose duplicate reached activation."
+    },
+    {
+      "id": "R05",
+      "rule_version": "R05@1",
+      "title": "No end-to-end correlation id",
+      "plain_summary": "Some records cannot be tied to their order by an id they carry, so a person has to work out which belong together.",
+      "where": "OMS → PROV",
+      "severity": "critical",
+      "status": "detected",
+      "affected_orders": 300,
+      "share_of_orders": 0.06,
+      "evidence_level": "weak",
+      "evidence": [
+        {
+          "order_ref": "ORD-1550",
+          "event_ids": [
+            "ACT-70550"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70550",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70550: inferred (terminal serial SN-900550)"
+        },
+        {
+          "order_ref": "ORD-1551",
+          "event_ids": [
+            "ACT-70551"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70551",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70551: inferred (terminal serial SN-900551)"
+        },
+        {
+          "order_ref": "ORD-1552",
+          "event_ids": [
+            "ACT-70552"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70552",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70552: inferred (terminal serial SN-900552)"
+        },
+        {
+          "order_ref": "ORD-1553",
+          "event_ids": [
+            "ACT-70553"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70553",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70553: inferred (terminal serial SN-900553)"
+        },
+        {
+          "order_ref": "ORD-1554",
+          "event_ids": [
+            "ACT-70554"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70554",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70554: inferred (terminal serial SN-900554)"
+        },
+        {
+          "order_ref": "ORD-1555",
+          "event_ids": [
+            "ACT-70555"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70555",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70555: inferred (terminal serial SN-900555)"
+        },
+        {
+          "order_ref": "ORD-1556",
+          "event_ids": [
+            "ACT-70556"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70556",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70556: inferred (terminal serial SN-900556)"
+        },
+        {
+          "order_ref": "ORD-1557",
+          "event_ids": [
+            "ACT-70557"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70557",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70557: inferred (terminal serial SN-900557)"
+        },
+        {
+          "order_ref": "ORD-1558",
+          "event_ids": [
+            "ACT-70558"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70558",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70558: inferred (terminal serial SN-900558)"
+        },
+        {
+          "order_ref": "ORD-1559",
+          "event_ids": [
+            "ACT-70559"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70559",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70559: inferred (terminal serial SN-900559)"
+        },
+        {
+          "order_ref": "ORD-1560",
+          "event_ids": [
+            "ACT-70560"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70560",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70560: inferred (terminal serial SN-900560)"
+        },
+        {
+          "order_ref": "ORD-1561",
+          "event_ids": [
+            "ACT-70561"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70561",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70561: inferred (terminal serial SN-900561)"
+        },
+        {
+          "order_ref": "ORD-1562",
+          "event_ids": [
+            "ACT-70562"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70562",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70562: inferred (terminal serial SN-900562)"
+        },
+        {
+          "order_ref": "ORD-1563",
+          "event_ids": [
+            "ACT-70563"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70563",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70563: inferred (terminal serial SN-900563)"
+        },
+        {
+          "order_ref": "ORD-1564",
+          "event_ids": [
+            "ACT-70564"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70564",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70564: inferred (terminal serial SN-900564)"
+        },
+        {
+          "order_ref": "ORD-1565",
+          "event_ids": [
+            "ACT-70565"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70565",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70565: inferred (terminal serial SN-900565)"
+        },
+        {
+          "order_ref": "ORD-1566",
+          "event_ids": [
+            "ACT-70566"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70566",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70566: inferred (terminal serial SN-900566)"
+        },
+        {
+          "order_ref": "ORD-1567",
+          "event_ids": [
+            "ACT-70567"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70567",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70567: inferred (terminal serial SN-900567)"
+        },
+        {
+          "order_ref": "ORD-1568",
+          "event_ids": [
+            "ACT-70568"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70568",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70568: inferred (terminal serial SN-900568)"
+        },
+        {
+          "order_ref": "ORD-1569",
+          "event_ids": [
+            "ACT-70569"
+          ],
+          "records": [
+            {
+              "system": "PROV",
+              "external_id": "ACT-70569",
+              "endpoint": "data/demo/provisioning.jsonl"
+            }
+          ],
+          "note": "attempt->service_order ACT-70569: inferred (terminal serial SN-900569)"
+        }
+      ],
+      "evidence_total": 300,
+      "confidence": {
+        "level": "possible",
+        "inferred_link_share": 1
+      },
+      "in_total": false,
+      "breakdown": {
+        "weak_links": 300,
+        "inferred": 300,
+        "ambiguous": 0,
+        "missing": 0,
+        "conflicting": 0
+      },
+      "cost": {
+        "kind": "recurring",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 225,
+        "formula": "hours = incidents × investigation_minutes / 60",
+        "inputs": [
+          {
+            "key": "rates.investigation_minutes",
+            "value": 45,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Investigation of the weak links",
+            "hours": 225,
+            "basis": "rate_assumption",
+            "observed": 300,
+            "input_keys": [
+              "rates.investigation_minutes"
+            ]
+          }
+        ],
+        "unmeasured": []
+      },
+      "recommendation": "Carry the order id (or the service order id) on every record, so no link has to be inferred."
     }
   ],
   "overlap": {
-    "by_order": {},
-    "pairs": []
+    "by_order": {
+      "ORD-1000": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1001": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1002": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1003": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1004": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1005": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1006": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1007": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1008": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1009": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1010": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1011": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1012": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1013": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1014": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1015": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1016": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1017": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1018": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1019": [
+        "R01",
+        "R02",
+        "R04"
+      ],
+      "ORD-1020": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1021": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1022": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1023": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1024": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1025": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1026": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1027": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1028": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1029": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1030": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1031": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1032": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1033": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1034": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1035": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1036": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1037": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1038": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1039": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1040": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1041": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1042": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1043": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1044": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1045": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1046": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1047": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1048": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1049": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1050": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1051": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1052": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1053": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1054": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1055": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1056": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1057": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1058": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1059": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1060": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1061": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1062": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1063": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1064": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1065": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1066": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1067": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1068": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1069": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1070": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1071": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1072": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1073": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1074": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1075": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1076": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1077": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1078": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1079": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1080": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1081": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1082": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1083": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1084": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1085": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1086": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1087": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1088": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1089": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1090": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1091": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1092": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1093": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1094": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1095": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1096": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1097": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1098": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1099": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1100": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1101": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1102": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1103": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1104": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1105": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1106": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1107": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1108": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1109": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1110": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1111": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1112": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1113": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1114": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1115": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1116": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1117": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1118": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1119": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1120": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1121": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1122": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1123": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1124": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1125": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1126": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1127": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1128": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1129": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1130": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1131": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1132": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1133": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1134": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1135": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1136": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1137": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1138": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1139": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1140": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1141": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1142": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1143": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1144": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1145": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1146": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1147": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1148": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1149": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1150": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1151": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1152": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1153": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1154": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1155": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1156": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1157": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1158": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1159": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1160": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1161": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1162": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1163": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1164": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1165": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1166": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1167": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1168": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1169": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1170": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1171": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1172": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1173": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1174": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1175": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1176": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1177": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1178": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1179": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1180": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1181": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1182": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1183": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1184": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1185": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1186": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1187": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1188": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1189": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1190": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1191": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1192": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1193": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1194": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1195": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1196": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1197": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1198": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1199": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1200": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1201": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1202": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1203": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1204": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1205": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1206": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1207": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1208": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1209": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1210": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1211": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1212": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1213": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1214": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1215": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1216": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1217": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1218": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1219": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1220": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1221": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1222": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1223": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1224": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1225": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1226": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1227": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1228": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1229": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1230": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1231": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1232": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1233": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1234": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1235": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1236": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1237": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1238": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1239": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1240": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1241": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1242": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1243": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1244": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1245": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1246": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1247": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1248": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1249": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1250": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1251": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1252": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1253": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1254": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1255": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1256": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1257": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1258": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1259": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1260": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1261": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1262": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1263": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1264": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1265": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1266": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1267": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1268": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1269": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1270": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1271": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1272": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1273": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1274": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1275": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1276": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1277": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1278": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1279": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1280": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1281": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1282": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1283": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1284": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1285": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1286": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1287": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1288": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1289": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1290": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1291": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1292": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1293": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1294": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1295": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1296": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1297": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1298": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1299": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1300": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1301": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1302": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1303": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1304": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1305": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1306": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1307": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1308": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1309": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1310": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1311": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1312": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1313": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1314": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1315": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1316": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1317": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1318": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1319": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1320": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1321": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1322": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1323": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1324": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1325": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1326": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1327": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1328": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1329": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1330": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1331": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1332": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1333": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1334": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1335": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1336": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1337": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1338": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1339": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1340": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1341": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1342": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1343": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1344": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1345": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1346": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1347": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1348": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1349": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1350": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1351": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1352": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1353": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1354": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1355": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1356": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1357": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1358": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1359": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1360": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1361": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1362": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1363": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1364": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1365": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1366": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1367": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1368": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1369": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1370": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1371": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1372": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1373": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1374": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1375": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1376": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1377": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1378": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1379": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1380": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1381": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1382": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1383": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1384": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1385": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1386": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1387": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1388": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1389": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1390": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1391": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1392": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1393": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1394": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1395": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1396": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1397": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1398": [
+        "R01",
+        "R02"
+      ],
+      "ORD-1399": [
+        "R01",
+        "R02"
+      ]
+    },
+    "pairs": [
+      {
+        "rules": [
+          "R01",
+          "R02"
+        ],
+        "orders": 400
+      },
+      {
+        "rules": [
+          "R01",
+          "R04"
+        ],
+        "orders": 20
+      },
+      {
+        "rules": [
+          "R02",
+          "R04"
+        ],
+        "orders": 20
+      }
+    ]
   },
   "totals": {
     "gross": {
-      "hours": 30
+      "hours": 660.6
     },
     "net": {
-      "hours": 30
+      "hours": 613.1
     }
   },
   "journeys": [
     {
       "order_ref": "ORD-1000",
-      "segments": [],
+      "segments": [
+        {
+          "system": "OMS",
+          "from": "2026-09-01T00:00:27.000Z",
+          "to": "2026-09-01T07:07:27.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "failed",
+          "actor": "system",
+          "from": "2026-09-01T07:07:27.000Z",
+          "to": "2026-09-01T07:07:57.000Z"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T07:07:57.000Z",
+          "to": "2026-09-03T19:07:27.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "succeeded",
+          "actor": "system",
+          "from": "2026-09-03T19:07:27.000Z",
+          "to": "2026-09-03T19:08:07.000Z"
+        }
+      ],
       "findings": [
+        "R01",
+        "R02",
         "R04"
       ],
       "correlation": {
         "strong": true,
         "gaps": []
       },
-      "segments_unavailable": "ORD-1000: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built",
       "story": [
         {
           "at": "2026-09-01T00:00:27.000Z",
@@ -884,7 +3887,7 @@
           "what": "The order manager received the order.",
           "record": {
             "id": "ORD-1000",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
@@ -901,33 +3904,42 @@
         },
         {
           "at": "2026-09-01T02:32:27.000Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-50000.",
+          "record": null,
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T02:32:27.000Z",
           "system": "OMS",
           "what": "A service order (SO-20000) was created for line 1.",
           "record": {
             "id": "SO-20000",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
           "reason": null
         },
         {
-          "at": null,
-          "system": "BPM",
-          "what": "The process orchestrator ran its tasks for the order.",
-          "record": null,
-          "finding": null,
-          "observed": false,
-          "reason": "not visible in this source"
-        },
-        {
           "at": "2026-09-01T07:07:57.000Z",
           "system": "PROV",
-          "what": "An activation attempt on SO-20000 failed.",
+          "what": "An activation attempt on SO-20000 failed (error HUB_TIMEOUT).",
           "record": {
             "id": "ACT-70000",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T19:07:27.000Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-60000.",
+          "record": null,
           "finding": null,
           "observed": true,
           "reason": null
@@ -938,7 +3950,7 @@
           "what": "A second service order (SO-30000) was created for line 1, which already had one.",
           "record": {
             "id": "SO-30000",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": "R04",
           "observed": true,
@@ -950,7 +3962,7 @@
           "what": "An activation attempt on SO-30000 succeeded.",
           "record": {
             "id": "ACT-80000",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
           "finding": null,
           "observed": true,
@@ -960,15 +3972,47 @@
     },
     {
       "order_ref": "ORD-1001",
-      "segments": [],
+      "segments": [
+        {
+          "system": "OMS",
+          "from": "2026-09-01T00:08:07.400Z",
+          "to": "2026-09-01T09:55:07.400Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "failed",
+          "actor": "system",
+          "from": "2026-09-01T09:55:07.400Z",
+          "to": "2026-09-01T09:55:37.400Z"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T09:55:37.400Z",
+          "to": "2026-09-03T21:55:07.400Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "succeeded",
+          "actor": "system",
+          "from": "2026-09-03T21:55:07.400Z",
+          "to": "2026-09-03T21:55:47.400Z"
+        }
+      ],
       "findings": [
+        "R01",
+        "R02",
         "R04"
       ],
       "correlation": {
         "strong": true,
         "gaps": []
       },
-      "segments_unavailable": "ORD-1001: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built",
       "story": [
         {
           "at": "2026-09-01T00:08:07.400Z",
@@ -976,7 +4020,7 @@
           "what": "The order manager received the order.",
           "record": {
             "id": "ORD-1001",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
@@ -993,33 +4037,42 @@
         },
         {
           "at": "2026-09-01T02:05:07.400Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-50001.",
+          "record": null,
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T02:05:07.400Z",
           "system": "OMS",
           "what": "A service order (SO-20001) was created for line 1.",
           "record": {
             "id": "SO-20001",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
           "reason": null
         },
         {
-          "at": null,
-          "system": "BPM",
-          "what": "The process orchestrator ran its tasks for the order.",
-          "record": null,
-          "finding": null,
-          "observed": false,
-          "reason": "not visible in this source"
-        },
-        {
           "at": "2026-09-01T09:55:37.400Z",
           "system": "PROV",
-          "what": "An activation attempt on SO-20001 failed.",
+          "what": "An activation attempt on SO-20001 failed (error HUB_TIMEOUT).",
           "record": {
             "id": "ACT-70001",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-03T21:55:07.400Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-60001.",
+          "record": null,
           "finding": null,
           "observed": true,
           "reason": null
@@ -1030,7 +4083,7 @@
           "what": "A second service order (SO-30001) was created for line 1, which already had one.",
           "record": {
             "id": "SO-30001",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": "R04",
           "observed": true,
@@ -1042,7 +4095,7 @@
           "what": "An activation attempt on SO-30001 succeeded.",
           "record": {
             "id": "ACT-80001",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
           "finding": null,
           "observed": true,
@@ -1052,15 +4105,47 @@
     },
     {
       "order_ref": "ORD-1002",
-      "segments": [],
+      "segments": [
+        {
+          "system": "OMS",
+          "from": "2026-09-01T00:17:14.800Z",
+          "to": "2026-09-01T12:01:14.800Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "failed",
+          "actor": "system",
+          "from": "2026-09-01T12:01:14.800Z",
+          "to": "2026-09-01T12:01:44.800Z"
+        },
+        {
+          "system": "PROV",
+          "from": "2026-09-01T12:01:44.800Z",
+          "to": "2026-09-04T00:01:14.800Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "PROV",
+          "kind": "work",
+          "state": "succeeded",
+          "actor": "system",
+          "from": "2026-09-04T00:01:14.800Z",
+          "to": "2026-09-04T00:01:54.800Z"
+        }
+      ],
       "findings": [
+        "R01",
+        "R02",
         "R04"
       ],
       "correlation": {
         "strong": true,
         "gaps": []
       },
-      "segments_unavailable": "ORD-1002: the evidence is a snapshot read from http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder; a snapshot has no record of when each step ran, so no segments can be built",
       "story": [
         {
           "at": "2026-09-01T00:17:14.800Z",
@@ -1068,7 +4153,7 @@
           "what": "The order manager received the order.",
           "record": {
             "id": "ORD-1002",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/productOrdering/v4/productOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
@@ -1085,33 +4170,42 @@
         },
         {
           "at": "2026-09-01T01:58:14.800Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-50002.",
+          "record": null,
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-01T01:58:14.800Z",
           "system": "OMS",
           "what": "A service order (SO-20002) was created for line 1.",
           "record": {
             "id": "SO-20002",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": null,
           "observed": true,
           "reason": null
         },
         {
-          "at": null,
-          "system": "BPM",
-          "what": "The process orchestrator ran its tasks for the order.",
-          "record": null,
-          "finding": null,
-          "observed": false,
-          "reason": "not visible in this source"
-        },
-        {
           "at": "2026-09-01T12:01:44.800Z",
           "system": "PROV",
-          "what": "An activation attempt on SO-20002 failed.",
+          "what": "An activation attempt on SO-20002 failed (error HUB_TIMEOUT).",
           "record": {
             "id": "ACT-70002",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
+          "finding": null,
+          "observed": true,
+          "reason": null
+        },
+        {
+          "at": "2026-09-04T00:01:14.800Z",
+          "system": "BPM",
+          "what": "The process orchestrator started process BPM-60002.",
+          "record": null,
           "finding": null,
           "observed": true,
           "reason": null
@@ -1122,7 +4216,7 @@
           "what": "A second service order (SO-30002) was created for line 1, which already had one.",
           "record": {
             "id": "SO-30002",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceOrdering/v4/serviceOrder"
+            "endpoint": "data/demo/oms_orders.csv"
           },
           "finding": "R04",
           "observed": true,
@@ -1134,7 +4228,7 @@
           "what": "An activation attempt on SO-30002 succeeded.",
           "record": {
             "id": "ACT-80002",
-            "endpoint": "http://127.0.0.1:18899/tmf-api/serviceActivationAndConfiguration/v4/serviceActivation"
+            "endpoint": "data/demo/provisioning.jsonl"
           },
           "finding": null,
           "observed": true,
