@@ -63,18 +63,12 @@
 
     <section id="estado">
       <h2>What is being built?</h2>
-      <p class="note">Two stages. The second does not start until the first works.</p>
-      <div class="grid">
-        <div class="card"><span class="k">Stage 1 · First real report</span><p>Read orders, service orders and activations from the <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, detect problem R04 (duplicate orders) and produce a report with its hours and formula. R04 is 30 hours of manual clean-up (90 minutes per duplicate × 20 orders, example minutes).</p></div>
-        <div class="card"><span class="k">Stage 2 · Ready for a client</span><p>Read the files a real client exports (CSV or JSON), using a configuration that translates their columns, and also detect R01, R02 and R05. This is the requirement for auditing real data.</p></div>
-        <div class="card"><span class="k">Later</span><p>R03 and the orchestration system, a PDF report, a web interface and the engine languages.</p></div>
-      </div>
-      <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Done · version 0.4.3</span><p>A made-up operator with 5,000 test orders. A server that delivers them the way a real system would. An example report. Three readers (orders, service orders and activations): they already read all 5,000 orders, 5,020 service orders and 5,400 activation attempts, every record carries its origin and they are joined, saying how sure each link is; rule R04 already finds the 20 duplicate orders and measures them as 30 hours of clean-up.</p></div>
-        <div class="card"><span class="k">Now</span><p>Fix the format of the <a class="gl" href="../help/index.html#g-hallazgo">findings</a> (findings.json) so the report can read it.</p></div>
-        <div class="card"><span class="k">Next</span><p>Show each problem's affected orders with proof and cause, and publish the real report.</p></div>
-      </div>
-      <div class="callout" style="margin-top:16px"><strong>What it does not do yet.</strong> It does not read customer data. It only detects R04. It does not generate reports yet. The example figures come from made-up data.</div>
+      <ul class="plain">
+        <li><strong>Done · version 0.4.3.</strong> A made-up operator with 5,000 test orders, a <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, an example report and the engine: it reads the export files, joins the records saying how sure each <a class="gl" href="../help/index.html#g-enlace">link</a> is, and runs the five rules (R01 to R05) with their hours. It writes <code>findings.json</code> and <code>report.html</code>.</li>
+        <li><strong>Now.</strong> Show the engine's own report on this site.</li>
+        <li><strong>Next.</strong> Read the files a real client exports (CSV or JSON), using a configuration that translates their columns. This is the requirement for auditing real data.</li>
+        <li><strong>Later.</strong> R03 and the orchestration system, a PDF report, a web interface and the engine languages.</li>
+      </ul>
     </section>
 
     <section id="real">
@@ -82,15 +76,14 @@
       <p class="note">Which part works for real and which is imitated with test data.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Real, simulated and missing</caption>
           <thead><tr><th scope="col">Part</th><th scope="col">Status</th><th scope="col">What that means</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Engine: read, join, R04, story, net total, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Runs today: <code>deno task audit --source stub --out out</code></td></tr>
+            <tr><th scope="row">Engine: read, join, the five rules (R01 to R05), story, net total, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Runs today: <code>deno task audit --source stub --out out</code>. With the simulated server, R02 does not run and R03 is not evaluated</td></tr>
             <tr><th scope="row">Evidence source</th><td>Simulated</td><td>A TMF-shaped server over synthetic data (<code>deno task stub</code>); every response is marked simulated</td></tr>
             <tr><th scope="row">Data</th><td>Simulated</td><td>5,000 made-up orders of a fictional operator, defects planted on purpose (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutes per task</th><td>Example</td><td>From <code>data/demo/config.json</code>, not measured at any operator</td></tr>
-            <tr><th scope="row">R01, R02, R03, R05</th><td>Missing</td><td>Specified in <code>docs/architecture/rules.md</code>; arrive in 0.5.0 (Client-ready)</td></tr>
-            <tr><th scope="row">Reading a client's export files</th><td>Missing</td><td>Arrives in 0.5.0</td></tr>
+            <tr><th scope="row">Reading a real client's export files</th><td>Missing</td><td>Today it reads the synthetic files in <code>data/demo/</code>; the configuration for foreign columns arrives in 0.5.0</td></tr>
+            <tr><th scope="row">The engine's own report on this site</th><td>Missing</td><td>Today it is a separate file (<code>engine/report.html</code>); it is not integrated yet</td></tr>
             <tr><th scope="row">Catalog and process steps of the story</th><td>Missing</td><td>The simulated source does not carry them; shown as “not observed”</td></tr>
           </tbody>
         </table>

@@ -63,18 +63,12 @@
 
     <section id="estado">
       <h2>O que está sendo construído?</h2>
-      <p class="note">Duas etapas. A segunda só começa quando a primeira funcionar.</p>
-      <div class="grid">
-        <div class="card"><span class="k">Etapa 1 · Primeiro relatório real</span><p>Ler pedidos, <a class="gl" href="../help/index.html#g-orden-servicio">ordens de serviço</a> e ativações do servidor de teste, detectar o problema R04 (pedidos duplicados) e gerar um relatório com as horas e a fórmula. R04 são 30 horas de limpeza manual (90 minutos por duplicado × 20 pedidos, minutos de exemplo).</p></div>
-        <div class="card"><span class="k">Etapa 2 · Pronto para um cliente</span><p>Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas, e detectar também R01, R02 e R05. É o requisito para auditar dados reais.</p></div>
-        <div class="card"><span class="k">Mais adiante</span><p>R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</p></div>
-      </div>
-      <div class="grid" style="margin-top:16px">
-        <div class="card"><span class="k">Feito · versão 0.4.3</span><p>Uma operadora inventada com 5.000 pedidos de teste. Um servidor que os entrega como faria um sistema real. Um relatório de exemplo. Três leitores (pedidos, ordens de serviço e ativações): já leem os 5.000 pedidos, as 5.020 ordens e as 5.400 tentativas de ativação, cada dado leva a sua origem e eles são ligados entre si, dizendo quão seguro é cada <a class="gl" href="../help/index.html#g-enlace">vínculo</a>; a regra R04 já encontra os 20 pedidos duplicados e os mede em 30 horas de limpeza.</p></div>
-        <div class="card"><span class="k">Agora</span><p>Fixar o formato dos <a class="gl" href="../help/index.html#g-hallazgo">achados</a> (findings.json) para o relatório o ler.</p></div>
-        <div class="card"><span class="k">Em seguida</span><p>Mostrar os pedidos afetados de cada problema com sua prova e sua causa, e publicar o relatório real.</p></div>
-      </div>
-      <div class="callout" style="margin-top:16px"><strong>O que ainda não faz.</strong> Não lê dados de clientes. Só detecta R04. Ainda não gera relatórios. Os valores do exemplo vêm de dados inventados.</div>
+      <ul class="plain">
+        <li><strong>Feito · versão 0.4.3.</strong> Uma operadora inventada com 5.000 pedidos de teste, um <a class="gl" href="../help/index.html#g-servidor-prueba">servidor de teste</a>, um relatório de exemplo e o motor: lê os arquivos de exportação, une os registros dizendo quão seguro é cada <a class="gl" href="../help/index.html#g-enlace">vínculo</a> e executa as cinco regras (R01 a R05) com as suas horas. Escreve <code>findings.json</code> e <code>report.html</code>.</li>
+        <li><strong>Agora.</strong> Mostrar o relatório do próprio motor neste site.</li>
+        <li><strong>Em seguida.</strong> Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas. É o requisito para auditar dados reais.</li>
+        <li><strong>Mais adiante.</strong> R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</li>
+      </ul>
     </section>
 
     <section id="real">
@@ -82,15 +76,14 @@
       <p class="note">Que parte funciona de verdade e qual é imitada com dados de teste.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Real, simulado e falta</caption>
           <thead><tr><th scope="col">Parte</th><th scope="col">Status</th><th scope="col">O que significa</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Motor: ler, juntar, R04, a história, o total líquido, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Funciona hoje: <code>deno task audit --source stub --out out</code></td></tr>
+            <tr><th scope="row">Motor: ler, juntar, as cinco regras (R01 a R05), a história, o total líquido, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Funciona hoje: <code>deno task audit --source stub --out out</code>. Com o servidor simulado, R02 não roda e R03 não é avaliada</td></tr>
             <tr><th scope="row">Fonte de evidência</th><td>Simulado</td><td>Um servidor no formato TMF sobre dados sintéticos (<code>deno task stub</code>); cada resposta é marcada como simulada</td></tr>
             <tr><th scope="row">Dados</th><td>Simulado</td><td>5.000 pedidos inventados de uma operadora fictícia, com defeitos postos de propósito (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutos por tarefa</th><td>Exemplo</td><td>Vêm de <code>data/demo/config.json</code>; não foram medidas em nenhuma operadora</td></tr>
-            <tr><th scope="row">R01, R02, R03, R05</th><td>Falta</td><td>Especificadas em <code>docs/architecture/rules.md</code>; chegam na 0.5.0 (pronto para um cliente)</td></tr>
-            <tr><th scope="row">Ler os arquivos de exportação de um cliente</th><td>Falta</td><td>Chega na 0.5.0</td></tr>
+            <tr><th scope="row">Ler os arquivos de exportação de um cliente real</th><td>Falta</td><td>Hoje lê os arquivos sintéticos de <code>data/demo/</code>; a configuração para colunas alheias chega na 0.5.0</td></tr>
+            <tr><th scope="row">O relatório do próprio motor neste site</th><td>Falta</td><td>Hoje é um arquivo à parte (<code>engine/report.html</code>); falta integrá-lo</td></tr>
             <tr><th scope="row">Catálogo e passos do processo da história</th><td>Falta</td><td>A fonte simulada não os traz; aparecem como “não observado”</td></tr>
           </tbody>
         </table>

@@ -59,35 +59,6 @@
     <section class="report-head">
       <h1>Ejemplo: auditoría de<br>Ortelis Satellite</h1>
       <div class="callout"><strong>Ejemplo con datos sintéticos de un operador inventado.</strong> El motor ya detecta los cinco problemas desde archivos; esta página sigue escrita a mano con la misma forma que el informe real, que puedes abrir en <a href="../../engine/report.html">el informe del motor</a>. Las horas son una estimación con minutos de ejemplo (<code>config.json</code>), no medidas en ningún operador.</div>
-      <p class="howto">Qué puedes hacer aquí: leer una auditoría terminada, con cada problema, los pedidos afectados, la causa y, aparte, una estimación de horas.</p>
-      <p class="lead">Ortelis es un operador ficticio de internet satelital residencial. El informe muestra el aspecto de una auditoría real, con cinco pérdidas inventadas.</p>
-      <p class="meta">Septiembre 2026 · 5.000 pedidos · catálogo + gestor de pedidos + orquestador de procesos + activación · ejecución demo-20260901</p>
-    </section>
-
-    <section aria-label="Indicadores">
-      <div class="kpis">
-        <div class="kpi">
-          <span class="k"><a class="gl" href="../help/index.html#g-hallazgo">Hallazgos</a></span>
-          <span class="v">5</span>
-          <span class="s">4 críticos · 1 medio</span>
-        </div>
-        <div class="kpi">
-          <span class="k">Activación sin reintento</span>
-          <span class="v">400</span>
-          <span class="s">pedidos · R01</span>
-        </div>
-        <div class="kpi">
-          <span class="k">Tarea manual por dato faltante</span>
-          <span class="v">4.167</span>
-          <span class="s">pedidos · R02</span>
-        </div>
-        <div class="kpi">
-          <span class="k">Pedidos atascados</span>
-          <span class="v">50</span>
-          <span class="s">1% del mes, sin evento posterior</span>
-        </div>
-      </div>
-      <p class="note">Estimación con supuestos de ejemplo (minutos por caso, no medidos en ningún operador): ≈ 978 h al mes sumando R01 a R04; R05 (225 h) aparte. Ver «Supuestos».</p>
     </section>
 
     <section>
@@ -103,162 +74,10 @@
       <p class="note">Las horas son una estimación con cuatro tasas de ejemplo. Ninguna está medida en ningún operador; se cambian en <code>config.json</code>. Los pedidos afectados no dependen de ellas.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Supuestos de ejemplo para estimar horas</caption>
-          <thead><tr><th scope="col">Tasa</th><th scope="col">Minutos por caso</th><th scope="col">Hallazgo que la usa</th><th scope="col">Nota</th></tr></thead>
-          <tbody><tr><th scope="row">Atención manual <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Seguimiento diario <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Limpieza <code>cleanup_minutes</code></th><td>90</td><td>R04</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr><tr><th scope="row">Investigación <code>investigation_minutes</code></th><td>45</td><td>R05</td><td>Ejemplo, no medido en ningún operador; se cambia en config.json</td></tr></tbody>
+          <thead><tr><th scope="col">Tasa</th><th scope="col">Minutos por caso</th><th scope="col">Hallazgo que la usa</th></tr></thead>
+          <tbody><tr><th scope="row">Atención manual <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td></tr><tr><th scope="row">Seguimiento diario <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td></tr><tr><th scope="row">Limpieza <code>cleanup_minutes</code></th><td>90</td><td>R04</td></tr><tr><th scope="row">Investigación <code>investigation_minutes</code></th><td>45</td><td>R05</td></tr></tbody>
         </table>
       </div>
-    </section>
-
-    <section>
-      <h2>Mapa del flujo</h2>
-      <p class="lead">Cada paso ocurre en un sistema distinto. Las cajas punteadas marcan dónde el pedido pierde tiempo o se duplica.</p>
-      <div class="legend" aria-label="Leyenda">
-        <span><i class="sw-work"></i>paso normal</span>
-        <span><i class="sw-wait"></i>espera manual</span>
-        <span><i class="sw-gap"></i>hueco sin evento</span>
-      </div>
-      <div class="scroller" tabindex="0" aria-label="Mapa del flujo entre los cuatro sistemas, se desplaza en pantallas angostas">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 400" role="img" aria-labelledby="flt fld">
-          <title id="flt">Flujo de un pedido entre catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación</title>
-          <desc id="fld">El catálogo valida el pedido. El orquestador abre un chequeo manual de capacidad. El gestor de pedidos descompone el pedido. El orquestador instala. La activación falla en el sistema de activación. El reintento crea una segunda orden de servicio y después activa. Se marcan los hallazgos R01, R02, R03 y R04.</desc>
-          <defs>
-            <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
-            </marker>
-          </defs>
-
-          <rect class="lane-bg" x="0" y="8" width="1140" height="88"/>
-          <rect class="lane-bg" x="0" y="96" width="1140" height="88"/>
-          <rect class="lane-bg" x="0" y="184" width="1140" height="88"/>
-          <rect class="lane-bg" x="0" y="272" width="1140" height="88"/>
-
-          <text class="lane" x="14" y="56">CATÁLOGO</text>
-          <text class="lane" x="14" y="138">GESTOR DE<tspan x="14" dy="13">PEDIDOS</tspan></text>
-          <text class="lane" x="14" y="226">ORQUESTADOR<tspan x="14" dy="13">DE PROCESOS</tspan></text>
-          <text class="lane" x="14" y="320">ACTIVACIÓN</text>
-
-          <g class="node hot">
-            <rect class="box" x="110" y="23" width="150" height="58" rx="2"/>
-            <text class="t" x="122" y="45">Oferta validada</text>
-            <text class="p" x="122" y="61">sin capacity_profile</text>
-            <text class="s" x="248" y="40" text-anchor="end">R02</text>
-          </g>
-
-          <g class="node hot">
-            <rect class="box" x="290" y="199" width="150" height="58" rx="2"/>
-            <text class="t" x="302" y="221">Chequeo manual</text>
-            <text class="p" x="302" y="237">2 h de trabajo manual</text>
-            <text class="s" x="428" y="216" text-anchor="end">R02</text>
-          </g>
-
-          <g class="node">
-            <rect class="box" x="460" y="111" width="150" height="58" rx="2"/>
-            <text class="t" x="472" y="133">Descomposición</text>
-            <text class="p" x="472" y="149">SO + WO en minutos</text>
-          </g>
-
-          <g class="node hot">
-            <rect class="box" x="630" y="199" width="150" height="58" rx="2"/>
-            <text class="t" x="642" y="221">Instalación</text>
-            <text class="p" x="642" y="237">6 h · timer 48 h</text>
-            <text class="s" x="768" y="216" text-anchor="end">R03</text>
-          </g>
-
-          <g class="node hot">
-            <rect class="box" x="790" y="287" width="150" height="58" rx="2"/>
-            <text class="t" x="802" y="309">Activación</text>
-            <text class="p" x="802" y="325">falla HUB_TIMEOUT</text>
-            <text class="s" x="928" y="304" text-anchor="end">R01</text>
-          </g>
-
-          <g class="node hot">
-            <rect class="box" x="960" y="111" width="150" height="58" rx="2"/>
-            <text class="t" x="972" y="133">Reintento</text>
-            <text class="p" x="972" y="149">crea una 2ª SO</text>
-            <text class="s" x="1098" y="128" text-anchor="end">R04</text>
-          </g>
-
-          <g class="node done">
-            <rect class="box" x="960" y="287" width="150" height="58" rx="2"/>
-            <text class="t" x="972" y="309">Activo</text>
-            <text class="p" x="972" y="325">60 h después</text>
-          </g>
-
-          <path class="edge hot" d="M260 52 H275 V228 H290" marker-end="url(#fa)"/>
-          <path class="edge" d="M440 228 H450 V140 H460" marker-end="url(#fa)"/>
-          <path class="edge" d="M610 140 H620 V228 H630" marker-end="url(#fa)"/>
-          <path class="edge" d="M780 228 H785 V316 H790" marker-end="url(#fa)"/>
-          <path class="edge hot" d="M940 316 H950 V140 H960" marker-end="url(#fa)"/>
-          <path class="edge" d="M1035 169 V287" marker-end="url(#fa)"/>
-          <text class="elabel" x="948" y="252" text-anchor="end">60 h</text>
-        </svg>
-      </div>
-      <p class="note">Fuente: <code>data/demo/</code> (dataset sintético). Las flechas cruzan de un sistema a otro. Ningún identificador común las une (R05). SO = orden de servicio. WO = orden de trabajo.</p>
-    </section>
-
-    <section>
-      <h2>Máquina de estados</h2>
-      <p class="lead">Estados del pedido y tres callejones sin salida que la auditoría encontró.</p>
-      <div class="scroller" tabindex="0" aria-label="Máquina de estados del pedido, se desplaza en pantallas angostas">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 320" role="img" aria-labelledby="smt smd">
-          <title id="smt">Estados del pedido y sus callejones sin salida</title>
-          <desc id="smd">Camino normal: pedido, validado, descompuesto, agendado, instalado, activando, activo. Desde descompuesto, un reintento crea una segunda orden de servicio. Desde aprovisionando, una falla sin reintento cae en una cola manual. Un timer de 48 horas sin compensación deja el pedido atascado.</desc>
-          <defs>
-            <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="var(--muted)"/>
-            </marker>
-            <marker id="sr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0 0 10 5 0 10z" fill="var(--crit)"/>
-            </marker>
-          </defs>
-
-          <g class="node"><rect class="box" x="20" y="50" width="140" height="52" rx="2"/><text class="t" x="32" y="81">Pedido</text></g>
-          <g class="node"><rect class="box" x="180" y="50" width="140" height="52" rx="2"/><text class="t" x="192" y="81">Validado</text></g>
-          <g class="node"><rect class="box" x="340" y="50" width="140" height="52" rx="2"/><text class="t" x="352" y="81">Descompuesto</text></g>
-          <g class="node"><rect class="box" x="500" y="50" width="140" height="52" rx="2"/><text class="t" x="512" y="81">Agendado</text></g>
-          <g class="node"><rect class="box" x="660" y="50" width="140" height="52" rx="2"/><text class="t" x="672" y="81">Instalado</text></g>
-          <g class="node"><rect class="box" x="820" y="50" width="140" height="52" rx="2"/><text class="t" x="832" y="81">Activando</text></g>
-          <g class="node done"><rect class="box" x="980" y="50" width="140" height="52" rx="2"/><text class="t" x="992" y="81">Activo</text></g>
-
-          <path class="edge" d="M160 76 H180" marker-end="url(#sa)"/>
-          <path class="edge" d="M320 76 H340" marker-end="url(#sa)"/>
-          <path class="edge" d="M480 76 H500" marker-end="url(#sa)"/>
-          <path class="edge" d="M640 76 H660" marker-end="url(#sa)"/>
-          <path class="edge" d="M800 76 H820" marker-end="url(#sa)"/>
-          <path class="edge" d="M960 76 H980" marker-end="url(#sa)"/>
-
-          <g class="node hot">
-            <rect class="box" x="340" y="160" width="170" height="46" rx="2"/>
-            <text class="t" x="352" y="181">2ª orden de servicio</text>
-            <text class="s" x="498" y="201" text-anchor="end">R04</text>
-          </g>
-          <path class="edge hot" d="M410 102 V160" marker-end="url(#sr)"/>
-
-          <g class="node hot">
-            <rect class="box" x="620" y="160" width="180" height="46" rx="2"/>
-            <text class="t" x="632" y="181">Falla sin reintento</text>
-            <text class="s" x="788" y="201" text-anchor="end">R01</text>
-          </g>
-          <path class="edge hot" d="M890 102 V136 H710 V160" marker-end="url(#sr)"/>
-
-          <g class="node hot">
-            <rect class="box" x="940" y="160" width="180" height="46" rx="2"/>
-            <text class="t" x="952" y="181">Timer sin compensar</text>
-            <text class="s" x="1108" y="201" text-anchor="end">R03</text>
-          </g>
-          <path class="edge hot" d="M900 102 V130 H1030 V160" marker-end="url(#sr)"/>
-
-          <g class="node"><rect class="box" x="620" y="244" width="180" height="46" rx="2"/><text class="t" x="632" y="265">Cola manual</text><text class="p" x="632" y="281">alguien lo rescata</text></g>
-          <path class="edge" d="M710 206 V244" marker-end="url(#sa)"/>
-
-          <g class="node hot"><rect class="box" x="940" y="244" width="180" height="46" rx="2"/><text class="t" x="952" y="265">Atascado</text><text class="p" x="952" y="281">sin evento posterior</text></g>
-          <path class="edge hot" d="M1030 206 V244" marker-end="url(#sr)"/>
-
-          <text class="elabel" x="20" y="310">Sin identificador común, unir los cuatro registros exige una ventana de tiempo (R05).</text>
-        </svg>
-      </div>
-      <p class="note">Un <a class="gl" href="../help/index.html#g-reintento">reintento</a> manual saca al pedido de la cola. El timer no lo saca. Los 50 pedidos atascados siguen en <code>PROVISIONING</code> al cierre del mes.</p>
     </section>
 
     <section>
@@ -316,107 +135,65 @@
 
     <section>
       <h2>Hallazgos</h2>
-      <p class="lead">El ejemplo muestra cinco hallazgos sobre el mismo mes de pedidos. La severidad se derivará del impacto.</p>
+      <p class="lead">El ejemplo muestra cinco hallazgos sobre el mismo mes de pedidos.</p>
 
-      <div class="heat-wrap">
-        <div class="heat" role="img" aria-label="Mapa de calor: cuatro hallazgos críticos con impacto alto y uno medio con impacto bajo">
-          <div class="h">Severidad</div>
-          <div class="h">Impacto bajo · &lt; 50 h/mes</div>
-          <div class="h">Medio · 50–200 h/mes</div>
-          <div class="h">Alto · &gt; 200 h/mes</div>
-
-          <div class="row-h">Crítica</div>
-          <div class="cell l1"></div>
-          <div class="cell l1"></div>
-          <div class="cell l3"><span class="chip crit">R01</span><span class="chip crit">R02</span><span class="chip crit">R03</span><span class="chip crit">R05</span></div>
-
-          <div class="row-h">Alta</div>
-          <div class="cell l1"></div>
-          <div class="cell l1"></div>
-          <div class="cell l1"></div>
-
-          <div class="row-h">Media</div>
-          <div class="cell l1"><span class="chip med">R04</span></div>
-          <div class="cell l1"></div>
-          <div class="cell l1"></div>
-        </div>
-      </div>
-
-      <div class="release-bar"><span class="lbl">Mostrar el sitio en</span><div data-status-switch></div></div>
       <div class="fcards">
         <article class="fcard" id="r01" data-rule="R01">
           <span data-status="finding-r01"></span>
-          <header><h3><span class="rid">R01</span> Falla de activación sin reintento</h3><span class="tag crit">Crítica</span></header>
-          <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
+          <h3><span class="rid">R01</span> Falla de activación sin reintento</h3>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>400 pedidos · 8%</dd></div>
             <div><dt>Estimación (supuestos de ejemplo)</dt><dd>283,3 h/mes</dd></div>
           </dl>
-          
-          <p class="fl">Fórmula</p><pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
-          <p class="fl">Datos de entrada (config.json)</p><ul class="finputs"><li><code>rates.manual_minutes</code> = 5</li><li><code>rates.daily_followup_minutes</code> = 15</li></ul>
+          <pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
           <p class="fl">Acción</p><p>Reintentar automáticamente con backoff antes de la cola manual.</p>
         </article>
         <article class="fcard" id="r02" data-rule="R02">
           <span data-status="finding-r02"></span>
-          <header><h3><span class="rid">R02</span> Chequeo manual de capacidad por atributo faltante</h3><span class="tag crit">Crítica</span></header>
-          <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="cat">Catálogo</li><li class="sys-chip" data-sys="bpm">Orquestador</li></ul>
+          <h3><span class="rid">R02</span> Chequeo manual de capacidad por atributo faltante</h3>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>4.167 pedidos · 83,3%</dd></div>
             <div><dt>Estimación (supuestos de ejemplo)</dt><dd>347,3 h/mes</dd></div>
           </dl>
           <p class="fnote">Caso sintético: 83 % de los pedidos del demo; los vendidos con la segunda versión de la oferta no tienen el problema.</p>
-          <p class="fl">Fórmula</p><pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
-          <p class="fl">Datos de entrada (config.json)</p><ul class="finputs"><li><code>rates.manual_minutes</code> = 5</li></ul>
+          <pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
           <p class="fl">Acción</p><p>Agregar <code>capacity_profile</code> al spec. Automatizar la asignación de haz.</p>
         </article>
         <article class="fcard" id="r03" data-rule="R03">
           <span data-status="finding-r03"></span>
-          <header><h3><span class="rid">R03</span> El timer del orquestador vence sin compensación</h3><span class="tag crit">Crítica</span></header>
-          <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="bpm">Orquestador</li></ul>
+          <h3><span class="rid">R03</span> El timer del orquestador vence sin compensación</h3>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>50 pedidos atascados (de 150 con timer vencido) · 1%</dd></div>
             <div><dt>Estimación (supuestos de ejemplo)</dt><dd>317 h acumuladas al cierre del período</dd></div>
           </dl>
-          <p class="fnote">Esta regla llega en la 0.5.0: hoy el motor no la ejecuta.</p>
-          <p class="fl">Fórmula</p><pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
-          <p class="fl">Datos de entrada (config.json)</p><ul class="finputs"><li><code>rates.manual_minutes</code> = 5</li><li><code>rates.daily_followup_minutes</code> = 15</li></ul>
+          <p class="fnote">El motor la evalúa sobre archivos; en el servidor simulado no se evalúa.</p>
+          <pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
           <p class="fl">Acción</p><p>Cerrar o reencolar el pedido a las 48 h. 50 pedidos quedaron atascados.</p>
         </article>
         <article class="fcard" id="r04" data-rule="R04">
           <span data-status="finding-r04"></span>
-          <header><h3><span class="rid">R04</span> El reintento del gestor de pedidos duplica la orden de servicio</h3><span class="tag med">Media</span></header>
-          <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
+          <h3><span class="rid">R04</span> El reintento del gestor de pedidos duplica la orden de servicio</h3>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>20 pedidos · 0,4%</dd></div>
             <div><dt>Estimación (supuestos de ejemplo)</dt><dd>30 h, una sola vez (limpieza del mes auditado)</dd></div>
           </dl>
-          
-          <p class="fl">Fórmula</p><pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
-          <p class="fl">Datos de entrada (config.json)</p><ul class="finputs"><li><code>rates.cleanup_minutes</code> = 90</li></ul>
+          <pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
           <p class="fl">Acción</p><p>Reintentar de forma idempotente, con la clave del pedido.</p>
         </article>
         <article class="fcard" id="r05" data-rule="R05">
           <span data-status="finding-r05"></span>
-          <header><h3><span class="rid">R05</span> Sin identificador de correlación de extremo a extremo</h3><span class="tag crit">Crítica</span></header>
-          <ul class="sys-legend fchips" aria-label="Cohorte"><li class="sys-chip" data-sys="oms">Gestor de pedidos</li><li class="sys-chip" data-sys="prov">Activación</li></ul>
+          <h3><span class="rid">R05</span> Sin identificador de correlación de extremo a extremo</h3>
           <dl class="fkv">
             <div><dt>Cohorte</dt><dd>300 pedidos · 6%</dd></div>
             <div><dt>Estimación (supuestos de ejemplo)</dt><dd>225 h/mes</dd></div>
           </dl>
-          
-          <p class="fl">Fórmula</p><pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
-          <p class="fl">Datos de entrada (config.json)</p><ul class="finputs"><li><code>rates.investigation_minutes</code> = 45</li></ul>
+          <pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
           <p class="fl">Acción</p><p>Usar un id común en los cuatro sistemas, del pedido al intento.</p>
         </article>
       </div>
       <div class="ftotals" role="group" aria-label="Totales">
         <div class="callout"><strong>Estimación con supuestos de ejemplo (R01 a R04)</strong><br>978 h por mes de trabajo manual y espera, con minutos por caso que no están medidos en ningún operador. R05 (225 h) va aparte, como riesgo de trazabilidad, hasta tener mediciones reales.</div>
-        <div class="callout"><strong>Lo que el motor produce hoy</strong><br>Solo R04: 20 pedidos (estimados en 30 h, una sola vez). Las otras cuatro reglas llegan en 0.5.0. <a href="../../engine/report.html">Ver el informe que generó el motor 0.4.0</a> (en inglés, desde el servidor simulado) y su <a href="../../engine/findings.json">findings.json</a>.</div>
       </div>
-      <p class="note">Cada tarjeta se atenúa o no según la versión elegida en el selector de la página; la fórmula usa las claves de <code>config.json</code>.</p>
-      <p class="note">La <a class="gl" href="../help/index.html#g-evidencia">evidencia</a> de cada hallazgo está en <a href="../../data/report.json">data/report.json</a>, con el esquema <code>findings/1</code> (en inglés).</p>
-      
     </section>
   </main>
 

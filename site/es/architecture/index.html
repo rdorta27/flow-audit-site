@@ -58,12 +58,7 @@
   <main id="main">
     <section>
       <h1>Arquitectura</h1>
-      <p class="howto">Qué puedes hacer aquí: ver las piezas de Flow Audit, qué lee de cada sistema y qué ya existe y qué es diseño.</p>
-      <p class="lead">Flow Audit es una herramienta de línea de comandos local: entra <a class="gl" href="../help/index.html#g-evidencia">evidencia</a> y sale un informe. Hoy ya lee datos, los unen y detectan un problema (R04); el informe y las otras cuatro reglas siguen siendo diseño.</p>
-      <div class="status-strip">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>En construcción · versión 0.4.3.</strong> Los componentes de abajo son archivos reales del repositorio. Las etapas que todavía no existen lo dicen.</span>
-      </div>
+      <p class="lead">Flow Audit es una herramienta de línea de comandos local: entra <a class="gl" href="../help/index.html#g-evidencia">evidencia</a> y sale un informe. Hoy el motor lee archivos de exportación, une los registros y ejecuta las cinco reglas; falta mostrar su informe en este sitio.</p>
     </section>
 
     <section id="pipeline">
@@ -83,7 +78,6 @@
           <path class="edge" d="M895 55 H935" marker-end="url(#pa)"/>
         </svg>
       </div>
-      <p class="note">Hoy funcionan la ingesta (pedidos, <a class="gl" href="../help/index.html#g-orden-servicio">órdenes de servicio</a> y activaciones, por una API de prueba), la reconstrucción (unión de registros con su nivel de confianza) y una regla (R04) con sus horas. Falta cablear todo en un solo comando (<code>audit</code>), el informe y las otras cuatro reglas. El informe demo es una maqueta hecha a mano, no generada.</p>
     </section>
 
     <section id="components">
@@ -106,91 +100,48 @@
           <path class="edge" d="M570 176 V230" marker-end="url(#pc)"/>
         </svg>
       </div>
-      <div class="concept">
-        <div class="block">
-          <h3><code>domain/</code></h3>
-          <p>El modelo canónico y la lógica pura: eventos, pedidos, recorridos, hallazgos e impacto, la unión de registros con su confianza, la clasificación del tiempo (trabajo, espera, <a class="gl" href="../help/index.html#g-hueco">hueco</a>) y la regla R04. No tiene E/S, ni reloj, ni archivos. Hoy: todo eso existe; faltan las otras cuatro reglas.</p>
-        </div>
-        <div class="block">
-          <h3><code>ports/</code></h3>
-          <p>Las cuatro interfaces de las que depende el resto del motor: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> y <code>Clock</code>. Hoy: los lectores de pedidos, órdenes y activaciones implementan <code>EvidenceSource</code>; faltan los de archivos y el renderizador.</p>
-        </div>
-        <div class="block">
-          <h3><code>adapters/</code></h3>
-          <p>El mundo exterior. Un reloj, los serializadores de exporte y los lectores. Hoy: <code>clock/</code>, <code>export/</code> e <code>ingest/</code> (lectores de pedidos, de órdenes de servicio y de activaciones por HTTP); <code>report/</code> está vacío.</p>
-        </div>
-        <div class="block">
-          <h3><code>app/</code></h3>
-          <p>El caso de uso <code>runAudit()</code>. Unirá ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato. Hoy: un esqueleto que cuenta registros y no devuelve <a class="gl" href="../help/index.html#g-hallazgo">hallazgos</a>; la regla R04 corre aparte, en <code>explain</code>.</p>
-        </div>
-        <div class="block">
-          <h3><code>cli/</code></h3>
-          <p>Parseo de argumentos, ayuda y códigos de salida. Cinco comandos: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> y <code>dataset</code>. Hoy: <code>read</code> cuenta y une los registros, <code>explain</code> sigue un pedido duplicado y <code>audit</code> sale con código 2 sin fuente.</p>
-        </div>
-        <div class="block">
-          <h3><code>dataset/</code></h3>
-          <p>Un generador determinista con semilla fija. Escribe la evidencia sintética de Ortelis: 5.000 pedidos en septiembre de 2026 y los minutos por tarea. Hoy: corre y los exportes son idénticos byte a byte.</p>
-        </div>
-      </div>
+      <dl class="faq">
+        <div><dt><code>domain/</code></dt><dd>El modelo canónico y la lógica pura: eventos, pedidos, recorridos, hallazgos e impacto, la unión de registros con su confianza, la clasificación del tiempo (trabajo, espera, <a class="gl" href="../help/index.html#g-hueco">hueco</a>) y las cinco reglas. No tiene E/S, ni reloj, ni archivos.</dd></div>
+        <div><dt><code>ports/</code></dt><dd>Las cuatro interfaces de las que depende el resto del motor: <code>EvidenceSource</code>, <code>CatalogSource</code>, <code>ReportRenderer</code> y <code>Clock</code>.</dd></div>
+        <div><dt><code>adapters/</code></dt><dd>El mundo exterior. Un reloj, los serializadores de exporte y los lectores.</dd></div>
+        <div><dt><code>app/</code></dt><dd>El caso de uso <code>runAudit()</code>. Unirá ingesta, reconstrucción, detección, cuantificación y renderizado, y no posee ningún formato.</dd></div>
+        <div><dt><code>cli/</code></dt><dd>Parseo de argumentos, ayuda y códigos de salida. Cinco comandos: <code>audit</code>, <code>read</code>, <code>explain</code>, <code>stub</code> y <code>dataset</code>.</dd></div>
+        <div><dt><code>dataset/</code></dt><dd>Un generador determinista con semilla fija. Escribe la evidencia sintética de Ortelis: 5.000 pedidos en septiembre de 2026 y los minutos por tarea.</dd></div>
+      </dl>
     </section>
 
     <section id="today">
       <h2>Qué se ejecuta hoy</h2>
-      <div class="grid">
-        <div class="card"><span class="k">Check</span><p><code>deno task check</code> comprueba tipos del CLI, el generador, el adaptador de reloj y los tests. Pasa.</p></div>
-        <div class="card"><span class="k">Test</span><p><code>deno task test</code> pasa: dataset, serializadores, fronteras de arquitectura y licencia, el esqueleto, el <a class="gl" href="../help/index.html#g-servidor-prueba">servidor de prueba</a>, los tres lectores, la unión y la regla R04.</p></div>
-        <div class="card"><span class="k">Auditoría</span><p><code>deno task audit</code> todavía no ejecuta nada: sale con código 2. Lo que sí corre hoy: <code>read</code> (cuenta y une registros) y <code>explain</code> (un pedido duplicado, paso a paso).</p></div>
-        <div class="card"><span class="k">Dataset</span><p><code>deno task dataset</code> regenera los 5.000 pedidos desde una semilla fija. Dos ejecuciones producen exportes idénticos byte a byte.</p></div>
-      </div>
+      <ul class="plain">
+        <li><code>deno task check</code> comprueba tipos del CLI, el generador, el adaptador de reloj y los tests. Pasa.</li>
+        <li><code>deno task test</code> pasa: dataset, serializadores, fronteras de arquitectura y licencia, el esqueleto, el <a class="gl" href="../help/index.html#g-servidor-prueba">servidor de prueba</a>, los tres lectores, la unión y las reglas.</li>
+        <li><code>deno task audit</code> ejecuta la auditoría: lee los archivos, une los registros, aplica las cinco reglas y escribe <code>findings.json</code> y <code>report.html</code>. También corren <code>read</code> (cuenta y une registros) y <code>explain</code> (un pedido duplicado, paso a paso).</li>
+        <li><code>deno task dataset</code> regenera los 5.000 pedidos desde una semilla fija. Dos ejecuciones producen exportes idénticos byte a byte.</li>
+      </ul>
     </section>
 
     <section id="design">
       <h2>Diseño</h2>
-      <div class="concept">
-        <div class="block">
-          <h3>Concepto core</h3>
-          <p>Flow Audit es una herramienta de auditoría. Lee los registros de los sistemas por los que pasa un pedido y reconstruye su recorrido. Para cada pérdida calculará las horas y la evidencia; hoy lo hace para una (R04).</p>
-        </div>
-        <div class="block">
-          <h3>Analogía física</h3>
-          <p>Imagina un paquete que cruza cuatro almacenes. Cada almacén anota solo sus propias entradas y salidas.</p>
-          <p>Nadie sabe dónde el paquete estuvo parado tres días. Flow Audit juntará las cuatro libretas. Marcará el almacén donde el paquete esperó y sumará las horas de esa espera.</p>
-        </div>
-        <div class="block">
-          <h3>Mecánica técnica</h3>
-          <ul>
-            <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
-            <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (<a class="gl" href="../help/index.html#g-enlace">enlace</a> explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
-            <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin <a class="gl" href="../help/index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
-            <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo de cada caso.</li>
-            <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
-            <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
-          </ul>
-        </div>
-        <div class="block">
-          <h3>Fórmula de impacto prevista</h3>
-          <ul>
-            <li><strong>Horas por mes</strong> = pedidos afectados × minutos de trabajo por pedido ÷ 60</li>
-            <li><strong>Ejemplo con el dataset sintético (R02).</strong> 4.167 pedidos × 5 min ÷ 60 = 347,25 h.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="plain">
+        <li><strong>Ingesta.</strong> Leerá los exportes de catálogo de productos, gestor de pedidos, orquestador de procesos y sistema de activación.</li>
+        <li><strong>Reconstrucción.</strong> Une los registros de un pedido por los identificadores que cada sistema ya lleva (<a class="gl" href="../help/index.html#g-enlace">enlace</a> explícito) y, solo cuando faltan, infiere por otro campo, como el serial del equipo. Cada enlace dice qué tan seguro es. La ventana de tiempo todavía no se usa.</li>
+        <li><strong>Reglas.</strong> Cinco reglas detectarán fallas sin <a class="gl" href="../help/index.html#g-reintento">reintento</a>, esperas manuales, timers vencidos, duplicados y falta de identificador.</li>
+        <li><strong>Impacto.</strong> Multiplicará los pedidos afectados por los minutos de trabajo de cada caso.</li>
+        <li><strong>Severidad.</strong> Derivará la severidad de las horas por mes. Nadie la asignará a mano.</li>
+        <li><strong>Informe.</strong> Generará un HTML autocontenido y un <code>findings.json</code> con la evidencia de cada hallazgo.</li>
+      </ul>
     </section>
 
     <section id="license">
       <h2>Licencia y componentes de terceros</h2>
-      <div class="concept">
-        <div class="block">
-          <ul>
-            <li><strong>Motor.</strong> MIT. El código, el modelo canónico y las reglas se pueden leer, usar y cambiar.</li>
-            <li><strong>Sitio.</strong> MIT para el código. Las dos fuentes conservan su licencia: P052 bajo AGPL-3.0 con excepción de incrustación, Source Sans 3 bajo OFL-1.1.</li>
-            <li><strong>Fuente de la demo.</strong> Un servicio TMF propio, MIT, sobre el dataset sintético. Está marcado como simulado.</li>
-            <li><strong>Sistemas de prueba.</strong> bss-oss-rust se lee solo por HTTP, en una máquina local. No se distribuye aquí, no forma parte de la demo pública y conserva su licencia.</li>
-            <li><strong>Frontera.</strong> No se copia ni vendoriza código de terceros, y no se commitea ninguna captura de otro sistema. Al repositorio solo entra dato sintético.</li>
-            <li><strong>Marcas.</strong> <a class="gl" href="../help/index.html#g-tmf">TM Forum</a> y TMF son de TM Forum. Flow Audit es independiente y no está certificado ni respaldado por TM Forum.</li>
-          </ul>
-        </div>
-      </div>
+      <ul class="plain">
+        <li><strong>Motor.</strong> MIT. El código, el modelo canónico y las reglas se pueden leer, usar y cambiar.</li>
+        <li><strong>Sitio.</strong> MIT para el código. Las dos fuentes conservan su licencia: P052 bajo AGPL-3.0 con excepción de incrustación, Source Sans 3 bajo OFL-1.1.</li>
+        <li><strong>Fuente de la demo.</strong> Un servicio TMF propio, MIT, sobre el dataset sintético. Está marcado como simulado.</li>
+        <li><strong>Sistemas de prueba.</strong> bss-oss-rust se lee solo por HTTP, en una máquina local. No se distribuye aquí, no forma parte de la demo pública y conserva su licencia.</li>
+        <li><strong>Frontera.</strong> No se copia ni vendoriza código de terceros, y no se commitea ninguna captura de otro sistema. Al repositorio solo entra dato sintético.</li>
+        <li><strong>Marcas.</strong> <a class="gl" href="../help/index.html#g-tmf">TM Forum</a> y TMF son de TM Forum. Flow Audit es independiente y no está certificado ni respaldado por TM Forum.</li>
+      </ul>
     </section>
   </main>
 
