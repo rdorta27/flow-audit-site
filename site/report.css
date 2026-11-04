@@ -1,17 +1,4 @@
 .report-head { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  align-self: flex-start;
-  font: 700 var(--fs-s) var(--sans);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  border-radius: var(--r-box);
-  background: var(--high-bg);
-  color: var(--high);
-}
 
 
 .scroller { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-box); background: var(--card); padding: 14px; }
