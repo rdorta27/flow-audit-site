@@ -1,11 +1,11 @@
 {
-  "schema_version": "findings/1",
-  "engine_version": "0.4.3",
+  "schema_version": "findings/2",
+  "engine_version": "0.4.4",
   "run": {
-    "id": "aa5f90839014cc0c",
-    "generated_at": "2026-11-04T13:06:27.842Z",
-    "inputs_hash": "763dd9c53c8258c373367a234e7559d4c0739e2934948d803a1a12d1bffa3fef",
-    "config_hash": "9ee6bb8e49f06d376ae382dbfaecedd591a853b4fe857360b68b69a72c93c582",
+    "id": "223ab103f21bed90",
+    "generated_at": "2026-11-04T13:35:04.002Z",
+    "inputs_hash": "b8975e760bd8077018f9ac5283b0079178de8aeb9ad2bf797c35b74d8d7c6ed4",
+    "config_hash": "ff9044288aeb6422203b643f5489e9762799fd6dfd0a61041f829e3acaa00501",
     "rules_hash": "da820c47e526c16888c046cba6ab6966120f770da40bfa765193feb727e46a85"
   },
   "sources": [
@@ -19,7 +19,7 @@
       "records": 5000,
       "rows_read": 5000,
       "rows_discarded": 0,
-      "sha256": "e8474830528c3f990b83deb9f5b3d3e171c85eab70f2ab220cb2d522e78f7d8c"
+      "sha256": "8e9c503c4b7bffc30d15cfd59512f8a60ef904a8f484f2181dfdcd0b16ce0894"
     },
     {
       "system": "OMS",
@@ -31,7 +31,7 @@
       "records": 5023,
       "rows_read": 5023,
       "rows_discarded": 0,
-      "sha256": "1e71cc576c616a5d32fefb075c1585b26c0c33d4e38f8956d9ab15183597f78b"
+      "sha256": "36533fc2feda7a6c46d5ae05177480be525bccaa28f93867f9cc757c9b0ce523"
     },
     {
       "system": "PROV",
@@ -43,7 +43,7 @@
       "records": 5390,
       "rows_read": 5390,
       "rows_discarded": 0,
-      "sha256": "7bce19ba44fc4555d094130da21e44dcc2370f7e012a53f779f553258c87edc8"
+      "sha256": "be52b39a9aba2e962fb274ca09172d5c46307d24cb97acd947f5460c293c0981"
     },
     {
       "system": "OMS",
@@ -67,7 +67,7 @@
       "records": 5021,
       "rows_read": 5021,
       "rows_discarded": 0,
-      "sha256": "598b8f342fa7ccfedb451c07290fe8487d9ffff9b2c4d3d245f1d9128831aa35"
+      "sha256": "d3d87199a955f41f88bf594a6d126a34288e0bfdf7507c41d7e3f19abcbef61e"
     },
     {
       "system": "CAT",
@@ -90,15 +90,58 @@
   "config": {
     "orders_per_month": 5000,
     "rates": {
-      "manual_minutes": 5,
-      "daily_followup_minutes": 15,
-      "cleanup_minutes": 90,
-      "investigation_minutes": 45
+      "manual_minutes": {
+        "low": 3,
+        "base": 5,
+        "high": 8,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      },
+      "daily_followup_minutes": {
+        "low": 10,
+        "base": 15,
+        "high": 25,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      },
+      "cleanup_minutes": {
+        "low": 60,
+        "base": 90,
+        "high": 120,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      },
+      "investigation_minutes": {
+        "low": 30,
+        "base": 45,
+        "high": 90,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      }
     },
     "thresholds": {
-      "retry_window_hours": 24,
-      "stuck_after_hours": 72,
-      "duplicate_window_minutes": 10
+      "retry_window_hours": {
+        "base": 24,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      },
+      "stuck_after_hours": {
+        "base": 72,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      },
+      "duplicate_window_minutes": {
+        "base": 10,
+        "source": "assumption",
+        "owner": "Flow Audit (example values)",
+        "date": "2026-11-04"
+      }
     },
     "rules": {
       "r01": {
@@ -786,28 +829,30 @@
         "period_days": null,
         "normalisation": null,
         "hours_month": 283.3,
+        "hours_low": 186.7,
+        "hours_high": 470,
         "formula": "hours = affected × (manual_minutes + wait_days × daily_followup_minutes) / 60",
         "inputs": [
           {
             "key": "rates.manual_minutes",
             "value": 5,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           },
           {
             "key": "rates.daily_followup_minutes",
             "value": 15,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           },
           {
             "key": "thresholds.retry_window_hours",
             "value": 24,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           }
         ],
         "terms": [
@@ -831,6 +876,14 @@
           }
         ],
         "unmeasured": []
+      },
+      "scenario": {
+        "fix": "retry a failed activation automatically within 24 h",
+        "mechanism": "a retry clears the failures whose error code the config classes as transient; failures with a code it does not classify are assumed to stay",
+        "fixed_orders": 400,
+        "orders_after": 0,
+        "hours_after": 0,
+        "kind": "projection"
       },
       "recommendation": "Retry a failed activation automatically, or raise it to a queue a person owns, within the retry window."
     },
@@ -1143,14 +1196,16 @@
         "period_days": null,
         "normalisation": null,
         "hours_month": 347.3,
+        "hours_low": 208.4,
+        "hours_high": 555.6,
         "formula": "hours = affected × manual_minutes / 60",
         "inputs": [
           {
             "key": "rates.manual_minutes",
             "value": 5,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           }
         ],
         "terms": [
@@ -1165,6 +1220,14 @@
           }
         ],
         "unmeasured": []
+      },
+      "scenario": {
+        "fix": "add the missing attribute to the spec of the offer version",
+        "mechanism": "the manual task exists only because the attribute is missing, so every order that ran it is assumed not to need it",
+        "fixed_orders": 4167,
+        "orders_after": 0,
+        "hours_after": 0,
+        "kind": "projection"
       },
       "recommendation": "Add the missing attribute to the spec of the offer version, so the activation system gets it without a manual step. The hours are freeable capacity, not savings."
     },
@@ -1603,28 +1666,30 @@
         "period_days": null,
         "normalisation": null,
         "hours_month": 317,
+        "hours_low": 211,
+        "hours_high": 528,
         "formula": "hours = stuck × (manual_minutes + days_stuck × daily_followup_minutes) / 60",
         "inputs": [
           {
             "key": "rates.manual_minutes",
             "value": 5,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           },
           {
             "key": "rates.daily_followup_minutes",
             "value": 15,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           },
           {
             "key": "thresholds.stuck_after_hours",
             "value": 72,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           }
         ],
         "terms": [
@@ -1648,6 +1713,14 @@
           }
         ],
         "unmeasured": []
+      },
+      "scenario": {
+        "fix": "give every watched timer a compensation task or a queue a person owns",
+        "mechanism": "an expired timer then leads somewhere at once, so no order is assumed to stay stuck past the threshold",
+        "fixed_orders": 50,
+        "orders_after": 0,
+        "hours_after": 0,
+        "kind": "projection"
       },
       "recommendation": "Give every timer an exit: a compensation task or a queue a person owns, so an expired timer never leaves an order waiting."
     },
@@ -2317,14 +2390,16 @@
         "period_days": null,
         "normalisation": null,
         "hours_month": 30,
+        "hours_low": 20,
+        "hours_high": 40,
         "formula": "hours = groups × cleanup_minutes / 60",
         "inputs": [
           {
             "key": "rates.cleanup_minutes",
             "value": 90,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           }
         ],
         "terms": [
@@ -2339,6 +2414,14 @@
           }
         ],
         "unmeasured": []
+      },
+      "scenario": {
+        "fix": "make the retry reuse the existing service order instead of creating a new one",
+        "mechanism": "removes the duplicates created by a retry after a failure; duplicates created in parallel need a separate deduplication and are assumed to stay",
+        "fixed_orders": 20,
+        "orders_after": 0,
+        "hours_after": 0,
+        "kind": "projection"
       },
       "recommendation": "Make the retry reuse the existing service order, and confirm in billing the orders whose duplicate reached activation."
     },
@@ -2653,14 +2736,16 @@
         "period_days": null,
         "normalisation": null,
         "hours_month": 225,
+        "hours_low": 150,
+        "hours_high": 450,
         "formula": "hours = incidents × investigation_minutes / 60",
         "inputs": [
           {
             "key": "rates.investigation_minutes",
             "value": 45,
-            "source": null,
-            "owner": null,
-            "date": null
+            "source": "assumption",
+            "owner": "Flow Audit (example values)",
+            "date": "2026-11-04"
           }
         ],
         "terms": [
@@ -2675,6 +2760,14 @@
           }
         ],
         "unmeasured": []
+      },
+      "scenario": {
+        "fix": "carry the order id (or the service order id) on every record",
+        "mechanism": "every link then names its parent, so no link has to be inferred and none needs investigating",
+        "fixed_orders": 300,
+        "orders_after": 0,
+        "hours_after": 0,
+        "kind": "projection"
       },
       "recommendation": "Carry the order id (or the service order id) on every record, so no link has to be inferred."
     }
@@ -4535,11 +4628,191 @@
   },
   "totals": {
     "gross": {
-      "hours": 977.6
+      "hours": 977.6,
+      "hours_low": 626.1,
+      "hours_high": 1593.6
     },
     "net": {
-      "hours": 925.9
+      "hours": 925.9,
+      "hours_low": 594.2,
+      "hours_high": 1510.1
     }
+  },
+  "period": {
+    "start": "2026-09-01T00:00:27.000Z",
+    "end": "2026-09-30T23:51:42.600Z",
+    "declared": false,
+    "removed": {
+      "orders": 0,
+      "service_orders": 0,
+      "processes": 0,
+      "attempts": 0
+    }
+  },
+  "scaling": {
+    "orders_in_period": 5000,
+    "orders_per_month": 5000,
+    "period_days": 29.993930555555554,
+    "observed_orders_per_month": 5001.011778771909,
+    "factor": 1,
+    "formula": "hours per month = hours in the audited period × orders_per_month / orders in the period"
+  },
+  "assumptions": [
+    {
+      "key": "rates.cleanup_minutes",
+      "unit": "minutes",
+      "value": 90,
+      "low": 60,
+      "high": 120,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R04"
+      ]
+    },
+    {
+      "key": "rates.daily_followup_minutes",
+      "unit": "minutes",
+      "value": 15,
+      "low": 10,
+      "high": 25,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R01",
+        "R03"
+      ]
+    },
+    {
+      "key": "rates.investigation_minutes",
+      "unit": "minutes",
+      "value": 45,
+      "low": 30,
+      "high": 90,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R05"
+      ]
+    },
+    {
+      "key": "rates.manual_minutes",
+      "unit": "minutes",
+      "value": 5,
+      "low": 3,
+      "high": 8,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R01",
+        "R02",
+        "R03"
+      ]
+    },
+    {
+      "key": "thresholds.retry_window_hours",
+      "unit": "hours",
+      "value": 24,
+      "low": 24,
+      "high": 24,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R01"
+      ]
+    },
+    {
+      "key": "thresholds.stuck_after_hours",
+      "unit": "hours",
+      "value": 72,
+      "low": 72,
+      "high": 72,
+      "source": "assumption",
+      "owner": "Flow Audit (example values)",
+      "date": "2026-11-04",
+      "used_by": [
+        "R03"
+      ]
+    }
+  ],
+  "sensitivity": [
+    {
+      "key": "rates.daily_followup_minutes",
+      "low": 10,
+      "high": 25,
+      "hours_at_low": 742.5,
+      "hours_at_high": 1292.8,
+      "swing": 550.3
+    },
+    {
+      "key": "rates.manual_minutes",
+      "low": 3,
+      "high": 8,
+      "hours_at_low": 787.7,
+      "hours_at_high": 1133.2,
+      "swing": 345.6
+    },
+    {
+      "key": "rates.cleanup_minutes",
+      "low": 60,
+      "high": 120,
+      "hours_at_low": 915.9,
+      "hours_at_high": 935.9,
+      "swing": 20
+    },
+    {
+      "key": "rates.investigation_minutes",
+      "low": 30,
+      "high": 90,
+      "hours_at_low": 925.9,
+      "hours_at_high": 925.9,
+      "swing": 0
+    }
+  ],
+  "rules": [
+    {
+      "id": "R01",
+      "title": "Activation fails and nobody retries",
+      "version": "R01@1",
+      "outcome": "found",
+      "reason": null
+    },
+    {
+      "id": "R02",
+      "title": "Missing catalog attribute forces a manual task",
+      "version": "R02@1",
+      "outcome": "found",
+      "reason": null
+    },
+    {
+      "id": "R03",
+      "title": "Timer expires and nobody compensates",
+      "version": "R03@1",
+      "outcome": "found",
+      "reason": null
+    },
+    {
+      "id": "R04",
+      "title": "Duplicate service order",
+      "version": "R04@2",
+      "outcome": "found",
+      "reason": null
+    },
+    {
+      "id": "R05",
+      "title": "No end-to-end correlation id",
+      "version": "R05@1",
+      "outcome": "found",
+      "reason": null
+    }
+  ],
+  "scope": {
+    "orders": 5000
   },
   "journeys": [
     {
@@ -4548,6 +4821,52 @@
         {
           "system": "OMS",
           "from": "2026-09-01T00:00:27.000Z",
+          "to": "2026-09-01T00:03:27.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "capacity_check",
+          "actor": "human",
+          "queue_separable": false,
+          "from": "2026-09-01T00:03:27.000Z",
+          "to": "2026-09-01T02:30:27.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:30:27.000Z",
+          "to": "2026-09-01T02:32:27.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "decompose",
+          "actor": "system",
+          "from": "2026-09-01T02:32:27.000Z",
+          "to": "2026-09-01T02:32:57.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:32:57.000Z",
+          "to": "2026-09-01T03:03:27.000Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "installation",
+          "actor": "partner",
+          "from": "2026-09-01T03:03:27.000Z",
+          "to": "2026-09-01T07:03:27.000Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T07:03:27.000Z",
           "to": "2026-09-01T07:07:27.000Z",
           "kind": "gap",
           "state": "no_evidence"
@@ -4681,6 +5000,52 @@
         {
           "system": "OMS",
           "from": "2026-09-01T00:08:07.400Z",
+          "to": "2026-09-01T00:11:07.400Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "capacity_check",
+          "actor": "human",
+          "queue_separable": false,
+          "from": "2026-09-01T00:11:07.400Z",
+          "to": "2026-09-01T02:04:07.400Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:04:07.400Z",
+          "to": "2026-09-01T02:05:07.400Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "decompose",
+          "actor": "system",
+          "from": "2026-09-01T02:05:07.400Z",
+          "to": "2026-09-01T02:05:37.400Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T02:05:37.400Z",
+          "to": "2026-09-01T02:50:07.400Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "installation",
+          "actor": "partner",
+          "from": "2026-09-01T02:50:07.400Z",
+          "to": "2026-09-01T09:50:07.400Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T09:50:07.400Z",
           "to": "2026-09-01T09:55:07.400Z",
           "kind": "gap",
           "state": "no_evidence"
@@ -4814,6 +5179,52 @@
         {
           "system": "OMS",
           "from": "2026-09-01T00:17:14.800Z",
+          "to": "2026-09-01T00:20:14.800Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "capacity_check",
+          "actor": "human",
+          "queue_separable": false,
+          "from": "2026-09-01T00:20:14.800Z",
+          "to": "2026-09-01T01:56:14.800Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T01:56:14.800Z",
+          "to": "2026-09-01T01:58:14.800Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "decompose",
+          "actor": "system",
+          "from": "2026-09-01T01:58:14.800Z",
+          "to": "2026-09-01T01:58:44.800Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T01:58:44.800Z",
+          "to": "2026-09-01T02:59:14.800Z",
+          "kind": "gap",
+          "state": "no_evidence"
+        },
+        {
+          "system": "BPM",
+          "kind": "work",
+          "state": "installation",
+          "actor": "partner",
+          "from": "2026-09-01T02:59:14.800Z",
+          "to": "2026-09-01T11:59:14.800Z"
+        },
+        {
+          "system": "BPM",
+          "from": "2026-09-01T11:59:14.800Z",
           "to": "2026-09-01T12:01:14.800Z",
           "kind": "gap",
           "state": "no_evidence"
