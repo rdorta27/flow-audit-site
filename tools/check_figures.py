@@ -63,8 +63,45 @@ def hfmt(n, dec):
     return s.replace(".", dec)
 
 
+def strip_excerpt(html):
+    """The framed report excerpt is the engine's own markup, checked for drift apart."""
+    return re.sub(r'<div class="engine-excerpt" data-engine-excerpt>.*?</div>', "", html, flags=re.S)
+
+
+def engine_excerpt():
+    """Headline, top findings and assumptions, as the engine wrote them."""
+    html = (ROOT / "engine" / "report.html").read_text()
+    parts = []
+    for pat in (
+        r'<h1 id="h">.*?</h1>',
+        r'<p class="lead">.*?</p>',
+        r'<h2 class="sub">Most orders affected</h2><ol class="top">.*?</ol>',
+        r'<aside class="card assume"[\s\S]*?</aside>',
+    ):
+        m = re.search(pat, html)
+        if not m:
+            return None
+        parts.append(m.group(0))
+    return re.sub(r'href="#([^"]*)"', r'href="../engine/report.html#\1"', "\n".join(parts))
+
+
+def check_excerpt(errors):
+    want = engine_excerpt()
+    if want is None:
+        errors.append("engine/report.html: first screen (headline, top findings, assumptions) not found")
+        return
+    for lang in SEP:
+        html = (ROOT / lang / "index.html").read_text()
+        m = re.search(r'<div class="engine-excerpt" data-engine-excerpt>\s*(.*?)\s*</div>', html, re.S)
+        if not m:
+            errors.append(f"{lang}/index.html: engine excerpt missing")
+        elif m.group(1) != want:
+            errors.append(f"{lang}/index.html: engine excerpt drifted from engine/report.html")
+
+
 def check_money(rel, html, errors):
     """Visible text, meta descriptions and the journey JSON must carry no money wording."""
+    html = strip_excerpt(html)
     journey = " ".join(re.findall(r'id="journey-text">(.*?)</script>', html, flags=re.S))
     text = visible(html) + " " + journey
     for pat in MONEY_VISIBLE:
@@ -191,6 +228,7 @@ def main():
         errors.append(f"data-status id not in status.json: {i}")
     for i in sorted(set(comps) - used - set(status.get("unused_ok", []))):
         errors.append(f"status.json component never used (add to unused_ok?): {i}")
+    check_excerpt(errors)
     if errors:
         print("\n".join(errors))
         return 1
