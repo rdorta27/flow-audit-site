@@ -24,6 +24,7 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/legacy.js` | Redirige los anclajes viejos de la landing (`#que`, `#estado`, `#faq`, `#glosario`, `#g-…`) a su página nueva |
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
 | `site/{es,en,pt}/demo/index.html` | Ejemplo de auditoría: tarjetas y supuestos leídos de `engine/findings.json` |
+| `site/{es,en,pt}/present/index.html` | Presentación de cinco minutos: ocho diapositivas, teclado e impresión de una por página |
 | `site/engine/findings.json` | Corrida del motor sobre los datos de demo. La página de ejemplo y el gráfico leen este archivo |
 | `site/journey.js`, `site/journey.css` | El viaje en la landing. La lista estática cuenta el pedido de ejemplo; el dibujo interactivo sale de `engine/findings.json` (`journeys[].story`), con el texto de cada tipo de paso en los tres idiomas |
 | `site/status.js`, `site/data/status.json` | Qué funciona hoy y qué llega después: marcas por componente y el selector Hoy / Final del plan |

@@ -37,7 +37,7 @@ from urllib.parse import unquote, urlsplit
 
 SITE = Path(__file__).resolve().parent.parent / "site"
 LANGS = ["es", "en", "pt"]
-PAGE_KINDS = ["", "demo", "architecture", "systems", "how", "status", "help"]
+PAGE_KINDS = ["", "demo", "architecture", "systems", "how", "status", "help", "present"]
 WIDTHS = [1280, 500]
 THEMES = ["light", "dark"]
 JOURNEY_STEPS = [1, 8, 12]

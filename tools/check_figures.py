@@ -164,14 +164,15 @@ def main():
     for lang, sep in SEP.items():
         landing = (ROOT / lang / "index.html").read_text()
         demo = (ROOT / lang / "demo" / "index.html").read_text()
+        present = (ROOT / lang / "present" / "index.html").read_text()
         dec = "," if sep == "." else "."
         for f in findings:
             h = hfmt(f["cost"]["hours_month"], dec)
-            for page, text in (("index.html", landing), ("demo", demo)):
+            for page, text in (("index.html", landing), ("demo", demo), ("present", present)):
                 if re.search(r"(?<![\d.,])" + re.escape(h) + r" h", text) is None:
                     errors.append(f"{lang}/{page}: {f['id']} hours {h} h missing")
         label = {"es": "supuestos de ejemplo", "en": "example assumptions", "pt": "suposições de exemplo"}[lang]
-        for page, text in (("index.html", landing), ("demo", demo)):
+        for page, text in (("index.html", landing), ("demo", demo), ("present", present)):
             if label not in text:
                 errors.append(f"{lang}/{page}: hours without the label {label!r}")
             if "978" not in text:
@@ -189,7 +190,7 @@ def main():
                 if old in flat:
                     errors.append(f"{lang}/{page}: stale figure {old}")
     for lang in SEP:
-        for rel in ("demo/index.html", "index.html", "systems/index.html", "how/index.html", "status/index.html", "help/index.html"):
+        for rel in ("demo/index.html", "index.html", "systems/index.html", "how/index.html", "status/index.html", "help/index.html", "present/index.html"):
             low = (ROOT / lang / rel).read_text().lower()
             for ph in STALE_PHRASES:
                 if ph in low:
@@ -206,7 +207,7 @@ def main():
         for extra in ("architecture/index.html",):
             check_headlines(lang, extra, (ROOT / lang / extra).read_text(), errors)
     for lang in SEP:
-        for d in ("systems", "how", "status", "help"):
+        for d in ("systems", "how", "status", "help", "present"):
             page = ROOT / lang / d / "index.html"
             if not page.exists():
                 errors.append(f"{lang}/{d}/index.html missing")

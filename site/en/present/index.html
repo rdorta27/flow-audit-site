@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentation · Flow Audit</title>
+<meta name="description" content="Five minutes: the problem, one order, what the engine finds, and what is measured or assumed.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flow Audit">
+<meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/present/">
+<meta property="og:title" content="Presentation · Flow Audit">
+<meta property="og:description" content="Five minutes: the problem, one order, what the engine finds, and what is measured or assumed.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across product catalog, order manager, process orchestrator and activation system. Under construction.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Presentation · Flow Audit">
+<meta name="twitter:description" content="Five minutes: the problem, one order, what the engine finds, and what is measured or assumed.">
+<meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/en/present/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../report.css">
+<link rel="stylesheet" href="../../present.css">
+<script src="../../lang.js"></script>
+<link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/present/">
+<link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/present/">
+<link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/present/">
+<link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/present/">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow Audit, home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow audit
+    </a>
+    <nav aria-label="Main">
+      <a href="../index.html">Home</a>
+      <a href="../systems/index.html">Systems</a>
+      <a href="../how/index.html">How to audit</a>
+      <a href="../demo/index.html">Audit example</a>
+      <a href="../architecture/index.html">Architecture</a>
+      <a href="../status/index.html">Status</a>
+      <a href="../present/index.html" aria-current="page">Presentation</a>
+      <span class="lang" role="group" aria-label="Language"><a href="../../es/present/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/present/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/present/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <h1>Flow Audit in five minutes</h1>
+    <p class="note">What you can do: move with the arrow keys, or print one slide per page. Without JavaScript, all eight can be read in order.</p>
+    <div class="deck-controls" role="toolbar" aria-label="Slides">
+      <button type="button" id="deck-prev">← Previous</button>
+      <button type="button" id="deck-next">Next →</button>
+      <span class="count" id="deck-count">1 / 8</span>
+      <button type="button" id="deck-print">Print</button>
+    </div>
+
+    <div class="deck" id="deck">
+      <section class="slide" id="s1" aria-labelledby="h-s1">
+        <h2 id="h-s1">The problem</h2>
+        <p>An internet order crosses several systems. Each system sees only its own part.</p>
+        <p>If the order gets stuck, nobody can say where it broke. Nor which other orders met the same thing.</p>
+        <p class="slide-nav"><a href="#s2">Next</a></p>
+      </section>
+
+      <section class="slide" id="s2" aria-labelledby="h-s2">
+        <h2 id="h-s2">What it does</h2>
+        <p>Flow Audit is not in the order's path. It waits outside and only reads.</p>
+        <p>It reads the notes each system already kept. It builds each order's journey. It points to the problem, the proof and the cause.</p>
+        <p>It writes to no system.</p>
+        <p class="slide-nav"><a href="#s3">Next</a></p>
+      </section>
+
+      <section class="slide" id="s3" aria-labelledby="h-s3">
+        <h2 id="h-s3">One order</h2>
+        <p>Ana orders satellite internet. One step fails and nobody retries it. Later, a manual retry creates a second service order.</p>
+        <p>The journey on the home page is drawn from the engine file. In that run's example it lasts <span id="present-span">the time the notes mark</span>.</p>
+        <p><a href="../index.html#historia">See the journey</a></p>
+        <p class="slide-nav"><a href="#s4">Next</a></p>
+      </section>
+
+      <section class="slide" id="s4" aria-labelledby="h-s4">
+        <h2 id="h-s4">What it finds</h2>
+        <p>Five problems. The order is the order of the affected orders, measured. Hours are an estimate with example assumptions.</p>
+        <div class="table-wrap" id="present-findings" data-src="../../engine/findings.json">
+          <table class="ftable">
+            <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Orders (measured)</th><th scope="col">Hours (assumed)</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">R02</th><td>A catalog field is missing and filled in by hand.</td><td><span data-fill="orders" data-rule="R02">4,167</span> orders</td><td>≈ <span data-fill="hours" data-rule="R02">347.3 h</span></td></tr>
+              <tr><th scope="row">R01</th><td>Activation fails and nobody retries.</td><td><span data-fill="orders" data-rule="R01">400</span> orders</td><td>≈ <span data-fill="hours" data-rule="R01">283.3 h</span></td></tr>
+              <tr><th scope="row">R05</th><td>The systems share no order number.</td><td><span data-fill="orders" data-rule="R05">300</span> orders</td><td>≈ <span data-fill="hours" data-rule="R05">225 h</span></td></tr>
+              <tr><th scope="row">R03</th><td>A timer expires and nobody acts.</td><td><span data-fill="orders" data-rule="R03">50</span> orders</td><td>≈ <span data-fill="hours" data-rule="R03">317 h</span></td></tr>
+              <tr><th scope="row">R04</th><td>A retry creates a second service order.</td><td><span data-fill="orders" data-rule="R04">20</span> orders</td><td>≈ <span data-fill="hours" data-rule="R04">30 h</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>R05 is apart: its links are inferred and are not in the total.</p>
+        <p class="slide-nav"><a href="#s5">Next</a></p>
+      </section>
+
+      <section class="slide" id="s5" aria-labelledby="h-s5">
+        <h2 id="h-s5">Measured and assumed</h2>
+        <p>Measured: the orders, the records and the links. They are counted in the files.</p>
+        <p>Assumed: the minutes per case. Someone declared them. They are not measured at any operator. They can be changed in the configuration.</p>
+        <p>Estimate with example assumptions: gross about <span id="present-gross">978</span> h. Net, each order once, <span id="present-net">925.9 h</span>.</p>
+        <p><a href="../demo/index.html#assumptions">See the assumptions</a></p>
+        <p class="slide-nav"><a href="#s6">Next</a></p>
+      </section>
+
+      <section class="slide" id="s6" aria-labelledby="h-s6">
+        <h2 id="h-s6">How an audit is run</h2>
+        <ol class="plain">
+          <li>Each system hands over an export file.</li>
+          <li>A mapping translates that client's columns.</li>
+          <li>One command reads, joins the records and writes the report.</li>
+          <li>The report opens in the browser, offline.</li>
+        </ol>
+        <p><a href="../how/index.html">See the steps</a> · <a href="../../engine/report.html">see the engine's report</a></p>
+        <p class="slide-nav"><a href="#s7">Next</a></p>
+      </section>
+
+      <section class="slide" id="s7" aria-labelledby="h-s7">
+        <h2 id="h-s7">State</h2>
+        <p>The engine finds the five problems in the demo files and writes the report. This site shows that run.</p>
+        <p>The data is made up. On the simulated server, R02 does not run and R03 is not evaluated.</p>
+        <p>Mapping foreign columns already works. A real client uses their own folder, outside the repository.</p>
+        <p class="slide-nav"><a href="#s8">Next</a></p>
+      </section>
+
+      <section class="slide" id="s8" aria-labelledby="h-s8">
+        <h2 id="h-s8">Limits</h2>
+        <p>It finds the problem. It does not fix it. Correcting the cause is the operator's work.</p>
+        <p>Hours are an estimate with example assumptions. They are not a measurement and not a promise.</p>
+        <p>It is an open technical demo. A PDF and the engine's other languages come later.</p>
+        <p><a href="../index.html">Back to the start</a></p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>Flow Audit · 2026</span>
+    <a href="../index.html">Home</a>
+    <a href="../present/index.html">Presentation</a>
+    <a href="../help/index.html">Help</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <span>Under construction · version 0.4.4</span>
+  </footer>
+</div>
+<script type="application/json" id="present-text">{"stepOf": "Slide {n} of {total}"}</script>
+<script src="../../present.js" defer></script>
+</body>
+</html>

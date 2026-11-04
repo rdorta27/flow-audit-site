@@ -1,0 +1,23 @@
+/* Five-minute deck (S-27). Screen shows one slide when JavaScript adds .is-live.
+   Print and no-JavaScript show every slide, one per page. */
+.deck-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.deck-controls button { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: var(--r-ctl); padding: 8px 12px; cursor: pointer; }
+.deck-controls .count { font-variant-numeric: tabular-nums; color: var(--muted); }
+.slide { display: grid; gap: 12px; align-content: start; padding: 8px 0 28px; }
+.slide h2 { margin: 0; }
+.slide p, .slide li { max-width: 42rem; }
+.slide-nav { margin: 0; }
+@media screen {
+  .deck.is-live .slide { display: none; }
+  .deck.is-live .slide.is-on { display: grid; }
+  .deck.is-live .slide-nav { display: none; }
+}
+@media print {
+  header, footer, .skip, .deck-controls, .slide-nav, .note { display: none !important; }
+  .slide { display: grid !important; break-after: page; page-break-after: always; min-height: 80vh; }
+  .slide:last-child { break-after: auto; page-break-after: auto; }
+  .wrap { max-width: none; }
+}
+@media (max-width: 420px) {
+  .deck-controls button { padding: 8px 10px; }
+}
