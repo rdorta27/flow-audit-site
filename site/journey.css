@@ -104,3 +104,11 @@ body.landing h1 { margin-bottom: 8px; }
 
 /* Keyboard hint: pointless on touch screens. */
 @media (hover: none) { .j-keys { display: none; } }
+
+/* Room to breathe (0.5.1): controls, keyboard hint and the panels under the picture. */
+.j-stage { padding: 20px; gap: 20px; }
+.j-controls { gap: 10px 12px; padding-block: 10px; }
+.j-keys { padding-top: 4px; line-height: 2; }
+.j-panel { gap: 20px 28px; }
+.diff { gap: 20px; }
+.diff > div { padding: 20px 22px; gap: 12px; }

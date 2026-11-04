@@ -156,3 +156,22 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 /* "Read this first" in the engine's first screen (the landing excerpt uses the engine's own markup). */
 .readfirst { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px; }
 .readfirst li { background: var(--tint); border-left: 4px solid var(--accent); border-radius: var(--r-box); padding: 10px 14px; }
+
+/* Room to breathe (0.5.1): the systems view, tables and notes were packed. */
+.sysview { display: grid; gap: 28px; }
+.sysview .chain { padding: 18px 16px 22px; gap: 0; }
+.sysview .chain { grid-template-columns: repeat(4, minmax(0, 1.45fr) minmax(0, 1fr)) minmax(0, 1.45fr); }
+.sysview .sys { width: auto; padding: 14px 12px 16px; gap: 6px; }
+.sysview .seam { min-width: 0; max-width: none; padding: 0 8px; gap: 10px; line-height: 1.45; }
+@media (max-width: 1000px) {
+  .sysview .chain { grid-template-columns: repeat(9, auto); }
+  .sysview .sys { width: 132px; }
+  .sysview .seam { min-width: 112px; max-width: 150px; }
+}
+.sysview .seam .tags { gap: 6px; }
+.sysview .sysdetail { padding: 22px 24px; gap: 18px 28px; }
+.sysview .kv { gap: 6px; }
+.sysview .matrix th[scope="row"] { min-width: 220px; }
+th, td { padding: 14px 16px; }
+.table-wrap + .note, .note + .table-wrap, .callout { margin-top: 4px; }
+.callout { padding: 14px 18px; }
