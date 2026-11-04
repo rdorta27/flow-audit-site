@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow Audit · auditoría de flujo BSS</title>
-<meta name="description" content="Flow Audit revisa cómo avanza un pedido de telecomunicaciones desde la venta hasta la activación. Encuentra dónde se atasca y cuántas horas se pierden en cada falla. Está en construcción.">
+<meta name="description" content="Flow Audit une los registros de los sistemas por los que pasa un pedido de telecomunicaciones y muestra qué pedidos tienen un problema, con los registros que lo prueban y la causa. Demo técnico de código abierto (MIT), en construcción.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/es/">
 <meta property="og:title" content="Flow Audit · auditoría de flujo BSS">
-<meta property="og:description" content="Flow Audit revisa cómo avanza un pedido de telecomunicaciones desde la venta hasta la activación. Encuentra dónde se atasca y cuántas horas se pierden en cada falla. Está en construcción.">
+<meta property="og:description" content="Flow Audit une los registros de los sistemas por los que pasa un pedido de telecomunicaciones y muestra qué pedidos tienen un problema, con los registros que lo prueban y la causa. Demo técnico de código abierto (MIT), en construcción.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flow Audit · auditoría de flujo BSS">
-<meta name="twitter:description" content="Flow Audit revisa cómo avanza un pedido de telecomunicaciones desde la venta hasta la activación. Encuentra dónde se atasca y cuántas horas se pierden en cada falla. Está en construcción.">
+<meta name="twitter:description" content="Flow Audit une los registros de los sistemas por los que pasa un pedido de telecomunicaciones y muestra qué pedidos tienen un problema, con los registros que lo prueban y la causa. Demo técnico de código abierto (MIT), en construcción.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
@@ -60,7 +60,7 @@
     <section>
       <span class="badge">En construcción · versión 0.4.3</span>
       <h1>¿Dónde se atascan los pedidos?<br><em>Flow Audit lo encontrará.</em></h1>
-      <p class="howto hero-howto">Qué puedes hacer aquí: seguir un pedido de principio a fin, ver dónde se rompió y cuántas horas se perdieron, y abrir un informe de ejemplo.</p>
+      <p class="howto hero-howto">Qué puedes hacer aquí: seguir un pedido de principio a fin, ver dónde se rompió y qué pedidos tienen un problema, y abrir un informe de ejemplo.</p>
       <p class="lead">Un pedido de internet pasa por cuatro o cinco sistemas y cada uno solo ve su parte. Cada sistema puede decir «mi parte salió bien» y el cliente igual esperar 69 horas. Flow Audit junta lo que anotó cada sistema, arma el recorrido de cada pedido y muestra a dónde se va el tiempo.</p>
       <p class="note"><strong>Demo técnico de código abierto (MIT), en construcción. No hay oferta comercial.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Ver la licencia</a>.</p>
       <div class="row">
@@ -69,8 +69,15 @@
       </div>
       <div class="status-strip">
         <span class="status-dot" aria-hidden="true"></span>
-        <span><strong>Ya detecta un problema, sobre datos de prueba.</strong> Lee pedidos, órdenes y activaciones, los une y encuentra los 20 pedidos duplicados (R04) con sus horas. Ya genera su informe; todavía no lee datos de clientes.</span>
+        <span><strong>Ya detecta un problema, sobre datos de prueba.</strong> Lee pedidos, órdenes y activaciones, los une y encuentra los 20 pedidos duplicados (R04) con su causa. Ya genera su informe; todavía no lee datos de clientes.</span>
       </div>
+    </section>
+
+    <section id="aporte" aria-labelledby="h-aporte">
+      <span class="eyebrow">Lo que ningún sistema ve por sí solo</span>
+      <h2 id="h-aporte">¿Qué agrega Flow Audit?</h2>
+      <p class="lead">Une los registros de los sistemas por los que pasa un pedido y señala qué pedidos tienen un problema, con los registros que lo prueban y la causa de cada uno. Por ejemplo: <strong>400 pedidos</strong> cuya activación falló y nadie reintentó; <strong>4.167 pedidos</strong> enviados a una tarea manual porque falta un atributo en el catálogo.</p>
+      <p class="note">Encuentra, no arregla, y por sí solo no reduce horas: corregir la causa es trabajo del operador. Los pedidos del ejemplo son datos sintéticos.</p>
     </section>
 
     <section id="historia" aria-labelledby="h-historia">
@@ -106,8 +113,8 @@
       <h2 id="h-dif">El mismo pedido, contado de dos maneras</h2>
       <p class="note" id="problema">Un pedido pasa por cinco sistemas. Cada sistema ve solo su parte.</p>
       <div class="diff">
-        <div class="without"><h3>Sin Flow Audit</h3><ul><li>Cinco equipos, cinco pantallas. Cada uno ve que su parte salió bien.</li><li>Las 60 horas sin actividad no aparecen en ningún sistema.</li><li>La auditoría se hace con entrevistas y planillas. Las horas perdidas son una opinión.</li><li>Dos auditorías del mismo operador llegan a conclusiones distintas.</li></ul></div>
-        <div class="with"><h3>Con Flow Audit</h3><ul><li>Un recorrido por pedido, armado con lo que cada sistema ya anota.</li><li>Cada problema señala el pedido y los registros que lo prueban.</li><li>Cada cifra muestra su cuenta en horas y los minutos de ejemplo que usa, que se cambian en config.json.</li><li>Con los mismos datos, el resultado es siempre el mismo. No toca ningún sistema.</li></ul></div>
+        <div class="without"><h3>Sin Flow Audit</h3><ul><li>Cinco equipos, cinco pantallas. Cada uno ve que su parte salió bien.</li><li>Las 60 horas sin actividad no aparecen en ningún sistema.</li><li>La auditoría se hace con entrevistas y planillas. Los hallazgos son una opinión.</li><li>Dos auditorías del mismo operador llegan a conclusiones distintas.</li></ul></div>
+        <div class="with"><h3>Con Flow Audit</h3><ul><li>Un recorrido por pedido, armado con lo que cada sistema ya anota.</li><li>Cada problema señala el pedido y los registros que lo prueban.</li><li>Cada problema muestra los pedidos afectados y la causa. Las horas son una estimación aparte, con minutos de ejemplo que se cambian en config.json.</li><li>Con los mismos datos, el resultado es siempre el mismo. No toca ningún sistema.</li></ul></div>
       </div>
     </section>
 
@@ -115,38 +122,38 @@
       <h2>Los cinco problemas que busca</h2>
       <p class="note">Cada problema tiene un código, de R01 a R05. Las cifras son mensuales, para un operador de 5.000 pedidos, con datos inventados.</p>
       <h3 class="mh">Medido hoy por el motor</h3>
-      <p class="note">El motor lee los datos de prueba y encuentra estos pedidos. Las horas usan minutos de ejemplo.</p>
+      <p class="note">El motor lee los datos de prueba y encuentra estos pedidos. Se muestran los pedidos afectados; las horas son una estimación con minutos de ejemplo.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Problema medido hoy y sus horas.</caption>
-          <thead><tr><th scope="col">Código</th><th scope="col">Qué pasa</th><th scope="col">Cuenta con minutos de ejemplo</th><th scope="col">Horas al mes</th><th scope="col">Estado</th></tr></thead>
+          <caption>Problema medido hoy: pedidos afectados y estimación de horas.</caption>
+          <thead><tr><th scope="col">Código</th><th scope="col">Qué pasa</th><th scope="col">Pedidos afectados</th><th scope="col">Estado</th><th scope="col">Estimación con supuestos de ejemplo (minutos por caso, no medidos en ningún operador)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R04</th><td>Un reintento crea una segunda orden de servicio para el mismo pedido.</td><td>20 pedidos × 90 min ÷ 60</td><td>≈ 30 h</td><td class="fstatus"><span data-status="finding-r04">Medido hoy</span></td></tr>
+            <tr><th scope="row">R04</th><td>Un reintento crea una segunda orden de servicio para el mismo pedido.</td><td><strong>20 pedidos</strong></td><td class="fstatus"><span data-status="finding-r04">Medido hoy</span></td><td>≈ 30 h<br><span class="note">20 pedidos × 90 min ÷ 60</span></td></tr>
           </tbody>
         </table>
       </div>
       <h3 class="mh">Proyectado con minutos de ejemplo</h3>
-      <p class="note">Todavía ningún motor detecta estos cuatro. Las horas son una cuenta con los minutos de ejemplo de la columna «Cuenta»; con otros minutos cambian las horas.</p>
+      <p class="note">Todavía ningún motor detecta estos cuatro. Los pedidos afectados salen de los datos de prueba; las horas son una estimación con los minutos de ejemplo de la última columna, y con otros minutos cambian.</p>
       <div class="table-wrap">
         <table class="ftable">
-          <caption>Problemas proyectados y sus horas estimadas al mes.</caption>
-          <thead><tr><th scope="col">Código</th><th scope="col">Qué pasa</th><th scope="col">Cuenta con minutos de ejemplo</th><th scope="col">Horas al mes</th><th scope="col">Estado</th></tr></thead>
+          <caption>Problemas proyectados: pedidos afectados y estimación de horas al mes.</caption>
+          <thead><tr><th scope="col">Código</th><th scope="col">Qué pasa</th><th scope="col">Pedidos afectados</th><th scope="col">Estado</th><th scope="col">Estimación con supuestos de ejemplo (minutos por caso, no medidos en ningún operador)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">R01</th><td>La activación falla y nadie la reintenta. El pedido espera unos 2,5 días.</td><td>400 pedidos × (5 min + 2,5 días × 15 min) ÷ 60</td><td>≈ 283,3 h</td><td class="fstatus"><span data-status="finding-r01">Llega en 0.5.0</span></td></tr>
-            <tr><th scope="row">R02</th><td>Falta un dato en el catálogo y alguien lo completa a mano en 8 de cada 10 pedidos.</td><td>4.167 pedidos × 5 min ÷ 60</td><td>≈ 347,3 h</td><td class="fstatus"><span data-status="finding-r02">Llega en 0.5.0</span></td></tr>
-            <tr><th scope="row">R03</th><td>Un temporizador vence y el proceso no hace nada: el pedido queda sin activar.</td><td>50 pedidos × (5 min + 25 días × 15 min) ÷ 60</td><td>≈ 317 h</td><td class="fstatus"><span data-status="finding-r03">Llega en 0.5.0</span></td></tr>
-            <tr><th scope="row">R05</th><td>Los sistemas no comparten un número de pedido. Investigar un incidente lleva unos 45 minutos.</td><td>300 incidentes × 45 min ÷ 60</td><td>≈ 225 h</td><td class="fstatus"><span data-status="finding-r05">Llega en 0.5.0</span></td></tr>
+            <tr><th scope="row">R01</th><td>La activación falla y nadie la reintenta. El pedido espera unos 2,5 días.</td><td><strong>400 pedidos</strong></td><td class="fstatus"><span data-status="finding-r01">Llega en 0.5.0</span></td><td>≈ 283,3 h<br><span class="note">400 pedidos × (5 min + 2,5 días × 15 min) ÷ 60</span></td></tr>
+            <tr><th scope="row">R02</th><td>Falta un dato en el catálogo y alguien lo completa a mano en 8 de cada 10 pedidos.</td><td><strong>4.167 pedidos</strong></td><td class="fstatus"><span data-status="finding-r02">Llega en 0.5.0</span></td><td>≈ 347,3 h<br><span class="note">4.167 pedidos × 5 min ÷ 60</span></td></tr>
+            <tr><th scope="row">R03</th><td>Un temporizador vence y el proceso no hace nada: el pedido queda sin activar.</td><td><strong>50 pedidos</strong></td><td class="fstatus"><span data-status="finding-r03">Llega en 0.5.0</span></td><td>≈ 317 h<br><span class="note">50 pedidos × (5 min + 25 días × 15 min) ÷ 60</span></td></tr>
+            <tr><th scope="row">R05</th><td>Los sistemas no comparten un número de pedido. Investigar un incidente lleva unos 45 minutos.</td><td><strong>300 incidentes</strong></td><td class="fstatus"><span data-status="finding-r05">Llega en 0.5.0</span></td><td>≈ 225 h<br><span class="note">300 incidentes × 45 min ÷ 60</span></td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>En total:</strong> unas 978 h al mes de trabajo manual y espera (R01 a R04). R05 (225 h) se muestra aparte, como riesgo de trazabilidad. De ese total, hoy solo se mide R04; el resto es proyección. Todos los minutos están en <code>config.json</code> y son de ejemplo.</div>
+      <div class="callout"><strong>Estimación con supuestos de ejemplo</strong> (minutos por caso, no medidos en ningún operador): unas 978 h al mes sumando R01 a R04. R05 (225 h) se muestra aparte, como riesgo de trazabilidad. De esto, hoy solo se mide R04; el resto es proyección. Todos los minutos están en <code>config.json</code> y son de ejemplo.</div>
     </section>
 
     <section id="guia" aria-labelledby="h-guia">
       <h2 id="h-guia">Sigue por tu lado</h2>
       <nav class="guide five" aria-label="Sigue por tu lado">
         <a href="systems/index.html"><b>Sistemas</b><span>Los cinco sistemas por los que pasa un pedido, qué datos pedir de cada uno y qué entregará la auditoría.</span></a>
-        <a href="demo/index.html"><b>Informe demo</b><span>Lee los problemas encontrados, con sus horas y la cuenta que las explica.</span></a>
+        <a href="demo/index.html"><b>Informe demo</b><span>Lee los problemas encontrados, con los pedidos afectados, la causa y, aparte, una estimación de horas.</span></a>
         <a href="architecture/index.html"><b>Arquitectura</b><span>Cómo funcionará por dentro: el pipeline, los componentes y la fórmula de horas.</span></a>
         <a href="status/index.html"><b>Estado</b><span>Qué se está construyendo y qué es real, simulado o falta.</span></a>
         <a href="help/index.html"><b>Ayuda</b><span>Preguntas frecuentes y glosario.</span></a>

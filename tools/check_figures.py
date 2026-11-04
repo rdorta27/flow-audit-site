@@ -41,6 +41,23 @@ MONEY_VISIBLE = [r"USD", r"US\$", r"\$", r"ARPU", r"\bcost(?:s|o|os|e|es)?\b", r
                  r"\breceita em risco", r"hora cargada", r"hora carregada", r"loaded hour"]
 
 
+# D-23: orders lead, hours are a secondary estimate. No headline or description may say hours are lost or wasted.
+LOST_HOURS = {
+    "es": r"horas?\s+(?:se\s+)?(?:perdid|pierd|desperdici)|(?:perdid|desperdici)\w*\s+(?:de\s+)?horas?|cuántas horas",
+    "en": r"hours?\s+(?:were\s+|are\s+|is\s+)?(?:lost|wasted?|wastes)|(?:lost|wasted)\s+hours?|how many hours",
+    "pt": r"horas?\s+(?:se\s+)?(?:perdid|perdem|desperdi[cç])|(?:perdid|desperdi[cç])\w*\s+(?:de\s+)?horas?|quantas horas",
+}
+
+
+def check_headlines(lang, rel, html, errors):
+    """h1 and every meta description (description, og, twitter) must not talk about hours lost or wasted."""
+    heads = [re.sub(r"<[^>]+>", " ", h) for h in re.findall(r"<h1\b.*?</h1>", html, flags=re.S)]
+    heads += re.findall(r'<meta[^>]+(?:name|property)="(?:description|og:description|twitter:description)"[^>]*content="([^"]*)"', html)
+    for t in heads:
+        if re.search(LOST_HOURS[lang], t, re.I):
+            errors.append(f"{lang}/{rel}: hours lost/wasted in headline or description: {t[:80]!r}")
+
+
 def hfmt(n, dec):
     s = f"{n:.1f}".rstrip("0").rstrip(".")
     return s.replace(".", dec)
@@ -99,7 +116,10 @@ def main():
             for page, text in (("index.html", landing), ("demo", demo)):
                 if re.search(r"(?<![\d.,])" + re.escape(h) + r" h", text) is None:
                     errors.append(f"{lang}/{page}: {f['id']} hours {h} h missing")
+        label = {"es": "supuestos de ejemplo", "en": "example assumptions", "pt": "suposições de exemplo"}[lang]
         for page, text in (("index.html", landing), ("demo", demo)):
+            if label not in text:
+                errors.append(f"{lang}/{page}: hours without the label {label!r}")
             if "978" not in text:
                 errors.append(f"{lang}/{page}: total 978 h missing")
         if hfmt(hours, dec) not in demo and "978" not in demo:
@@ -115,6 +135,7 @@ def main():
             for ph in STALE_PHRASES:
                 if ph in low:
                     errors.append(f"{lang}/{rel}: stale phrase {ph!r}")
+            check_headlines(lang, rel, (ROOT / lang / rel).read_text(), errors)
             text = visible((ROOT / lang / rel).read_text())
             if rel != "demo/index.html":
                 # landing and the pages around it may show the codes as tags next to the plain name
@@ -122,6 +143,9 @@ def main():
             for pat in OLD_NAMES:
                 if re.search(pat, text, re.I if "provisi" in pat else 0):
                     errors.append(f"{lang}/{rel}: old name /{pat}/ in visible text")
+    for lang in SEP:
+        for extra in ("architecture/index.html",):
+            check_headlines(lang, extra, (ROOT / lang / extra).read_text(), errors)
     for lang in SEP:
         for d in ("systems", "status", "help"):
             page = ROOT / lang / d / "index.html"
