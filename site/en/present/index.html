@@ -70,6 +70,7 @@
     <div class="deck" id="deck">
       <section class="slide" id="s1" aria-labelledby="h-s1">
         <h2 id="h-s1">The problem</h2>
+        <div class="sysrow" aria-hidden="true"><div class="sb" style="--c:var(--s-sale)"><b>Sales channel</b><span>sees the sale</span></div><div class="sb" style="--c:var(--s-cat)"><b>Catalog</b><span>sees the product</span></div><div class="sb" style="--c:var(--s-oms)"><b>Order manager</b><span>sees the order</span></div><div class="sb" style="--c:var(--s-bpm)"><b>Orchestrator</b><span>sees the tasks</span></div><div class="sb" style="--c:var(--s-prov)"><b>Activation</b><span>sees the switch-on</span></div></div>
         <p>An internet order crosses several systems. Each system sees only its own part.</p>
         <p>If the order gets stuck, nobody can say where it broke. Nor which other orders met the same thing.</p>
         <p class="slide-nav"><a href="#s2">Next</a></p>
@@ -77,6 +78,8 @@
 
       <section class="slide" id="s2" aria-labelledby="h-s2">
         <h2 id="h-s2">What it does</h2>
+        <div class="sysrow" aria-hidden="true"><div class="sb" style="--c:var(--s-sale)"><b>Sales channel</b></div><div class="sb" style="--c:var(--s-cat)"><b>Catalog</b></div><div class="sb" style="--c:var(--s-oms)"><b>Order manager</b></div><div class="sb" style="--c:var(--s-bpm)"><b>Orchestrator</b></div><div class="sb" style="--c:var(--s-prov)"><b>Activation</b></div></div>
+        <div class="fa-band" aria-hidden="true">Flow Audit · waits off the path and only reads the notes</div>
         <p>Flow Audit is not in the order's path. It waits outside and only reads.</p>
         <p>It reads the notes each system already kept. It builds each order's journey. It points to the problem, the proof and the cause.</p>
         <p>It writes to no system.</p>
@@ -85,6 +88,9 @@
 
       <section class="slide" id="s3" aria-labelledby="h-s3">
         <h2 id="h-s3">One order</h2>
+        <div class="ribbon" id="present-ribbon" aria-hidden="true"></div>
+        <p class="cap">A real order from the example: each stretch takes the colour of the system that wrote the last step.</p>
+        <div class="rleg" aria-hidden="true"><span><i class="sw" style="--c:var(--s-cat)"></i>Catalog</span><span><i class="sw" style="--c:var(--s-oms)"></i>Order manager</span><span><i class="sw" style="--c:var(--s-bpm)"></i>Orchestrator</span><span><i class="sw" style="--c:var(--s-prov)"></i>Activation</span><span><i class="sw gap"></i>gap with no events</span></div>
         <p>Ana orders satellite internet. One step fails and nobody retries it. Later, a manual retry creates a second service order.</p>
         <p>The journey on the home page is drawn from the engine file. In that run's example it lasts <span id="present-span">the time the notes mark</span>.</p>
         <p><a href="../index.html#historia">See the journey</a></p>
@@ -98,11 +104,11 @@
           <table class="ftable">
             <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Orders (measured)</th><th scope="col">Hours (assumed)</th></tr></thead>
             <tbody>
-              <tr><th scope="row">R02</th><td>A catalog field is missing and filled in by hand.</td><td><span data-fill="orders" data-rule="R02">4,167</span> orders</td><td>≈ <span data-fill="hours" data-rule="R02">347.3 h</span></td></tr>
-              <tr><th scope="row">R01</th><td>Activation fails and nobody retries.</td><td><span data-fill="orders" data-rule="R01">400</span> orders</td><td>≈ <span data-fill="hours" data-rule="R01">283.3 h</span></td></tr>
-              <tr><th scope="row">R05</th><td>The systems share no order number.</td><td><span data-fill="orders" data-rule="R05">300</span> orders</td><td>≈ <span data-fill="hours" data-rule="R05">225 h</span></td></tr>
-              <tr><th scope="row">R03</th><td>A timer expires and nobody acts.</td><td><span data-fill="orders" data-rule="R03">50</span> orders</td><td>≈ <span data-fill="hours" data-rule="R03">317 h</span></td></tr>
-              <tr><th scope="row">R04</th><td>A retry creates a second service order.</td><td><span data-fill="orders" data-rule="R04">20</span> orders</td><td>≈ <span data-fill="hours" data-rule="R04">30 h</span></td></tr>
+              <tr><th scope="row">R02</th><td>A catalog field is missing and filled in by hand.</td><td><span data-fill="orders" data-rule="R02">4,167</span> orders<i class="mini" data-bar="R02"></i></td><td>≈ <span data-fill="hours" data-rule="R02">347.3 h</span></td></tr>
+              <tr><th scope="row">R01</th><td>Activation fails and nobody retries.</td><td><span data-fill="orders" data-rule="R01">400</span> orders<i class="mini" data-bar="R01"></i></td><td>≈ <span data-fill="hours" data-rule="R01">283.3 h</span></td></tr>
+              <tr><th scope="row">R05</th><td>The systems share no order number.</td><td><span data-fill="orders" data-rule="R05">300</span> orders<i class="mini" data-bar="R05"></i></td><td>≈ <span data-fill="hours" data-rule="R05">225 h</span></td></tr>
+              <tr><th scope="row">R03</th><td>A timer expires and nobody acts.</td><td><span data-fill="orders" data-rule="R03">50</span> orders<i class="mini" data-bar="R03"></i></td><td>≈ <span data-fill="hours" data-rule="R03">317 h</span></td></tr>
+              <tr><th scope="row">R04</th><td>A retry creates a second service order.</td><td><span data-fill="orders" data-rule="R04">20</span> orders<i class="mini" data-bar="R04"></i></td><td>≈ <span data-fill="hours" data-rule="R04">30 h</span></td></tr>
             </tbody>
           </table>
         </div>

@@ -66,6 +66,32 @@
     var grossEl = document.getElementById("present-gross");
     if (netEl && net != null) netEl.textContent = hours(net) + " h";
     if (grossEl && gross != null) grossEl.textContent = String(Math.round(gross));
+    var max = 0;
+    (data.findings || []).forEach(function (f) { max = Math.max(max, f.affected_orders); });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-bar]"), function (n) {
+      var f = by[n.getAttribute("data-bar")];
+      if (f && max) n.style.width = Math.max(2, Math.round(f.affected_orders / max * 100)) + "%";
+    });
+    var ribbon = document.getElementById("present-ribbon");
+    var colors = { OMS: "--s-oms", CAT: "--s-cat", BPM: "--s-bpm", PROV: "--s-prov", SALE: "--s-sale" };
+    var one = (data.journeys || []).filter(function (j) { return j.order_ref === "ORD-1005"; })[0] || (data.journeys || [])[0];
+    if (ribbon && one && one.story) {
+      var pts = one.story.filter(function (s) { return s.at; }).map(function (s) { return { t: Date.parse(s.at), sys: s.system }; })
+        .sort(function (x, y) { return x.t - y.t; });
+      var total = pts.length > 1 ? pts[pts.length - 1].t - pts[0].t : 0;
+      if (total > 0) {
+        for (var k = 0; k < pts.length - 1; k++) {
+          var span = pts[k + 1].t - pts[k].t;
+          if (span <= 0) continue;
+          var seg = document.createElement("span");
+          var long = span / 3600000 >= 12;
+          seg.className = "seg" + (long ? " gap" : "");
+          seg.style.flex = String(span);
+          seg.style.setProperty("--c", "var(" + (colors[pts[k].sys] || "--muted") + ")");
+          ribbon.appendChild(seg);
+        }
+      }
+    }
     var journey = (data.journeys || [])[0];
     var spanEl = document.getElementById("present-span");
     if (spanEl && journey && journey.story) {

@@ -70,6 +70,7 @@
     <div class="deck" id="deck">
       <section class="slide" id="s1" aria-labelledby="h-s1">
         <h2 id="h-s1">El problema</h2>
+        <div class="sysrow" aria-hidden="true"><div class="sb" style="--c:var(--s-sale)"><b>Canal de venta</b><span>ve la venta</span></div><div class="sb" style="--c:var(--s-cat)"><b>Catálogo</b><span>ve el producto</span></div><div class="sb" style="--c:var(--s-oms)"><b>Gestor de pedidos</b><span>ve el pedido</span></div><div class="sb" style="--c:var(--s-bpm)"><b>Orquestador</b><span>ve las tareas</span></div><div class="sb" style="--c:var(--s-prov)"><b>Activación</b><span>ve el encendido</span></div></div>
         <p>Un pedido de internet pasa por varios sistemas. Cada sistema ve solo su parte.</p>
         <p>Si el pedido se atasca, nadie puede decir dónde se rompió. Tampoco qué otros pedidos pasaron lo mismo.</p>
         <p class="slide-nav"><a href="#s2">Siguiente</a></p>
@@ -77,6 +78,8 @@
 
       <section class="slide" id="s2" aria-labelledby="h-s2">
         <h2 id="h-s2">Qué hace</h2>
+        <div class="sysrow" aria-hidden="true"><div class="sb" style="--c:var(--s-sale)"><b>Canal de venta</b></div><div class="sb" style="--c:var(--s-cat)"><b>Catálogo</b></div><div class="sb" style="--c:var(--s-oms)"><b>Gestor de pedidos</b></div><div class="sb" style="--c:var(--s-bpm)"><b>Orquestador</b></div><div class="sb" style="--c:var(--s-prov)"><b>Activación</b></div></div>
+        <div class="fa-band" aria-hidden="true">Flow Audit · espera fuera del camino y solo lee las notas</div>
         <p>Flow Audit no está en el camino del pedido. Espera fuera y solo lee.</p>
         <p>Lee las notas que cada sistema ya guardó. Arma el recorrido de cada pedido. Señala el problema, la prueba y la causa.</p>
         <p>No escribe en ningún sistema.</p>
@@ -85,6 +88,9 @@
 
       <section class="slide" id="s3" aria-labelledby="h-s3">
         <h2 id="h-s3">Un pedido</h2>
+        <div class="ribbon" id="present-ribbon" aria-hidden="true"></div>
+        <p class="cap">Un pedido real del ejemplo: cada tramo toma el color del sistema que anotó el último paso.</p>
+        <div class="rleg" aria-hidden="true"><span><i class="sw" style="--c:var(--s-cat)"></i>Catálogo</span><span><i class="sw" style="--c:var(--s-oms)"></i>Gestor de pedidos</span><span><i class="sw" style="--c:var(--s-bpm)"></i>Orquestador</span><span><i class="sw" style="--c:var(--s-prov)"></i>Activación</span><span><i class="sw gap"></i>hueco sin eventos</span></div>
         <p>Ana pide internet por satélite. Un paso falla y nadie lo reintenta. Más tarde, un reintento a mano crea una segunda orden de servicio.</p>
         <p>El recorrido de la portada se dibuja desde el archivo del motor. En el ejemplo de esa corrida dura <span id="present-span">el tiempo que marcan las notas</span>.</p>
         <p><a href="../index.html#historia">Ver el recorrido</a></p>
@@ -98,11 +104,11 @@
           <table class="ftable">
             <thead><tr><th scope="col">Código</th><th scope="col">Qué pasa</th><th scope="col">Pedidos (medido)</th><th scope="col">Horas (supuesto)</th></tr></thead>
             <tbody>
-              <tr><th scope="row">R02</th><td>Falta un dato en el catálogo y se completa a mano.</td><td><span data-fill="orders" data-rule="R02">4.167</span> pedidos</td><td>≈ <span data-fill="hours" data-rule="R02">347,3 h</span></td></tr>
-              <tr><th scope="row">R01</th><td>La activación falla y nadie la reintenta.</td><td><span data-fill="orders" data-rule="R01">400</span> pedidos</td><td>≈ <span data-fill="hours" data-rule="R01">283,3 h</span></td></tr>
-              <tr><th scope="row">R05</th><td>Los sistemas no comparten un número de pedido.</td><td><span data-fill="orders" data-rule="R05">300</span> pedidos</td><td>≈ <span data-fill="hours" data-rule="R05">225 h</span></td></tr>
-              <tr><th scope="row">R03</th><td>Un temporizador vence y nadie actúa.</td><td><span data-fill="orders" data-rule="R03">50</span> pedidos</td><td>≈ <span data-fill="hours" data-rule="R03">317 h</span></td></tr>
-              <tr><th scope="row">R04</th><td>Un reintento crea una segunda orden de servicio.</td><td><span data-fill="orders" data-rule="R04">20</span> pedidos</td><td>≈ <span data-fill="hours" data-rule="R04">30 h</span></td></tr>
+              <tr><th scope="row">R02</th><td>Falta un dato en el catálogo y se completa a mano.</td><td><span data-fill="orders" data-rule="R02">4.167</span> pedidos<i class="mini" data-bar="R02"></i></td><td>≈ <span data-fill="hours" data-rule="R02">347,3 h</span></td></tr>
+              <tr><th scope="row">R01</th><td>La activación falla y nadie la reintenta.</td><td><span data-fill="orders" data-rule="R01">400</span> pedidos<i class="mini" data-bar="R01"></i></td><td>≈ <span data-fill="hours" data-rule="R01">283,3 h</span></td></tr>
+              <tr><th scope="row">R05</th><td>Los sistemas no comparten un número de pedido.</td><td><span data-fill="orders" data-rule="R05">300</span> pedidos<i class="mini" data-bar="R05"></i></td><td>≈ <span data-fill="hours" data-rule="R05">225 h</span></td></tr>
+              <tr><th scope="row">R03</th><td>Un temporizador vence y nadie actúa.</td><td><span data-fill="orders" data-rule="R03">50</span> pedidos<i class="mini" data-bar="R03"></i></td><td>≈ <span data-fill="hours" data-rule="R03">317 h</span></td></tr>
+              <tr><th scope="row">R04</th><td>Un reintento crea una segunda orden de servicio.</td><td><span data-fill="orders" data-rule="R04">20</span> pedidos<i class="mini" data-bar="R04"></i></td><td>≈ <span data-fill="hours" data-rule="R04">30 h</span></td></tr>
             </tbody>
           </table>
         </div>
