@@ -368,3 +368,15 @@ a.gl { text-decoration: underline dotted; text-underline-offset: 3px; }
   .b-est { display: inline; }
   .b-h { grid-column: 1; grid-row: auto; }
 }
+
+/* S-18: how an audit is run. Each step is a short definition list; commands and output are plain blocks. */
+.io { margin: 0; display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 14px 24px; max-width: 880px; }
+.io dt { font-weight: 700; color: var(--muted); }
+.io dd { margin: 0; display: grid; gap: 10px; min-width: 0; }
+.io dd p { margin: 0; }
+.io pre code { font-size: 1em; }
+.io pre { font-size: var(--fs-s); white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 640px) {
+  .io { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .io dd { margin-bottom: 12px; }
+}
