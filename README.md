@@ -45,7 +45,7 @@ Ningún número se escribe a mano en el HTML. `python3 tools/check_figures.py` l
 
 ## Verificar las cifras
 
-`python3 tools/check_figures.py` y `python3 tools/check_pages.py` (desde esta carpeta). El segundo
+`python3 tools/check_figures.py`, `python3 tools/check_commands.py` (cada flag y comando que imprime el sitio existe en la ayuda del motor, copiada en `tools/audit_help.txt`) y `python3 tools/check_pages.py` (desde esta carpeta). El segundo
 abre cada página en Chromium, en claro y oscuro, a 1280 y 500 px. Los dos corren en
 `.github/workflows/pages.yml` antes de publicar. Solo usan la biblioteca estándar y no se publican.
 
