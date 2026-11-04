@@ -74,7 +74,7 @@
     },
     "finding-r04": {
       "since": "0.3.0",
-      "note": "Engine detects it today; the report arrives in 0.4.0"
+      "note": "Engine detects it and the report shows it"
     },
     "report-cover": {
       "since": "0.4.0",

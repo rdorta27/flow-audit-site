@@ -67,7 +67,7 @@
       <h2>What is being built?</h2>
       <ul class="plain">
         <li><strong>Done · version 0.4.5.</strong> A made-up operator with 5,000 test orders, a <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, an example report and the engine: it reads the export files, joins the records saying how sure each <a class="gl" href="../help/index.html#g-enlace">link</a> is, and runs the five rules (R01 to R05) with their hours. It writes <code>findings.json</code> and <code>report.html</code>.</li>
-        <li><strong>Now.</strong> The audit example shows the five problems the engine wrote, with measured orders and hours as an estimate.</li>
+        <li><strong>Now.</strong> The audit example shows the five problems the engine wrote, with measured orders and hours as an estimate, and the waiting time per stage.</li>
         <li><strong>Next.</strong> Use that same mapping on a real client's files, in a folder outside the repository. The published demo still reads the synthetic files.</li>
         <li><strong>Later.</strong> A PDF report, a web interface and the engine's languages.</li>
       </ul>
@@ -80,7 +80,7 @@
         <table class="ftable">
           <thead><tr><th scope="col">Part</th><th scope="col">Status</th><th scope="col">What that means</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Engine: read, join, the five rules (R01 to R05), story, net total, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Runs today: <code>deno task audit --source stub --out out</code>. With the simulated server, R02 does not run and R03 is not evaluated</td></tr>
+            <tr><th scope="row">Engine: read, join, the five rules (R01 to R05), story, net total, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Runs today: <code>deno task audit --dataset data/demo --out out</code> over the files. With the simulated server (<code>--source stub</code>), R02 does not run and R03 is not evaluated</td></tr>
             <tr><th scope="row">Evidence source</th><td>Simulated</td><td>A TMF-shaped server over synthetic data (<code>deno task stub</code>); every response is marked simulated</td></tr>
             <tr><th scope="row">Data</th><td>Simulated</td><td>5,000 made-up orders of a fictional operator, defects planted on purpose (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutes per task</th><td>Example</td><td>From <code>data/demo/config.json</code>, not measured at any operator</td></tr>

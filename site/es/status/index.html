@@ -67,7 +67,7 @@
       <h2>¿Qué se está construyendo?</h2>
       <ul class="plain">
         <li><strong>Hecho · versión 0.4.5.</strong> Un operador inventado con 5.000 pedidos de prueba, un <a class="gl" href="../help/index.html#g-servidor-prueba">servidor de prueba</a>, un informe de ejemplo y el motor: lee los archivos de exportación, une los registros diciendo qué tan seguro es cada <a class="gl" href="../help/index.html#g-enlace">enlace</a> y ejecuta las cinco reglas (R01 a R05) con sus horas. Escribe <code>findings.json</code> y <code>report.html</code>.</li>
-        <li><strong>Ahora.</strong> El ejemplo de auditoría muestra los cinco problemas que escribió el motor, con pedidos medidos y horas como estimación.</li>
+        <li><strong>Ahora.</strong> El ejemplo de auditoría muestra los cinco problemas que escribió el motor, con pedidos medidos y horas como estimación, y el tiempo de espera por etapa.</li>
         <li><strong>Siguiente.</strong> Usar ese mismo mapeo con los archivos de un cliente real, en una carpeta fuera del repositorio. La demo publicada sigue leyendo los archivos sintéticos.</li>
         <li><strong>Más adelante.</strong> Un informe en PDF, una interfaz web y los idiomas del motor.</li>
       </ul>
@@ -80,7 +80,7 @@
         <table class="ftable">
           <thead><tr><th scope="col">Parte</th><th scope="col">Estado</th><th scope="col">Qué significa</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Motor: leer, unir, las cinco reglas (R01 a R05), la historia, el total neto, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Funciona hoy: <code>deno task audit --source stub --out out</code>. Con el servidor simulado, R02 no corre y R03 no se evalúa</td></tr>
+            <tr><th scope="row">Motor: leer, unir, las cinco reglas (R01 a R05), la historia, el total neto, <code>findings.json</code>, <code>report.html</code></th><td>Real</td><td>Funciona hoy: <code>deno task audit --dataset data/demo --out out</code> sobre los archivos. Con el servidor simulado (<code>--source stub</code>), R02 no corre y R03 no se evalúa</td></tr>
             <tr><th scope="row">Fuente de evidencia</th><td>Simulado</td><td>Un servidor con forma TMF sobre datos sintéticos (<code>deno task stub</code>); cada respuesta se marca como simulada</td></tr>
             <tr><th scope="row">Datos</th><td>Simulado</td><td>5.000 pedidos inventados de un operador ficticio, con defectos puestos a propósito (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutos por tarea</th><td>Ejemplo</td><td>Salen de <code>data/demo/config.json</code>; no están medidas en ningún operador</td></tr>
