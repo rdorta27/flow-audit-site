@@ -49,6 +49,7 @@
     <nav aria-label="Main">
       <a href="index.html" aria-current="page">Home</a>
       <a href="systems/index.html">Systems</a>
+      <a href="how/index.html">How to audit</a>
       <a href="demo/index.html">Audit example</a>
       <a href="architecture/index.html">Architecture</a>
       <a href="status/index.html">Status</a>
@@ -60,6 +61,40 @@
     <section>
       <span class="badge">Under construction · version 0.4.3</span>
       <h1>Where do orders get stuck?<br><em>Flow Audit will find out.</em></h1>
+      <figure class="flow">
+<svg class="fh" viewBox="-4 0 964 100" role="img" aria-label="How it works: exports of four systems, which are only read; they are joined by order; five rules run; a report comes out with the orders affected, the proof and the cause.">
+  <text class="t" x="0" y="24">Exports</text>
+  <text class="l" x="0" y="50">from four systems</text>
+  <text class="l o" x="0" y="72">reads only</text>
+  <path class="a" d="M196 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="250" y="24">Joins by order</text>
+  <text class="l" x="250" y="50">follows the order and</text>
+  <text class="l" x="250" y="72">service-order numbers</text>
+  <path class="a" d="M446 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="500" y="24">Five rules</text>
+  <text class="l" x="500" y="50">R01 to R05</text>
+  <path class="a" d="M696 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="750" y="24">Report</text>
+  <text class="l" x="750" y="50">orders affected,</text>
+  <text class="l" x="750" y="72">proof and cause</text>
+</svg>
+<svg class="fv" viewBox="-4 0 344 490" role="img" aria-label="How it works: exports of four systems, which are only read; they are joined by order; five rules run; a report comes out with the orders affected, the proof and the cause.">
+  <text class="t" x="0" y="24">Exports</text>
+  <text class="l" x="0" y="50">from four systems</text>
+  <text class="l o" x="0" y="72">reads only</text>
+  <path class="a" d="M8 108V124m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="154">Joins by order</text>
+  <text class="l" x="0" y="180">follows the order and</text>
+  <text class="l" x="0" y="202">service-order numbers</text>
+  <path class="a" d="M8 238V254m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="284">Five rules</text>
+  <text class="l" x="0" y="310">R01 to R05</text>
+  <path class="a" d="M8 368V384m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="414">Report</text>
+  <text class="l" x="0" y="440">orders affected,</text>
+  <text class="l" x="0" y="462">proof and cause</text>
+</svg>
+</figure>
       <p class="lead">An internet order crosses four or five systems and each one only sees its own part. Every system can say "my part went fine" while the customer still waits 69 hours. Flow Audit gathers what each system wrote down, rebuilds each order's journey and shows where the time goes.</p>
       <p class="note"><strong>Open-source technical demo (MIT). There is no commercial offer.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Read the license</a>.</p>
       <div class="row">
@@ -88,7 +123,6 @@
 
     <section id="diferencia" aria-labelledby="h-dif">
       <h2 id="h-dif">What does Flow Audit add?</h2>
-      <p class="lead">It joins the records of the systems an order crosses and points out which orders have a problem, with the records that prove it and the cause of each.</p>
       <div class="diff">
         <div class="without"><h3>Without Flow Audit</h3><ul><li>Five teams, five screens. Each sees that its part went well.</li><li>The 60 hours of inactivity appear in no system.</li><li>The audit is done with interviews and spreadsheets. The findings are an opinion.</li><li>Two audits of the same operator reach different conclusions.</li></ul></div>
         <div class="with"><h3>With Flow Audit</h3><ul><li>One journey per order, built from what each system already notes.</li><li>Each problem points to the order and the records that prove it.</li><li>Each problem shows the orders affected and the cause. The hours are a separate estimate, with example minutes that can be changed in config.json.</li><li>With the same data, the result is always the same. It touches no system.</li></ul></div>
@@ -99,7 +133,8 @@
     <section id="hallazgos">
       <h2>The five problems it looks for</h2>
       <p class="note">Each problem has a code, R01 to R05. Figures are monthly, for an operator with 5,000 orders, using made-up data. The engine already runs all five rules on files; on the simulated server R02 does not run and R03 is not evaluated. What is missing is showing the engine's own report here.</p>
-      <div class="table-wrap">
+      <div id="findings-chart" data-src="../engine/findings.json">
+        <div class="table-wrap">
         <table class="ftable">
           <thead><tr><th scope="col">Code</th><th scope="col">What happens</th><th scope="col">Orders affected (measured)</th><th scope="col">Hours per month (assumed)</th></tr></thead>
           <tbody>
@@ -111,7 +146,9 @@
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>Estimate with example assumptions</strong> (minutes per case, not measured at any operator): about 978 h a month adding R01 to R04. R05 (225 h) is shown apart, as a traceability risk. All the minutes are in <code>config.json</code> and are examples.</div>
+      </div>
+      <p class="note">About 978 h per month adding R01 to R04, an estimate with example assumptions (minutes per case in <code>config.json</code>, not measured at any operator).</p>
+      <script type="application/json" id="chart-text">{"names": {"R01": "Activation fails and nobody retries", "R02": "A catalog attribute is missing and filled in by hand", "R03": "A timer expires and nobody acts", "R04": "A retry creates a second service order", "R05": "The systems share no order number"}, "units": {"default": "orders", "R05": "incidents"}, "label": "Orders affected by each problem, measured; on the right, hours per month as an estimate with example minutes.", "est": "estimate with example minutes", "ordersHead": "Orders affected (measured)", "hoursHead": "Hours per month: estimate with example minutes", "apart": "Apart, not in the total: R05 relies on links inferred between systems."}</script>
     </section>
 
     <section id="guia">
@@ -131,6 +168,7 @@
   </footer>
 </div>
 <script src="../journey.js" defer></script>
+<script src="../chart.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>

@@ -49,6 +49,7 @@
     <nav aria-label="Principal">
       <a href="index.html" aria-current="page">Início</a>
       <a href="systems/index.html">Sistemas</a>
+      <a href="how/index.html">Como se audita</a>
       <a href="demo/index.html">Exemplo de auditoria</a>
       <a href="architecture/index.html">Arquitetura</a>
       <a href="status/index.html">Status</a>
@@ -60,6 +61,40 @@
     <section>
       <span class="badge">Em construção · versão 0.4.3</span>
       <h1>Onde os pedidos travam?<br><em>O Flow Audit vai descobrir.</em></h1>
+      <figure class="flow">
+<svg class="fh" viewBox="-4 0 964 100" role="img" aria-label="Como funciona: exportações de quatro sistemas, que só são lidas; unem-se por pedido; passam cinco regras; sai um relatório com os pedidos afetados, a prova e a causa.">
+  <text class="t" x="0" y="24">Exportações</text>
+  <text class="l" x="0" y="50">de quatro sistemas</text>
+  <text class="l o" x="0" y="72">só lê</text>
+  <path class="a" d="M196 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="250" y="24">Une por pedido</text>
+  <text class="l" x="250" y="50">segue os números</text>
+  <text class="l" x="250" y="72">de pedido e de ordem</text>
+  <path class="a" d="M446 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="500" y="24">Cinco regras</text>
+  <text class="l" x="500" y="50">R01 a R05</text>
+  <path class="a" d="M696 18h30m-6 -5l6 5l-6 5"/>
+  <text class="t" x="750" y="24">Relatório</text>
+  <text class="l" x="750" y="50">pedidos afetados,</text>
+  <text class="l" x="750" y="72">prova e causa</text>
+</svg>
+<svg class="fv" viewBox="-4 0 344 490" role="img" aria-label="Como funciona: exportações de quatro sistemas, que só são lidas; unem-se por pedido; passam cinco regras; sai um relatório com os pedidos afetados, a prova e a causa.">
+  <text class="t" x="0" y="24">Exportações</text>
+  <text class="l" x="0" y="50">de quatro sistemas</text>
+  <text class="l o" x="0" y="72">só lê</text>
+  <path class="a" d="M8 108V124m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="154">Une por pedido</text>
+  <text class="l" x="0" y="180">segue os números</text>
+  <text class="l" x="0" y="202">de pedido e de ordem</text>
+  <path class="a" d="M8 238V254m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="284">Cinco regras</text>
+  <text class="l" x="0" y="310">R01 a R05</text>
+  <path class="a" d="M8 368V384m-5 -6l5 6l5 -6"/>
+  <text class="t" x="0" y="414">Relatório</text>
+  <text class="l" x="0" y="440">pedidos afetados,</text>
+  <text class="l" x="0" y="462">prova e causa</text>
+</svg>
+</figure>
       <p class="lead">Um pedido de internet passa por quatro ou cinco sistemas e cada um só vê a sua parte. Cada sistema pode dizer «a minha parte correu bem» e o cliente ainda assim esperar 69 horas. O Flow Audit junta o que cada sistema anotou, monta o percurso de cada pedido e mostra para onde vai o tempo.</p>
       <p class="note"><strong>Demo técnica de código aberto (MIT). Não há oferta comercial.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Ver a licença</a>.</p>
       <div class="row">
@@ -88,7 +123,6 @@
 
     <section id="diferencia" aria-labelledby="h-dif">
       <h2 id="h-dif">O que o Flow Audit acrescenta?</h2>
-      <p class="lead">Junta os registros dos sistemas por onde passa um pedido e aponta quais pedidos têm um problema, com os registros que o comprovam e a causa de cada um.</p>
       <div class="diff">
         <div class="without"><h3>Sem o Flow Audit</h3><ul><li>Cinco equipes, cinco telas. Cada uma vê que a sua parte deu certo.</li><li>As 60 horas sem atividade não aparecem em nenhum sistema.</li><li>A auditoria é feita com entrevistas e planilhas. Os achados são uma opinião.</li><li>Duas auditorias da mesma operadora chegam a conclusões diferentes.</li></ul></div>
         <div class="with"><h3>Com o Flow Audit</h3><ul><li>Um percurso por pedido, montado com o que cada sistema já anota.</li><li>Cada problema aponta o pedido e os registros que o comprovam.</li><li>Cada problema mostra os pedidos afetados e a causa. As horas são uma estimativa à parte, com minutos de exemplo que se mudam em config.json.</li><li>Com os mesmos dados, o resultado é sempre o mesmo. Não mexe em nenhum sistema.</li></ul></div>
@@ -99,7 +133,8 @@
     <section id="hallazgos">
       <h2>Os cinco problemas que procura</h2>
       <p class="note">Cada problema tem um código, de R01 a R05. Os valores são mensais, para uma operadora com 5.000 pedidos, com dados inventados. O motor já executa as cinco regras sobre arquivos; no servidor simulado R02 não roda e R03 não é avaliada. Falta mostrar aqui o relatório do próprio motor.</p>
-      <div class="table-wrap">
+      <div id="findings-chart" data-src="../engine/findings.json">
+        <div class="table-wrap">
         <table class="ftable">
           <thead><tr><th scope="col">Código</th><th scope="col">O que acontece</th><th scope="col">Pedidos afetados (medido)</th><th scope="col">Horas por mês (suposto)</th></tr></thead>
           <tbody>
@@ -111,7 +146,9 @@
           </tbody>
         </table>
       </div>
-      <div class="callout"><strong>Estimativa com suposições de exemplo</strong> (minutos por caso, não medidos em nenhuma operadora): cerca de 978 h por mês somando R01 a R04. R05 (225 h) aparece à parte, como risco de rastreabilidade. Todos os minutos estão em <code>config.json</code> e são de exemplo.</div>
+      </div>
+      <p class="note">Cerca de 978 h por mês somando R01 a R04, estimativa com suposições de exemplo (minutos por caso em <code>config.json</code>, não medidos em nenhuma operadora).</p>
+      <script type="application/json" id="chart-text">{"names": {"R01": "A ativação falha e ninguém tenta de novo", "R02": "Falta um dado no catálogo e é completado à mão", "R03": "Um temporizador vence e ninguém age", "R04": "Uma nova tentativa cria uma segunda ordem de serviço", "R05": "Os sistemas não compartilham um número de pedido"}, "units": {"default": "pedidos", "R05": "incidentes"}, "label": "Pedidos afetados por cada problema, medidos; à direita, as horas por mês como estimativa com minutos de exemplo.", "est": "estimativa com minutos de exemplo", "ordersHead": "Pedidos afetados (medido)", "hoursHead": "Horas por mês: estimativa com minutos de exemplo", "apart": "À parte, fora do total: R05 se apoia em ligações inferidas entre sistemas."}</script>
     </section>
 
     <section id="guia">
@@ -131,6 +168,7 @@
   </footer>
 </div>
 <script src="../journey.js" defer></script>
+<script src="../chart.js" defer></script>
 <script src="../status.js" defer></script>
 </body>
 </html>

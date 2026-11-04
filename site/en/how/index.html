@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How an audit is run · Flow Audit</title>
+<meta name="description" content="Five steps, from the systems’ files to a report: what you give, what you type and what comes out at each one, with the demo’s real output.">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Flow Audit">
+<meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/how/">
+<meta property="og:title" content="How an audit is run · Flow Audit">
+<meta property="og:description" content="Five steps, from the systems’ files to a report: what you give, what you type and what comes out at each one, with the demo’s real output.">
+<meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Flow Audit: BSS order-to-activate audit across product catalog, order manager, process orchestrator and activation system. Under construction.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How an audit is run · Flow Audit">
+<meta name="twitter:description" content="Five steps, from the systems’ files to a report: what you give, what you type and what comes out at each one, with the demo’s real output.">
+<meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
+<meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
+<link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/en/how/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../../journey.css">
+<link rel="stylesheet" href="../../report.css">
+<script src="../../lang.js"></script>
+<link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/how/">
+<link rel="alternate" hreflang="en" href="https://rdorta27.github.io/flow-audit-site/en/how/">
+<link rel="alternate" hreflang="pt-BR" href="https://rdorta27.github.io/flow-audit-site/pt/how/">
+<link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/how/">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="../index.html" aria-label="Flow Audit, home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="2" fill="var(--brand)"/>
+        <path d="M18 44V22M32 44V22M46 44V22" stroke="var(--on-brand)" stroke-width="5" opacity=".35"/>
+        <path d="M18 44V30M32 44V22M46 44V36" stroke="var(--on-brand)" stroke-width="5"/>
+      </svg>
+      flow audit
+    </a>
+    <nav aria-label="Main">
+      <a href="../index.html">Home</a>
+      <a href="../systems/index.html">Systems</a>
+      <a href="../how/index.html" aria-current="page">How to audit</a>
+      <a href="../demo/index.html">Audit example</a>
+      <a href="../architecture/index.html">Architecture</a>
+      <a href="../status/index.html">Status</a>
+      <span class="lang" role="group" aria-label="Language"><a href="../../es/how/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/how/index.html" hreflang="en" lang="en" title="English" aria-current="true">EN</a><a href="../../pt/how/index.html" hreflang="pt-BR" lang="pt-BR" title="Português">PT</a></span>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section>
+      <h1>How an audit is run</h1>
+      <p class="lead">Five steps, from the systems’ files to a report. Commands are typed in the <code>core/</code> folder of the repository; the outputs are the demo’s (<code>data/demo</code>), trimmed.</p>
+    </section>
+
+    <section id="how-step-1">
+      <h2>1. Export one file per system</h2>
+      <dl class="io">
+        <dt>What you give</dt><dd><p>One export from each system: catalog, order manager, process orchestrator and activation system, for the same month. Which fields, format and period each one needs: <a href="../systems/index.html#requisitos">the export table</a>.</p></dd>
+        <dt>What you type</dt><dd><p>Nothing. Each system exports with its own tool.</p></dd>
+        <dt>What comes out</dt><dd><p>Four files in one folder:</p><pre><code>catalog.json
+oms_orders.csv
+bpm_history.jsonl
+provisioning.jsonl</code></pre></dd>
+      </dl>
+    </section>
+
+    <section id="how-step-2">
+      <h2>2. Write the mapping</h2>
+      <dl class="io">
+        <dt>What you give</dt><dd><p>What the columns of your exports are called, what each state means, the date format and the time zone.</p></dd>
+        <dt>What you type</dt><dd><p>You edit <code>mapping.json</code>; the demo’s is a starting point.</p></dd>
+        <dt>What comes out</dt><dd><p>A <code>mapping.json</code>. A piece of the demo’s:</p><pre><code>  "oms": {
+    "file": "oms_orders.csv",
+    "format": "csv",
+    "date_format": "iso8601",
+    "time_zone": "UTC",
+    "columns": {
+      "order_ref": "order_ref",
+      "submitted_at": "submitted_at",
+      ...
+    },
+    "states": { ... }
+  },</code></pre></dd>
+      </dl>
+    </section>
+
+    <section id="how-step-3">
+      <h2>3. Pass the quality gate</h2>
+      <dl class="io">
+        <dt>What you give</dt><dd><p>The folder with the exports and the mapping.</p></dd>
+        <dt>What you type</dt><dd><pre><code>deno task audit --dataset &lt;dir&gt; --mapping &lt;file&gt; --check</code></pre></dd>
+        <dt>What comes out</dt><dd><p>It reads, joins by order and measures the quality of the data. No rule runs and no report is written. If the gate fails, it exits with code 3.</p><pre><code>flow-audit: read 5,023 rows from data/demo/oms_orders.csv
+flow-audit: read 5,021 rows from data/demo/bpm_history.jsonl
+flow-audit: read 5,390 rows from data/demo/provisioning.jsonl
+flow-audit: joined 5,000 orders: 15,134 links sure, 300 inferred, 0 not joined
+flow-audit: gate passed
+Quality gate: passed
+Quality OMS OMS orders (file): 5,000 records · 2026-09-01 to 2026-10-01 · window covered 100%
+flow-audit: check finished: nothing was audited and no rule was run</code></pre></dd>
+      </dl>
+    </section>
+
+    <section id="how-step-4">
+      <h2>4. Run the audit</h2>
+      <dl class="io">
+        <dt>What you give</dt><dd><p>The same folder and the same mapping. The output folder must exist.</p></dd>
+        <dt>What you type</dt><dd><pre><code>deno task audit --dataset &lt;dir&gt; --out out</code></pre></dd>
+        <dt>What comes out</dt><dd><p>The five rules, with orders affected and hours estimated with example minutes, and the report files:</p><pre><code>R01@1 · 400 orders · estimate 283.3 h
+R02@1 · 4,167 orders · estimate 347.3 h
+R03@1 · 50 orders · estimate 317 h
+R04@2 · 20 orders · estimate 30 h
+R05@1 · 300 orders · estimate 225 h
+4,467 of 5,000 orders have a problem (estimate 925.9 h with the example rates, each order once)
+flow-audit: wrote out/findings.json
+flow-audit: wrote out/report.html
+flow-audit: wrote out/findings.csv
+flow-audit: wrote out/quality.json</code></pre></dd>
+      </dl>
+    </section>
+
+    <section id="how-step-5">
+      <h2>5. Read the report</h2>
+      <dl class="io">
+        <dt>What you give</dt><dd><p>The <code>out/</code> folder from the previous step.</p></dd>
+        <dt>What you type</dt><dd><p>Open <code>out/report.html</code> in a browser. It works offline.</p></dd>
+        <dt>What comes out</dt><dd><p>One page with the summary, the journey and each problem with its proof and cause, plus <code>findings.json</code>, <code>findings.csv</code> and <code>quality.json</code>. This is what the demo’s looks like: <a href="../../engine/report.html">the engine’s report</a>.</p></dd>
+      </dl>
+    </section>
+
+    <section id="how-when">
+      <h2>When…</h2>
+      <ul class="plain">
+        <li>the client’s data must not sit in the repository: <code>--engagement &lt;dir&gt;</code> or the <code>FLOW_AUDIT_HOME</code> variable point to a folder outside it, with <code>raw/</code>, <code>mapping/</code>, <code>config/</code> and <code>out/</code>.</li>
+        <li>the quality gate fails and you still want to see the rules: <code>--force</code>. The answer says it was forced.</li>
+        <li>the report leaves your machine: <code>--redact --client &lt;name&gt;</code> replaces order and serial numbers with pseudonyms and marks the report as confidential.</li>
+        <li>you want to compare two audits: <code>deno task diff a b</code>, with two <code>findings.json</code> files.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>Flow Audit · 2026</span>
+    <a href="../index.html">Home</a>
+    <a href="../systems/index.html">Systems</a>
+    <a href="../demo/index.html">Audit example</a>
+    <a href="../help/index.html">Help</a>
+    <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
+    <span>Under construction · version 0.4.3</span>
+  </footer>
+</div>
+<script src="../../status.js" defer></script>
+</body>
+</html>

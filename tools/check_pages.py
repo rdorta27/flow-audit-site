@@ -2,7 +2,7 @@
 """Automatic page checks for the site (card S-19).
 
 Serves site/site on a free local port and drives headless Chromium over every
-page (landing, demo, architecture, systems, status, help in es/en/pt) at 1280
+page (landing, demo, architecture, systems, how, status, help in es/en/pt) at 1280
 and 500 px wide, light and dark. It fails on:
   overflow   scrollWidth > clientWidth
   smalltext  rendered text under 12 px (SVG text: font size times the SVG scale)
@@ -37,7 +37,7 @@ from urllib.parse import unquote, urlsplit
 
 SITE = Path(__file__).resolve().parent.parent / "site"
 LANGS = ["es", "en", "pt"]
-PAGE_KINDS = ["", "demo", "architecture", "systems", "status", "help"]
+PAGE_KINDS = ["", "demo", "architecture", "systems", "how", "status", "help"]
 WIDTHS = [1280, 500]
 THEMES = ["light", "dark"]
 JOURNEY_STEPS = [1, 8, 12]

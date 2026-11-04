@@ -130,7 +130,7 @@ def main():
                 if old in flat:
                     errors.append(f"{lang}/{page}: stale figure {old}")
     for lang in SEP:
-        for rel in ("demo/index.html", "index.html", "systems/index.html", "status/index.html", "help/index.html"):
+        for rel in ("demo/index.html", "index.html", "systems/index.html", "how/index.html", "status/index.html", "help/index.html"):
             low = (ROOT / lang / rel).read_text().lower()
             for ph in STALE_PHRASES:
                 if ph in low:
@@ -147,7 +147,7 @@ def main():
         for extra in ("architecture/index.html",):
             check_headlines(lang, extra, (ROOT / lang / extra).read_text(), errors)
     for lang in SEP:
-        for d in ("systems", "status", "help"):
+        for d in ("systems", "how", "status", "help"):
             page = ROOT / lang / d / "index.html"
             if not page.exists():
                 errors.append(f"{lang}/{d}/index.html missing")
