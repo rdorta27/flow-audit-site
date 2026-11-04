@@ -138,6 +138,19 @@
       </div>
     </section>
 
+    <section id="who-uses-it" aria-labelledby="h-who-uses-it">
+      <h2 id="h-who-uses-it">Who uses it and when it helps</h2>
+      <p class="note">A short guide. Flow Audit is an open-source (MIT) technical demo under construction. <a href="../../engine/report.html">See the engine's real report</a>.</p>
+      <div class="grid">
+        <div class="card"><h3>Who runs it</h3><p>An analyst. They run the audit on the systems' exports and check what comes out.</p></div>
+        <div class="card"><h3>Who reads it</h3><p>The sponsor: the person who decides whether to fix things. They read the report and never touch the data.</p></div>
+        <div class="card"><h3>When it helps most</h3><p>With systems of different ages and vendors. With migrations, audited before and after. With configuration and process errors. With gaps between teams.</p></div>
+        <div class="card"><h3>When it helps least</h3><p>With one system that already follows the order from start to end. There are no joins to check.</p></div>
+        <div class="card"><h3>Versus other ways to look</h3><p>Monitoring tells you what is happening now; this checks what already happened, across systems. Process mining rebuilds the path from an event log; here you need that log and must match the order numbers. Interviews tell you what people believe; this shows what the data says. It does not replace them: they work together.</p></div>
+        <div class="card"><h3>What to export</h3><p>There is one list per system, with fields, format and period: <a href="#requisitos">the export table</a>; the help page explains the rest: <a href="../help/index.html">help page</a>.</p></div>
+      </div>
+    </section>
+
     <section id="requisitos">
       <h2>What it would take to audit a real operator</h2>
       <p class="note">These are design requirements, not an offer. Today the engine reads only the invented test data.</p>
