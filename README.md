@@ -49,7 +49,7 @@ informe demo no coincide con `site/data/report.json`, o si reaparece una cifra v
 
 ## Estado
 
-**Versión 0.4.2.** El sitio está en construcción: el informe demo es el diseño objetivo, y el informe real del motor está en `site/engine/`.
+**Versión 0.4.3.** El sitio está en construcción: el informe demo es el diseño objetivo, y el informe real del motor está en `site/engine/`.
 El plan del motor está en `../specs/backlog.md` (hitos Demo 1 y Client-ready). El sitio se
 reemplaza por el informe generado en M5-04. Las landings explican el producto con un
 pedido de ejemplo (ORD-1005), los cinco problemas R01–R05 con sus horas, las dos etapas

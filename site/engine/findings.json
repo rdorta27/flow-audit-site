@@ -1,12 +1,12 @@
 {
   "schema_version": "findings/1",
-  "engine_version": "0.4.2",
+  "engine_version": "0.4.3",
   "run": {
-    "id": "00b071c376dbaa4a",
-    "generated_at": "2026-11-04T11:55:19.286Z",
-    "inputs_hash": "bfe199e8ad380e74088c9636196b1c6fffe5558c0e21b74328fe8f3ab8cee740",
-    "config_hash": "02bd2575fc60f264a995621955d514a807169459953ce687102759db958a80fe",
-    "rules_hash": "9866075d7341a490052d036dcbcefc452ea00cdb4160fbe399ffb4ff4d6b0ea3"
+    "id": "aa5f90839014cc0c",
+    "generated_at": "2026-11-04T12:37:09.129Z",
+    "inputs_hash": "763dd9c53c8258c373367a234e7559d4c0739e2934948d803a1a12d1bffa3fef",
+    "config_hash": "9ee6bb8e49f06d376ae382dbfaecedd591a853b4fe857360b68b69a72c93c582",
+    "rules_hash": "da820c47e526c16888c046cba6ab6966120f770da40bfa765193feb727e46a85"
   },
   "sources": [
     {
@@ -28,10 +28,10 @@
       "endpoint": "data/demo/oms_orders.csv",
       "simulated": true,
       "evidence_kind": "history",
-      "records": 5021,
-      "rows_read": 5021,
+      "records": 5023,
+      "rows_read": 5023,
       "rows_discarded": 0,
-      "sha256": "6b886d788b793c6f3230477a5f9661e32ad5af12615f98227e99df5b774b058e"
+      "sha256": "1e71cc576c616a5d32fefb075c1585b26c0c33d4e38f8956d9ab15183597f78b"
     },
     {
       "system": "PROV",
@@ -136,13 +136,24 @@
             "via_task": "capacity_check"
           }
         ]
+      },
+      "r03": {
+        "timer_activities": [
+          "activation_timer"
+        ],
+        "compensation_activities": [
+          "activation_recovery"
+        ],
+        "human_management_tasks": [
+          "fallout_review"
+        ]
       }
     }
   },
   "correlation": {
     "links": {
       "service_order->order": {
-        "explicit": 5021,
+        "explicit": 5023,
         "inferred": 0,
         "ambiguous": 0,
         "missing": 0,
@@ -195,7 +206,7 @@
       "position": 2,
       "read": true,
       "source_kind": "file",
-      "records": 15021,
+      "records": 15023,
       "coverage": 1,
       "cannot_observe": [
         "when each state change happened: a row holds the current state and its creation time"
@@ -203,6 +214,7 @@
       "findings": [
         "R01",
         "R02",
+        "R03",
         "R04"
       ]
     },
@@ -216,7 +228,9 @@
       "records": 5021,
       "coverage": 1,
       "cannot_observe": [],
-      "findings": []
+      "findings": [
+        "R03"
+      ]
     },
     {
       "system": "PROV",
@@ -1155,6 +1169,489 @@
       "recommendation": "Add the missing attribute to the spec of the offer version, so the activation system gets it without a manual step. The hours are freeable capacity, not savings."
     },
     {
+      "id": "R03",
+      "rule_version": "R03@1",
+      "title": "Timer expires and nobody compensates",
+      "plain_summary": "A process timer expired, nothing followed it and the order has been without service for days, until a person finds it.",
+      "where": "BPM",
+      "severity": "critical",
+      "status": "detected",
+      "affected_orders": 50,
+      "share_of_orders": 0.01,
+      "evidence_level": "history",
+      "evidence": [
+        {
+          "order_ref": "ORD-1400",
+          "event_ids": [
+            "BPM-50400",
+            "BPM-50400#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1400",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50400",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T17:06:06.000Z; nothing followed; 25.3 days without service"
+        },
+        {
+          "order_ref": "ORD-1401",
+          "event_ids": [
+            "BPM-50401",
+            "BPM-50401#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1401",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50401",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T18:27:36.400Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1402",
+          "event_ids": [
+            "BPM-50402",
+            "BPM-50402#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1402",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50402",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T19:19:00.800Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1403",
+          "event_ids": [
+            "BPM-50403",
+            "BPM-50403#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1403",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50403",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T17:04:04.200Z; nothing followed; 25.3 days without service"
+        },
+        {
+          "order_ref": "ORD-1404",
+          "event_ids": [
+            "BPM-50404",
+            "BPM-50404#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1404",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50404",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T23:11:22.600Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1405",
+          "event_ids": [
+            "BPM-50405",
+            "BPM-50405#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1405",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50405",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T23:50:01.000Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1406",
+          "event_ids": [
+            "BPM-50406",
+            "BPM-50406#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1406",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50406",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T20:26:29.400Z; nothing followed; 25.1 days without service"
+        },
+        {
+          "order_ref": "ORD-1407",
+          "event_ids": [
+            "BPM-50407",
+            "BPM-50407#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1407",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50407",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T20:55:22.800Z; nothing followed; 25.1 days without service"
+        },
+        {
+          "order_ref": "ORD-1408",
+          "event_ids": [
+            "BPM-50408",
+            "BPM-50408#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1408",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50408",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T23:07:26.200Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1409",
+          "event_ids": [
+            "BPM-50409",
+            "BPM-50409#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1409",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50409",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T18:25:04.600Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1410",
+          "event_ids": [
+            "BPM-50410",
+            "BPM-50410#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1410",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50410",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-06T00:18:34.000Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1411",
+          "event_ids": [
+            "BPM-50411",
+            "BPM-50411#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1411",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50411",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T21:51:26.400Z; nothing followed; 25.1 days without service"
+        },
+        {
+          "order_ref": "ORD-1412",
+          "event_ids": [
+            "BPM-50412",
+            "BPM-50412#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1412",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50412",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T21:37:35.800Z; nothing followed; 25.1 days without service"
+        },
+        {
+          "order_ref": "ORD-1413",
+          "event_ids": [
+            "BPM-50413",
+            "BPM-50413#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1413",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50413",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T22:52:19.200Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1414",
+          "event_ids": [
+            "BPM-50414",
+            "BPM-50414#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1414",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50414",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T21:29:59.600Z; nothing followed; 25.1 days without service"
+        },
+        {
+          "order_ref": "ORD-1415",
+          "event_ids": [
+            "BPM-50415",
+            "BPM-50415#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1415",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50415",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T19:20:55.000Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1416",
+          "event_ids": [
+            "BPM-50416",
+            "BPM-50416#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1416",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50416",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T19:55:41.400Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1417",
+          "event_ids": [
+            "BPM-50417",
+            "BPM-50417#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1417",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50417",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T19:46:03.800Z; nothing followed; 25.2 days without service"
+        },
+        {
+          "order_ref": "ORD-1418",
+          "event_ids": [
+            "BPM-50418",
+            "BPM-50418#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1418",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50418",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T23:29:16.200Z; nothing followed; 25.0 days without service"
+        },
+        {
+          "order_ref": "ORD-1419",
+          "event_ids": [
+            "BPM-50419",
+            "BPM-50419#4"
+          ],
+          "records": [
+            {
+              "system": "OMS",
+              "external_id": "ORD-1419",
+              "endpoint": "data/demo/oms_orders.csv"
+            },
+            {
+              "system": "BPM",
+              "external_id": "BPM-50419",
+              "endpoint": "data/demo/bpm_history.jsonl"
+            }
+          ],
+          "note": "activation_timer expired 2026-09-05T21:59:25.600Z; nothing followed; 25.1 days without service"
+        }
+      ],
+      "evidence_total": 50,
+      "confidence": {
+        "level": "confirmed",
+        "inferred_link_share": 0
+      },
+      "in_total": true,
+      "breakdown": {
+        "expired_timers": 150,
+        "recovered": 100,
+        "stuck": 50,
+        "days_stuck": 1251.207939814815,
+        "in_human_management": 0,
+        "suspended": 0,
+        "continued_without_compensation": 0,
+        "within_threshold": 0,
+        "unmeasured": 0
+      },
+      "cost": {
+        "kind": "accumulated_to_period_end",
+        "period_days": null,
+        "normalisation": null,
+        "hours_month": 317,
+        "formula": "hours = stuck × (manual_minutes + days_stuck × daily_followup_minutes) / 60",
+        "inputs": [
+          {
+            "key": "rates.manual_minutes",
+            "value": 5,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "rates.daily_followup_minutes",
+            "value": 15,
+            "source": null,
+            "owner": null,
+            "date": null
+          },
+          {
+            "key": "thresholds.stuck_after_hours",
+            "value": 72,
+            "source": null,
+            "owner": null,
+            "date": null
+          }
+        ],
+        "terms": [
+          {
+            "name": "Manual handling of the stuck orders",
+            "hours": 4.2,
+            "basis": "rate_assumption",
+            "observed": 50,
+            "input_keys": [
+              "rates.manual_minutes"
+            ]
+          },
+          {
+            "name": "Daily follow-up while the order is stuck",
+            "hours": 312.8,
+            "basis": "rate_assumption",
+            "observed": 1251.207939814815,
+            "input_keys": [
+              "rates.daily_followup_minutes"
+            ]
+          }
+        ],
+        "unmeasured": []
+      },
+      "recommendation": "Give every timer an exit: a compensation task or a queue a person owns, so an expired timer never leaves an order waiting."
+    },
+    {
       "id": "R04",
       "rule_version": "R04@2",
       "title": "Duplicate service order",
@@ -1811,6 +2308,7 @@
         "retry_new_order": 20,
         "parallel_duplicate": 0,
         "needs_review": 0,
+        "amendments": 1,
         "reached_activation": 20,
         "activation_attempts": 21
       },
@@ -3802,6 +4300,206 @@
       "ORD-1399": [
         "R01",
         "R02"
+      ],
+      "ORD-1400": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1401": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1402": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1403": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1404": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1405": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1406": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1407": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1408": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1409": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1410": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1411": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1412": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1413": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1414": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1415": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1416": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1417": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1418": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1419": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1420": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1421": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1422": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1423": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1424": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1425": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1426": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1427": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1428": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1429": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1430": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1431": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1432": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1433": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1434": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1435": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1436": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1437": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1438": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1439": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1440": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1441": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1442": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1443": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1444": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1445": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1446": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1447": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1448": [
+        "R02",
+        "R03"
+      ],
+      "ORD-1449": [
+        "R02",
+        "R03"
       ]
     },
     "pairs": [
@@ -3822,6 +4520,13 @@
       {
         "rules": [
           "R02",
+          "R03"
+        ],
+        "orders": 50
+      },
+      {
+        "rules": [
+          "R02",
           "R04"
         ],
         "orders": 20
@@ -3830,10 +4535,10 @@
   },
   "totals": {
     "gross": {
-      "hours": 660.6
+      "hours": 977.6
     },
     "net": {
-      "hours": 613.1
+      "hours": 925.9
     }
   },
   "journeys": [
