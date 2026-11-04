@@ -61,13 +61,14 @@
   <main id="main">
     <section>
       <h1>Onde um pedido de internet trava?<br><em>O Flow Audit descobre.</em></h1>
-      <p class="lead">Quando você contrata internet, o seu pedido passa por vários sistemas da operadora e cada um só vê a sua parte. Se ele trava, ninguém sabe onde nem por quê.</p>
+      <p class="lead">Quando você contrata internet, o seu pedido (a solicitação para instalar e ligar o serviço) passa por vários sistemas da operadora e cada um só vê a sua parte. Se ele trava, ninguém sabe onde nem por quê.</p>
       <p class="lead">O Flow Audit junta o que cada sistema já anotou, reconstrói o caminho completo de cada pedido e mostra onde o tempo se perde e o que causa isso. Só observa: não mexe em nenhum sistema.</p>
       <div class="row">
         <a class="btn" href="demo/index.html">Ver o relatório de exemplo</a>
         <a class="btn alt" href="architecture/index.html">Ver como vai funcionar</a>
         <a class="btn alt" href="how/index.html">Como se faz uma auditoria</a>
       </div>
+      <p class="note">Lê exportações em arquivos, não sistemas ao vivo: não precisa de acesso à produção, só lê e o resultado se repete. Ligar-se a sistemas ao vivo vem depois.</p>
       <p class="note"><strong>Demo técnica de código aberto (MIT), em construção. Não há oferta comercial.</strong> <a href="https://github.com/rdorta27/flow-audit-site/blob/main/LICENSE">Ver a licença</a>.</p>
       <figure class="flow">
 <svg class="fh" viewBox="-4 0 964 100" role="img" aria-label="Como funciona: exportações de quatro sistemas, que só são lidas; unem-se por pedido; passam cinco regras; sai um relatório com os pedidos afetados, a prova e a causa.">
@@ -127,14 +128,14 @@
       <h2 id="h-dif">O que o Flow Audit acrescenta?</h2>
       <div class="diff">
         <div class="without"><h3>Sem o Flow Audit</h3><ul><li>Cinco equipes, cinco telas. Cada uma vê que a sua parte deu certo.</li><li>As 60 horas sem atividade não aparecem em nenhum sistema.</li><li>A auditoria é feita com entrevistas e planilhas. Os achados são uma opinião.</li><li>Duas auditorias da mesma operadora chegam a conclusões diferentes.</li></ul></div>
-        <div class="with"><h3>Com o Flow Audit</h3><ul><li>Um percurso por pedido, montado com o que cada sistema já anota.</li><li>Cada problema aponta o pedido e os registros que o comprovam.</li><li>Cada problema mostra os pedidos afetados e a causa. As horas são uma estimativa à parte, com minutos de exemplo que se mudam em config.json.</li><li>Com os mesmos dados, o resultado é sempre o mesmo. Não mexe em nenhum sistema.</li></ul></div>
+        <div class="with"><h3>Com o Flow Audit</h3><ul><li>Um percurso por pedido, montado com o que cada sistema já anota.</li><li>Cada problema aponta o pedido e os registros que o comprovam.</li><li>Cada problema mostra os pedidos afetados e a causa. As horas são uma estimativa à parte, só para ordenar o que corrigir primeiro, com minutos de exemplo que se mudam em config.json.</li><li>Com os mesmos dados, o resultado é sempre o mesmo. Não mexe em nenhum sistema.</li></ul></div>
       </div>
       <p class="note">Encontra, não conserta, e por si só não reduz horas: corrigir a causa é trabalho da operadora.</p>
     </section>
 
     <section id="hallazgos">
       <h2>Os cinco problemas que procura</h2>
-      <p class="note">Cada problema tem um código, de R01 a R05. Os pedidos afetados foram medidos pelo motor nos arquivos da demo: R01, R02, R03, R04 e R05. As horas são uma estimativa com suposições de exemplo. No servidor simulado R02 não roda e R03 não é avaliada. O exemplo de auditoria mostra esses números.</p>
+      <p class="note">Cada problema tem um código, de R01 a R05. Os pedidos afetados foram medidos pelo motor nos arquivos da demo: R01, R02, R03, R04 e R05. As horas são uma estimativa com suposições de exemplo, só para ordenar o que corrigir primeiro. No servidor simulado R02 não roda e R03 não é avaliada. O exemplo de auditoria mostra esses números.</p>
       <div id="findings-chart" data-src="../engine/findings.json">
         <div class="table-wrap">
         <table class="ftable">
@@ -159,7 +160,12 @@
       <div class="excerpt">
         <div class="engine-excerpt" data-engine-excerpt>
 <h1 id="h">4,467 of 5,000 orders have a problem that a person has to fix by hand</h1>
-<p class="lead">Flow Audit read 5,000 orders from Product catalog, Order manager, Process orchestrator, Activation system (6 sources) and looked for 5 patterns that make people redo work by hand. <abbr class="term" data-term="measured" title="Counted in the records. Orders, cases and records are measured.">Measured</abbr>: the orders and records counted here. Hours are <abbr class="term" data-term="estimate" title="A figure calculated from measured counts and assumptions. Hours are estimates.">an estimate</abbr> and sit in the assumptions below. Flow Audit finds and measures; fixing the cause is the operator's work.</p>
+<p class="lead">Flow Audit read 5,000 orders from Product catalog, Order manager, Process orchestrator, Activation system (6 sources) and looked for 5 patterns that make people redo work by hand. <abbr class="term" data-term="measured" title="Counted in the records. Orders, cases and records are measured.">Measured</abbr>: the orders and records counted in the data. Hours are <abbr class="term" data-term="estimate" title="A figure calculated from measured counts and assumptions. Hours are estimates.">an estimate</abbr> that only helps rank what to fix first; they rest on the assumptions below. Flow Audit finds and measures; fixing the cause is the operator's work.</p>
+<ul class="readfirst">
+<li><strong>What was audited.</strong> 5,000 internet orders (a customer's request to get an internet service installed and switched on), read from Product catalog, Order manager, Process orchestrator, Activation system. Period: 2026-09-01 to 2026-09-30.</li>
+<li><strong>What went wrong.</strong> 4,467 of them needed a person to fix something by hand. The most common problem is Missing catalog attribute forces a manual task (R02), in 4,167 orders.</li>
+<li><strong>Where to start.</strong> <a href="../engine/report.html#R02">Missing catalog attribute forces a manual task</a>: Add the missing attribute to the spec of the offer version, so the activation system gets it without a manual step. The hours are freeable capacity, not savings.</li>
+</ul>
 <h2 class="sub">Most orders affected</h2><ol class="top"><li><a href="../engine/report.html#R02">Missing catalog attribute forces a manual task (R02)</a> <span class="tag"><abbr class="term" data-term="measured" title="Counted in the records. Orders, cases and records are measured.">Measured</abbr></span> <strong>4,167</strong> orders: The product's technical spec lacks a value the activation system needs, so a person fills it in by hand on every order.</li><li><a href="../engine/report.html#R01">Activation fails and nobody retries (R01)</a> <span class="tag"><abbr class="term" data-term="measured" title="Counted in the records. Orders, cases and records are measured.">Measured</abbr></span> <strong>400</strong> orders: An activation failed and nothing tried it again within the retry window, so a person has to find the order and push it through by hand.</li><li><a href="../engine/report.html#R05">No end-to-end correlation id (R05)</a> <span class="tag"><abbr class="term" data-term="measured" title="Counted in the records. Orders, cases and records are measured.">Measured</abbr></span> <strong>300</strong> orders: Some records cannot be tied to their order by an id they carry, so a person has to work out which belong together.</li></ol>
 <aside class="card assume" aria-labelledby="as"><h2 id="as">Assumptions behind the hours</h2>
 <p><span class="tag"><abbr class="term" data-term="assumed" title="Rests on a number somebody declared, such as minutes per case. Hours are assumed.">Assumed</abbr></span> <strong>Estimate with these assumptions: 925.9 h a month</strong> (range 594.2 to 1,510.1 h with the low and high rates), each order counted once. It is <abbr class="term" data-term="estimate" title="A figure calculated from measured counts and assumptions. Hours are estimates.">an estimate</abbr>, not a measurement and not money. Change a rate and it changes. Every hour figure in this report links to its row here.</p>

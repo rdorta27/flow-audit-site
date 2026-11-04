@@ -66,6 +66,7 @@
     <section id="faq">
       <h2>Questions</h2>
       <dl class="faq">
+        <div><dt>Why does it read files and not the live systems?</dt><dd>Because it then needs no access to production, it only reads, and the same export always gives the same result. Connecting to live systems (by API) is planned; queues and logs are not yet.</dd></div>
         <div><dt>Is it useful when the systems are new and solid?</dt><dd>Less, but yes. If one system follows the order end to end, much of this is already visible in its monitoring. It still helps in three cases: configuration or process errors (a missing field, a timer that expires with nobody acting), migrations (audit the month before and the month after with the same rules) and the gaps between teams, which no system flags. It does not replace monitoring: it turns it into hours.</dd></div>
         <div><dt>Can I use it now?</dt><dd>Not on real data: it is under construction and today it runs only on made-up data.</dd></div>
         <div><dt>Where will it run?</dt><dd>On the auditor's computer, from the command line. It will not need a server or a database.</dd></div>

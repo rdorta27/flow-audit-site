@@ -66,6 +66,7 @@
     <section id="faq">
       <h2>Preguntas frecuentes</h2>
       <dl class="faq">
+        <div><dt>¿Por qué lee archivos y no los sistemas en vivo?</dt><dd>Porque así no necesita acceso a producción, solo lee y la misma exportación da siempre el mismo resultado. Conectarse a los sistemas en vivo (por API) está planeado; colas y registros todavía no.</dd></div>
         <div><dt>¿Sirve si los sistemas son nuevos y robustos?</dt><dd>Sirve menos, pero sirve. Si un solo sistema sigue el pedido de punta a punta, buena parte de esto ya lo ve su monitoreo. Sigue aportando en tres casos: errores de configuración o de proceso (un dato que falta, un temporizador que vence sin que nadie actúe), migraciones (auditar el mes antes y el mes después con las mismas reglas) y los huecos entre equipos, que ningún sistema marca. No reemplaza el monitoreo: lo traduce a horas.</dd></div>
         <div><dt>¿Ya se puede usar?</dt><dd>No con datos reales: está en construcción y hoy solo corre sobre datos inventados.</dd></div>
         <div><dt>¿Dónde se ejecutará?</dt><dd>En el equipo de quien audita, desde la línea de comandos. No necesitará servidor ni base de datos.</dd></div>

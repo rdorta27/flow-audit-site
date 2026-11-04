@@ -152,3 +152,7 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 .excerpt .engine-excerpt h1 { font-size: clamp(22px, 5vw, 32px); }
 .excerpt .engine-excerpt h2 { font-size: var(--fs-l); border: 0; }
 .ftotals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+
+/* "Read this first" in the engine's first screen (the landing excerpt uses the engine's own markup). */
+.readfirst { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px; }
+.readfirst li { background: var(--tint); border-left: 4px solid var(--accent); border-radius: var(--r-box); padding: 10px 14px; }

@@ -75,6 +75,7 @@ def engine_excerpt():
     for pat in (
         r'<h1 id="h">.*?</h1>',
         r'<p class="lead">.*?</p>',
+        r'<ul class="readfirst">[\s\S]*?</ul>',
         r'<h2 class="sub">Most orders affected</h2><ol class="top">.*?</ol>',
         r'<aside class="card assume"[\s\S]*?</aside>',
     ):
