@@ -181,7 +181,8 @@
     if (s.phase === "fa") {
       left = '<div><p class="j-when">' + T.ui.step + " " + (step + 1) + " · " + T.ui.faPhase + "</p>" +
         '<p class="j-sysname" style="border-color:var(--fa)">' + s.title + "</p><p>" + s.what + "</p></div>";
-      right = '<div><p class="j-muted">' + T.ui.produces + '</p><div class="j-record">' + s.rec + "</div></div>";
+      right = '<div><p class="j-muted">' + T.ui.produces + '</p><div class="j-record">' + (s.rec || "") + "</div>" +
+        (s.hoursNote ? '<p class="j-muted">' + s.hoursNote + "</p>" : "") + "</div>";
     } else {
       var sy = sysOf(s.sys);
       left = '<div><p class="j-when">' + T.ui.step + " " + (step + 1) + " · " + s.t + "</p>" +
@@ -234,4 +235,62 @@
   if (st) st.hidden = true;
   root.appendChild(stage);
   go(0);
+
+  // Steps 9–12 take hours (and, where the file has them, record counts) from the engine run.
+  // Replacing findings.json redraws those lines. A failed read leaves the page text.
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function numfmt(n) {
+    var es = document.documentElement.lang !== "en";
+    var thousands = es ? "." : ",", decimal = es ? "," : ".";
+    return {
+      int: function (v) { return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, thousands); },
+      hours: function (v) { return String(Math.round(v * 10) / 10).replace(".", decimal); }
+    };
+  }
+  function fillHours(data) {
+    var fmt = numfmt();
+    var byId = {};
+    (data.findings || []).forEach(function (f) { byId[f.id] = f; });
+    var journey = (data.journeys || [])[0];
+    var net = data.totals && data.totals.net && data.totals.net.hours;
+    var note = (T.ui.hoursNote && net != null) ? T.ui.hoursNote.replace("{net}", fmt.hours(net)) : "";
+    STEPS.forEach(function (s) {
+      if (s.phase !== "fa") return;
+      if (note) s.hoursNote = note;
+      if (s.mode === "rules" && T.ui.findingLine) {
+        var lines = [];
+        Object.keys(byId).sort(function (a, b) { return byId[b].affected_orders - byId[a].affected_orders; }).forEach(function (id) {
+          var f = byId[id];
+          if (!f.cost) return;
+          lines.push(esc(T.ui.findingLine
+            .replace("{id}", id)
+            .replace("{name}", (T.ui.names && T.ui.names[id]) || f.title)
+            .replace("{orders}", fmt.int(f.affected_orders))
+            .replace("{unit}", (T.ui.units && (T.ui.units[id] || T.ui.units.default)) || "")
+            .replace("{hours}", fmt.hours(f.cost.hours_month))));
+        });
+        if (lines.length) s.rec = lines.join("\n");
+      }
+      if (s.mode === "time" && journey && T.ui.timeRec) {
+        var times = (journey.story || []).map(function (st) { return st.at ? Date.parse(st.at) : NaN; }).filter(function (t) { return !isNaN(t); });
+        var span = times.length > 1 ? (Math.max.apply(null, times) - Math.min.apply(null, times)) / 3600000 : null;
+        var gap = 0;
+        (journey.segments || []).forEach(function (seg) {
+          if (seg.kind !== "gap" || !seg.from || !seg.to) return;
+          var h = (Date.parse(seg.to) - Date.parse(seg.from)) / 3600000;
+          if (h > gap) gap = h;
+        });
+        if (span != null) s.rec = esc(T.ui.timeRec.replace("{span}", fmt.hours(span)).replace("{gap}", fmt.hours(gap)));
+      }
+      if (s.mode === "collect" && T.ui.collectRec && data.sources) {
+        var orders = data.scope && data.scope.orders;
+        s.rec = esc(T.ui.collectRec.replace("{sources}", String(data.sources.length)).replace("{orders}", orders != null ? fmt.int(orders) : ""));
+      }
+    });
+    go(step);
+  }
+  var src = root.getAttribute("data-src");
+  if (src && window.fetch) {
+    fetch(src).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(fillHours).catch(function () {});
+  }
 })();

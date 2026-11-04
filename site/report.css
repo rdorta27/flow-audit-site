@@ -128,7 +128,7 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 .sysview, .sysview > * { min-width: 0; max-width: 100%; }
 .sysview .table-wrap, .sysview .chain { position: relative; }
 
-/* Report cards (S-05): one per problem, from data/report.json (findings/1). */
+/* Report cards: one per problem. The example page fills them from engine/findings.json. */
 .fcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 16px; }
 .fcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-box); padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .fcard h3 { font-size: var(--fs-xl); line-height: 1.25; }
@@ -143,4 +143,6 @@ tfoot th, tfoot td { border-top: 2px solid var(--line); font-weight: 700; backgr
 .fcard .fnote { color: var(--muted); }
 .fformula { font-size: var(--fs-s); white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bg); }
 .fformula code { font-size: 1em; }
+.proof { margin: 0; padding-left: 1.1rem; }
+.proof li { overflow-wrap: anywhere; }
 .ftotals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; }

@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ejemplo de auditoría · Flow Audit</title>
-<meta name="description" content="Informe de ejemplo con datos sintéticos de un operador ficticio. Ningún motor lo generó.">
+<meta name="description" content="Los cinco problemas que el motor encontró en los archivos de la demo: pedidos afectados, causa y prueba. Las horas son una estimación.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/es/demo/">
 <meta property="og:title" content="Ejemplo de auditoría · Flow Audit">
-<meta property="og:description" content="Informe de ejemplo con datos sintéticos de un operador ficticio. Ningún motor lo generó.">
+<meta property="og:description" content="Los cinco problemas que el motor encontró en los archivos de la demo: pedidos afectados, causa y prueba. Las horas son una estimación.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,14 +18,13 @@
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ejemplo de auditoría · Flow Audit">
-<meta name="twitter:description" content="Informe de ejemplo con datos sintéticos de un operador ficticio. Ningún motor lo generó.">
+<meta name="twitter:description" content="Los cinco problemas que el motor encontró en los archivos de la demo: pedidos afectados, causa y prueba. Las horas son una estimación.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
-<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
@@ -58,142 +57,101 @@
 
   <main id="main">
     <section class="report-head">
-      <h1>Ejemplo: auditoría de<br>Ortelis Satellite</h1>
-      <div class="callout"><strong>Ejemplo con datos sintéticos de un operador inventado.</strong> El motor ya detecta los cinco problemas desde archivos; esta página sigue escrita a mano con la misma forma que el informe real, que puedes abrir en <a href="../../engine/report.html">el informe del motor</a>. Las horas son una estimación con minutos de ejemplo (<code>config.json</code>), no medidas en ningún operador.</div>
+      <h1>Ejemplo: lo que el motor encontró</h1>
+      <p class="note">Qué puedes hacer: leer los problemas por cuántos pedidos tocan, con la causa y la prueba. Las horas van al final, como estimación.</p>
+      <div class="callout"><strong>Corrida del motor sobre datos sintéticos de un operador inventado.</strong> Esta página lee <code>engine/findings.json</code>. El informe completo, en inglés, está en <a href="../../engine/report.html">el informe del motor</a>. Los pedidos se cuentan en los registros. Las horas son una estimación con supuestos de ejemplo, no medidas en ningún operador.</div>
     </section>
 
-    <section>
-      <h2>Resumen ejecutivo</h2>
-      <p class="lead">Un pedido sintético, <span class="mono">ORD-1005</span>, tarda 69 horas. Debería tardar menos de una. Nadie trabaja 60 de esas horas: son un <a class="gl" href="../help/index.html#g-hueco">hueco</a> entre sistemas que ningún proceso reclama.</p>
-      <div class="callout">
-        <strong>Prioridad:</strong> agregar <code>capacity_profile</code> al catálogo técnico (4.167 pedidos). Reintentar la activación antes de la cola manual (400 pedidos). Compensar el timer de 48 horas (50 pedidos). Las tres acciones cubren el <strong>97 %</strong> de las horas estimadas, con supuestos de ejemplo no medidos en ningún operador.
+    <section id="assumptions" aria-labelledby="h-assumptions">
+      <h2 id="h-assumptions">Supuestos detrás de las horas</h2>
+      <p class="note">Qué puedes hacer: ver de qué minutos sale cada hora, y qué problema la usa. Los pedidos afectados no dependen de estos números.</p>
+      <div id="demo-assumptions">
+        <div class="table-wrap">
+          <table class="ftable">
+            <thead><tr><th scope="col">Parámetro</th><th scope="col">Valor</th><th scope="col">Rango</th><th scope="col">Origen</th><th scope="col">Lo usa</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Minutos para limpiar un caso <code>cleanup_minutes</code></th><td>90 minutos</td><td>60 a 120</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R04</td></tr>
+              <tr><th scope="row">Minutos de seguimiento por día <code>daily_followup_minutes</code></th><td>15 minutos</td><td>10 a 25</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R01, R03</td></tr>
+              <tr><th scope="row">Minutos para investigar un caso <code>investigation_minutes</code></th><td>45 minutos</td><td>30 a 90</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R05</td></tr>
+              <tr><th scope="row">Minutos de trabajo manual por caso <code>manual_minutes</code></th><td>5 minutos</td><td>3 a 8</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R01, R02, R03</td></tr>
+              <tr><th scope="row">Horas en las que un reintento cuenta <code>retry_window_hours</code></th><td>24 horas</td><td>un solo número</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R01</td></tr>
+              <tr><th scope="row">Horas tras las cuales un pedido cuenta como atascado <code>stuck_after_hours</code></th><td>72 horas</td><td>un solo número</td><td>supuesto declarado, Flow Audit (example values), 2026-11-04</td><td>R03</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <section id="supuestos" aria-labelledby="h-supuestos">
-      <h2 id="h-supuestos">Supuestos</h2>
-      <p class="note">Las horas son una estimación con cuatro tasas de ejemplo. Ninguna está medida en ningún operador; se cambian en <code>config.json</code>. Los pedidos afectados no dependen de ellas.</p>
-      <div class="table-wrap">
-        <table class="ftable">
-          <thead><tr><th scope="col">Tasa</th><th scope="col">Minutos por caso</th><th scope="col">Hallazgo que la usa</th></tr></thead>
-          <tbody><tr><th scope="row">Atención manual <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td></tr><tr><th scope="row">Seguimiento diario <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td></tr><tr><th scope="row">Limpieza <code>cleanup_minutes</code></th><td>90</td><td>R04</td></tr><tr><th scope="row">Investigación <code>investigation_minutes</code></th><td>45</td><td>R05</td></tr></tbody>
-        </table>
+    <section id="findings" aria-labelledby="h-findings">
+      <h2 id="h-findings">Problemas, por pedidos afectados</h2>
+      <p class="note">Qué puedes hacer: comparar los problemas por el conteo medido, y leer la causa y la prueba de cada uno. El orden es el de los pedidos, no el del código.</p>
+      <div id="demo-findings" data-src="../../engine/findings.json">
+        <div class="fcards">
+          <article class="fcard" id="r02" data-rule="R02">
+            <span data-status="finding-r02"></span>
+            <h3><span class="rid">R02</span> Falta un dato en el catálogo y se completa a mano</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afectados (medido)</dt><dd><strong>4.167</strong> pedidos · medido</dd></div>
+              <div><dt>Estimación (supuestos de ejemplo)</dt><dd>347,3 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>A la ficha técnica le falta un valor que el sistema de activación necesita, y una persona lo completa a mano.</p>
+            <p class="fl">Prueba</p><p>4.167 pedidos en los registros. Evidencia fuerte, confirmada. Un caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × manual_minutes / 60</code></pre>
+            <p class="fl">Qué hacer</p><p>Agregar el dato que falta a la ficha de la oferta, para que nadie lo complete a mano.</p>
+          </article>
+          <article class="fcard" id="r01" data-rule="R01">
+            <span data-status="finding-r01"></span>
+            <h3><span class="rid">R01</span> La activación falla y nadie la reintenta</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afectados (medido)</dt><dd><strong>400</strong> pedidos · medido</dd></div>
+              <div><dt>Estimación (supuestos de ejemplo)</dt><dd>283,3 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Una activación falló y nadie volvió a intentarla dentro del plazo, así que una persona tiene que encontrar el pedido y empujarlo a mano.</p>
+            <p class="fl">Prueba</p><p>400 pedidos en los registros. Evidencia fuerte, confirmada. Un caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × (manual_minutes + wait_days × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">Qué hacer</p><p>Reintentar una activación fallida antes de que una persona tenga que buscar el pedido.</p>
+          </article>
+          <article class="fcard" id="r05" data-rule="R05">
+            <span data-status="finding-r05"></span>
+            <h3><span class="rid">R05</span> Los sistemas no comparten un número de pedido</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afectados (medido)</dt><dd><strong>300</strong> pedidos · medido</dd></div>
+              <div><dt>Estimación (supuestos de ejemplo)</dt><dd>225 h</dd></div>
+            </dl>
+            <p class="fnote">Aparte, no suma al total: los enlaces son inferidos.</p>
+            <p class="fl">Causa</p><p>Algunos registros no llevan el número de su pedido, y una persona tiene que averiguar cuáles van juntos.</p>
+            <p class="fl">Prueba</p><p>300 pedidos en los registros. Evidencia débil, posible. Un caso: <code>ORD-1550</code>.</p>
+            <pre class="fformula"><code>hours = incidents × investigation_minutes / 60</code></pre>
+            <p class="fl">Qué hacer</p><p>Llevar el número de pedido en cada registro, para no tener que adivinar qué va con qué.</p>
+          </article>
+          <article class="fcard" id="r03" data-rule="R03">
+            <span data-status="finding-r03"></span>
+            <h3><span class="rid">R03</span> Un temporizador vence y nadie actúa</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afectados (medido)</dt><dd><strong>50</strong> pedidos · medido</dd></div>
+              <div><dt>Estimación (supuestos de ejemplo)</dt><dd>317 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Un temporizador del proceso venció, nadie siguió, y el pedido queda sin servicio hasta que una persona lo encuentra.</p>
+            <p class="fl">Prueba</p><p>50 pedidos en los registros. Evidencia de historial, confirmada. Un caso: <code>ORD-1400</code>.</p>
+            <pre class="fformula"><code>hours = stuck × (manual_minutes + days_stuck × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">Qué hacer</p><p>Darle una salida a cada temporizador, para que un pedido vencido no quede sin servicio.</p>
+          </article>
+          <article class="fcard" id="r04" data-rule="R04">
+            <span data-status="finding-r04"></span>
+            <h3><span class="rid">R04</span> Un reintento crea una segunda orden de servicio</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afectados (medido)</dt><dd><strong>20</strong> pedidos · medido</dd></div>
+              <div><dt>Estimación (supuestos de ejemplo)</dt><dd>30 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Hay una segunda orden de servicio para la misma línea. Al fallar la activación, el reintento creó una orden nueva en vez de reutilizar la primera.</p>
+            <p class="fl">Prueba</p><p>20 pedidos en los registros. Evidencia fuerte, confirmada. Un caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = groups × cleanup_minutes / 60</code></pre>
+            <p class="fl">Qué hacer</p><p>Hacer que el reintento reutilice la orden de servicio que ya existe.</p>
+          </article>
+        </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Dónde se van los días</h2>
-      <p class="lead">Un pedido del dataset sintético, <code>ORD-1005</code>: 69 horas de punta a punta. Nadie trabaja 60 de ellas.</p>
-      <div class="legend" aria-label="Leyenda de la línea de tiempo">
-        <span><i class="sw-work"></i>trabajo de un sistema</span>
-        <span><i class="sw-wait"></i>espera manual</span>
-        <span><i class="sw-gap"></i>hueco sin evento</span>
-      </div>
-      <div class="scroller" tabindex="0" aria-label="Línea de tiempo del pedido ORD-1005, se desplaza en pantallas angostas">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
-          <title id="tlt">Línea de tiempo de ORD-1005</title>
-          <desc id="tld">Dos horas de chequeo manual. Seis de instalación. Una falla de activación. Sesenta horas sin ningún evento. Un reintento crea una segunda orden de servicio y activa el pedido.</desc>
-
-          <text class="lane" x="14" y="104">TRABAJO</text>
-          <text class="lane" x="14" y="148">ESPERA</text>
-          <text class="lane" x="14" y="192">SIN EVENTO</text>
-
-          <line class="axis" x1="140" y1="52" x2="1100" y2="52"/>
-          <line class="axis" x1="140" y1="52" x2="140" y2="46"/>
-          <line class="axis" x1="1100" y1="52" x2="1100" y2="46"/>
-          <text class="tick" x="620" y="40" text-anchor="middle">69 h de punta a punta</text>
-
-          <rect class="bar wait" x="140.7" y="130" width="26.4" height="22"/>
-          <text class="p" x="176" y="146">chequeo manual · 2 h (R02)</text>
-
-          <rect class="bar work" x="167.8" y="86" width="3" height="22"/>
-          <rect class="bar work" x="180.8" y="86" width="83.4" height="22"/>
-          <text class="p" x="272" y="102">instalación · 6 h</text>
-
-          <circle class="dot fail" cx="264.5" cy="97" r="5"/>
-          <text class="p" x="274" y="124">falla HUB_TIMEOUT</text>
-
-          <rect class="bar gap" x="264.7" y="174" width="834.6" height="22"/>
-          <text class="p" x="300" y="190">sin evento · 60 h (R01)</text>
-
-          <circle class="dot ok" cx="1099.3" cy="97" r="5"/>
-          <text class="p" x="1088" y="76" text-anchor="end">reintento + 2ª SO (R04)</text>
-
-          <g class="tick" text-anchor="middle">
-            <text x="140" y="232">0 h</text>
-            <text x="307" y="232">12 h</text>
-            <text x="474" y="232">24 h</text>
-            <text x="641" y="232">36 h</text>
-            <text x="808" y="232">48 h</text>
-            <text x="975" y="232">60 h</text>
-            <text x="1100" y="232">69 h</text>
-          </g>
-          <line class="axis" x1="140" y1="214" x2="1100" y2="214"/>
-        </svg>
-      </div>
-      <p class="note">El hueco empieza cuando falla el primer intento. Termina cuando alguien reintenta a mano 60 horas después. En ese intervalo no hay ningún evento: ni espera declarada ni reintento programado.</p>
-    </section>
-
-    <section>
-      <h2>Hallazgos</h2>
-      <p class="lead">El ejemplo muestra cinco hallazgos sobre el mismo mes de pedidos.</p>
-
-      <div class="fcards">
-        <article class="fcard" id="r01" data-rule="R01">
-          <span data-status="finding-r01"></span>
-          <h3><span class="rid">R01</span> Falla de activación sin reintento</h3>
-          <dl class="fkv">
-            <div><dt>Cohorte</dt><dd>400 pedidos · 8%</dd></div>
-            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>283,3 h/mes</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
-          <p class="fl">Acción</p><p>Reintentar automáticamente con backoff antes de la cola manual.</p>
-        </article>
-        <article class="fcard" id="r02" data-rule="R02">
-          <span data-status="finding-r02"></span>
-          <h3><span class="rid">R02</span> Chequeo manual de capacidad por atributo faltante</h3>
-          <dl class="fkv">
-            <div><dt>Cohorte</dt><dd>4.167 pedidos · 83,3%</dd></div>
-            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>347,3 h/mes</dd></div>
-          </dl>
-          <p class="fnote">Caso sintético: 83 % de los pedidos del demo; los vendidos con la segunda versión de la oferta no tienen el problema.</p>
-          <pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
-          <p class="fl">Acción</p><p>Agregar <code>capacity_profile</code> al spec. Automatizar la asignación de haz.</p>
-        </article>
-        <article class="fcard" id="r03" data-rule="R03">
-          <span data-status="finding-r03"></span>
-          <h3><span class="rid">R03</span> El timer del orquestador vence sin compensación</h3>
-          <dl class="fkv">
-            <div><dt>Cohorte</dt><dd>50 pedidos atascados (de 150 con timer vencido) · 1%</dd></div>
-            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>317 h acumuladas al cierre del período</dd></div>
-          </dl>
-          <p class="fnote">El motor la evalúa sobre archivos; en el servidor simulado no se evalúa.</p>
-          <pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
-          <p class="fl">Acción</p><p>Cerrar o reencolar el pedido a las 48 h. 50 pedidos quedaron atascados.</p>
-        </article>
-        <article class="fcard" id="r04" data-rule="R04">
-          <span data-status="finding-r04"></span>
-          <h3><span class="rid">R04</span> El reintento del gestor de pedidos duplica la orden de servicio</h3>
-          <dl class="fkv">
-            <div><dt>Cohorte</dt><dd>20 pedidos · 0,4%</dd></div>
-            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>30 h, una sola vez (limpieza del mes auditado)</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
-          <p class="fl">Acción</p><p>Reintentar de forma idempotente, con la clave del pedido.</p>
-        </article>
-        <article class="fcard" id="r05" data-rule="R05">
-          <span data-status="finding-r05"></span>
-          <h3><span class="rid">R05</span> Sin identificador de correlación de extremo a extremo</h3>
-          <dl class="fkv">
-            <div><dt>Cohorte</dt><dd>300 pedidos · 6%</dd></div>
-            <div><dt>Estimación (supuestos de ejemplo)</dt><dd>225 h/mes</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
-          <p class="fl">Acción</p><p>Usar un id común en los cuatro sistemas, del pedido al intento.</p>
-        </article>
-      </div>
-      <div class="ftotals" role="group" aria-label="Totales">
-        <div class="callout"><strong>Estimación con supuestos de ejemplo (R01 a R04)</strong><br>978 h por mes de trabajo manual y espera, con minutos por caso que no están medidos en ningún operador. R05 (225 h) va aparte, como riesgo de trazabilidad, hasta tener mediciones reales.</div>
+      <div id="demo-totals">
+        <div class="callout"><strong>Estimación con supuestos de ejemplo (R01 a R04)</strong><br>Bruto 977,6 h, unas 978 h. Neto, cada pedido una vez, 925,9 h. R05 (225 h) va aparte: sus enlaces son inferidos y no entran en ese total.</div>
       </div>
     </section>
   </main>
@@ -209,6 +167,8 @@
     <span>TM Forum y TMF son marcas de TM Forum.</span>
   </footer>
 </div>
+<script type="application/json" id="demo-text">{"assumeHead": ["Parámetro", "Valor", "Rango", "Origen", "Lo usa"], "assume": {"rates.cleanup_minutes": "Minutos para limpiar un caso", "rates.daily_followup_minutes": "Minutos de seguimiento por día", "rates.investigation_minutes": "Minutos para investigar un caso", "rates.manual_minutes": "Minutos de trabajo manual por caso", "thresholds.retry_window_hours": "Horas en las que un reintento cuenta", "thresholds.stuck_after_hours": "Horas tras las cuales un pedido cuenta como atascado"}, "unit": {"minutes": "minutos", "hours": "horas"}, "source": {"assumption": "supuesto declarado"}, "single": "un solo número", "to": " a ", "names": {"R01": "La activación falla y nadie la reintenta", "R02": "Falta un dato en el catálogo y se completa a mano", "R03": "Un temporizador vence y nadie actúa", "R04": "Un reintento crea una segunda orden de servicio", "R05": "Los sistemas no comparten un número de pedido"}, "units": {"default": "pedidos", "R05": "pedidos"}, "orders": "Pedidos afectados (medido)", "measured": "medido", "estimate": "Estimación (supuestos de ejemplo)", "apart": "Aparte, no suma al total: los enlaces son inferidos.", "cause": "Causa", "proof": "Prueba", "action": "Qué hacer", "proofLine": "{n} pedidos en los registros. {level}, {conf}.", "level": {"strong": "Evidencia fuerte", "history": "Evidencia de historial", "weak": "Evidencia débil"}, "conf": {"confirmed": "confirmada", "possible": "posible"}, "causes": {"R01": "Una activación falló y nadie volvió a intentarla dentro del plazo, así que una persona tiene que encontrar el pedido y empujarlo a mano.", "R02": "A la ficha técnica le falta un valor que el sistema de activación necesita, y una persona lo completa a mano.", "R03": "Un temporizador del proceso venció, nadie siguió, y el pedido queda sin servicio hasta que una persona lo encuentra.", "R04": "Hay una segunda orden de servicio para la misma línea. Al fallar la activación, el reintento creó una orden nueva en vez de reutilizar la primera.", "R05": "Algunos registros no llevan el número de su pedido, y una persona tiene que averiguar cuáles van juntos."}, "actions": {"R01": "Reintentar una activación fallida antes de que una persona tenga que buscar el pedido.", "R02": "Agregar el dato que falta a la ficha de la oferta, para que nadie lo complete a mano.", "R03": "Darle una salida a cada temporizador, para que un pedido vencido no quede sin servicio.", "R04": "Hacer que el reintento reutilice la orden de servicio que ya existe.", "R05": "Llevar el número de pedido en cada registro, para no tener que adivinar qué va con qué."}, "totalTitle": "Estimación con supuestos de ejemplo (R01 a R04)", "totalBody": "Bruto {gross} h, unas {round} h. Neto, cada pedido una vez, {net} h. R05 va aparte: sus enlaces son inferidos y no entran en ese total."}</script>
+<script src="../../demo.js" defer></script>
 <script src="../../status.js" defer></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail if a figure in the published pages disagrees with site/data/report.json.
+"""Fail if a figure in the published pages disagrees with site/engine/findings.json.
 
 Dev-only, standard library only; not published (it lives outside site/).
 Usage: python3 tools/check_figures.py   (from the repository root)
@@ -77,42 +77,59 @@ def fmt(n, sep):
     return f"{round(n):,}".replace(",", sep)
 
 
+def config_value(cfg, key):
+    v = cfg
+    for part in key.split("."):
+        v = v.get(part) if isinstance(v, dict) else None
+    if isinstance(v, dict) and "base" in v:
+        return v["base"]
+    return v
+
+
 def main():
-    data = json.loads((ROOT / "data" / "report.json").read_text())
+    src = ROOT / "engine" / "findings.json"
+    data = json.loads(src.read_text())
     findings = data["findings"]
-    # D-21: the site shows hours, not money. Target design: R01 to R04; R05 is shown apart (D-11).
-    hours = sum(f["effort"]["hours_month"] for f in findings if f.get("in_total", True))
+    # D-21: the site shows hours, not money. R01 to R04 are in the total; R05 is apart (D-11).
+    hours = sum(f["cost"]["hours_month"] for f in findings if f.get("in_total", True))
+    net = data["totals"]["net"]["hours"]
     errors = []
-    if data.get("schema_version") != "findings/1":
-        errors.append("report.json: schema_version must be findings/1")
+    if not str(data.get("schema_version", "")).startswith("findings/"):
+        errors.append("findings.json: schema_version must be findings/…")
+    if (ROOT / "data" / "report.json").exists():
+        errors.append("data/report.json is still the handmade mock; the example page must read engine/findings.json")
     cfg = data["config"]
-    raw = (ROOT / "data" / "report.json").read_text()
+    assumed = {a["key"]: a["value"] for a in data.get("assumptions") or []}
+    if not assumed:
+        errors.append("findings.json: assumptions[] is empty")
+    raw = src.read_text()
     for pat in MONEY_JSON:
         if re.search(pat, raw, re.I):
-            errors.append(f"report.json: money key or wording /{pat}/")
+            errors.append(f"findings.json: money key or wording /{pat}/")
     for f in findings:
-        e = f["effort"]
-        for inp in e["inputs"]:
-            v = cfg
-            for part in inp["key"].split("."):
-                v = v.get(part) if isinstance(v, dict) else None
-            if v != inp["value"]:
-                errors.append(f"report.json: {f['id']} input {inp['key']} differs from config")
-        if not e["formula"]:
-            errors.append(f"report.json: {f['id']} has no formula")
+        e = f["cost"]
+        for inp in e.get("inputs") or []:
+            if config_value(cfg, inp["key"]) != inp["value"]:
+                errors.append(f"findings.json: {f['id']} input {inp['key']} differs from config")
+            if inp["key"] in assumed and assumed[inp["key"]] != inp["value"]:
+                errors.append(f"findings.json: {f['id']} input {inp['key']} differs from assumptions")
+        if not e.get("formula"):
+            errors.append(f"findings.json: {f['id']} has no formula")
         if abs(sum(t["hours"] for t in e["terms"]) - e["hours_month"]) > 1e-6:
-            errors.append(f"report.json: {f['id']} hours differ from the sum of its terms")
+            errors.append(f"findings.json: {f['id']} hours differ from the sum of its terms")
         want = EXPECTED_HOURS.get(f["id"])
         if want is not None and abs(e["hours_month"] - want) > 1e-6:
-            errors.append(f"report.json: {f['id']} hours {e['hours_month']} expected {want}")
+            errors.append(f"findings.json: {f['id']} hours {e['hours_month']} expected {want}")
     if abs(hours - EXPECTED_TOTAL) > 0.05:
-        errors.append(f"report.json: total hours {hours} expected {EXPECTED_TOTAL}")
+        errors.append(f"findings.json: gross hours {hours} expected {EXPECTED_TOTAL}")
+    if abs(data["totals"]["gross"]["hours"] - hours) > 0.05:
+        errors.append("findings.json: totals.gross disagrees with the sum of in-total findings")
     for lang, sep in SEP.items():
         landing = (ROOT / lang / "index.html").read_text()
         demo = (ROOT / lang / "demo" / "index.html").read_text()
         dec = "," if sep == "." else "."
         for f in findings:
-            h = hfmt(f["effort"]["hours_month"], dec)
+            h = hfmt(f["cost"]["hours_month"], dec)
             for page, text in (("index.html", landing), ("demo", demo)):
                 if re.search(r"(?<![\d.,])" + re.escape(h) + r" h", text) is None:
                     errors.append(f"{lang}/{page}: {f['id']} hours {h} h missing")
@@ -122,8 +139,13 @@ def main():
                 errors.append(f"{lang}/{page}: hours without the label {label!r}")
             if "978" not in text:
                 errors.append(f"{lang}/{page}: total 978 h missing")
-        if hfmt(hours, dec) not in demo and "978" not in demo:
-            errors.append(f"{lang}/demo: total hours missing")
+        if "engine/findings.json" not in demo:
+            errors.append(f"{lang}/demo: does not read engine/findings.json")
+        if hfmt(net, dec) + " h" not in demo:
+            errors.append(f"{lang}/demo: net hours missing")
+        for key in assumed:
+            if key.split(".")[-1] not in demo:
+                errors.append(f"{lang}/demo: assumption {key} missing")
         for page, text in (("index.html", landing), ("demo", demo)):
             flat = text.replace(",", "").replace(".", "")
             for old in STALE:

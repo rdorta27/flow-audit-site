@@ -12,7 +12,7 @@ Spanish (`es`), English (`en`) and Portuguese (`pt`). Everything published lives
   one line what you can do with it.
 - **One name and one colour per system** (table in `../specs/design/README.md`); Flow Audit
   is never drawn inside the order's path.
-- **No number by hand.** Figures come from `site/data/report.json` or `site/engine/findings.json`,
+- **No number by hand.** Figures come from `site/engine/findings.json`,
   never typed. `tools/check_figures.py` and `tools/check_pages.py` exist; run both.
 - **Real vs target.** The site shows the whole target design; each component's state
   ("Works today" / "Arrives in …") comes from `site/data/status.json` (S-00), never from

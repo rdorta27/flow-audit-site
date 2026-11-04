@@ -31,7 +31,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check the figures against data/report.json
+      - name: Check the figures against the engine findings
         run: python3 tools/check_figures.py
       - name: Check the pages in a headless browser
         run: python3 tools/check_pages.py

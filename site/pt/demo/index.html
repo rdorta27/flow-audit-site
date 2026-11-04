@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Exemplo de auditoria · Flow Audit</title>
-<meta name="description" content="Relatório de exemplo com dados sintéticos de uma operadora fictícia. Nenhum motor o gerou.">
+<meta name="description" content="Os cinco problemas que o motor encontrou nos arquivos da demo: pedidos afetados, causa e prova. As horas são uma estimativa.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/pt/demo/">
 <meta property="og:title" content="Exemplo de auditoria · Flow Audit">
-<meta property="og:description" content="Relatório de exemplo com dados sintéticos de uma operadora fictícia. Nenhum motor o gerou.">
+<meta property="og:description" content="Os cinco problemas que o motor encontrou nos arquivos da demo: pedidos afetados, causa e prova. As horas são uma estimativa.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,14 +18,13 @@
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Exemplo de auditoria · Flow Audit">
-<meta name="twitter:description" content="Relatório de exemplo com dados sintéticos de uma operadora fictícia. Nenhum motor o gerou.">
+<meta name="twitter:description" content="Os cinco problemas que o motor encontrou nos arquivos da demo: pedidos afetados, causa e prova. As horas são uma estimativa.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/pt/demo/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
-<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
@@ -34,7 +33,7 @@
 <link rel="alternate" hreflang="x-default" href="https://rdorta27.github.io/flow-audit-site/en/demo/">
 </head>
 <body>
-<a class="skip" href="#main">Ir para o conteúdo</a>
+<a class="skip" href="#main">Pular para o conteúdo</a>
 <div class="wrap">
   <header class="top">
     <a class="logo" href="../index.html" aria-label="Flow Audit, início">
@@ -51,149 +50,108 @@
       <a href="../how/index.html">Como se audita</a>
       <a href="../demo/index.html" aria-current="page">Exemplo de auditoria</a>
       <a href="../architecture/index.html">Arquitetura</a>
-      <a href="../status/index.html">Status</a>
+      <a href="../status/index.html">Estado</a>
       <span class="lang" role="group" aria-label="Idioma"><a href="../../es/demo/index.html" hreflang="es" lang="es" title="Español">ES</a><a href="../../en/demo/index.html" hreflang="en" lang="en" title="English">EN</a><a href="../../pt/demo/index.html" hreflang="pt-BR" lang="pt-BR" title="Português" aria-current="true">PT</a></span>
     </nav>
   </header>
 
   <main id="main">
     <section class="report-head">
-      <h1>Exemplo: auditoria da<br>Ortelis Satellite</h1>
-      <div class="callout"><strong>Exemplo com dados sintéticos de uma operadora inventada.</strong> O motor já detecta os cinco problemas a partir de arquivos; esta página ainda é escrita à mão no formato do relatório real, que você pode abrir em <a href="../../engine/report.html">o relatório do motor</a>. As horas são uma estimativa com minutos de exemplo (<code>config.json</code>), não medidos em nenhuma operadora.</div>
+      <h1>Exemplo: o que o motor encontrou</h1>
+      <p class="note">O que você pode fazer: ler os problemas por quantos pedidos eles tocam, com a causa e a prova. As horas vêm no fim, como estimativa.</p>
+      <div class="callout"><strong>Uma execução do motor sobre dados sintéticos de uma operadora inventada.</strong> Esta página lê <code>engine/findings.json</code>. O relatório completo, em inglês, está em <a href="../../engine/report.html">o relatório do motor</a>. Os pedidos são contados nos registros. As horas são uma estimativa com suposições de exemplo, não medidas em nenhuma operadora.</div>
     </section>
 
-    <section>
-      <h2>Resumo executivo</h2>
-      <p class="lead">Um pedido sintético, <span class="mono">ORD-1005</span>, leva 69 horas. Deveria levar menos de uma. Ninguém trabalha 60 dessas horas: são um <a class="gl" href="../help/index.html#g-hueco">vazio</a> entre sistemas que nenhum processo reivindica.</p>
-      <div class="callout">
-        <strong>Prioridade:</strong> adicionar <code>capacity_profile</code> ao catálogo técnico (4.167 pedidos). Tentar de novo a ativação antes da fila manual (400 pedidos). Compensar o timer de 48 horas (50 pedidos). As três ações cobrem <strong>97%</strong> das horas estimadas, com suposições de exemplo não medidas em nenhuma operadora.
+    <section id="assumptions" aria-labelledby="h-assumptions">
+      <h2 id="h-assumptions">Suposições por trás das horas</h2>
+      <p class="note">O que você pode fazer: ver de quais minutos sai cada hora, e qual problema a usa. Os pedidos afetados não dependem desses números.</p>
+      <div id="demo-assumptions">
+        <div class="table-wrap">
+          <table class="ftable">
+            <thead><tr><th scope="col">Parâmetro</th><th scope="col">Valor</th><th scope="col">Faixa</th><th scope="col">Origem</th><th scope="col">Quem usa</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Minutos para limpar um caso <code>cleanup_minutes</code></th><td>90 minutos</td><td>60 a 120</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R04</td></tr>
+              <tr><th scope="row">Minutos de acompanhamento por dia <code>daily_followup_minutes</code></th><td>15 minutos</td><td>10 a 25</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R01, R03</td></tr>
+              <tr><th scope="row">Minutos para investigar um caso <code>investigation_minutes</code></th><td>45 minutos</td><td>30 a 90</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R05</td></tr>
+              <tr><th scope="row">Minutos de trabalho manual por caso <code>manual_minutes</code></th><td>5 minutos</td><td>3 a 8</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R01, R02, R03</td></tr>
+              <tr><th scope="row">Horas em que uma nova tentativa conta <code>retry_window_hours</code></th><td>24 horas</td><td>um único número</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R01</td></tr>
+              <tr><th scope="row">Horas após as quais um pedido conta como parado <code>stuck_after_hours</code></th><td>72 horas</td><td>um único número</td><td>suposição declarada, Flow Audit (example values), 2026-11-04</td><td>R03</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <section id="supuestos" aria-labelledby="h-supuestos">
-      <h2 id="h-supuestos">Suposições</h2>
-      <p class="note">As horas são uma estimativa com quatro taxas de exemplo. Nenhuma está medida em nenhuma operadora; mudam-se em <code>config.json</code>. Os pedidos afetados não dependem delas.</p>
-      <div class="table-wrap">
-        <table class="ftable">
-          <thead><tr><th scope="col">Taxa</th><th scope="col">Minutos por caso</th><th scope="col">Achado que a usa</th></tr></thead>
-          <tbody><tr><th scope="row">Atendimento manual <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td></tr><tr><th scope="row">Acompanhamento diário <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td></tr><tr><th scope="row">Limpeza <code>cleanup_minutes</code></th><td>90</td><td>R04</td></tr><tr><th scope="row">Investigação <code>investigation_minutes</code></th><td>45</td><td>R05</td></tr></tbody>
-        </table>
+    <section id="findings" aria-labelledby="h-findings">
+      <h2 id="h-findings">Problemas, por pedidos afetados</h2>
+      <p class="note">O que você pode fazer: comparar os problemas pela contagem medida, e ler a causa e a prova de cada um. A ordem é a dos pedidos, não a do código.</p>
+      <div id="demo-findings" data-src="../../engine/findings.json">
+        <div class="fcards">
+          <article class="fcard" id="r02" data-rule="R02">
+            <span data-status="finding-r02"></span>
+            <h3><span class="rid">R02</span> Falta um dado no catálogo e é completado à mão</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afetados (medido)</dt><dd><strong>4.167</strong> pedidos · medido</dd></div>
+              <div><dt>Estimativa (suposições de exemplo)</dt><dd>347,3 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>À ficha técnica falta um valor que o sistema de ativação precisa, e uma pessoa o completa à mão.</p>
+            <p class="fl">Prova</p><p>4.167 pedidos nos registros. Evidência forte, confirmada. Um caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × manual_minutes / 60</code></pre>
+            <p class="fl">O que fazer</p><p>Adicionar o dado que falta à ficha da oferta, para que ninguém o complete à mão.</p>
+          </article>
+          <article class="fcard" id="r01" data-rule="R01">
+            <span data-status="finding-r01"></span>
+            <h3><span class="rid">R01</span> A ativação falha e ninguém tenta de novo</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afetados (medido)</dt><dd><strong>400</strong> pedidos · medido</dd></div>
+              <div><dt>Estimativa (suposições de exemplo)</dt><dd>283,3 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Uma ativação falhou e ninguém tentou de novo dentro do prazo, então uma pessoa tem de achar o pedido e empurrá-lo à mão.</p>
+            <p class="fl">Prova</p><p>400 pedidos nos registros. Evidência forte, confirmada. Um caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × (manual_minutes + wait_days × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">O que fazer</p><p>Tentar de novo uma ativação que falhou antes que uma pessoa tenha de procurar o pedido.</p>
+          </article>
+          <article class="fcard" id="r05" data-rule="R05">
+            <span data-status="finding-r05"></span>
+            <h3><span class="rid">R05</span> Os sistemas não compartilham um número de pedido</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afetados (medido)</dt><dd><strong>300</strong> pedidos · medido</dd></div>
+              <div><dt>Estimativa (suposições de exemplo)</dt><dd>225 h</dd></div>
+            </dl>
+            <p class="fnote">À parte, não entra no total: as ligações são inferidas.</p>
+            <p class="fl">Causa</p><p>Alguns registros não trazem o número do seu pedido, e uma pessoa tem de descobrir quais vão juntos.</p>
+            <p class="fl">Prova</p><p>300 pedidos nos registros. Evidência fraca, possível. Um caso: <code>ORD-1550</code>.</p>
+            <pre class="fformula"><code>hours = incidents × investigation_minutes / 60</code></pre>
+            <p class="fl">O que fazer</p><p>Levar o número do pedido em cada registro, para não ter de adivinhar o que vai com o quê.</p>
+          </article>
+          <article class="fcard" id="r03" data-rule="R03">
+            <span data-status="finding-r03"></span>
+            <h3><span class="rid">R03</span> Um temporizador vence e ninguém age</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afetados (medido)</dt><dd><strong>50</strong> pedidos · medido</dd></div>
+              <div><dt>Estimativa (suposições de exemplo)</dt><dd>317 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Um temporizador do processo venceu, ninguém seguiu, e o pedido fica sem serviço até que uma pessoa o encontre.</p>
+            <p class="fl">Prova</p><p>50 pedidos nos registros. Evidência de histórico, confirmada. Um caso: <code>ORD-1400</code>.</p>
+            <pre class="fformula"><code>hours = stuck × (manual_minutes + days_stuck × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">O que fazer</p><p>Dar uma saída a cada temporizador, para que um pedido vencido não fique sem serviço.</p>
+          </article>
+          <article class="fcard" id="r04" data-rule="R04">
+            <span data-status="finding-r04"></span>
+            <h3><span class="rid">R04</span> Uma nova tentativa cria uma segunda ordem de serviço</h3>
+            <dl class="fkv">
+              <div><dt>Pedidos afetados (medido)</dt><dd><strong>20</strong> pedidos · medido</dd></div>
+              <div><dt>Estimativa (suposições de exemplo)</dt><dd>30 h</dd></div>
+            </dl>
+            <p class="fl">Causa</p><p>Há uma segunda ordem de serviço para a mesma linha. Quando a ativação falhou, a nova tentativa criou uma ordem nova em vez de reutilizar a primeira.</p>
+            <p class="fl">Prova</p><p>20 pedidos nos registros. Evidência forte, confirmada. Um caso: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = groups × cleanup_minutes / 60</code></pre>
+            <p class="fl">O que fazer</p><p>Fazer a nova tentativa reutilizar a ordem de serviço que já existe.</p>
+          </article>
+        </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Para onde vão os dias</h2>
-      <p class="lead">Um pedido do dataset sintético, <code>ORD-1005</code>: 69 horas de ponta a ponta. Ninguém trabalha 60 delas.</p>
-      <div class="legend" aria-label="Legenda da linha do tempo">
-        <span><i class="sw-work"></i>trabalho de um sistema</span>
-        <span><i class="sw-wait"></i>espera manual</span>
-        <span><i class="sw-gap"></i>vazio sem evento</span>
-      </div>
-      <div class="scroller" tabindex="0" aria-label="Linha do tempo do pedido ORD-1005, rola em telas estreitas">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
-          <title id="tlt">Linha do tempo de ORD-1005</title>
-          <desc id="tld">Duas horas de checagem manual. Seis de instalação. Uma falha de ativação. Sessenta horas sem nenhum evento. Uma nova tentativa cria uma segunda ordem de serviço e ativa o pedido.</desc>
-
-          <text class="lane" x="14" y="104">TRABALHO</text>
-          <text class="lane" x="14" y="148">ESPERA</text>
-          <text class="lane" x="14" y="192">SEM EVENTO</text>
-
-          <line class="axis" x1="140" y1="52" x2="1100" y2="52"/>
-          <line class="axis" x1="140" y1="52" x2="140" y2="46"/>
-          <line class="axis" x1="1100" y1="52" x2="1100" y2="46"/>
-          <text class="tick" x="620" y="40" text-anchor="middle">69 h de ponta a ponta</text>
-
-          <rect class="bar wait" x="140.7" y="130" width="26.4" height="22"/>
-          <text class="p" x="176" y="146">checagem manual · 2 h (R02)</text>
-
-          <rect class="bar work" x="167.8" y="86" width="3" height="22"/>
-          <rect class="bar work" x="180.8" y="86" width="83.4" height="22"/>
-          <text class="p" x="272" y="102">instalação · 6 h</text>
-
-          <circle class="dot fail" cx="264.5" cy="97" r="5"/>
-          <text class="p" x="274" y="124">falha HUB_TIMEOUT</text>
-
-          <rect class="bar gap" x="264.7" y="174" width="834.6" height="22"/>
-          <text class="p" x="300" y="190">sem evento · 60 h (R01)</text>
-
-          <circle class="dot ok" cx="1099.3" cy="97" r="5"/>
-          <text class="p" x="1088" y="76" text-anchor="end">nova tentativa + 2ª SO (R04)</text>
-
-          <g class="tick" text-anchor="middle">
-            <text x="140" y="232">0 h</text>
-            <text x="307" y="232">12 h</text>
-            <text x="474" y="232">24 h</text>
-            <text x="641" y="232">36 h</text>
-            <text x="808" y="232">48 h</text>
-            <text x="975" y="232">60 h</text>
-            <text x="1100" y="232">69 h</text>
-          </g>
-          <line class="axis" x1="140" y1="214" x2="1100" y2="214"/>
-        </svg>
-      </div>
-      <p class="note">O vazio começa quando a primeira tentativa falha. Termina quando alguém tenta de novo à mão 60 horas depois. Nesse intervalo não há nenhum evento: nem espera declarada nem nova tentativa agendada.</p>
-    </section>
-
-    <section>
-      <h2>Achados</h2>
-      <p class="lead">O exemplo mostra cinco achados sobre o mesmo mês de pedidos.</p>
-
-      <div class="fcards">
-        <article class="fcard" id="r01" data-rule="R01">
-          <span data-status="finding-r01"></span>
-          <h3><span class="rid">R01</span> Fallout de ativação sem nova tentativa</h3>
-          <dl class="fkv">
-            <div><dt>Coorte</dt><dd>400 pedidos · 8%</dd></div>
-            <div><dt>Estimativa (suposições de exemplo)</dt><dd>283,3 h/mês</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
-          <p class="fl">Ação</p><p>Tentar de novo automaticamente com backoff antes da fila manual.</p>
-        </article>
-        <article class="fcard" id="r02" data-rule="R02">
-          <span data-status="finding-r02"></span>
-          <h3><span class="rid">R02</span> Checagem manual de capacidade por atributo ausente</h3>
-          <dl class="fkv">
-            <div><dt>Coorte</dt><dd>4.167 pedidos · 83,3%</dd></div>
-            <div><dt>Estimativa (suposições de exemplo)</dt><dd>347,3 h/mês</dd></div>
-          </dl>
-          <p class="fnote">Caso sintético: 83% dos pedidos do demo; os vendidos com a segunda versão da oferta não têm o problema.</p>
-          <pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
-          <p class="fl">Ação</p><p>Adicionar <code>capacity_profile</code> à spec. Automatizar a atribuição de feixe.</p>
-        </article>
-        <article class="fcard" id="r03" data-rule="R03">
-          <span data-status="finding-r03"></span>
-          <h3><span class="rid">R03</span> O timer do orquestrador vence sem compensação</h3>
-          <dl class="fkv">
-            <div><dt>Coorte</dt><dd>50 pedidos presos (de 150 com timer vencido) · 1%</dd></div>
-            <div><dt>Estimativa (suposições de exemplo)</dt><dd>317 h acumuladas até o fim do período</dd></div>
-          </dl>
-          <p class="fnote">O motor a avalia sobre arquivos; no servidor simulado ela não é avaliada.</p>
-          <pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
-          <p class="fl">Ação</p><p>Encerrar ou reenfileirar o pedido às 48 h. 50 pedidos ficaram travados.</p>
-        </article>
-        <article class="fcard" id="r04" data-rule="R04">
-          <span data-status="finding-r04"></span>
-          <h3><span class="rid">R04</span> A nova tentativa do gestor de pedidos duplica a ordem de serviço</h3>
-          <dl class="fkv">
-            <div><dt>Coorte</dt><dd>20 pedidos · 0,4%</dd></div>
-            <div><dt>Estimativa (suposições de exemplo)</dt><dd>30 h, uma única vez (limpeza do mês auditado)</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
-          <p class="fl">Ação</p><p>Tentar de novo de forma idempotente, com a chave do pedido.</p>
-        </article>
-        <article class="fcard" id="r05" data-rule="R05">
-          <span data-status="finding-r05"></span>
-          <h3><span class="rid">R05</span> Sem identificador de correlação de ponta a ponta</h3>
-          <dl class="fkv">
-            <div><dt>Coorte</dt><dd>300 pedidos · 6%</dd></div>
-            <div><dt>Estimativa (suposições de exemplo)</dt><dd>225 h/mês</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
-          <p class="fl">Ação</p><p>Usar um id comum nos quatro sistemas, do pedido à tentativa.</p>
-        </article>
-      </div>
-      <div class="ftotals" role="group" aria-label="Totais">
-        <div class="callout"><strong>Estimativa com suposições de exemplo (R01 a R04)</strong><br>978 h por mês de trabalho manual e espera, com minutos por caso que não estão medidos em nenhuma operadora. R05 (225 h) vai à parte, como risco de rastreabilidade, até haver medições reais.</div>
+      <div id="demo-totals">
+        <div class="callout"><strong>Estimativa com suposições de exemplo (R01 a R04)</strong><br>Bruto 977,6 h, cerca de 978 h. Líquido, cada pedido uma vez, 925,9 h. R05 (225 h) vai à parte: as ligações são inferidas e não entram nesse total.</div>
       </div>
     </section>
   </main>
@@ -206,9 +164,11 @@
     <a href="../help/index.html">Ajuda</a>
     <a href="https://github.com/rdorta27/flow-audit-site">GitHub</a>
     <span>Em construção · versão 0.4.4</span>
-    <span>TM Forum e TMF são marcas do TM Forum.</span>
+    <span>TM Forum e TMF são marcas da TM Forum.</span>
   </footer>
 </div>
+<script type="application/json" id="demo-text">{"assumeHead": ["Parâmetro", "Valor", "Faixa", "Origem", "Quem usa"], "assume": {"rates.cleanup_minutes": "Minutos para limpar um caso", "rates.daily_followup_minutes": "Minutos de acompanhamento por dia", "rates.investigation_minutes": "Minutos para investigar um caso", "rates.manual_minutes": "Minutos de trabalho manual por caso", "thresholds.retry_window_hours": "Horas em que uma nova tentativa conta", "thresholds.stuck_after_hours": "Horas após as quais um pedido conta como parado"}, "unit": {"minutes": "minutos", "hours": "horas"}, "source": {"assumption": "suposição declarada"}, "single": "um único número", "to": " a ", "names": {"R01": "A ativação falha e ninguém tenta de novo", "R02": "Falta um dado no catálogo e é completado à mão", "R03": "Um temporizador vence e ninguém age", "R04": "Uma nova tentativa cria uma segunda ordem de serviço", "R05": "Os sistemas não compartilham um número de pedido"}, "units": {"default": "pedidos", "R05": "pedidos"}, "orders": "Pedidos afetados (medido)", "measured": "medido", "estimate": "Estimativa (suposições de exemplo)", "apart": "À parte, não entra no total: as ligações são inferidas.", "cause": "Causa", "proof": "Prova", "action": "O que fazer", "proofLine": "{n} pedidos nos registros. {level}, {conf}.", "level": {"strong": "Evidência forte", "history": "Evidência de histórico", "weak": "Evidência fraca"}, "conf": {"confirmed": "confirmada", "possible": "possível"}, "causes": {"R01": "Uma ativação falhou e ninguém tentou de novo dentro do prazo, então uma pessoa tem de achar o pedido e empurrá-lo à mão.", "R02": "À ficha técnica falta um valor que o sistema de ativação precisa, e uma pessoa o completa à mão.", "R03": "Um temporizador do processo venceu, ninguém seguiu, e o pedido fica sem serviço até que uma pessoa o encontre.", "R04": "Há uma segunda ordem de serviço para a mesma linha. Quando a ativação falhou, a nova tentativa criou uma ordem nova em vez de reutilizar a primeira.", "R05": "Alguns registros não trazem o número do seu pedido, e uma pessoa tem de descobrir quais vão juntos."}, "actions": {"R01": "Tentar de novo uma ativação que falhou antes que uma pessoa tenha de procurar o pedido.", "R02": "Adicionar o dado que falta à ficha da oferta, para que ninguém o complete à mão.", "R03": "Dar uma saída a cada temporizador, para que um pedido vencido não fique sem serviço.", "R04": "Fazer a nova tentativa reutilizar a ordem de serviço que já existe.", "R05": "Levar o número do pedido em cada registro, para não ter de adivinhar o que vai com o quê."}, "totalTitle": "Estimativa com suposições de exemplo (R01 a R04)", "totalBody": "Bruto {gross} h, cerca de {round} h. Líquido, cada pedido uma vez, {net} h. R05 vai à parte: as ligações são inferidas e não entram nesse total."}</script>
+<script src="../../demo.js" defer></script>
 <script src="../../status.js" defer></script>
 </body>
 </html>

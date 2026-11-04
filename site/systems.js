@@ -1,4 +1,4 @@
-/* Systems view (S-03): pick a system, show its detail; fill figures from data/report.json.
+/* Systems view (S-03): pick a system, show its detail; fill figures from engine/findings.json.
    Without JavaScript every detail stays visible and the matrix is a plain table. */
 (function () {
   var chain = document.getElementById("chain");
@@ -25,9 +25,9 @@
     });
   });
   select("oms");
-  fetch("../../data/report.json").then(function (r) { return r.json(); }).then(function (data) {
+  fetch("../../engine/findings.json").then(function (r) { return r.json(); }).then(function (data) {
     (data.findings || []).forEach(function (f) {
-      Array.prototype.forEach.call(document.querySelectorAll('[data-fig="' + f.id + '"]'), function (n) { n.textContent = f.affectedOrders; });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-fig="' + f.id + '"]'), function (n) { n.textContent = f.affected_orders; });
     });
   }).catch(function () {});
 })();

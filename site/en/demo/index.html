@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Audit example · Flow Audit</title>
-<meta name="description" content="Example report with synthetic data from a fictional operator. No engine generated it.">
+<meta name="description" content="The five problems the engine found in the demo files: orders affected, cause and proof. Hours are an estimate.">
 <meta name="color-scheme" content="dark light">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flow Audit">
 <meta property="og:url" content="https://rdorta27.github.io/flow-audit-site/en/demo/">
 <meta property="og:title" content="Audit example · Flow Audit">
-<meta property="og:description" content="Example report with synthetic data from a fictional operator. No engine generated it.">
+<meta property="og:description" content="The five problems the engine found in the demo files: orders affected, cause and proof. Hours are an estimate.">
 <meta property="og:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,14 +18,13 @@
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Audit example · Flow Audit">
-<meta name="twitter:description" content="Example report with synthetic data from a fictional operator. No engine generated it.">
+<meta name="twitter:description" content="The five problems the engine found in the demo files: orders affected, cause and proof. Hours are an estimate.">
 <meta name="twitter:image" content="https://rdorta27.github.io/flow-audit-site/og.png">
 <meta name="theme-color" content="#1f1f28" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2ecbc" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="https://rdorta27.github.io/flow-audit-site/en/demo/">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../style.css">
-<link rel="stylesheet" href="../../journey.css">
 <link rel="stylesheet" href="../../report.css">
 <script src="../../lang.js"></script>
 <link rel="alternate" hreflang="es" href="https://rdorta27.github.io/flow-audit-site/es/demo/">
@@ -58,142 +57,101 @@
 
   <main id="main">
     <section class="report-head">
-      <h1>Example: audit of<br>Ortelis Satellite</h1>
-      <div class="callout"><strong>Example with synthetic data from an invented operator.</strong> The engine already detects the five problems from files; this page is still written by hand in the shape of the real report, which you can open as <a href="../../engine/report.html">the engine's report</a>. Hours are an estimate with example minutes (<code>config.json</code>), not measured at any operator.</div>
+      <h1>Example: what the engine found</h1>
+      <p class="note">What you can do: read each problem by how many orders it touches, with the cause and the proof. Hours come last, as an estimate.</p>
+      <div class="callout"><strong>An engine run on synthetic data from an invented operator.</strong> This page reads <code>engine/findings.json</code>. The full report is <a href="../../engine/report.html">the engine's report</a>. Orders are counted in the records. Hours are an estimate with example assumptions, not measured at any operator.</div>
     </section>
 
-    <section>
-      <h2>Executive summary</h2>
-      <p class="lead">A synthetic order, <span class="mono">ORD-1005</span>, takes 69 hours. It should take less than one. Nobody works 60 of those hours: they are a <a class="gl" href="../help/index.html#g-hueco">gap</a> between systems that no process owns.</p>
-      <div class="callout">
-        <strong>Priority:</strong> add <code>capacity_profile</code> to the technical catalog (4,167 orders). <a class="gl" href="../help/index.html#g-reintento">Retry</a> the activation before the manual queue (400 orders). Compensate the 48-hour timer (50 orders). The three actions cover <strong>97%</strong> of the estimated hours, with example assumptions not measured at any operator.
+    <section id="assumptions" aria-labelledby="h-assumptions">
+      <h2 id="h-assumptions">Assumptions behind the hours</h2>
+      <p class="note">What you can do: see which minutes each hour rests on, and which problem uses them. The orders affected do not depend on these numbers.</p>
+      <div id="demo-assumptions">
+        <div class="table-wrap">
+          <table class="ftable">
+            <thead><tr><th scope="col">Parameter</th><th scope="col">Value</th><th scope="col">Range</th><th scope="col">Source</th><th scope="col">Used by</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Minutes to clean up one case <code>cleanup_minutes</code></th><td>90 minutes</td><td>60 to 120</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R04</td></tr>
+              <tr><th scope="row">Minutes of follow-up per day <code>daily_followup_minutes</code></th><td>15 minutes</td><td>10 to 25</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R01, R03</td></tr>
+              <tr><th scope="row">Minutes to investigate one case <code>investigation_minutes</code></th><td>45 minutes</td><td>30 to 90</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R05</td></tr>
+              <tr><th scope="row">Minutes of manual work per case <code>manual_minutes</code></th><td>5 minutes</td><td>3 to 8</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R01, R02, R03</td></tr>
+              <tr><th scope="row">Hours within which a retry counts <code>retry_window_hours</code></th><td>24 hours</td><td>a single number</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R01</td></tr>
+              <tr><th scope="row">Hours after which an order counts as stuck <code>stuck_after_hours</code></th><td>72 hours</td><td>a single number</td><td>declared assumption, Flow Audit (example values), 2026-11-04</td><td>R03</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <section id="supuestos" aria-labelledby="h-supuestos">
-      <h2 id="h-supuestos">Assumptions</h2>
-      <p class="note">The hours are an estimate built on four example rates. None is measured at any operator; they can be changed in <code>config.json</code>. The orders affected do not depend on them.</p>
-      <div class="table-wrap">
-        <table class="ftable">
-          <thead><tr><th scope="col">Rate</th><th scope="col">Minutes per case</th><th scope="col">Finding that uses it</th></tr></thead>
-          <tbody><tr><th scope="row">Manual handling <code>manual_minutes</code></th><td>5</td><td>R01, R02, R03</td></tr><tr><th scope="row">Daily follow-up <code>daily_followup_minutes</code></th><td>15</td><td>R01, R03</td></tr><tr><th scope="row">Clean-up <code>cleanup_minutes</code></th><td>90</td><td>R04</td></tr><tr><th scope="row">Investigation <code>investigation_minutes</code></th><td>45</td><td>R05</td></tr></tbody>
-        </table>
+    <section id="findings" aria-labelledby="h-findings">
+      <h2 id="h-findings">Problems, by orders affected</h2>
+      <p class="note">What you can do: compare the problems by the measured count, and read the cause and the proof of each one. The order is the order of the counts, not of the codes.</p>
+      <div id="demo-findings" data-src="../../engine/findings.json">
+        <div class="fcards">
+          <article class="fcard" id="r02" data-rule="R02">
+            <span data-status="finding-r02"></span>
+            <h3><span class="rid">R02</span> A catalog attribute is missing and filled in by hand</h3>
+            <dl class="fkv">
+              <div><dt>Orders affected (measured)</dt><dd><strong>4,167</strong> orders · measured</dd></div>
+              <div><dt>Estimate (example assumptions)</dt><dd>347.3 h</dd></div>
+            </dl>
+            <p class="fl">Cause</p><p>The technical sheet lacks a value the activation system needs, so a person fills it in by hand.</p>
+            <p class="fl">Proof</p><p>4,167 orders in the records. Strong evidence, confirmed. One case: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × manual_minutes / 60</code></pre>
+            <p class="fl">What to do</p><p>Add the missing value to the offer's sheet, so nobody has to fill it in by hand.</p>
+          </article>
+          <article class="fcard" id="r01" data-rule="R01">
+            <span data-status="finding-r01"></span>
+            <h3><span class="rid">R01</span> Activation fails and nobody retries</h3>
+            <dl class="fkv">
+              <div><dt>Orders affected (measured)</dt><dd><strong>400</strong> orders · measured</dd></div>
+              <div><dt>Estimate (example assumptions)</dt><dd>283.3 h</dd></div>
+            </dl>
+            <p class="fl">Cause</p><p>An activation failed and nobody tried it again within the window, so a person has to find the order and push it through by hand.</p>
+            <p class="fl">Proof</p><p>400 orders in the records. Strong evidence, confirmed. One case: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = affected × (manual_minutes + wait_days × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">What to do</p><p>Retry a failed activation before a person has to go and find the order.</p>
+          </article>
+          <article class="fcard" id="r05" data-rule="R05">
+            <span data-status="finding-r05"></span>
+            <h3><span class="rid">R05</span> The systems share no order number</h3>
+            <dl class="fkv">
+              <div><dt>Orders affected (measured)</dt><dd><strong>300</strong> orders · measured</dd></div>
+              <div><dt>Estimate (example assumptions)</dt><dd>225 h</dd></div>
+            </dl>
+            <p class="fnote">Apart, not in the total: the links are inferred.</p>
+            <p class="fl">Cause</p><p>Some records do not carry their order's number, so a person has to work out which belong together.</p>
+            <p class="fl">Proof</p><p>300 orders in the records. Weak evidence, possible. One case: <code>ORD-1550</code>.</p>
+            <pre class="fformula"><code>hours = incidents × investigation_minutes / 60</code></pre>
+            <p class="fl">What to do</p><p>Carry the order number on every record, so nobody has to guess what belongs together.</p>
+          </article>
+          <article class="fcard" id="r03" data-rule="R03">
+            <span data-status="finding-r03"></span>
+            <h3><span class="rid">R03</span> A timer expires and nobody acts</h3>
+            <dl class="fkv">
+              <div><dt>Orders affected (measured)</dt><dd><strong>50</strong> orders · measured</dd></div>
+              <div><dt>Estimate (example assumptions)</dt><dd>317 h</dd></div>
+            </dl>
+            <p class="fl">Cause</p><p>A process timer expired, nothing followed, and the order stays without service until a person finds it.</p>
+            <p class="fl">Proof</p><p>50 orders in the records. History evidence, confirmed. One case: <code>ORD-1400</code>.</p>
+            <pre class="fformula"><code>hours = stuck × (manual_minutes + days_stuck × daily_followup_minutes) / 60</code></pre>
+            <p class="fl">What to do</p><p>Give every timer an exit, so an expired order is never left without service.</p>
+          </article>
+          <article class="fcard" id="r04" data-rule="R04">
+            <span data-status="finding-r04"></span>
+            <h3><span class="rid">R04</span> A retry creates a second service order</h3>
+            <dl class="fkv">
+              <div><dt>Orders affected (measured)</dt><dd><strong>20</strong> orders · measured</dd></div>
+              <div><dt>Estimate (example assumptions)</dt><dd>30 h</dd></div>
+            </dl>
+            <p class="fl">Cause</p><p>A second service order exists for the same line. When activation failed, the retry created a new order instead of reusing the first.</p>
+            <p class="fl">Proof</p><p>20 orders in the records. Strong evidence, confirmed. One case: <code>ORD-1000</code>.</p>
+            <pre class="fformula"><code>hours = groups × cleanup_minutes / 60</code></pre>
+            <p class="fl">What to do</p><p>Make the retry reuse the service order that already exists.</p>
+          </article>
+        </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Where the days go</h2>
-      <p class="lead">An order from the synthetic dataset, <code>ORD-1005</code>: 69 hours end to end. Nobody works 60 of them.</p>
-      <div class="legend" aria-label="Timeline legend">
-        <span><i class="sw-work"></i>work by a system</span>
-        <span><i class="sw-wait"></i>manual wait</span>
-        <span><i class="sw-gap"></i>gap with no event</span>
-      </div>
-      <div class="scroller" tabindex="0" aria-label="Timeline of order ORD-1005, scrolls on narrow screens">
-        <svg xmlns="http://www.w3.org/2000/svg" class="arch" viewBox="0 0 1140 270" role="img" aria-labelledby="tlt tld">
-          <title id="tlt">Timeline of ORD-1005</title>
-          <desc id="tld">Two hours of manual check. Six of installation. One activation failure. Sixty hours with no event. A retry creates a second service order and activates the order.</desc>
-
-          <text class="lane" x="14" y="104">WORK</text>
-          <text class="lane" x="14" y="148">WAIT</text>
-          <text class="lane" x="14" y="192">NO EVENT</text>
-
-          <line class="axis" x1="140" y1="52" x2="1100" y2="52"/>
-          <line class="axis" x1="140" y1="52" x2="140" y2="46"/>
-          <line class="axis" x1="1100" y1="52" x2="1100" y2="46"/>
-          <text class="tick" x="620" y="40" text-anchor="middle">69 h end to end</text>
-
-          <rect class="bar wait" x="140.7" y="130" width="26.4" height="22"/>
-          <text class="p" x="176" y="146">manual check · 2 h (R02)</text>
-
-          <rect class="bar work" x="167.8" y="86" width="3" height="22"/>
-          <rect class="bar work" x="180.8" y="86" width="83.4" height="22"/>
-          <text class="p" x="272" y="102">installation · 6 h</text>
-
-          <circle class="dot fail" cx="264.5" cy="97" r="5"/>
-          <text class="p" x="274" y="124">HUB_TIMEOUT failure</text>
-
-          <rect class="bar gap" x="264.7" y="174" width="834.6" height="22"/>
-          <text class="p" x="300" y="190">no event · 60 h (R01)</text>
-
-          <circle class="dot ok" cx="1099.3" cy="97" r="5"/>
-          <text class="p" x="1088" y="76" text-anchor="end">retry + 2nd SO (R04)</text>
-
-          <g class="tick" text-anchor="middle">
-            <text x="140" y="232">0 h</text>
-            <text x="307" y="232">12 h</text>
-            <text x="474" y="232">24 h</text>
-            <text x="641" y="232">36 h</text>
-            <text x="808" y="232">48 h</text>
-            <text x="975" y="232">60 h</text>
-            <text x="1100" y="232">69 h</text>
-          </g>
-          <line class="axis" x1="140" y1="214" x2="1100" y2="214"/>
-        </svg>
-      </div>
-      <p class="note">The gap starts when the first attempt fails. It ends when someone retries by hand 60 hours later. In that interval there is no event: no declared wait and no scheduled retry.</p>
-    </section>
-
-    <section>
-      <h2>Findings</h2>
-      <p class="lead">The example shows five findings over the same month of orders.</p>
-
-      <div class="fcards">
-        <article class="fcard" id="r01" data-rule="R01">
-          <span data-status="finding-r01"></span>
-          <h3><span class="rid">R01</span> Activation failure with no retry</h3>
-          <dl class="fkv">
-            <div><dt>Cohort</dt><dd>400 orders · 8%</dd></div>
-            <div><dt>Estimate (example assumptions)</dt><dd>283.3 h/month</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = affected × (rates.manual_minutes + wait_days × rates.daily_followup_minutes) / 60; wait_days = 2.5</code></pre>
-          <p class="fl">Action</p><p>Retry automatically with backoff before the manual queue.</p>
-        </article>
-        <article class="fcard" id="r02" data-rule="R02">
-          <span data-status="finding-r02"></span>
-          <h3><span class="rid">R02</span> Manual capacity check for a missing attribute</h3>
-          <dl class="fkv">
-            <div><dt>Cohort</dt><dd>4,167 orders · 83.3%</dd></div>
-            <div><dt>Estimate (example assumptions)</dt><dd>347.3 h/month</dd></div>
-          </dl>
-          <p class="fnote">Synthetic case: 83% of the demo orders; those sold on the offer's second version do not have the problem.</p>
-          <pre class="fformula"><code>hours = affected × rates.manual_minutes / 60</code></pre>
-          <p class="fl">Action</p><p>Add <code>capacity_profile</code> to the spec. Automate the beam assignment.</p>
-        </article>
-        <article class="fcard" id="r03" data-rule="R03">
-          <span data-status="finding-r03"></span>
-          <h3><span class="rid">R03</span> The process orchestrator timer expires without compensation</h3>
-          <dl class="fkv">
-            <div><dt>Cohort</dt><dd>50 stuck orders (of 150 with an expired timer) · 1%</dd></div>
-            <div><dt>Estimate (example assumptions)</dt><dd>317 h accumulated to period end</dd></div>
-          </dl>
-          <p class="fnote">The engine evaluates it on files; on the simulated server it is not evaluated.</p>
-          <pre class="fformula"><code>hours = stuck × (rates.manual_minutes + days_stuck × rates.daily_followup_minutes) / 60; stuck = 50, days_stuck ≈ 25</code></pre>
-          <p class="fl">Action</p><p>Close or requeue the order at 48 h. 50 orders ended up stuck.</p>
-        </article>
-        <article class="fcard" id="r04" data-rule="R04">
-          <span data-status="finding-r04"></span>
-          <h3><span class="rid">R04</span> The order manager retry duplicates the service order</h3>
-          <dl class="fkv">
-            <div><dt>Cohort</dt><dd>20 orders · 0.4%</dd></div>
-            <div><dt>Estimate (example assumptions)</dt><dd>30 h, one-off (clean-up of the audited month)</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = duplicates × rates.cleanup_minutes / 60</code></pre>
-          <p class="fl">Action</p><p>Retry idempotently, using the order key.</p>
-        </article>
-        <article class="fcard" id="r05" data-rule="R05">
-          <span data-status="finding-r05"></span>
-          <h3><span class="rid">R05</span> No end-to-end correlation identifier</h3>
-          <dl class="fkv">
-            <div><dt>Cohort</dt><dd>300 orders · 6%</dd></div>
-            <div><dt>Estimate (example assumptions)</dt><dd>225 h/month</dd></div>
-          </dl>
-          <pre class="fformula"><code>hours = incidents_per_month × rates.investigation_minutes / 60</code></pre>
-          <p class="fl">Action</p><p>Use one common id in the four systems, from the order to the attempt.</p>
-        </article>
-      </div>
-      <div class="ftotals" role="group" aria-label="Totals">
-        <div class="callout"><strong>Estimate with example assumptions (R01 to R04)</strong><br>978 h per month of manual work and waiting, with minutes per case that are not measured at any operator. R05 (225 h) is counted apart, as a traceability risk, until real measurements exist.</div>
+      <div id="demo-totals">
+        <div class="callout"><strong>Estimate with example assumptions (R01 to R04)</strong><br>Gross 977.6 h, about 978 h. Net, each order once, 925.9 h. R05 (225 h) is apart: its links are inferred and are not in that total.</div>
       </div>
     </section>
   </main>
@@ -209,6 +167,8 @@
     <span>TM Forum and TMF are trademarks of TM Forum.</span>
   </footer>
 </div>
+<script type="application/json" id="demo-text">{"assumeHead": ["Parameter", "Value", "Range", "Source", "Used by"], "assume": {"rates.cleanup_minutes": "Minutes to clean up one case", "rates.daily_followup_minutes": "Minutes of follow-up per day", "rates.investigation_minutes": "Minutes to investigate one case", "rates.manual_minutes": "Minutes of manual work per case", "thresholds.retry_window_hours": "Hours within which a retry counts", "thresholds.stuck_after_hours": "Hours after which an order counts as stuck"}, "unit": {"minutes": "minutes", "hours": "hours"}, "source": {"assumption": "declared assumption"}, "single": "a single number", "to": " to ", "names": {"R01": "Activation fails and nobody retries", "R02": "A catalog attribute is missing and filled in by hand", "R03": "A timer expires and nobody acts", "R04": "A retry creates a second service order", "R05": "The systems share no order number"}, "units": {"default": "orders", "R05": "orders"}, "orders": "Orders affected (measured)", "measured": "measured", "estimate": "Estimate (example assumptions)", "apart": "Apart, not in the total: the links are inferred.", "cause": "Cause", "proof": "Proof", "action": "What to do", "proofLine": "{n} orders in the records. {level}, {conf}.", "level": {"strong": "Strong evidence", "history": "History evidence", "weak": "Weak evidence"}, "conf": {"confirmed": "confirmed", "possible": "possible"}, "causes": {"R01": "An activation failed and nobody tried it again within the window, so a person has to find the order and push it through by hand.", "R02": "The technical sheet lacks a value the activation system needs, so a person fills it in by hand.", "R03": "A process timer expired, nothing followed, and the order stays without service until a person finds it.", "R04": "A second service order exists for the same line. When activation failed, the retry created a new order instead of reusing the first.", "R05": "Some records do not carry their order's number, so a person has to work out which belong together."}, "actions": {"R01": "Retry a failed activation before a person has to go and find the order.", "R02": "Add the missing value to the offer's sheet, so nobody has to fill it in by hand.", "R03": "Give every timer an exit, so an expired order is never left without service.", "R04": "Make the retry reuse the service order that already exists.", "R05": "Carry the order number on every record, so nobody has to guess what belongs together."}, "totalTitle": "Estimate with example assumptions (R01 to R04)", "totalBody": "Gross {gross} h, about {round} h. Net, each order once, {net} h. R05 is apart: its links are inferred and are not in that total."}</script>
+<script src="../../demo.js" defer></script>
 <script src="../../status.js" defer></script>
 </body>
 </html>

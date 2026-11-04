@@ -23,8 +23,8 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 | `site/{es,en,pt}/{systems,status,help}/index.html` | Sistemas (vista completa y qué pedir al cliente), Estado (qué se construye; real / simulado / falta) y Ayuda (preguntas frecuentes y glosario `#g-…`) |
 | `site/legacy.js` | Redirige los anclajes viejos de la landing (`#que`, `#estado`, `#faq`, `#glosario`, `#g-…`) a su página nueva |
 | `site/{es,en,pt}/architecture/index.html` | Arquitectura: el pipeline, los seis componentes con lo que existe hoy, la mecánica técnica y la fórmula de impacto |
-| `site/{es,en,pt}/demo/index.html` | Vista previa del informe: mapa de flujo, máquina de estados, línea de tiempo y hallazgos |
-| `site/data/report.json` | Mock con la forma exacta de la salida del motor (`AuditReport`), compartido por los tres idiomas |
+| `site/{es,en,pt}/demo/index.html` | Ejemplo de auditoría: tarjetas y supuestos leídos de `engine/findings.json` |
+| `site/engine/findings.json` | Corrida del motor sobre los datos de demo. La página de ejemplo y el gráfico leen este archivo |
 | `site/journey.js`, `site/journey.css` | El viaje de un pedido (ORD-1005) en la landing: estaciones por sistema, notas, banda de Flow Audit, cinta de 69 h y "sin / con Flow Audit"; los textos viven en `#journey-text` de cada idioma |
 | `site/status.js`, `site/data/status.json` | Qué funciona hoy y qué llega después: marcas por componente y el selector Hoy / Final del plan |
 | `site/style.css` | Sistema de diseño compartido (claro/oscuro, tarjetas, tags) |
@@ -34,14 +34,13 @@ con los enlaces del selector. La elección manual se conserva y manda sobre el n
 
 ## Cifras
 
-Hay dos archivos, y no se mezclan:
+La fuente de las cifras es una sola:
 
 | Archivo | Qué es |
 |---|---|
-| `site/engine/findings.json` y `site/engine/report.html` | La corrida real del motor sobre los datos de demo. El gráfico de la portada lee el JSON. |
-| `site/data/report.json` | La vista previa hecha a mano de la página demo. S-06 la retira cuando la página demo se construya desde el motor. |
+| `site/engine/findings.json` y `site/engine/report.html` | La corrida real del motor sobre los datos de demo. La página de ejemplo, el gráfico de la portada y las horas de los pasos finales del viaje leen el JSON. |
 
-Ningún número se escribe a mano en el HTML. `python3 tools/check_figures.py` falla si una cifra de las landings o del informe demo no coincide con el archivo que le corresponde, o si reaparece una cifra vieja.
+Ningún número se escribe a mano en el HTML. `python3 tools/check_figures.py` lee `engine/findings.json` y falla si una cifra de las landings o del ejemplo no coincide, o si reaparece una cifra vieja. El mock hecho a mano ya no es la fuente.
 
 ## Verificar las cifras
 
@@ -52,11 +51,11 @@ abre cada página en Chromium, en claro y oscuro, a 1280 y 500 px. Los dos corre
 ## Estado
 
 **Versión 0.4.4, publicada.** El sitio está en construcción, camino a Client-ready (0.5.0).
-Demo 1 (0.4.0) está cerrado. El informe real del motor está en `site/engine/`. La página demo
-sigue siendo una vista previa hecha a mano; S-06 la cambia por la salida del motor. Las
-landings explican el producto con un pedido de ejemplo (ORD-1005) y los cinco problemas
-R01–R05. Lo que falta está en `../specs/backlog.md`; lo cerrado, en `../specs/done/`.
-Contrasta las cifras con esos archivos y con `site/engine/findings.json` antes de cambiarlas.
+Demo 1 (0.4.0) está cerrado. El informe real del motor está en `site/engine/`. La página de
+ejemplo se arma desde `engine/findings.json`: pedidos medidos, causa, prueba y horas como
+estimación. Las landings explican el producto con un pedido de ejemplo (ORD-1005) y los cinco
+problemas R01–R05. Lo que falta está en `../specs/backlog.md`; lo cerrado, en `../specs/done/`.
+Contrasta las cifras con `site/engine/findings.json` antes de cambiarlas.
 
 ## Versiones
 
@@ -74,7 +73,7 @@ push a `main` que lo toque. URL: https://rdorta27.github.io/flow-audit-site/
 
 Español, inglés y portugués. El motor y su informe salen solo en inglés en esta versión; su versión multiidioma es L-01 del backlog. En el sitio: una copia por idioma en `es/`, `en/` y `pt/`, sin generador. Las tres
 copias tienen la misma estructura y los mismos enlaces relativos; el selector de la cabecera apunta a la misma
-página en cada idioma. Al editar un texto, cambia las tres. `report.json` sigue en español.
+página en cada idioma. Al editar un texto, cambia las tres. El informe del motor sigue en inglés.
 
 El idioma se decide en `site/lang.js`, que se carga en las seis páginas de idioma y en la portada de
 entrada. La prioridad, de mayor a menor, es esta:

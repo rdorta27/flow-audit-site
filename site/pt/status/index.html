@@ -66,9 +66,9 @@
       <h2>O que está sendo construído?</h2>
       <ul class="plain">
         <li><strong>Feito · versão 0.4.4.</strong> Uma operadora inventada com 5.000 pedidos de teste, um <a class="gl" href="../help/index.html#g-servidor-prueba">servidor de teste</a>, um relatório de exemplo e o motor: lê os arquivos de exportação, une os registros dizendo quão seguro é cada <a class="gl" href="../help/index.html#g-enlace">vínculo</a> e executa as cinco regras (R01 a R05) com as suas horas. Escreve <code>findings.json</code> e <code>report.html</code>.</li>
-        <li><strong>Agora.</strong> Mostrar o relatório do próprio motor neste site.</li>
-        <li><strong>Em seguida.</strong> Ler os arquivos que um cliente real exporta (CSV ou JSON), com uma configuração que traduz as colunas. É o requisito para auditar dados reais.</li>
-        <li><strong>Mais adiante.</strong> R03 e o sistema de orquestração, relatório em PDF, uma interface web e os idiomas do motor.</li>
+        <li><strong>Agora.</strong> O exemplo de auditoria mostra os cinco problemas que o motor escreveu, com pedidos medidos e horas como estimativa.</li>
+        <li><strong>Em seguida.</strong> Usar esse mesmo mapeamento com os arquivos de um cliente real, numa pasta fora do repositório. A demo publicada continua lendo os arquivos sintéticos.</li>
+        <li><strong>Mais adiante.</strong> Um relatório em PDF, uma interface web e os idiomas do motor.</li>
       </ul>
     </section>
 
@@ -83,13 +83,13 @@
             <tr><th scope="row">Fonte de evidência</th><td>Simulado</td><td>Um servidor no formato TMF sobre dados sintéticos (<code>deno task stub</code>); cada resposta é marcada como simulada</td></tr>
             <tr><th scope="row">Dados</th><td>Simulado</td><td>5.000 pedidos inventados de uma operadora fictícia, com defeitos postos de propósito (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutos por tarefa</th><td>Exemplo</td><td>Vêm de <code>data/demo/config.json</code>; não foram medidas em nenhuma operadora</td></tr>
-            <tr><th scope="row">Ler os arquivos de exportação de um cliente real</th><td>Falta</td><td>Hoje lê os arquivos sintéticos de <code>data/demo/</code>; a configuração para colunas alheias chega na 0.5.0</td></tr>
-            <tr><th scope="row">O relatório do próprio motor neste site</th><td>Falta</td><td>Hoje é um arquivo à parte (<code>engine/report.html</code>); falta integrá-lo</td></tr>
-            <tr><th scope="row">Catálogo e passos do processo da história</th><td>Falta</td><td>A fonte simulada não os traz; aparecem como “não observado”</td></tr>
+            <tr><th scope="row">Ler arquivos com colunas alheias</th><td>Real</td><td>Um arquivo de mapeamento traduz as colunas. A demo publicada usa os arquivos sintéticos; um cliente real pede a própria pasta, fora do repositório</td></tr>
+            <tr><th scope="row">O relatório do próprio motor neste site</th><td>Real</td><td>A página de exemplo é montada a partir de <code>engine/findings.json</code>. O relatório completo é <code>engine/report.html</code></td></tr>
+            <tr><th scope="row">Catálogo e passos do processo da história</th><td>Misto</td><td>Na execução de arquivos o orquestrador é observado. O passo de catálogo da história de exemplo ainda não aparece nessa fonte</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout">O que o motor encontra hoje: R04, 20 pedidos duplicados (21 ordens de serviço a mais), 30 h (uma única vez). Os números dos cinco problemas do site são o desenho-alvo calculado a partir das regras, não saída do motor.</div>
+      <div class="callout">As cinco contagens de pedidos do site são a saída do motor sobre os arquivos da demo. Os pedidos estão medidos. As horas são uma estimativa com suposições de exemplo, não medidas em nenhuma operadora.</div>
     </section>
   </main>
 

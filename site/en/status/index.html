@@ -66,9 +66,9 @@
       <h2>What is being built?</h2>
       <ul class="plain">
         <li><strong>Done · version 0.4.4.</strong> A made-up operator with 5,000 test orders, a <a class="gl" href="../help/index.html#g-servidor-prueba">test server</a>, an example report and the engine: it reads the export files, joins the records saying how sure each <a class="gl" href="../help/index.html#g-enlace">link</a> is, and runs the five rules (R01 to R05) with their hours. It writes <code>findings.json</code> and <code>report.html</code>.</li>
-        <li><strong>Now.</strong> Show the engine's own report on this site.</li>
-        <li><strong>Next.</strong> Read the files a real client exports (CSV or JSON), using a configuration that translates their columns. This is the requirement for auditing real data.</li>
-        <li><strong>Later.</strong> R03 and the orchestration system, a PDF report, a web interface and the engine languages.</li>
+        <li><strong>Now.</strong> The audit example shows the five problems the engine wrote, with measured orders and hours as an estimate.</li>
+        <li><strong>Next.</strong> Use that same mapping on a real client's files, in a folder outside the repository. The published demo still reads the synthetic files.</li>
+        <li><strong>Later.</strong> A PDF report, a web interface and the engine's languages.</li>
       </ul>
     </section>
 
@@ -83,13 +83,13 @@
             <tr><th scope="row">Evidence source</th><td>Simulated</td><td>A TMF-shaped server over synthetic data (<code>deno task stub</code>); every response is marked simulated</td></tr>
             <tr><th scope="row">Data</th><td>Simulated</td><td>5,000 made-up orders of a fictional operator, defects planted on purpose (<code>data/demo/</code>)</td></tr>
             <tr><th scope="row">Minutes per task</th><td>Example</td><td>From <code>data/demo/config.json</code>, not measured at any operator</td></tr>
-            <tr><th scope="row">Reading a real client's export files</th><td>Missing</td><td>Today it reads the synthetic files in <code>data/demo/</code>; the configuration for foreign columns arrives in 0.5.0</td></tr>
-            <tr><th scope="row">The engine's own report on this site</th><td>Missing</td><td>Today it is a separate file (<code>engine/report.html</code>); it is not integrated yet</td></tr>
-            <tr><th scope="row">Catalog and process steps of the story</th><td>Missing</td><td>The simulated source does not carry them; shown as “not observed”</td></tr>
+            <tr><th scope="row">Reading files with foreign columns</th><td>Real</td><td>A mapping file translates the columns. The published demo uses the synthetic files; a real client needs their own folder, outside the repository</td></tr>
+            <tr><th scope="row">The engine's own report on this site</th><td>Real</td><td>The example page is built from <code>engine/findings.json</code>. The full report is <code>engine/report.html</code></td></tr>
+            <tr><th scope="row">Catalog and process steps of the story</th><td>Mixed</td><td>In the file run the orchestrator is observed. The catalog step of the example story is still not visible in that source</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="callout">What the engine finds today: R04, 20 duplicated orders (21 extra service orders), 30 h (one-off). The site's five-problem figures are the target design computed from the rules, not engine output.</div>
+      <div class="callout">The site's five order counts are the engine's output on the demo files. The orders are measured. The hours are an estimate with example assumptions, not measured at any operator.</div>
     </section>
   </main>
 
