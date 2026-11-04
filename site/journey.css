@@ -9,7 +9,7 @@
   .j-cue { display: block; font-size: var(--fs-s); color: var(--muted); margin: 0; }
   .j-scroll { background: linear-gradient(to left, var(--card), transparent 28px) right / 28px 100% no-repeat local, linear-gradient(to left, var(--line), transparent 28px) right / 28px 100% no-repeat scroll; }
 }
-#j-flow { display: block; width: 100%; min-width: 900px; height: auto; }
+#j-flow { display: block; width: 100%; min-width: 1000px; height: auto; }
 #j-flow text { font-family: var(--sans); fill: var(--ink); }
 #j-flow .node-rect { fill: var(--bg); stroke-width: 2; }
 #j-flow .node-name { font-family: var(--serif); font-size: 16px; }
