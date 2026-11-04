@@ -17,6 +17,7 @@
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach(function (s, k) { s.classList.toggle("is-on", k === i); });
     if (count && T.stepOf) count.textContent = T.stepOf.replace("{n}", i + 1).replace("{total}", slides.length);
+    deck.style.setProperty("--p", ((i + 1) / slides.length * 100) + "%");
     if (prev) prev.disabled = i === 0;
     if (next) next.disabled = i === slides.length - 1;
     var hash = slides[i].id;

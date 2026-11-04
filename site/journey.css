@@ -83,9 +83,13 @@
 .st-badge { align-self: flex-start; width: fit-content; }
 
 /* Landing (S-17): tighter vertical rhythm. */
-body.landing main { gap: 0; }
-body.landing section { padding: 6px 0 8px; gap: 12px; }
-body.landing main { padding-top: 20px; }
+body.landing main { gap: 40px; padding-top: 40px; }
+body.landing section { padding: 12px 0 16px; gap: 24px; }
+body.landing h1 { margin-bottom: 8px; }
+@media (max-width: 640px) {
+  body.landing main { gap: 28px; padding-top: 24px; }
+  body.landing section { gap: 18px; }
+}
 
 /* The journey's second half: what Flow Audit does with the notes. */
 .j-sees { grid-column: 1 / -1; background: var(--tint); border: 1px solid var(--line); border-radius: var(--r-box); padding: 12px 14px; display: grid; gap: 6px; }

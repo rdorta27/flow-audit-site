@@ -1,23 +1,33 @@
-/* Five-minute deck (S-27). Screen shows one slide when JavaScript adds .is-live.
+/* Five-minute deck (S-27). Screen shows one slide, framed, when JavaScript adds .is-live.
    Print and no-JavaScript show every slide, one per page. */
-.deck-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.deck-controls button { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: var(--r-ctl); padding: 8px 12px; cursor: pointer; }
-.deck-controls .count { font-variant-numeric: tabular-nums; color: var(--muted); }
-.slide { display: grid; gap: 12px; align-content: start; padding: 8px 0 28px; }
+.deck-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.deck-controls button { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: var(--r-ctl); padding: 10px 16px; cursor: pointer; }
+.deck-controls button:hover:not(:disabled) { border-color: var(--brand); }
+.deck-controls button:disabled { opacity: .45; cursor: default; }
+.deck-controls .count { font-variant-numeric: tabular-nums; color: var(--muted); margin: 0 6px; }
+.deck-controls #deck-print { margin-left: auto; }
+.slide { display: grid; gap: 22px; align-content: start; padding: 8px 0 36px; }
 .slide h2 { margin: 0; }
-.slide p, .slide li { max-width: 42rem; }
+.slide p, .slide li { max-width: 42rem; margin: 0; }
 .slide-nav { margin: 0; }
+.slide .table-wrap { margin: 4px 0; }
 @media screen {
+  .deck.is-live { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-box); overflow: hidden; }
+  .deck.is-live::after { content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: var(--p, 0%); background: var(--brand); transition: width .25s ease; }
   .deck.is-live .slide { display: none; }
-  .deck.is-live .slide.is-on { display: grid; }
+  .deck.is-live .slide.is-on { display: grid; min-height: min(62vh, 560px); padding: 56px clamp(24px, 6vw, 72px) 64px; gap: 26px; align-content: center; }
+  .deck.is-live .slide h2 { font-size: clamp(30px, 5vw, 46px); color: var(--ink); }
+  .deck.is-live .slide h2::after { content: ""; display: block; width: 56px; height: 3px; margin-top: 18px; background: var(--accent); }
+  .deck.is-live .slide p, .deck.is-live .slide li { font-size: clamp(18px, 2.2vw, 22px); line-height: 1.55; max-width: 44rem; }
+  .deck.is-live .slide .ftable { font-size: var(--fs-m); }
   .deck.is-live .slide-nav { display: none; }
 }
 @media print {
   header, footer, .skip, .deck-controls, .slide-nav, .note { display: none !important; }
-  .slide { display: grid !important; break-after: page; page-break-after: always; min-height: 80vh; }
+  .slide { display: grid !important; break-after: page; page-break-after: always; min-height: 80vh; align-content: center; }
   .slide:last-child { break-after: auto; page-break-after: auto; }
   .wrap { max-width: none; }
 }
 @media (max-width: 420px) {
-  .deck-controls button { padding: 8px 10px; }
+  .deck-controls button { padding: 8px 12px; }
 }
